@@ -1,0 +1,214 @@
+{
+  "papers": [
+    {
+      "class": "9",
+      "subject": "math",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS9_MATH_2023"
+    },
+    {
+      "class": "9",
+      "subject": "math",
+      "year": "2022",
+      "file_id": "FILE_ID_CLASS9_MATH_2022"
+    },
+    {
+      "class": "9",
+      "subject": "science",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS9_SCIENCE_2023"
+    },
+    {
+      "class": "9",
+      "subject": "science",
+      "year": "2022",
+      "file_id": "FILE_ID_CLASS9_SCIENCE_2022"
+    },
+    {
+      "class": "9",
+      "subject": "english",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS9_ENGLISH_2023"
+    },
+    {
+      "class": "9",
+      "subject": "hindi",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS9_HINDI_2023"
+    },
+    {
+      "class": "9",
+      "subject": "social",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS9_SOCIAL_2023"
+    },
+    {
+      "class": "10",
+      "subject": "math",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS10_MATH_2023"
+    },
+    {
+      "class": "10",
+      "subject": "math",
+      "year": "2022",
+      "file_id": "FILE_ID_CLASS10_MATH_2022"
+    },
+    {
+      "class": "10",
+      "subject": "math",
+      "year": "2021",
+      "file_id": "FILE_ID_CLASS10_MATH_2021"
+    },
+    {
+      "class": "10",
+      "subject": "science",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS10_SCIENCE_2023"
+    },
+    {
+      "class": "10",
+      "subject": "science",
+      "year": "2022",
+      "file_id": "FILE_ID_CLASS10_SCIENCE_2022"
+    },
+    {
+      "class": "10",
+      "subject": "english",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS10_ENGLISH_2023"
+    },
+    {
+      "class": "10",
+      "subject": "hindi",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS10_HINDI_2023"
+    },
+    {
+      "class": "10",
+      "subject": "social",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS10_SOCIAL_2023"
+    },
+    {
+      "class": "11",
+      "subject": "physics",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS11_PHYSICS_2023"
+    },
+    {
+      "class": "11",
+      "subject": "physics",
+      "year": "2022",
+      "file_id": "FILE_ID_CLASS11_PHYSICS_2022"
+    },
+    {
+      "class": "11",
+      "subject": "chemistry",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS11_CHEMISTRY_2023"
+    },
+    {
+      "class": "11",
+      "subject": "chemistry",
+      "year": "2022",
+      "file_id": "FILE_ID_CLASS11_CHEMISTRY_2022"
+    },
+    {
+      "class": "11",
+      "subject": "math",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS11_MATH_2023"
+    },
+    {
+      "class": "11",
+      "subject": "biology",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS11_BIOLOGY_2023"
+    },
+    {
+      "class": "11",
+      "subject": "english",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS11_ENGLISH_2023"
+    },
+    {
+      "class": "11",
+      "subject": "accountancy",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS11_ACCOUNTANCY_2023"
+    },
+    {
+      "class": "11",
+      "subject": "economics",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS11_ECONOMICS_2023"
+    },
+    {
+      "class": "12",
+      "subject": "physics",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS12_PHYSICS_2023"
+    },
+    {
+      "class": "12",
+      "subject": "physics",
+      "year": "2022",
+      "file_id": "FILE_ID_CLASS12_PHYSICS_2022"
+    },
+    {
+      "class": "12",
+      "subject": "physics",
+      "year": "2021",
+      "file_id": "FILE_ID_CLASS12_PHYSICS_2021"
+    },
+    {
+      "class": "12",
+      "subject": "chemistry",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS12_CHEMISTRY_2023"
+    },
+    {
+      "class": "12",
+      "subject": "chemistry",
+      "year": "2022",
+      "file_id": "FILE_ID_CLASS12_CHEMISTRY_2022"
+    },
+    {
+      "class": "12",
+      "subject": "math",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS12_MATH_2023"
+    },
+    {
+      "class": "12",
+      "subject": "math",
+      "year": "2022",
+      "file_id": "FILE_ID_CLASS12_MATH_2022"
+    },
+    {
+      "class": "12",
+      "subject": "biology",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS12_BIOLOGY_2023"
+    },
+    {
+      "class": "12",
+      "subject": "english",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS12_ENGLISH_2023"
+    },
+    {
+      "class": "12",
+      "subject": "accountancy",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS12_ACCOUNTANCY_2023"
+    },
+    {
+      "class": "12",
+      "subject": "economics",
+      "year": "2023",
+      "file_id": "FILE_ID_CLASS12_ECONOMICS_2023"
+    }
+  ]
+}

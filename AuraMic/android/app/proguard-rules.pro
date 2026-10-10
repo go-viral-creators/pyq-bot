@@ -1,9 +1,10 @@
-# JNI: keep the native bridge (method names are resolved by the linker).
+# JNI: keep the native bridges (method names are resolved by the linker).
 -keep class com.kaafisir.auramic.audio.NativeDenoiser { *; }
-# LiteRT / TFLite uses reflection + JNI internally.
--keep class org.tensorflow.lite.** { *; }
-
--dontwarn org.tensorflow.lite.**
+-keep class com.kaafisir.auramic.audio.NativeDfn { *; }
+-keep class com.kaafisir.auramic.audio.NativePolish { *; }
+# ONNX Runtime uses JNI + reflection internally.
+-keep class ai.onnxruntime.** { *; }
+-dontwarn ai.onnxruntime.**
 
 # Accessibility + overlay services are referenced from the manifest only.
 -keep class com.kaafisir.auramic.service.** extends android.app.Service { *; }

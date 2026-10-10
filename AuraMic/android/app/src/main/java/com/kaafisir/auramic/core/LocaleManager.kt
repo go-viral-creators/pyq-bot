@@ -1,6 +1,8 @@
 package com.kaafisir.auramic.core
 
 import android.content.Context
+import android.content.ContextWrapper
+import android.content.res.Resources
 import android.content.res.Configuration
 import com.kaafisir.auramic.domain.model.AppLanguage
 import java.util.Locale
@@ -27,7 +29,12 @@ object LocaleManager {
         val config = Configuration(base.resources.configuration)
         config.setLocale(locale)
         config.setLayoutDirection(locale)
-        return base.createConfigurationContext(config)
+        val res = base.createConfigurationContext(config).resources
+        // A ContextWrapper (not the bare configuration context!) so the Activity stays reachable through baseContext:
+        // Hilt's hiltViewModel(), Navigation and startActivity() all walk that chain and crash on a plain ContextImpl.
+        return object : ContextWrapper(base) {
+            override fun getResources(): Resources = res
+        }
     }
 
     /** Returns a context whose resources resolve in the user's chosen language (or [base] if unset). */

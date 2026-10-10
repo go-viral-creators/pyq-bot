@@ -61,7 +61,7 @@
     <string name="perm_restricted_body">Play Store के बाहर से इंस्टॉल किए ऐप्स के लिए Android इसे रोकता है। ऐप जानकारी खोलें, ⋮ मेनू दबाएँ, “प्रतिबंधित सेटिंग्स की अनुमति दें” चुनें, फिर दोबारा कोशिश करें।</string>
     <string name="perm_open_app_info">ऐप जानकारी खोलें</string>
     <string name="disclosure_title">एक्सेसिबिलिटी प्रकटीकरण</string>
-    <string name="disclosure_body">AuraMic एक्सेसिबिलिटी सेवा का उपयोग सिर्फ़ एक काम के लिए करता है: वॉइस नोट रिकॉर्ड करने के बाद आप जिस चैट में थे उसे चुनना और WhatsApp या WhatsApp Business के अंदर Send बटन दबाना, ताकि बिना अतिरिक्त टैप के नोट भेजा जाए।\n\nयह सिर्फ़ WhatsApp और WhatsApp Business में काम करती है। यह आपके संदेश, संपर्क या कोई निजी डेटा न पढ़ती है, न जमा करती है, न साझा करती है। ऑडियो आपके डिवाइस पर ही प्रोसेस होती है।</string>
+    <string name="disclosure_body">AuraMic एक्सेसिबिलिटी सेवा का उपयोग सिर्फ़ एक काम के लिए करता है: वॉइस नोट रिकॉर्ड करने के बाद आप जिस चैट में थे उसे चुनना और WhatsApp या WhatsApp Business के अंदर Send बटन दबाना, ताकि बिना अतिरिक्त टैप के नोट भेजा जाए।\n\nयह सिर्फ़ WhatsApp और WhatsApp Business में काम करती है। यह आपके संदेश, संपर्क या कोई निजी डेटा न पढ़ती है, न जमा करती है, न साझा करती है। ऑडियो आपके डिवाइस पर ही प्रोसेस होती है।\n\nयह स्क्रीन पर WhatsApp के अपने वॉइस बटन की जगह भी देखता है, ताकि AuraMic का माइक ठीक उसके ऊपर बैठे। यह मैसेज का टेक्स्ट कभी नहीं पढ़ता।</string>
     <string name="disclosure_agree">मैं सहमत हूँ</string>
     <string name="disclosure_decline">अभी नहीं</string>
     <string name="home_status_on">AuraMic सक्रिय है</string>

@@ -61,7 +61,7 @@
     <string name="perm_restricted_body">Android lo bloquea en apps instaladas fuera de Play Store. Abre Info de la app, toca el menú ⋮, elige «Permitir ajustes restringidos» y vuelve a intentarlo.</string>
     <string name="perm_open_app_info">Abrir info de la app</string>
     <string name="disclosure_title">Aviso de accesibilidad</string>
-    <string name="disclosure_body">AuraMic usa el Servicio de accesibilidad de Android con un único propósito: después de grabar una nota de voz, selecciona el chat en el que estabas y pulsa el botón Enviar dentro de WhatsApp o WhatsApp Business para entregarla sin toques adicionales.\n\nSolo funciona en WhatsApp y WhatsApp Business. No lee, recopila, almacena ni comparte tus mensajes, contactos ni datos personales. El audio se procesa en tu dispositivo.</string>
+    <string name="disclosure_body">AuraMic usa el Servicio de accesibilidad de Android con un único propósito: después de grabar una nota de voz, selecciona el chat en el que estabas y pulsa el botón Enviar dentro de WhatsApp o WhatsApp Business para entregarla sin toques adicionales.\n\nSolo funciona en WhatsApp y WhatsApp Business. No lee, recopila, almacena ni comparte tus mensajes, contactos ni datos personales. El audio se procesa en tu dispositivo.\n\nTambién localiza dónde está el botón de voz de WhatsApp en la pantalla para colocar el micrófono de AuraMic justo encima. Nunca lee el texto de los mensajes.</string>
     <string name="disclosure_agree">Acepto</string>
     <string name="disclosure_decline">Ahora no</string>
     <string name="home_status_on">AuraMic está activo</string>

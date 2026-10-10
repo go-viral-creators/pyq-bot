@@ -13,6 +13,8 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.kaafisir.auramic.automation.AutomationBridge
 import com.kaafisir.auramic.automation.Bounds
+import com.kaafisir.auramic.automation.MicAnchor
+import com.kaafisir.auramic.automation.MicAnchorFinder
 import com.kaafisir.auramic.automation.NodeActions
 import com.kaafisir.auramic.automation.NodeDump
 import com.kaafisir.auramic.automation.NodeFinder
@@ -28,7 +30,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,6 +54,9 @@ class AuraAccessibilityService : AccessibilityService() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var runJob: Job? = null
+    /** Wakes the mic-anchor tracker when WhatsApp's screen changes (keyboard, typing, new chat). */
+    private val wake = Channel<Unit>(Channel.CONFLATED)
+    private var lastFullScan = 0L
 
     override fun onServiceConnected() {
         super.onServiceConnected()
@@ -56,11 +64,12 @@ class AuraAccessibilityService : AccessibilityService() {
         bridge.activityLauncher = { intent -> launch(intent) }
         bridge.setConnected(true)
         scope.launch { bridge.pending.collect { req -> if (req != null) start(req) else runJob?.cancel() } }
+        scope.launch { bridge.anchorTracking.collectLatest { on -> if (on) trackMic() else bridge.setMicAnchor(null) } }
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        // Intentionally empty: all work is driven by SendRequests and polled snapshots, so we
-        // do not touch (or even look at) events from the user's normal WhatsApp usage.
+        // Events only wake the mic-anchor tracker (below); their content is never read.
+        if (bridge.anchorTracking.value) wake.trySend(Unit)
     }
 
     override fun onInterrupt() { runJob?.cancel() }
@@ -89,6 +98,56 @@ class AuraAccessibilityService : AccessibilityService() {
     } catch (t: Throwable) {
         Log.w(TAG, "launch failed", t)
         false
+    }
+
+    // ---------------------------------------------------------------------------------------
+    // Mic anchor: where WhatsApp's own voice button is, so the bubble can sit exactly on top of it
+    // ---------------------------------------------------------------------------------------
+
+    private suspend fun trackMic() {
+        while (true) {
+            bridge.setMicAnchor(runCatching { readMicAnchor() }.getOrNull())
+            withTimeoutOrNull(TRACK_MS) { wake.receive() }
+            delay(60) // coalesce bursts of events
+        }
+    }
+
+    private fun readMicAnchor(): MicAnchor? {
+        val root = rootInActiveWindow ?: return null
+        val pkg = root.packageName?.toString()
+        try {
+            if (pkg == null || pkg !in WhatsAppUi.PACKAGES) return null
+            val dm = resources.displayMetrics
+            // Fast path: look the button up by its resource id (no tree walk).
+            for (id in MicAnchorFinder.MIC_IDS + MicAnchorFinder.SEND_ONLY_IDS) {
+                val hits = root.findAccessibilityNodeInfosByViewId("$pkg:id/$id")
+                try {
+                    for (info in hits) {
+                        if (!info.isVisibleToUser) continue
+                        val r = Rect(); info.getBoundsInScreen(r)
+                        val b = Bounds(r.left, r.top, r.right, r.bottom)
+                        val kind = MicAnchorFinder.classify(info.viewIdResourceName, info.contentDescription?.toString(), info.text?.toString()) ?: continue
+                        if (MicAnchorFinder.plausible(b, dm.widthPixels, dm.heightPixels)) {
+                            return MicAnchor(b, kind == MicAnchorFinder.Kind.MIC)
+                        }
+                    }
+                } finally {
+                    @Suppress("DEPRECATION")
+                    if (Build.VERSION.SDK_INT < 33) hits.forEach { runCatching { it.recycle() } }
+                }
+            }
+            // Slow path (unknown WhatsApp version): label-based search over the tree, at most once a second.
+            val now = SystemClock.elapsedRealtime()
+            if (now - lastFullScan < 1000) return null
+            lastFullScan = now
+            val snap = snapshot(null) ?: return null
+            return try {
+                snap.root?.let { MicAnchorFinder.find(it, dm.widthPixels, dm.heightPixels) }
+            } finally { snap.release() }
+        } finally {
+            @Suppress("DEPRECATION")
+            if (Build.VERSION.SDK_INT < 33) runCatching { root.recycle() }
+        }
     }
 
     // ---------------------------------------------------------------------------------------
@@ -231,6 +290,7 @@ class AuraAccessibilityService : AccessibilityService() {
     companion object {
         private const val TAG = "AuraA11y"
         private const val POLL_MS = 220L
+        private const val TRACK_MS = 450L
         private const val MAX_DEPTH = 40
         private const val MAX_NODES = 900
     }

@@ -54,6 +54,20 @@ class BubbleGestureTest {
         assertEquals(0, pending.size) // hold timer was cancelled
     }
 
+    @Test fun anchoredBubbleNeverDragsMovingStartsRecordingLikeWhatsApp() {
+        val g = gesture().also { it.allowDrag = false }
+        g.down(500f, 0f); g.move(530f, 0f)            // moved past the slop before the hold delay
+        assertEquals(listOf("hold"), events)
+        g.move(380f, 0f); g.up()                       // then slide left to cancel
+        assertEquals(listOf("hold", "armed=true", "release(cancel=true)"), events)
+        assertEquals(0, pending.size)
+    }
+
+    @Test fun anchoredTapStillShowsTheHint() {
+        val g = gesture().also { it.allowDrag = false }; g.down(0f, 0f); g.up()
+        assertEquals(listOf("tap"), events)
+    }
+
     @Test fun systemCancelWhileRecordingDiscards() {
         val g = gesture(); g.down(0f, 0f); fireTimer(); g.cancelEvent()
         assertEquals(listOf("hold", "release(cancel=true)"), events)

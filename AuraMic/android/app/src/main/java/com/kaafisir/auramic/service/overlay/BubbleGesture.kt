@@ -31,6 +31,12 @@ class BubbleGesture(
 
     enum class Mode { IDLE, PENDING, HOLDING, DRAGGING }
 
+    /**
+     * When false (bubble sits on WhatsApp's own mic button) the bubble never moves: touching and then moving
+     * before the hold delay simply starts recording, exactly like WhatsApp's button.
+     */
+    var allowDrag = true
+
     var mode = Mode.IDLE
         private set
     private var downX = 0f
@@ -59,9 +65,16 @@ class BubbleGesture(
                 val dy = y - downY
                 if (dx * dx + dy * dy > slopPx * slopPx) {
                     timer?.cancel()
-                    mode = Mode.DRAGGING
-                    listener.onDrag(x - lastX, y - lastY)
-                    lastX = x; lastY = y
+                    if (allowDrag) {
+                        mode = Mode.DRAGGING
+                        listener.onDrag(x - lastX, y - lastY)
+                        lastX = x; lastY = y
+                    } else {
+                        mode = Mode.HOLDING
+                        listener.onHoldStart()
+                        val nowArmed = (x - downX) < -cancelDistancePx
+                        if (nowArmed != armed) { armed = nowArmed; listener.onCancelArmed(armed) }
+                    }
                 }
             }
             Mode.DRAGGING -> {

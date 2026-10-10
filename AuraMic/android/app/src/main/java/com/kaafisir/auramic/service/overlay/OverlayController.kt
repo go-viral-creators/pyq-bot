@@ -14,7 +14,9 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.Lifecycle
@@ -73,6 +75,22 @@ class OverlayController(
     private var currentPackage = "com.whatsapp"
     private val pillAnchor = mutableIntStateOf(0)
 
+    // --- sitting on top of WhatsApp's own voice button -------------------------------------------------------------
+    private var anchor: com.kaafisir.auramic.automation.MicAnchor? = null
+    private val bubbleDp = mutableFloatStateOf(64f)
+    private val flatState = mutableStateOf(false)
+    /** Anchored = the bubble covers WhatsApp's mic; it then neither drags nor snaps and has the mic's exact size. */
+    private val anchoredNow get() = anchor?.takeIf { it.isMic }
+    private fun freePx() = dp(sizeDp.toFloat())
+    private fun sizePx(): Int = anchoredNow?.let { it.size.coerceIn(dp(32f), dp(84f)) } ?: freePx()
+
+    /** Called with the live position of WhatsApp's voice button (null when not in a chat). */
+    fun setAnchor(a: com.kaafisir.auramic.automation.MicAnchor?) {
+        if (a == anchor) return
+        anchor = a
+        if (isAttached) applyLayout()
+    }
+
     val isAttached: Boolean get() = bubbleRoot != null
 
     /** Applies user settings (size / saved position) - cheap to call repeatedly. */
@@ -109,7 +127,7 @@ class OverlayController(
                     AuraTheme(darkTheme = true) {
                         val s by orchestrator.state.collectAsState()
                         val l by orchestrator.level.collectAsState()
-                        BubbleWindowContent(s, l, androidx.compose.ui.unit.Dp(sizeDp.toFloat()))
+                        BubbleWindowContent(s, l, androidx.compose.ui.unit.Dp(bubbleDp.floatValue), flat = flatState.value)
                     }
                 }
             }
@@ -140,7 +158,7 @@ class OverlayController(
             pillView = pill
 
             bubbleParams = baseParams(touchable = true).apply {
-                width = dp(sizeDp.toFloat()); height = dp(sizeDp.toFloat())
+                width = sizePx(); height = sizePx()
             }
             pillParams = baseParams(touchable = false).apply {
                 width = WindowManager.LayoutParams.MATCH_PARENT
@@ -180,14 +198,17 @@ class OverlayController(
     // layout
     // ---------------------------------------------------------------------------------------
 
-    private fun baseParams(touchable: Boolean) = WindowManager.LayoutParams(
-        WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT,
-        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+    private fun baseFlags(touchable: Boolean) =
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
             WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
-            (if (touchable) 0 else WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE),
+            (if (touchable) 0 else WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+
+    private fun baseParams(touchable: Boolean) = WindowManager.LayoutParams(
+        WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT,
+        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+        baseFlags(touchable),
         PixelFormat.TRANSLUCENT,
     ).apply { gravity = Gravity.TOP or Gravity.START }
 
@@ -205,13 +226,13 @@ class OverlayController(
 
     private val margin get() = dp(6f)
 
-    private fun clampX(x: Int, w: Int) = x.coerceIn(margin, (w - dp(sizeDp.toFloat()) - margin).coerceAtLeast(margin))
-    private fun clampY(y: Int, h: Int) = y.coerceIn(dp(32f), (h - dp(sizeDp.toFloat()) - dp(64f)).coerceAtLeast(dp(32f)))
+    private fun clampX(x: Int, w: Int) = x.coerceIn(margin, (w - freePx() - margin).coerceAtLeast(margin))
+    private fun clampY(y: Int, h: Int) = y.coerceIn(dp(32f), (h - freePx() - dp(64f)).coerceAtLeast(dp(32f)))
 
     private fun ensurePosition() {
         val (w, h) = screen()
         if (bx < 0 || by < 0) {
-            bx = w - dp(sizeDp.toFloat()) - margin
+            bx = w - freePx() - margin
             by = (h * 0.58f).roundToInt()
         }
         bx = clampX(bx, w); by = clampY(by, h)
@@ -219,23 +240,40 @@ class OverlayController(
 
     /** Positions both windows for the current state (the bubble window grows around its centre while busy). */
     private fun applyLayout(updateViews: Boolean = true) {
-        val size = dp(sizeDp.toFloat())
+        val anchored = anchoredNow
+        val size = sizePx()
         val busy = orchestrator.state.value.isBusy || orchestrator.state.value is OverlayState.Done
-        // Always larger than the bubble so the breathing / pressed-down scale-up and the soft glow are never clipped by the window.
-        val window = if (busy) size * 2 else (size * 1.5f).toInt()
+        // Free-floating: the window is larger than the bubble so breathing / pressed-down scale-up and the glow are never clipped.
+        // Anchored and idle: exactly the mic's size, so WhatsApp's neighbouring buttons stay tappable.
+        val window = when {
+            busy -> size * 2
+            anchored != null -> size
+            else -> (size * 1.5f).toInt()
+        }
         val pad = (window - size) / 2
+        val left = if (anchored != null) anchored.centerX - size / 2 else bx
+        val top = if (anchored != null) anchored.centerY - size / 2 else by
         bubbleParams.width = window; bubbleParams.height = window
-        bubbleParams.x = bx - pad; bubbleParams.y = by - pad
+        bubbleParams.x = left - pad; bubbleParams.y = top - pad
+        bubbleDp.floatValue = size / density
+        flatState.value = anchored != null
+        bubbleRoot?.gesture?.allowDrag = anchored == null
+
+        // While WhatsApp shows "Send" (text typed) its own button must be usable: hide and ignore touches.
+        val hideForSend = anchor != null && !anchor!!.isMic && !busy
+        val flags = baseFlags(touchable = !hideForSend)
+        bubbleParams.flags = flags
+        bubbleRoot?.alpha = if (hideForSend) 0f else 1f
 
         val (w, h) = screen()
         val pillH = dp(48f)
-        val above = by - pad - pillH - dp(6f)
-        pillParams.y = if (above > dp(28f)) above else by + size + pad + dp(6f)
+        val above = top - pad - pillH - dp(6f)
+        pillParams.y = if (above > dp(28f)) above else top + size + pad + dp(6f)
         pillParams.x = 0
-        pillAnchor.intValue = bx + size / 2
+        pillAnchor.intValue = left + size / 2
         if (updateViews) {
             // The recording ticker re-emits state every 100 ms; only touch WindowManager when geometry changed.
-            val b = intArrayOf(bubbleParams.x, bubbleParams.y, bubbleParams.width, bubbleParams.height)
+            val b = intArrayOf(bubbleParams.x, bubbleParams.y, bubbleParams.width, bubbleParams.height, flags)
             val p = intArrayOf(pillParams.x, pillParams.y)
             if (!b.contentEquals(lastBubbleGeometry)) {
                 lastBubbleGeometry = b
@@ -257,7 +295,7 @@ class OverlayController(
 
     private fun snapToEdge() {
         val (w, _) = screen()
-        val size = dp(sizeDp.toFloat())
+        val size = freePx()
         val target = if (bx + size / 2 < w / 2) margin else w - size - margin
         snapAnimator?.cancel()
         snapAnimator = ValueAnimator.ofInt(bx, target).apply {
@@ -289,7 +327,7 @@ class OverlayController(
         }
 
         override fun onDrag(dx: Float, dy: Float) {
-            if (orchestrator.state.value.isBusy) return
+            if (orchestrator.state.value.isBusy || anchoredNow != null) return
             val (w, h) = screen()
             bx = clampX(bx + dx.roundToInt(), w)
             by = clampY(by + dy.roundToInt(), h)

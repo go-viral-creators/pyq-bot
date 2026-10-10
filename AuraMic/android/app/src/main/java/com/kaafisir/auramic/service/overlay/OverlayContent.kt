@@ -59,7 +59,7 @@ fun OverlayState.toVisual(): BubbleVisual = when (this) {
 
 /** Content of the touchable bubble window. */
 @Composable
-fun BubbleWindowContent(state: OverlayState, level: Float, bubbleSize: Dp) {
+fun BubbleWindowContent(state: OverlayState, level: Float, bubbleSize: Dp, flat: Boolean = false) {
     // Pop-in when the user opens WhatsApp.
     var shown by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { shown = true }
@@ -70,6 +70,7 @@ fun BubbleWindowContent(state: OverlayState, level: Float, bubbleSize: Dp) {
         visual = state.toVisual(),
         level = level,
         bubbleSize = bubbleSize,
+        flat = flat,
         modifier = Modifier
             .fillMaxSize()
             .graphicsLayer { scaleX = appear; scaleY = appear; alpha = appear.coerceIn(0f, 1f) },

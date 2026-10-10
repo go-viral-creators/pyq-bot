@@ -39,6 +39,7 @@ class OverlayService : Service() {
     @Inject lateinit var haptics: Haptics
     @Inject lateinit var sender: com.kaafisir.auramic.automation.WhatsAppSender
     @Inject lateinit var dfn: com.kaafisir.auramic.audio.DfnEnhancer
+    @Inject lateinit var bridge: com.kaafisir.auramic.automation.AutomationBridge
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var controller: OverlayController? = null
@@ -84,12 +85,15 @@ class OverlayService : Service() {
                 ctl.configure(s.bubbleSizeDp, s.bubbleX, s.bubbleY)
             }
         }
+        // Sit exactly on top of WhatsApp's own voice button whenever the accessibility service can see it.
+        scope.launch { bridge.micAnchor.collect { ctl.setAnchor(it) } }
         scope.launch {
             val targets = kotlinx.coroutines.flow.flowOf(com.kaafisir.auramic.domain.model.ChatApp.allPackages)
             combine(detector.foregroundPackage, targets) { pkg, set -> pkg?.takeIf { it in set } }
                 .distinctUntilChanged()
                 .collect { pkg ->
                     wantVisible = pkg != null
+                    bridge.setAnchorTracking(pkg != null)
                     if (pkg != null) {
                         ctl.setTargetPackage(pkg)
                         try {
@@ -127,6 +131,7 @@ class OverlayService : Service() {
 
     override fun onDestroy() {
         running.value = false
+        bridge.setAnchorTracking(false)
         orchestrator.release()
         controller?.destroy()
         scope.cancel()

@@ -36,6 +36,16 @@ class AutomationBridge @Inject constructor() {
     val connected: StateFlow<Boolean> = _connected.asStateFlow()
     fun setConnected(value: Boolean) { _connected.value = value }
 
+    /** Where WhatsApp's own voice button is right now (null = not in a chat / not found). Written by the accessibility service. */
+    private val _micAnchor = MutableStateFlow<MicAnchor?>(null)
+    val micAnchor: StateFlow<MicAnchor?> = _micAnchor.asStateFlow()
+    fun setMicAnchor(a: MicAnchor?) { _micAnchor.value = a }
+
+    /** True while the bubble is on screen: the accessibility service then keeps [micAnchor] up to date. */
+    private val _anchorTracking = MutableStateFlow(false)
+    val anchorTracking: StateFlow<Boolean> = _anchorTracking.asStateFlow()
+    fun setAnchorTracking(on: Boolean) { _anchorTracking.value = on; if (!on) _micAnchor.value = null }
+
     private val _pending = MutableStateFlow<SendRequest?>(null)
     val pending: StateFlow<SendRequest?> = _pending.asStateFlow()
     @Volatile private var waiter: CompletableDeferred<SendResult>? = null

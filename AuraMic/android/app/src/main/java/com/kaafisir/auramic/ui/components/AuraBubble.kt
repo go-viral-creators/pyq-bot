@@ -59,6 +59,8 @@ fun AuraBubble(
     bubbleSize: Dp,
     modifier: Modifier = Modifier,
     glow: Boolean = false,
+    /** On top of WhatsApp's own button: a flat disc exactly [bubbleSize] wide while idle (no breathing, no glow). */
+    flat: Boolean = false,
 ) {
     val infinite = rememberInfiniteTransition(label = "bubble")
     val breathe by infinite.animateFloat(
@@ -92,14 +94,16 @@ fun AuraBubble(
         Canvas(Modifier.fillMaxSize()) {
             val c = Offset(size.width / 2, size.height / 2)
             val base = bubbleSize.toPx() / 2
-            val r = base * scale * (if (visual == BubbleVisual.Idle) breathe else 1f)
+            val r = base * scale * (if (visual == BubbleVisual.Idle && !flat) breathe else 1f)
 
             // soft outer glow
+            if (!(flat && visual == BubbleVisual.Idle)) {
             val glowAlpha = if (glow || visual == BubbleVisual.Idle) 0.22f else 0.32f
             drawCircle(
                 Brush.radialGradient(listOf(colors[0].copy(alpha = glowAlpha), Color.Transparent), c, r * 1.4f),
                 radius = r * 1.4f, center = c,
             )
+            }
             // pulsing rings while recording, driven by the live mic level
             if (visual == BubbleVisual.Recording || visual == BubbleVisual.CancelArmed) {
                 for (phase in listOf(0f, 0.5f)) {

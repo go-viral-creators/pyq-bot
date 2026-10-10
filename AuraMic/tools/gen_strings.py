@@ -543,6 +543,17 @@ add("set_cut_pauses_desc", "Cuts silent gaps longer than 0.3 seconds so your voi
     "Corta silêncios maiores que 0,3 segundo para deixar seu áudio mais curto e objetivo.", "يقطع الفراغات الصامتة الأطول من 0.3 ثانية ليصبح تسجيلك أقصر وأكثر إحكامًا.",
     "Memotong jeda hening lebih dari 0,3 detik agar pesan suara lebih singkat dan padat.")
 
+_extra = [
+    "\n\nIt also looks up where WhatsApp's own voice button is on screen, so the AuraMic microphone can sit exactly on top of it. It never reads message text.",
+    "\n\nयह स्क्रीन पर WhatsApp के अपने वॉइस बटन की जगह भी देखता है, ताकि AuraMic का माइक ठीक उसके ऊपर बैठे। यह मैसेज का टेक्स्ट कभी नहीं पढ़ता।",
+    "\n\nYeh screen par WhatsApp ke apne voice button ki jagah bhi dekhta hai, taaki AuraMic ka mic theek uske upar baithe. Yeh message ka text kabhi nahi padhta.",
+    "\n\nTambién localiza dónde está el botón de voz de WhatsApp en la pantalla para colocar el micrófono de AuraMic justo encima. Nunca lee el texto de los mensajes.",
+    "\n\nTambém localiza onde fica o botão de voz do WhatsApp na tela para posicionar o microfone do AuraMic exatamente sobre ele. Nunca lê o texto das mensagens.",
+    "\n\nكما يحدد مكان زر الصوت الخاص بواتساب على الشاشة ليظهر ميكروفون AuraMic فوقه تمامًا. لا يقرأ نص الرسائل أبدًا.",
+    "\n\nLayanan ini juga mencari posisi tombol suara WhatsApp di layar agar mikrofon AuraMic berada tepat di atasnya. Tidak pernah membaca teks pesan.",
+]
+S["disclosure_body"] = [v + e for v, e in zip(S["disclosure_body"], _extra)]
+
 def esc(v: str) -> str:
     v = escape(v).replace("\\", "\\\\").replace("'", "\\'").replace('"', '\\"').replace("\n", "\\n")
     if v.startswith("@") or v.startswith("?"):

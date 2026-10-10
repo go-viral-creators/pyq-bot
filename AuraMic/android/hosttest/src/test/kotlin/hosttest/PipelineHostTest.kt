@@ -7,6 +7,7 @@ import com.kaafisir.auramic.audio.GtcrnRuntime
 import com.kaafisir.auramic.audio.NativePolish
 import com.kaafisir.auramic.audio.SilenceCutter
 import com.kaafisir.auramic.audio.Resampler
+import com.kaafisir.auramic.audio.RoomFix
 import com.kaafisir.auramic.domain.model.EnhanceEngine
 import com.kaafisir.auramic.domain.model.EnhanceOptions
 import com.kaafisir.auramic.domain.model.SilenceCut
@@ -249,6 +250,36 @@ class PipelineHostTest {
             File(out).writeBytes(bb.array())
             println("tail: $inp -> $out (${len / 48000f} s)")
         }
+    }
+
+    /** -Pauramic.roomdir=<dir with dry.wav rt07.wav echo120.wav user.wav (denoised, 48 kHz)>: the "only if present" logic. */
+    @Test fun roomFixOnlyActsWhenTheRoomIsTheProblem() {
+        val dir = System.getProperty("auramic.roomdir")?.takeIf { File(it).isDirectory } ?: return
+        fun load(name: String) = readWav("$dir/$name").first.let { Resampler.toFloat(it, it.size) }
+        for (name in listOf("dry.wav", "user.wav")) {
+            val x = load(name); val t0 = System.nanoTime()
+            val r = RoomFix.process(x, x.size)
+            println("roomfix $name: echo=${r.echoDelayMs} reverb strength=${r.reverbStrength} (MER ${r.modulationRatio}) in ${(System.nanoTime() - t0) / 1_000_000} ms")
+            assertTrue("$name must not get an echo fix", r.echoDelayMs == null)
+            assertTrue("$name must not get a reverb fix (strength ${r.reverbStrength})", r.reverbStrength < 0.05f)
+            assertTrue("untouched signal expected", r.voice.indices.all { r.voice[it] == x[it] })
+        }
+        // write before/after for listening (only when the directory is writable)
+        for (name in listOf("dry", "rt07", "echo120", "user")) {
+            val x = load("$name.wav"); val y = RoomFix.process(x, x.size).voice
+            val o = Resampler.toShort(y, y.size)
+            val bb = ByteBuffer.allocate(44 + o.size * 2).order(ByteOrder.LITTLE_ENDIAN)
+            bb.put("RIFF".toByteArray()).putInt(36 + o.size * 2).put("WAVEfmt ".toByteArray()).putInt(16).putShort(1).putShort(1)
+                .putInt(48_000).putInt(96_000).putShort(2).putShort(16).put("data".toByteArray()).putInt(o.size * 2)
+            o.forEach { bb.putShort(it) }
+            runCatching { File(dir, "after_$name.wav").writeBytes(bb.array()) }
+        }
+        val wet = load("rt07.wav"); val rw = RoomFix.process(wet, wet.size)
+        println("roomfix rt07: echo=${rw.echoDelayMs} reverb strength=${rw.reverbStrength} (MER ${rw.modulationRatio})")
+        assertTrue("reverberant room must be detected", rw.reverbStrength > 0.6f)
+        val ech = load("echo120.wav"); val re = RoomFix.process(ech, ech.size)
+        println("roomfix echo120: echo=${re.echoDelayMs} gain=${re.echoGain} reverb strength=${re.reverbStrength}")
+        assertTrue("echo must be found at 120 ms", re.echoDelayMs != null && abs(re.echoDelayMs!! - 120f) < 3f)
     }
 
     private fun assertNotNull(o: Any?) = org.junit.Assert.assertNotNull(o)

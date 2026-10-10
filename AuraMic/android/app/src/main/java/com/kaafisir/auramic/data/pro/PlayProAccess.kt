@@ -62,16 +62,20 @@ class PlayProAccess @Inject constructor(@ApplicationContext private val context:
         TrialCounter.keyFor(context),
     )
 
+    /** Own devices (see [ProAllowlist]) are always Pro, with unlimited High Quality. */
+    private val allowlisted = ProAllowlist.isAllowed(context)
+
     private var client: BillingClient? = null
     private var details: ProductDetails? = null
 
     init {
+        if (allowlisted) _state.update { it.copy(subscribed = true) }
         scope.launch {
             // Cached answer first so the first voice note after launch already knows the plan.
             val p = runCatching { context.proStore.data.first() }.getOrNull()
             val cached = p?.get(subActive) == true && System.currentTimeMillis() - (p[subVerifiedAt] ?: 0L) < OFFLINE_GRACE_MS
             val used = runCatching { trial.used() }.getOrDefault(0)
-            _state.update { it.copy(subscribed = it.subscribed || cached, trialUsed = maxOf(it.trialUsed, used)) }
+            _state.update { it.copy(subscribed = it.subscribed || cached || allowlisted, trialUsed = maxOf(it.trialUsed, used)) }
         }
     }
 
@@ -130,7 +134,7 @@ class PlayProAccess @Inject constructor(@ApplicationContext private val context:
             // Store unreachable: trust the last known answer for a while (the app is fully usable offline).
             val p = runCatching { context.proStore.data.first() }.getOrNull()
             val ok = p?.get(subActive) == true && System.currentTimeMillis() - (p[subVerifiedAt] ?: 0L) < OFFLINE_GRACE_MS
-            _state.update { it.copy(subscribed = ok) }
+            _state.update { it.copy(subscribed = ok || allowlisted) }
             return
         }
         val active = purchases.filter { it.purchaseState == Purchase.PurchaseState.PURCHASED && PRODUCT_ID in it.products }
@@ -141,7 +145,7 @@ class PlayProAccess @Inject constructor(@ApplicationContext private val context:
         runCatching {
             context.proStore.edit { it[subActive] = subscribed; it[subVerifiedAt] = System.currentTimeMillis() }
         }
-        _state.update { it.copy(subscribed = subscribed) }
+        _state.update { it.copy(subscribed = subscribed || allowlisted) }
     }
 
     override fun purchase(activity: Activity, plan: Plan): Boolean {

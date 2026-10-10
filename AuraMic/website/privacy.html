@@ -40,11 +40,11 @@
 <table><thead><tr><th>Data</th><th>Why</th><th>Where it goes</th></tr></thead><tbody>
 <tr><td>Microphone audio you record with the floating mic or in Studio Lab</td><td>To remove noise and create the voice note</td><td>Processed in memory on your device. The cleaned file is written to the app's private cache, shared with WhatsApp only when you send, and deleted automatically (about 10 minutes after sharing; leftovers are purged on next start). Studio Lab audio is never saved to disk.</td></tr>
 <tr><td>Name of the open chat (read through the Accessibility service)</td><td>To select the same chat in WhatsApp's share screen</td><td>Held in memory for the few seconds the hand-off takes; never stored or transmitted.</td></tr>
-<tr><td>Foreground app name (Usage access)</td><td>To show the floating mic only in the chat apps you enabled</td><td>Evaluated on the device; never stored or transmitted.</td></tr>
+<tr><td>Foreground app name (Usage access)</td><td>To show the AuraMic mic only while WhatsApp is open</td><td>Evaluated on the device; never stored or transmitted.</td></tr>
 <tr><td>App settings (language, noise strength, bubble position, counters of cleaned notes)</td><td>To remember your preferences and show your stats</td><td>Stored locally on your device only. Excluded from cloud backup.</td></tr></tbody></table>
 <h2>4. Permissions</h2>
 <ul><li><strong>Display over other apps</strong> — draws the floating mic.</li><li><strong>Microphone</strong> — records while you hold the button.</li>
-<li><strong>Usage access</strong> — detects whether WhatsApp is in the foreground.</li><li><strong>Accessibility service</strong> — selects the chat and taps Send inside the chat apps you enable (WhatsApp, WhatsApp Business, Telegram, Instagram); see the <a href="accessibility.html">Accessibility Disclaimer</a>.</li>
+<li><strong>Usage access</strong> — detects whether WhatsApp is in the foreground.</li><li><strong>Accessibility service</strong> — selects the chat, taps Send, and finds where WhatsApp's voice button is so the mic can sit on it (WhatsApp and WhatsApp Business only); see the <a href="accessibility.html">Accessibility Disclaimer</a>.</li>
 <li><strong>Notifications / foreground service</strong> — shows the status notification that Android requires while the microphone service runs.</li><li><strong>Vibration</strong> — optional haptic feedback.</li></ul>
 <h2>5. Third parties</h2><p>We do not share data with third parties. Files you choose to send are handed to WhatsApp, which processes them under its own terms and privacy policy. AuraMic AI is not affiliated with WhatsApp LLC or Meta Platforms, Inc.</p>
 <h2>6. Children</h2><p>The app is not directed to children under 13 and we do not knowingly collect their data (we collect no personal data at all).</p>
@@ -58,7 +58,7 @@
   <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
     <div>
       <a href="index.html" class="flex items-center gap-3 font-bold text-white"><img src="assets/img/icon-512.png" alt="" width="36" height="36" class="h-9 w-9 rounded-xl"> AuraMic AI</a>
-      <p class="mt-4 max-w-xs text-sm text-slate-400">Studio-quality voice notes with on-device AI noise removal. A FireClash Pro app.</p>
+      <p class="mt-4 max-w-xs text-sm text-slate-400">Clean, studio-style voice notes for WhatsApp, processed on your phone. A FireClash Pro app.</p>
     </div>
     <div><h3 class="text-sm font-semibold text-white">Product</h3><ul class="mt-4 space-y-2.5 text-sm text-slate-400">
       <li><a class="hover:text-white" href="index.html#features">Features</a></li><li><a class="hover:text-white" href="index.html#how">How it works</a></li>
@@ -71,8 +71,8 @@
       <li><a class="hover:text-white" href="accessibility.html">Accessibility Disclaimer</a></li></ul></div>
   </div>
   <div class="border-t border-white/5 px-5 py-6 text-center text-xs leading-relaxed text-slate-500">
-    © 2026 FireClash Pro. All rights reserved. AuraMic AI is an independent app and is not affiliated with, endorsed by or sponsored by WhatsApp LLC, Meta Platforms, Inc., Telegram FZ-LLC or Instagram.
-    WhatsApp, Telegram and Instagram are trademarks of their respective owners. Google Play and the Google Play logo are trademarks of Google LLC.
+    © 2026 FireClash Pro. All rights reserved. AuraMic AI is an independent app and is not affiliated with, endorsed by or sponsored by WhatsApp LLC or Meta Platforms, Inc.
+    WhatsApp is a trademark of its owner. Google Play and the Google Play logo are trademarks of Google LLC.
   </div>
 </footer>
 <script src="assets/site.js" defer></script>

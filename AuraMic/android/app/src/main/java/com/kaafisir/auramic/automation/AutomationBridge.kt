@@ -41,10 +41,15 @@ class AutomationBridge @Inject constructor() {
     val micAnchor: StateFlow<MicAnchor?> = _micAnchor.asStateFlow()
     fun setMicAnchor(a: MicAnchor?) { _micAnchor.value = a }
 
+    /** True while a conversation (not the chat list / settings / status screens) is open in WhatsApp. */
+    private val _chatOpen = MutableStateFlow(false)
+    val chatOpen: StateFlow<Boolean> = _chatOpen.asStateFlow()
+    fun setChatOpen(open: Boolean) { _chatOpen.value = open }
+
     /** True while the bubble is on screen: the accessibility service then keeps [micAnchor] up to date. */
     private val _anchorTracking = MutableStateFlow(false)
     val anchorTracking: StateFlow<Boolean> = _anchorTracking.asStateFlow()
-    fun setAnchorTracking(on: Boolean) { _anchorTracking.value = on; if (!on) _micAnchor.value = null }
+    fun setAnchorTracking(on: Boolean) { _anchorTracking.value = on; if (!on) { _micAnchor.value = null; _chatOpen.value = false } }
 
     private val _pending = MutableStateFlow<SendRequest?>(null)
     val pending: StateFlow<SendRequest?> = _pending.asStateFlow()

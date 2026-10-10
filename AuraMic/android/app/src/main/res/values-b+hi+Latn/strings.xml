@@ -130,7 +130,7 @@
     <string name="notif_title">AuraMic tayyar hai</string>
     <string name="notif_text">WhatsApp khulne par floating mic dikhta hai.</string>
     <string name="notif_stop">Off karein</string>
-    <string name="a11y_description">Floating mic se voice note record karne ke baad AuraMic WhatsApp mein Send button dabata hai. Yeh sirf WhatsApp ke andar kaam karta hai aur aapke messages kabhi nahi padhta ya save karta.</string>
+    <string name="a11y_description">Floating mic se voice note record karne ke baad AuraMic WhatsApp mein Send button dabata hai. Yeh sirf WhatsApp ke andar kaam karta hai aur aapke messages kabhi nahi padhta ya save karta. Yeh WhatsApp ka voice button bhi dhoondhta hai taaki AuraMic ka mic uske upar baithe.</string>
     <string name="set_diag">Support info copy karein</string>
     <string name="set_diag_desc">Auto-send mein dikkat hai? Ise copy karke hamari support team ko bhejein.</string>
     <string name="diag_copied">Clipboard par copy ho gaya</string>
@@ -176,4 +176,6 @@
     <string name="lab_done">Ho gaya! Farak suniye.</string>
     <string name="set_cut_pauses">Lambi chuppi hatayein</string>
     <string name="set_cut_pauses_desc">0.3 second se lambi chuppi kaat deta hai, taaki voice note chhota aur tight rahe.</string>
+    <string name="set_device_id">Device ID (copy karne ke liye tap karein)</string>
+    <string name="pro_renews">Google Play mein cancel karne tak apne-aap renew hota hai.</string>
 </resources>

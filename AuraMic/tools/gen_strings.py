@@ -554,6 +554,14 @@ _extra = [
 ]
 S["disclosure_body"] = [v + e for v, e in zip(S["disclosure_body"], _extra)]
 
+add("set_device_id", "Device ID (tap to copy)", "डिवाइस ID (कॉपी करने के लिए टैप करें)", "Device ID (copy karne ke liye tap karein)", "ID del dispositivo (toca para copiar)", "ID do dispositivo (toque para copiar)", "معرّف الجهاز (اضغط للنسخ)", "ID perangkat (ketuk untuk menyalin)")
+
+add("pro_renews", "Renews automatically until you cancel in Google Play.", "Google Play में रद्द करने तक अपने-आप नवीनीकृत होता है।", "Google Play mein cancel karne tak apne-aap renew hota hai.",
+    "Se renueva automáticamente hasta que canceles en Google Play.", "Renova automaticamente até você cancelar no Google Play.", "يتجدد تلقائيًا حتى تلغيه من Google Play.", "Diperpanjang otomatis sampai Anda membatalkannya di Google Play.")
+_a11y_extra = [" It also finds WhatsApp's voice button so the AuraMic mic can sit on it.", " यह WhatsApp का वॉइस बटन भी ढूँढता है ताकि AuraMic का माइक उस पर बैठे।", " Yeh WhatsApp ka voice button bhi dhoondhta hai taaki AuraMic ka mic uske upar baithe.",
+    " También localiza el botón de voz de WhatsApp para colocar el micrófono de AuraMic encima.", " Também localiza o botão de voz do WhatsApp para posicionar o microfone do AuraMic sobre ele.", " كما يحدد مكان زر الصوت في واتساب ليظهر ميكروفون AuraMic فوقه.", " Juga mencari tombol suara WhatsApp agar mikrofon AuraMic berada di atasnya."]
+S["a11y_description"] = [v + e for v, e in zip(S["a11y_description"], _a11y_extra)]
+
 def esc(v: str) -> str:
     v = escape(v).replace("\\", "\\\\").replace("'", "\\'").replace('"', '\\"').replace("\n", "\\n")
     if v.startswith("@") or v.startswith("?"):

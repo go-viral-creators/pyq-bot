@@ -131,7 +131,7 @@
     <string name="notif_title">AuraMic is ready</string>
     <string name="notif_text">The floating mic appears when WhatsApp is open.</string>
     <string name="notif_stop">Turn off</string>
-    <string name="a11y_description">AuraMic taps the Send button in WhatsApp after you record a voice note with the floating mic. It works only inside WhatsApp and never reads or stores your messages.</string>
+    <string name="a11y_description">AuraMic taps the Send button in WhatsApp after you record a voice note with the floating mic. It works only inside WhatsApp and never reads or stores your messages. It also finds WhatsApp\'s voice button so the AuraMic mic can sit on it.</string>
     <string name="set_diag">Copy support info</string>
     <string name="set_diag_desc">Having trouble with auto-send? Copy this and send it to our support team.</string>
     <string name="diag_copied">Copied to clipboard</string>
@@ -177,4 +177,6 @@
     <string name="lab_done">Done! Listen to the difference.</string>
     <string name="set_cut_pauses">Remove long pauses</string>
     <string name="set_cut_pauses_desc">Cuts silent gaps longer than 0.3 seconds so your voice note is shorter and tighter.</string>
+    <string name="set_device_id">Device ID (tap to copy)</string>
+    <string name="pro_renews">Renews automatically until you cancel in Google Play.</string>
 </resources>

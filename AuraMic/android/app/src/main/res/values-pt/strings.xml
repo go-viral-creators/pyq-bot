@@ -130,7 +130,7 @@
     <string name="notif_title">AuraMic está pronto</string>
     <string name="notif_text">O microfone flutuante aparece quando o WhatsApp está aberto.</string>
     <string name="notif_stop">Desativar</string>
-    <string name="a11y_description">O AuraMic toca no botão Enviar do WhatsApp depois que você grava um áudio com o microfone flutuante. Funciona apenas dentro do WhatsApp e nunca lê nem armazena suas mensagens.</string>
+    <string name="a11y_description">O AuraMic toca no botão Enviar do WhatsApp depois que você grava um áudio com o microfone flutuante. Funciona apenas dentro do WhatsApp e nunca lê nem armazena suas mensagens. Também localiza o botão de voz do WhatsApp para posicionar o microfone do AuraMic sobre ele.</string>
     <string name="set_diag">Copiar informações para o suporte</string>
     <string name="set_diag_desc">Problemas com o envio automático? Copie e envie ao suporte.</string>
     <string name="diag_copied">Copiado para a área de transferência</string>
@@ -176,4 +176,6 @@
     <string name="lab_done">Pronto! Ouça a diferença.</string>
     <string name="set_cut_pauses">Remover pausas longas</string>
     <string name="set_cut_pauses_desc">Corta silêncios maiores que 0,3 segundo para deixar seu áudio mais curto e objetivo.</string>
+    <string name="set_device_id">ID do dispositivo (toque para copiar)</string>
+    <string name="pro_renews">Renova automaticamente até você cancelar no Google Play.</string>
 </resources>

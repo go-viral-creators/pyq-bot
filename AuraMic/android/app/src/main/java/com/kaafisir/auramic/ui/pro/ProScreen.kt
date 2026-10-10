@@ -121,6 +121,7 @@ fun ProScreen(onBack: () -> Unit, vm: ProViewModel = hiltViewModel()) {
                     { if (activity == null || !vm.buy(activity, plan)) Toast.makeText(context, unavailable, Toast.LENGTH_LONG).show() },
                     Modifier.fillMaxWidth(), enabled = offers.isNotEmpty(),
                 )
+                Text(stringResource(R.string.pro_renews), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
                 TextButton(onClick = { vm.refresh() }) { Text(stringResource(R.string.pro_restore)) }
                 TextButton(onClick = onBack) { Text(stringResource(R.string.pro_free), color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center) }
             }

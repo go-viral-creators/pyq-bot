@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -87,15 +88,26 @@ class OverlayService : Service() {
         }
         // Sit exactly on top of WhatsApp's own voice button whenever the accessibility service can see it.
         scope.launch { bridge.micAnchor.collect { ctl.setAnchor(it) } }
+        // Track WhatsApp's screen (mic position / is a chat open?) whenever WhatsApp is in front.
         scope.launch {
-            val targets = kotlinx.coroutines.flow.flowOf(com.kaafisir.auramic.domain.model.ChatApp.allPackages)
-            combine(detector.foregroundPackage, targets) { pkg, set -> pkg?.takeIf { it in set } }
+            detector.foregroundPackage.map { it?.takeIf { p -> p in com.kaafisir.auramic.domain.model.ChatApp.allPackages } }
                 .distinctUntilChanged()
                 .collect { pkg ->
-                    wantVisible = pkg != null
                     bridge.setAnchorTracking(pkg != null)
+                    if (pkg != null) ctl.setTargetPackage(pkg)
+                }
+        }
+        // The bubble is only for conversations: it is shown while a chat is open and hidden on the chat list, status,
+        // settings, calls... (if accessibility is not enabled there is no way to tell, so then it follows WhatsApp).
+        scope.launch {
+            combine(detector.foregroundPackage, bridge.chatOpen, bridge.connected) { pkg, open, connected ->
+                pkg?.takeIf { it in com.kaafisir.auramic.domain.model.ChatApp.allPackages && (open || !connected) }
+            }
+                .distinctUntilChanged()
+                .let { f -> @OptIn(kotlinx.coroutines.FlowPreview::class) f.debounce { if (it == null) 500L else 0L } }
+                .collect { pkg ->
+                    wantVisible = pkg != null
                     if (pkg != null) {
-                        ctl.setTargetPackage(pkg)
                         try {
                             ctl.show()
                         } catch (t: Throwable) {

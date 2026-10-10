@@ -65,6 +65,8 @@ data class EnhanceOptions(
     val preset: VoicePreset = VoicePreset.PODCAST,
     val normalize: Boolean = true,
     val targetLufs: Float = -16f,
+    /** Measure the room and cancel echo / suppress reverb only when present. */
+    val roomFix: Boolean = true,
 ) {
     companion object {
         /** Internal noise-removal strength: 97% of the range (the 95-99% band), i.e. very strong but not robotic. */

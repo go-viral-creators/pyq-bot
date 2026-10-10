@@ -33,11 +33,11 @@
 <section class="mx-auto max-w-3xl px-5 pt-16"><p class="text-sm font-semibold uppercase tracking-widest text-aura-violet2">Legal</p><h1 class="mt-3 text-4xl font-extrabold text-white">Accessibility Service Disclaimer</h1><p class="mt-3 text-slate-400">Required disclosure for Google Play's AccessibilityService API policy.</p><p class="mt-1 text-sm text-slate-500">Last updated: October 10, 2026</p></section>
 <article class="prose-legal mx-auto max-w-3xl px-5 pb-8">
 <div class="card !border-aura-mint/40"><p class="!mt-0 font-semibold text-white">In plain words</p>
-<p>AuraMic AI uses Android's Accessibility Service for <strong>one purpose only</strong>: after you record a voice note with the floating mic, it chooses the chat you were in and taps the <strong>Send</strong> button inside the chat app (WhatsApp, WhatsApp Business, Telegram or Instagram — only the ones you enable) so the note is delivered without extra taps. It does not read, collect, store or share your messages, contacts or any personal data.</p></div>
+<p>AuraMic AI uses Android's Accessibility Service for <strong>one purpose only</strong>: after you record a voice note with the floating mic, it chooses the chat you were in and taps the <strong>Send</strong> button inside WhatsApp or WhatsApp Business so the note is delivered without extra taps. It also looks up where WhatsApp's own voice button is on the screen, so the AuraMic microphone can sit exactly on top of it. It does not read, collect, store or share your messages, contacts or any personal data.</p></div>
 <h2>1. Why the Accessibility API is needed</h2><p>Chat apps offer no public API for sending a file into the conversation you have open. Android's share sheet opens WhatsApp's chat picker and then requires you to choose a chat and tap Send. AuraMic automates exactly those two on-screen taps. There is no other way to deliver this core feature, and the feature is optional: turn off <em>Auto-send</em> in Settings and AuraMic simply opens the share screen for you to finish manually.</p>
 <h2>2. What the service can see and do</h2>
-<ul><li><strong>Scope:</strong> limited by its configuration to <code>com.whatsapp</code>, <code>com.whatsapp.w4b</code>, <code>org.telegram.messenger</code> (+ web / Plus variants), <code>org.thunderdog.challegram</code> and <code>com.instagram.android</code>, and further restricted to the apps you enable. Windows of other apps are never inspected.</li>
-<li><strong>When:</strong> it acts only for a few seconds after you release the mic button (at most 25 seconds), and when you press the mic to read the title of the open chat.</li>
+<ul><li><strong>Scope:</strong> limited by its configuration to <code>com.whatsapp</code> and <code>com.whatsapp.w4b</code>. Windows of other apps are never inspected.</li>
+<li><strong>When:</strong> while WhatsApp is open it checks whether a chat is open and where the voice button is (position only), and after you release the mic button it acts for a few seconds (at most 25 seconds).</li>
 <li><strong>What it reads:</strong> the title of the open chat, and the labels of buttons / chat names on the share screen, solely to find the right row and the Send button. Message text is not read. If auto-send fails, a shortened structure dump (names cut to a few characters) is kept in memory and copied only when you tap “Copy diagnostics”.</li>
 <li><strong>What it does:</strong> scrolls the picker list, types the chat name into WhatsApp's own search box when needed, and clicks the matching chat and the Send button. It never taps Send unless it has itself selected the chat, so a half-typed message in another conversation is never sent by accident.</li>
 <li><strong>What it never does:</strong> it does not log keystrokes, capture screen content, monitor passwords or payments, change settings, install software, or send any information off your device.</li></ul>
@@ -51,7 +51,7 @@
   <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
     <div>
       <a href="index.html" class="flex items-center gap-3 font-bold text-white"><img src="assets/img/icon-512.png" alt="" width="36" height="36" class="h-9 w-9 rounded-xl"> AuraMic AI</a>
-      <p class="mt-4 max-w-xs text-sm text-slate-400">Studio-quality voice notes with on-device AI noise removal. A FireClash Pro app.</p>
+      <p class="mt-4 max-w-xs text-sm text-slate-400">Clean, studio-style voice notes for WhatsApp, processed on your phone. A FireClash Pro app.</p>
     </div>
     <div><h3 class="text-sm font-semibold text-white">Product</h3><ul class="mt-4 space-y-2.5 text-sm text-slate-400">
       <li><a class="hover:text-white" href="index.html#features">Features</a></li><li><a class="hover:text-white" href="index.html#how">How it works</a></li>
@@ -64,8 +64,8 @@
       <li><a class="hover:text-white" href="accessibility.html">Accessibility Disclaimer</a></li></ul></div>
   </div>
   <div class="border-t border-white/5 px-5 py-6 text-center text-xs leading-relaxed text-slate-500">
-    © 2026 FireClash Pro. All rights reserved. AuraMic AI is an independent app and is not affiliated with, endorsed by or sponsored by WhatsApp LLC, Meta Platforms, Inc., Telegram FZ-LLC or Instagram.
-    WhatsApp, Telegram and Instagram are trademarks of their respective owners. Google Play and the Google Play logo are trademarks of Google LLC.
+    © 2026 FireClash Pro. All rights reserved. AuraMic AI is an independent app and is not affiliated with, endorsed by or sponsored by WhatsApp LLC or Meta Platforms, Inc.
+    WhatsApp is a trademark of its owner. Google Play and the Google Play logo are trademarks of Google LLC.
   </div>
 </footer>
 <script src="assets/site.js" defer></script>

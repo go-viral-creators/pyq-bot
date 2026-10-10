@@ -130,7 +130,7 @@
     <string name="notif_title">AuraMic جاهز</string>
     <string name="notif_text">يظهر الميكروفون العائم عند فتح واتساب.</string>
     <string name="notif_stop">إيقاف</string>
-    <string name="a11y_description">يضغط AuraMic على زر الإرسال في واتساب بعد تسجيل رسالة صوتية بالميكروفون العائم. يعمل داخل واتساب فقط ولا يقرأ رسائلك ولا يخزّنها.</string>
+    <string name="a11y_description">يضغط AuraMic على زر الإرسال في واتساب بعد تسجيل رسالة صوتية بالميكروفون العائم. يعمل داخل واتساب فقط ولا يقرأ رسائلك ولا يخزّنها. كما يحدد مكان زر الصوت في واتساب ليظهر ميكروفون AuraMic فوقه.</string>
     <string name="set_diag">نسخ معلومات الدعم</string>
     <string name="set_diag_desc">مشكلة في الإرسال التلقائي؟ انسخ هذا وأرسله إلى فريق الدعم.</string>
     <string name="diag_copied">تم النسخ إلى الحافظة</string>
@@ -176,4 +176,6 @@
     <string name="lab_done">تم! استمع إلى الفرق.</string>
     <string name="set_cut_pauses">إزالة الفترات الصامتة الطويلة</string>
     <string name="set_cut_pauses_desc">يقطع الفراغات الصامتة الأطول من 0.3 ثانية ليصبح تسجيلك أقصر وأكثر إحكامًا.</string>
+    <string name="set_device_id">معرّف الجهاز (اضغط للنسخ)</string>
+    <string name="pro_renews">يتجدد تلقائيًا حتى تلغيه من Google Play.</string>
 </resources>

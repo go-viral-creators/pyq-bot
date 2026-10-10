@@ -56,7 +56,7 @@ def page(name, title, desc, body, *, jsonld="", noindex=False):
   <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
     <div>
       <a href="index.html" class="flex items-center gap-3 font-bold text-white"><img src="assets/img/icon-512.png" alt="" width="36" height="36" class="h-9 w-9 rounded-xl"> AuraMic AI</a>
-      <p class="mt-4 max-w-xs text-sm text-slate-400">Studio-quality voice notes with on-device AI noise removal. A FireClash Pro app.</p>
+      <p class="mt-4 max-w-xs text-sm text-slate-400">Clean, studio-style voice notes for WhatsApp, processed on your phone. A FireClash Pro app.</p>
     </div>
     <div><h3 class="text-sm font-semibold text-white">Product</h3><ul class="mt-4 space-y-2.5 text-sm text-slate-400">
       <li><a class="hover:text-white" href="index.html#features">Features</a></li><li><a class="hover:text-white" href="index.html#how">How it works</a></li>
@@ -69,8 +69,8 @@ def page(name, title, desc, body, *, jsonld="", noindex=False):
       <li><a class="hover:text-white" href="accessibility.html">Accessibility Disclaimer</a></li></ul></div>
   </div>
   <div class="border-t border-white/5 px-5 py-6 text-center text-xs leading-relaxed text-slate-500">
-    © 2026 FireClash Pro. All rights reserved. AuraMic AI is an independent app and is not affiliated with, endorsed by or sponsored by WhatsApp LLC, Meta Platforms, Inc., Telegram FZ-LLC or Instagram.
-    WhatsApp, Telegram and Instagram are trademarks of their respective owners. Google Play and the Google Play logo are trademarks of Google LLC.
+    © 2026 FireClash Pro. All rights reserved. AuraMic AI is an independent app and is not affiliated with, endorsed by or sponsored by WhatsApp LLC or Meta Platforms, Inc.
+    WhatsApp is a trademark of its owner. Google Play and the Google Play logo are trademarks of Google LLC.
   </div>
 </footer>
 <script src="assets/site.js" defer></script>
@@ -88,18 +88,18 @@ def feature(icon, title, text, color):
 
 I = lambda p: f'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{p}</svg>'
 FEATURES = [
-    feature(I('<path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/>'), "DeepFilterNet3 studio AI", "Full-band 48 kHz neural speech enhancement runs on your phone via ONNX Runtime: traffic, fans, crowds, keyboards and hum disappear; your voice stays natural.", "#7C5CFF"),
+    feature(I('<path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/>'), "Two quality levels", "Medium Quality (free) is fast and light; High Quality (AuraMic Pro, with 10 free tries) is studio-clean. Traffic, fans, crowds, keyboards and hum disappear while your voice stays natural. Everything runs on your phone.", "#7C5CFF"),
     feature(I('<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>'), "100% on-device", "Everything runs on your phone — no cloud, no account, no upload. Works in airplane mode.", "#22D3EE"),
     feature(I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'), "Hold, speak, release", "A floating mic on top of WhatsApp. One gesture records, cleans and sends. Slide left to cancel.", "#FF5C93"),
     feature(I('<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>'), "Auto-send", "AuraMic opens the share sheet, picks the same chat and taps Send for you. Prefer manual? Turn it off.", "#34D399"),
     feature(I('<path d="M3 12h3l3-8 4 16 3-8h5"/>'), "Podcast polish", "EQ, de-esser and gentle compression, then loudness mastering to −16 LUFS (BS.1770) with a look-ahead limiter. Presets: Off, Natural, Podcast.", "#FFB84D"),
     feature(I('<path d="M4 6h16M4 12h6M14 12h6M4 18h16"/>'), "Auto-cut silence", "Shorten long pauses and trim the start and end. Gentle or Tight, applied to the cleaned signal so cuts are clean.", "#F97316"),
     feature(I('<path d="M2 12h4l2-6 4 12 3-9 2 3h5"/>'), "Separate the background", "Hear the voice and the removed noise as separate takes, or mix a little ambience back for a natural feel.", "#22D3EE"),
-    feature(I('<rect x="3" y="4" width="18" height="14" rx="3"/><path d="M8 21h8M12 18v3"/>'), "WhatsApp, Telegram, Instagram", "Pick the chat apps you use. WhatsApp, WhatsApp Business and Telegram auto-send; Instagram saves the note for you to attach (experimental).", "#34D399"),
+    feature(I('<rect x="3" y="4" width="18" height="14" rx="3"/><path d="M8 21h8M12 18v3"/>'), "WhatsApp and WhatsApp Business", "The mic sits exactly on WhatsApp's own voice button inside a chat, works like it (hold to record, slide left to cancel) and can send the note for you.", "#34D399"),
     feature(I('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'), "7 languages", "English, हिन्दी, Hinglish, Español, Português, العربية and Bahasa Indonesia — switch any time, instantly.", "#9B83FF"),
 ]
 STEPS = [
-    ("1", "Open a chat", "Open any conversation in WhatsApp, WhatsApp Business, Telegram or Instagram. The floating mic appears; it hides when you leave."),
+    ("1", "Open a chat", "Open any conversation in WhatsApp or WhatsApp Business. The AuraMic mic appears on the voice button; it hides when you leave the chat."),
     ("2", "Hold &amp; speak", "Press and hold the mic. Watch the live waveform and timer. Slide left to cancel."),
     ("3", "Release", "AuraMic cleans the audio on-device, picks the same chat, and taps Send. Done in seconds."),
 ]
@@ -108,9 +108,10 @@ SHOTS = [("phone_01_hold_to_record", "Hold. Speak. Release."), ("phone_02_noise_
          ("phone_07_advanced_controls", "Podcast-grade controls"), ("phone_08_chat_apps", "Your chat apps")]
 FAQ = [
     ("Does AuraMic upload my voice?", "No. Recording, noise removal and encoding all happen on your phone. We have no servers that receive your audio, messages or contacts. See the <a class='text-aura-cyan underline' href='privacy.html'>Privacy Policy</a>."),
-    ("Which chat apps work?", "WhatsApp and WhatsApp Business (auto-select chat + auto-send), Telegram (same flow, using on-screen text matching) and Instagram (experimental: Instagram does not accept audio files from other apps, so the cleaned note is saved to Music/AuraMic for you to attach). Turn apps on or off in Settings."),
-    ("Is it as good as Adobe Podcast “Enhance Speech”?", "AuraMic uses DeepFilterNet3, a state-of-the-art real-time <em>denoiser</em> that keeps your actual voice and removes everything else, then adds EQ, compression and loudness mastering. Generative tools that re-synthesise speech can sound even more “studio” on very poor recordings, but they need the cloud; AuraMic stays 100% on your phone."),
-    ("Why does it need the Accessibility service?", "To select the chat you were in and tap the chat app's own Send button after your voice note is ready — nothing else. It only works inside the chat apps you enable and never reads or stores your messages. Read the <a class='text-aura-cyan underline' href='accessibility.html'>Accessibility Disclaimer</a>."),
+    ("Which chat apps work?", "WhatsApp and WhatsApp Business."),
+    ("Is AuraMic free?", "Yes: Medium Quality is free. High Quality is part of AuraMic Pro (monthly or yearly subscription, cancel any time in Google Play) and you get 10 free High Quality voice notes to try it. The app works offline; the internet is only used by Google Play for the subscription and for updates."),
+    ("How does it compare to cloud voice enhancers?", "AuraMic uses on-device neural noise removal that keeps your actual voice and removes everything else, then levels the volume and masters the loudness. It is not affiliated with or a copy of any other product; generative tools that re-synthesise speech need the cloud, AuraMic stays on your phone."),
+    ("Why does it need the Accessibility service?", "To select the chat you were in and tap the chat app's own Send button after your voice note is ready — nothing else. It only works inside WhatsApp and WhatsApp Business, also finds where WhatsApp's voice button is so the mic can sit on it, and never reads or stores your messages. Read the <a class='text-aura-cyan underline' href='accessibility.html'>Accessibility Disclaimer</a>."),
     ("Why “Usage access”?", "Android's Usage access lets AuraMic know which app is in front, so the floating mic shows only in WhatsApp and disappears everywhere else."),
     ("Can Android block the Accessibility switch?", "If you installed the APK outside the Play Store, Android 13+ may grey it out. Open Settings → Apps → AuraMic → ⋮ → “Allow restricted settings”, then enable the service."),
     ("Which noise does it remove best?", "Steady noise: traffic, fans, AC, hum, wind, engines. Very loud or voice-like noise (a packed crowd) is reduced but not eliminated. Try the in-app Studio Lab to hear it with your own recording."),
@@ -135,7 +136,7 @@ def index():
     <div>
       <p class="pill"><span class="h-2 w-2 rounded-full bg-aura-mint shadow-[0_0_10px_#34D399]"></span> 100% on-device AI</p>
       <h1 class="mt-6 text-5xl font-extrabold leading-[1.02] tracking-tight text-white sm:text-6xl">Studio-quality<br><span class="grad-text">voice notes.</span></h1>
-      <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">A floating mic on top of your chat apps. Hold it, speak, let go — DeepFilterNet AI removes the background and your voice note is sent automatically, with podcast-grade polish.</p>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">A floating mic on top of your chat apps. Hold it, speak, let go — the background noise is removed on your phone and your voice note is sent for you, with even volume.</p>
       <div id="get" class="mt-8 flex flex-wrap items-center gap-4">
         <span class="btn-primary cursor-default"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.3a1.5 1.5 0 0 0-.6 1.3v16.8c0 .5.2 1 .6 1.3l9.4-9.7zM14.4 13.3l2.9 3L5.1 22.4zM17.3 7.7l-2.9 3L5.1 1.6zM21 10.4l-2.6-1.5-3.2 3.1 3.2 3.1 2.6-1.5c.9-.5.9-2.7 0-3.2z"/></svg> Coming soon on Google Play</span>
         <a href="#how" class="btn-ghost">See how it works</a>
@@ -183,7 +184,7 @@ def index():
   <div class="card mt-10 grid items-center gap-8 md:grid-cols-2">
     <div class="min-w-0"><h3 class="text-2xl font-bold text-white">Hear (and see) the difference</h3>
       <p class="mt-3 text-slate-400">Illustration of the effect: steady background noise is pulled down while speech peaks stay. Open <strong class="text-white">Studio Lab</strong> in the app to try it with your own voice.</p>
-      <ul class="mt-5 space-y-2 text-sm text-slate-300"><li class="flex gap-2">{check()} DeepFilterNet3: ERB mask + deep filtering on the full 48 kHz band</li><li class="flex gap-2">{check()} Optional auto-cut of silences and a podcast voice chain</li><li class="flex gap-2">{check()} About 25× faster than real time on a laptop CPU; fast mode available</li></ul></div>
+      <ul class="mt-5 space-y-2 text-sm text-slate-300"><li class="flex gap-2">{check()} Neural noise removal on the full 48 kHz band (High) or a light, fast model (Medium)</li><li class="flex gap-2">{check()} Auto-cut of long pauses, echo and reverb fixes only when the recording needs them, even-volume voice chain</li><li class="flex gap-2">{check()} Many times faster than real time; fully offline</li></ul></div>
     <div id="ba" class="min-w-0 overflow-hidden rounded-2xl border border-aura-line bg-aura-ink p-5">
       <div class="flex items-center justify-between text-sm"><span id="ba-label" class="font-semibold text-white" aria-live="polite">Original</span><span class="text-slate-500">illustration</span></div>
       <div id="ba-bars" class="my-6 flex h-[70px] items-center justify-center gap-[2px] overflow-hidden" aria-hidden="true"></div>
@@ -233,11 +234,11 @@ def privacy():
 <table><thead><tr><th>Data</th><th>Why</th><th>Where it goes</th></tr></thead><tbody>
 <tr><td>Microphone audio you record with the floating mic or in Studio Lab</td><td>To remove noise and create the voice note</td><td>Processed in memory on your device. The cleaned file is written to the app's private cache, shared with WhatsApp only when you send, and deleted automatically (about 10 minutes after sharing; leftovers are purged on next start). Studio Lab audio is never saved to disk.</td></tr>
 <tr><td>Name of the open chat (read through the Accessibility service)</td><td>To select the same chat in WhatsApp's share screen</td><td>Held in memory for the few seconds the hand-off takes; never stored or transmitted.</td></tr>
-<tr><td>Foreground app name (Usage access)</td><td>To show the floating mic only in the chat apps you enabled</td><td>Evaluated on the device; never stored or transmitted.</td></tr>
+<tr><td>Foreground app name (Usage access)</td><td>To show the AuraMic mic only while WhatsApp is open</td><td>Evaluated on the device; never stored or transmitted.</td></tr>
 <tr><td>App settings (language, noise strength, bubble position, counters of cleaned notes)</td><td>To remember your preferences and show your stats</td><td>Stored locally on your device only. Excluded from cloud backup.</td></tr></tbody></table>
 <h2>4. Permissions</h2>
 <ul><li><strong>Display over other apps</strong> — draws the floating mic.</li><li><strong>Microphone</strong> — records while you hold the button.</li>
-<li><strong>Usage access</strong> — detects whether WhatsApp is in the foreground.</li><li><strong>Accessibility service</strong> — selects the chat and taps Send inside the chat apps you enable (WhatsApp, WhatsApp Business, Telegram, Instagram); see the <a href="accessibility.html">Accessibility Disclaimer</a>.</li>
+<li><strong>Usage access</strong> — detects whether WhatsApp is in the foreground.</li><li><strong>Accessibility service</strong> — selects the chat, taps Send, and finds where WhatsApp's voice button is so the mic can sit on it (WhatsApp and WhatsApp Business only); see the <a href="accessibility.html">Accessibility Disclaimer</a>.</li>
 <li><strong>Notifications / foreground service</strong> — shows the status notification that Android requires while the microphone service runs.</li><li><strong>Vibration</strong> — optional haptic feedback.</li></ul>
 <h2>5. Third parties</h2><p>We do not share data with third parties. Files you choose to send are handed to WhatsApp, which processes them under its own terms and privacy policy. AuraMic AI is not affiliated with WhatsApp LLC or Meta Platforms, Inc.</p>
 <h2>6. Children</h2><p>The app is not directed to children under 13 and we do not knowingly collect their data (we collect no personal data at all).</p>
@@ -273,11 +274,11 @@ def a11y():
     body = LEGAL_HEAD("Accessibility Service Disclaimer", "Required disclosure for Google Play's AccessibilityService API policy.") + f"""
 <article class="prose-legal mx-auto max-w-3xl px-5 pb-8">
 <div class="card !border-aura-mint/40"><p class="!mt-0 font-semibold text-white">In plain words</p>
-<p>AuraMic AI uses Android's Accessibility Service for <strong>one purpose only</strong>: after you record a voice note with the floating mic, it chooses the chat you were in and taps the <strong>Send</strong> button inside the chat app (WhatsApp, WhatsApp Business, Telegram or Instagram — only the ones you enable) so the note is delivered without extra taps. It does not read, collect, store or share your messages, contacts or any personal data.</p></div>
+<p>AuraMic AI uses Android's Accessibility Service for <strong>one purpose only</strong>: after you record a voice note with the floating mic, it chooses the chat you were in and taps the <strong>Send</strong> button inside WhatsApp or WhatsApp Business so the note is delivered without extra taps. It also looks up where WhatsApp's own voice button is on the screen, so the AuraMic microphone can sit exactly on top of it. It does not read, collect, store or share your messages, contacts or any personal data.</p></div>
 <h2>1. Why the Accessibility API is needed</h2><p>Chat apps offer no public API for sending a file into the conversation you have open. Android's share sheet opens WhatsApp's chat picker and then requires you to choose a chat and tap Send. AuraMic automates exactly those two on-screen taps. There is no other way to deliver this core feature, and the feature is optional: turn off <em>Auto-send</em> in Settings and AuraMic simply opens the share screen for you to finish manually.</p>
 <h2>2. What the service can see and do</h2>
-<ul><li><strong>Scope:</strong> limited by its configuration to <code>com.whatsapp</code>, <code>com.whatsapp.w4b</code>, <code>org.telegram.messenger</code> (+ web / Plus variants), <code>org.thunderdog.challegram</code> and <code>com.instagram.android</code>, and further restricted to the apps you enable. Windows of other apps are never inspected.</li>
-<li><strong>When:</strong> it acts only for a few seconds after you release the mic button (at most 25 seconds), and when you press the mic to read the title of the open chat.</li>
+<ul><li><strong>Scope:</strong> limited by its configuration to <code>com.whatsapp</code> and <code>com.whatsapp.w4b</code>. Windows of other apps are never inspected.</li>
+<li><strong>When:</strong> while WhatsApp is open it checks whether a chat is open and where the voice button is (position only), and after you release the mic button it acts for a few seconds (at most 25 seconds).</li>
 <li><strong>What it reads:</strong> the title of the open chat, and the labels of buttons / chat names on the share screen, solely to find the right row and the Send button. Message text is not read. If auto-send fails, a shortened structure dump (names cut to a few characters) is kept in memory and copied only when you tap “Copy diagnostics”.</li>
 <li><strong>What it does:</strong> scrolls the picker list, types the chat name into WhatsApp's own search box when needed, and clicks the matching chat and the Send button. It never taps Send unless it has itself selected the chat, so a half-typed message in another conversation is never sent by accident.</li>
 <li><strong>What it never does:</strong> it does not log keystrokes, capture screen content, monitor passwords or payments, change settings, install software, or send any information off your device.</li></ul>

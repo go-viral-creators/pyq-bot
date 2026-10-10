@@ -48,6 +48,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kaafisir.auramic.BuildConfig
 import com.kaafisir.auramic.R
 import com.kaafisir.auramic.core.Links
+import com.kaafisir.auramic.data.pro.ProAllowlist
 import com.kaafisir.auramic.domain.model.AppLanguage
 import com.kaafisir.auramic.domain.model.ThemeMode
 import com.kaafisir.auramic.ui.components.AuraCard
@@ -128,6 +129,11 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                     val i = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:${Links.SUPPORT_EMAIL}"))
                         .putExtra(Intent.EXTRA_SUBJECT, "AuraMic ${BuildConfig.VERSION_NAME}")
                     startActivity(Intent.createChooser(i, chooserTitle))
+                }
+                NavRow(stringResource(R.string.set_device_id), ProAllowlist.deviceId(context).takeLast(6)) {
+                    val cm = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                    cm.setPrimaryClip(android.content.ClipData.newPlainText("AuraMic device ID", ProAllowlist.deviceId(context)))
+                    Toast.makeText(context, copiedMsg, Toast.LENGTH_SHORT).show()
                 }
                 NavRow(stringResource(R.string.set_diag), null) {
                     Toast.makeText(context, if (vm.copyDiagnostics()) copiedMsg else noneMsg, Toast.LENGTH_SHORT).show()

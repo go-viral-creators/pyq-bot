@@ -19,6 +19,9 @@ class EnhanceResult(
     val processingMs: Long,
     val inputSeconds: Float,
     val removedSilenceSeconds: Float,
+    /** What [RoomFix] found: reverb strength 0..1 (0 = not touched) and the echo delay, if an echo was cancelled. */
+    val reverbStrength: Float,
+    val echoDelayMs: Float?,
     val report: NativePolish.Report?,
 ) {
     val sampleRate: Int get() = SAMPLE_RATE
@@ -32,7 +35,7 @@ class EnhanceResult(
 /**
  * The full voice-note pipeline:
  *   resample to 48 kHz -> denoise (DeepFilterNet3 for High, GTCRN for Medium, classic DSP as a fallback) -> keep-ambience mix
- *   -> auto-cut silence -> mastering chain (EQ / de-ess / compressor / LUFS / limiter)
+ *   -> echo / reverb treatment (only if measured) -> auto-cut silence -> mastering chain (EQ / de-ess / compressor / LUFS / limiter)
  */
 @Singleton
 class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, private val light: LightEnhancer) {
@@ -71,6 +74,15 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         var voice = enhanced
         if (keep > 0.001f) for (i in 0 until n) voice[i] += keep * (x[i] - enhanced[i])
 
+        // Room treatment only if the recording needs it (echo found / reverberant); dry recordings pass through untouched.
+        var reverbStrength = 0f
+        var echoMs: Float? = null
+        if (opt.roomFix && n > 0) {
+            val r = RoomFix.process(voice, n, EnhanceResult.SAMPLE_RATE)
+            voice = r.voice; reverbStrength = r.reverbStrength; echoMs = r.echoDelayMs
+        }
+        onProgress?.invoke(0.94f)
+
         var len = n
         var removedSilence = 0
         if (opt.silenceCut != com.kaafisir.auramic.domain.model.SilenceCut.OFF) {
@@ -92,7 +104,7 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         onProgress?.invoke(1f)
         val ms = (System.nanoTime() - t0) / 1_000_000
         AudioLog.i(TAG, "processed ${"%.1f".format(inputSeconds)}s in $ms ms (${"%.1f".format(inputSeconds * 1000f / max(1L, ms))}x realtime) engine=$engineUsed")
-        return EnhanceResult(voice, len, original, removedStem, engineUsed, ms, inputSeconds, removedSilence / EnhanceResult.SAMPLE_RATE.toFloat(), report)
+        return EnhanceResult(voice, len, original, removedStem, engineUsed, ms, inputSeconds, removedSilence / EnhanceResult.SAMPLE_RATE.toFloat(), reverbStrength, echoMs, report)
     }
 
     private fun classic(x: FloatArray, n: Int, opt: EnhanceOptions): FloatArray {

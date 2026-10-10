@@ -106,13 +106,19 @@ class AuraAccessibilityService : AccessibilityService() {
 
     private suspend fun trackMic() {
         while (true) {
-            bridge.setMicAnchor(runCatching { readMicAnchor() }.getOrNull())
+            val anchor = runCatching { readMicAnchor() }.getOrNull()
+            bridge.setMicAnchor(anchor)
+            bridge.setChatOpen(anchor != null || runCatching { conversationVisible }.getOrDefault(false))
             withTimeoutOrNull(TRACK_MS) { wake.receive() }
             delay(60) // coalesce bursts of events
         }
     }
 
+    /** Set by [readMicAnchor]: a conversation screen (title or message box) is visible even if the voice button was not found. */
+    @Volatile private var conversationVisible = false
+
     private fun readMicAnchor(): MicAnchor? {
+        conversationVisible = false
         val root = rootInActiveWindow ?: return null
         val pkg = root.packageName?.toString()
         try {
@@ -136,13 +142,24 @@ class AuraAccessibilityService : AccessibilityService() {
                     if (Build.VERSION.SDK_INT < 33) hits.forEach { runCatching { it.recycle() } }
                 }
             }
+            // Conversation screen without a visible voice button (e.g. WhatsApp changed its ids): title / message box present?
+            for (id in listOf("conversation_contact_name", "entry", "conversation_title")) {
+                val hits = root.findAccessibilityNodeInfosByViewId("$pkg:id/$id")
+                val found = hits.any { it.isVisibleToUser }
+                @Suppress("DEPRECATION")
+                if (Build.VERSION.SDK_INT < 33) hits.forEach { runCatching { it.recycle() } }
+                if (found) { conversationVisible = true; break }
+            }
             // Slow path (unknown WhatsApp version): label-based search over the tree, at most once a second.
             val now = SystemClock.elapsedRealtime()
             if (now - lastFullScan < 1000) return null
             lastFullScan = now
             val snap = snapshot(null) ?: return null
             return try {
-                snap.root?.let { MicAnchorFinder.find(it, dm.widthPixels, dm.heightPixels) }
+                snap.root?.let { r ->
+                    if (!conversationVisible) conversationVisible = NodeFinder.chatTitle(r, dm.heightPixels) != null
+                    MicAnchorFinder.find(r, dm.widthPixels, dm.heightPixels)
+                }
             } finally { snap.release() }
         } finally {
             @Suppress("DEPRECATION")

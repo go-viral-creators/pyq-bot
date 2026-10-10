@@ -88,7 +88,7 @@ class DataStoreTrialSource(private val store: DataStore<Preferences>) : TrialSou
 }
 
 /**
- * A small signed file in shared storage (Documents/.auramic). Files an app creates through MediaStore stay owned by
+ * A small signed file in shared storage (Documents/AuraMic/license.dat). Files an app creates through MediaStore stay owned by
  * it, so the app can still read and update them after the user clears its data (Android 10+; no permission needed).
  */
 class MediaStoreTrialSource(private val context: Context) : TrialSource {
@@ -121,7 +121,7 @@ class MediaStoreTrialSource(private val context: Context) : TrialSource {
     }
 
     private companion object {
-        const val NAME = ".aura_state"
-        const val DIR = "Documents/.auramic/"
+        const val NAME = "license.dat"
+        const val DIR = "Documents/AuraMic/"
     }
 }

@@ -83,6 +83,75 @@ void compress(float *x, size_t n, int sr, double thrDb, double ratio, double atk
     }
 }
 
+
+// Linear-interpolated percentile of an already sorted vector (same convention as numpy.percentile).
+double percentileSorted(const std::vector<double> &v, double q) {
+    if (v.empty()) return 0.0;
+    const double pos = (v.size() - 1) * q / 100.0;
+    const size_t lo = static_cast<size_t>(std::floor(pos)), hi = std::min(v.size() - 1, lo + 1);
+    return v[lo] + (v[hi] - v[lo]) * (pos - lo);
+}
+
+// 10 ms frame levels in dB.
+std::vector<double> frameDb(const float *x, size_t n, size_t hop) {
+    std::vector<double> e(n / hop);
+    for (size_t f = 0; f < e.size(); ++f) {
+        double s = 0; for (size_t i = f * hop; i < (f + 1) * hop; ++i) s += static_cast<double>(x[i]) * x[i];
+        e[f] = 10 * std::log10(s / hop + 1e-12);
+    }
+    return e;
+}
+
+// Per-frame dB values -> per-sample dB (edge padded), then a one-pole smoother; returns linear gain.
+void applyFrameGain(float *x, size_t n, size_t hop, const std::vector<double> &gDb, double pole, double sign) {
+    double y = 0.0;
+    for (size_t i = 0; i < n; ++i) {
+        const size_t f = std::min(gDb.size() - 1, i / hop);
+        y = pole * y + (1 - pole) * gDb[f];
+        x[i] = static_cast<float>(x[i] * std::pow(10.0, sign * y / 20.0));
+    }
+}
+
+// Speech-gated slow leveler. Unlike a compressor it only follows the level of *speech* frames and freezes in pauses
+// and tails, so it evens out loud/quiet words without lifting room reverb and noise relative to the voice.
+void leveler(float *x, size_t n, int sr, double targetDb = -23.0, double maxUp = 12.0, double maxDown = -8.0, double tcSec = 0.35) {
+    const size_t hop = static_cast<size_t>(sr / 100);
+    std::vector<double> e = frameDb(x, n, hop);
+    if (e.size() < 4) return;
+    std::vector<double> sorted(e); std::sort(sorted.begin(), sorted.end());
+    const double thr = percentileSorted(sorted, 92.0) - 24.0;
+    const double a = std::exp(-0.01 / tcSec);
+    std::vector<double> g(e.size());
+    double cur = 0.0, gcur = 0.0; bool have = false;
+    for (size_t i = 0; i < e.size(); ++i) {
+        if (e[i] > thr) {
+            cur = have ? a * cur + (1 - a) * e[i] : e[i];
+            const double gt = std::max(maxDown, std::min(maxUp, targetDb - cur));
+            gcur = have ? a * gcur + (1 - a) * gt : gt;
+            have = true;
+        }
+        g[i] = gcur;
+    }
+    applyFrameGain(x, n, hop, g, 0.995, +1.0);
+}
+
+// Gentle downward expander for the quiet tail / room-noise region (thresholds are relative to the speech level).
+void expander(float *x, size_t n, int sr, double belowDb = 22.0, double ratio = 1.6, double maxCutDb = 14.0) {
+    const size_t hop = static_cast<size_t>(sr / 100);
+    std::vector<double> e = frameDb(x, n, hop);
+    if (e.size() < 4) return;
+    std::vector<double> sorted(e); std::sort(sorted.begin(), sorted.end());
+    const double thr = percentileSorted(sorted, 92.0) - belowDb;
+    std::vector<double> c(e.size());
+    double cur = 0.0;
+    for (size_t i = 0; i < e.size(); ++i) {
+        const double v = std::min(std::max(thr - e[i], 0.0) * (ratio - 1.0), maxCutDb);
+        cur = v > cur ? v : 0.7 * cur + 0.3 * v;
+        c[i] = cur;
+    }
+    applyFrameGain(x, n, hop, c, 0.99, -1.0);
+}
+
 // Look-ahead limiter (offline): g[i] = mean of window-minima, which can never exceed the gain needed at i.
 void limit(float *x, size_t n, int sr, double ceilingDb) {
     if (n == 0) return;
@@ -155,12 +224,12 @@ PolishReport polish(float *x, size_t n, const PolishParams &p) {
         Biquad hp = highpass(p.preset == kPolishPodcast ? 80 : 70, 0.707, sr);
         hp.run(x, n);
         if (p.preset == kPolishPodcast) {
-            lowShelf(150, 2.0, sr).run(x, n);
             peaking(320, 1.0, -1.5, sr).run(x, n);
             peaking(3200, 0.9, 2.2, sr).run(x, n);
             highShelf(9500, 1.8, sr).run(x, n);
             deEss(x, n, sr);
-            compress(x, n, sr, -26.0, 2.8, 6.0, 120.0, 8.0);
+            leveler(x, n, sr);   // replaces the old compressor: it lifted room reverb after every word
+            expander(x, n, sr);
         } else {
             compress(x, n, sr, -28.0, 1.6, 10.0, 150.0, 8.0);
         }

@@ -14,23 +14,23 @@ Traffic, pankha, bheed ya noisy café ki wajah se baar-baar record karna band. A
 • Auto-send: ek baar dabao, ek baar chhodo, bas. Khud check karna ho to auto-send band kar do.
 • Loudness boost: dheemi awaaz ko barabar karta hai, distortion se bachata hai.
 • Studio Lab: noisy sample record karke original aur clean audio ki tulna suno.
-• Chhoti, WhatsApp-friendly files (AAC/M4A ya Android 10+ par Opus).
+• Chhoti, WhatsApp-friendly files (AAC/M4A).
 • Mic ko kahin bhi drag karo; yeh kinare se chipak jata hai aur jagah yaad rakhta hai.
 • Haptic feedback, smooth animation, light aur dark theme.
 • 7 bhasha: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
-★ PODCAST-GRADE SAFAI
-• DeepFilterNet3 AI (full-band 48 kHz) seedha phone par chalta hai: studio jaisi voice isolation, real-time se 10–30× tez.
-• Podcast polish: EQ, de-esser, compressor aur −16 LUFS loudness mastering.
-• Auto-cut silence: lambe pauses chhote karo, shuruaat aur ant trim karo (Gentle ya Tight).
-• Background alag karo: hataya hua noise alag se suno, ya thoda ambience rakho.
-• WhatsApp, WhatsApp Business aur Telegram mein chalta hai; Instagram experimental hai (note save ho jata hai, aap attach karein).
+★ DO QUALITY LEVELS
+• Medium Quality (free): tez aur halka. Pankha, traffic aur kamre ki goonj jaisa zyada tar shor hata deta hai, aawaz saaf rehti hai.
+• High Quality (AuraMic Pro): studio jaisi saaf awaaz. Lagbhag sara shor hata deta hai aur aawaz ko bhari-puri, balanced aur kaafi tez banata hai. 10 voice notes free try karo; uske baad monthly ya yearly subscription, Google Play me kabhi bhi cancel.
+• Smart room fix: recording me echo ya reverb ho to kam hota hai; na ho to kuch nahi badalta.
+• Lambi chuppi (0.3 second se zyada) apne-aap kat jaati hai (Settings me band kar sakte ho) aur volume barabar hota hai.
+• WhatsApp aur WhatsApp Business me chalta hai. Chat ke andar AuraMic ka mic WhatsApp ke apne voice button par baithta hai aur waise hi chalta hai: dabake record, left slide par cancel.
 
 ★ PERMISSIONS — KYUN MAANGTE HAIN
 • Display over other apps: WhatsApp ke upar floating mic dikhane ke liye.
 • Microphone: button dabane tak record karne ke liye.
 • Usage access: pata karne ke liye ki WhatsApp khula hai, taaki mic sirf wahin dikhe.
-• Accessibility service: SIRF voice note taiyaar hone ke baad WhatsApp ka Send button dabane (aur wahi chat chunne) ke liye. Yeh sirf WhatsApp / WhatsApp Business / Telegram / Instagram mein kaam karti hai; aapke messages ya personal data ko na padhti hai, na save karti hai, na share karti hai. Enable karne se pehle saaf disclosure dikhaya jata hai.
+• Accessibility service: SIRF voice note taiyaar hone ke baad WhatsApp ka Send button dabane (aur wahi chat chunne) ke liye. Yeh sirf WhatsApp / WhatsApp Business mein kaam karti hai; aapke messages ya personal data ko na padhti hai, na save karti hai, na share karti hai. Enable karne se pehle saaf disclosure dikhaya jata hai.
 • Notifications: AuraMic on hone par chhota status notification.
 
 ★ PRIVACY PEHLE
@@ -38,4 +38,4 @@ Aapki awaaz phone se bahar nahi jati. Hum audio, messages, contacts ya koi perso
 
 Madad chahiye? support@fireclashpro.com
 
-AuraMic AI ek independent app hai. Ismein WhatsApp LLC ya Meta Platforms, Inc. ka koi affiliation, endorsement ya sponsorship nahi hai. WhatsApp, WhatsApp LLC ka trademark hai. Telegram aur Instagram apne-apne maalikon ke trademark hain.
+AuraMic AI ek independent app hai. Ismein WhatsApp LLC ya Meta Platforms, Inc. ka koi affiliation, endorsement ya sponsorship nahi hai. WhatsApp, WhatsApp LLC ka trademark hai.

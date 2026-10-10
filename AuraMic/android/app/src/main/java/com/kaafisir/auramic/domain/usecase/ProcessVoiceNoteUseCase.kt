@@ -8,8 +8,9 @@ import com.kaafisir.auramic.audio.PcmRecorder
 import com.kaafisir.auramic.audio.Resampler
 import com.kaafisir.auramic.automation.WhatsAppSender
 import com.kaafisir.auramic.domain.model.EnhanceEngine
-import com.kaafisir.auramic.domain.model.UserSettings
-import com.kaafisir.auramic.domain.model.toEnhanceOptions
+import com.kaafisir.auramic.domain.model.EnhanceOptions
+import com.kaafisir.auramic.domain.model.OutputFormat
+import com.kaafisir.auramic.domain.model.Quality
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,16 +35,16 @@ class ProcessVoiceNoteUseCase @Inject constructor(
 ) {
     /** Enhancement only; Studio Lab keeps the signals for A/B playback (with stems). */
     suspend fun enhance(
-        rec: PcmRecorder.Recording, settings: UserSettings, stems: Boolean = false, onProgress: ((Float) -> Unit)? = null,
+        rec: PcmRecorder.Recording, quality: Quality, stems: Boolean = false, onProgress: ((Float) -> Unit)? = null,
     ): EnhanceResult = withContext(Dispatchers.Default) {
-        pipeline.process(rec.pcm, rec.length, rec.sampleRate, settings.toEnhanceOptions(), stems, onProgress)
+        pipeline.process(rec.pcm, rec.length, rec.sampleRate, EnhanceOptions.forQuality(quality), stems, onProgress)
     }
 
-    suspend operator fun invoke(rec: PcmRecorder.Recording, settings: UserSettings): ProcessedNote {
-        val r = enhance(rec, settings)
+    suspend operator fun invoke(rec: PcmRecorder.Recording, quality: Quality): ProcessedNote {
+        val r = enhance(rec, quality)
         return withContext(Dispatchers.IO) {
             val enc = AudioEncoder.encode(
-                Resampler.toShort(r.voice, r.length), r.length, r.sampleRate, settings.outputFormat,
+                Resampler.toShort(r.voice, r.length), r.length, r.sampleRate, OutputFormat.M4A,
                 File(context.cacheDir, WhatsAppSender.SHARE_DIR),
             )
             ProcessedNote(enc.file, enc.mimeType, r.seconds, r.engineUsed, r.processingMs, r.speedFactor, r.removedSilenceSeconds)

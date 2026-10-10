@@ -24,6 +24,7 @@ import com.kaafisir.auramic.ui.home.HomeScreen
 import com.kaafisir.auramic.ui.lab.LabScreen
 import com.kaafisir.auramic.ui.language.LanguageScreen
 import com.kaafisir.auramic.ui.permissions.PermissionsScreen
+import com.kaafisir.auramic.ui.pro.ProScreen
 import com.kaafisir.auramic.ui.settings.SettingsScreen
 import com.kaafisir.auramic.ui.tour.TourScreen
 
@@ -36,6 +37,7 @@ object Routes {
     const val HOME = "home"
     const val LAB = "lab"
     const val SETTINGS = "settings"
+    const val PRO = "pro"
 }
 
 private const val DUR = 320
@@ -93,9 +95,11 @@ fun AppNavHost(settings: UserSettings, vm: AppViewModel, nav: NavHostController 
                 onLab = { nav.navigate(Routes.LAB) },
                 onSettings = { nav.navigate(Routes.SETTINGS) },
                 onReplayTour = { nav.navigate(Routes.TOUR_REPLAY) },
+                onOpenPro = { nav.navigate(Routes.PRO) },
             )
         }
         composable(Routes.LAB) { LabScreen(onBack = { nav.popBackStack() }) }
-        composable(Routes.SETTINGS) { SettingsScreen(onBack = { nav.popBackStack() }) }
+        composable(Routes.SETTINGS) { SettingsScreen(onBack = { nav.popBackStack() }, onOpenPro = { nav.navigate(Routes.PRO) }) }
+        composable(Routes.PRO) { ProScreen(onBack = { nav.popBackStack() }) }
     }
 }

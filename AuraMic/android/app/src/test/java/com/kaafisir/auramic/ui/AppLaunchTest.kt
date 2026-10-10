@@ -72,7 +72,14 @@ class HomeNavigationTest {
         // Back to Home, then switch through every language from Settings (the returning-user composition path)
         rule.onNodeWithContentDescription("Atrás").performClick()
         waitFor("Laboratorio de estudio")
+        waitFor("AuraMic Pro")                                                        // Pro card on Home
         rule.onNodeWithContentDescription("Ajustes").performClick()
+        waitFor("Calidad media")                                                      // the only choice: Medium / High
+        rule.onNodeWithText("Calidad alta").assertIsDisplayed()
+        rule.onAllNodesWithText("Obtener Pro").onLast().performScrollTo().performClick()
+        waitFor("Suscribirme")                                                        // paywall
+        rule.onNodeWithContentDescription("Atrás").performClick()
+        waitFor("Calidad media")
         // (native name, Settings title, label of the "Language" row in that language)
         val langs = listOf(
             Triple("English", "Settings", "Language"), Triple("हिन्दी", "सेटिंग्स", "भाषा"), Triple("Hinglish", "Settings", "Language"),

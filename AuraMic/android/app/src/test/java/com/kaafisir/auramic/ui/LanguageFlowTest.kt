@@ -11,13 +11,9 @@ import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import com.kaafisir.auramic.data.permissions.PermissionRepository
 import com.kaafisir.auramic.domain.model.AppLanguage
-import com.kaafisir.auramic.domain.model.ChatApp
-import com.kaafisir.auramic.domain.model.EnhanceEngine
-import com.kaafisir.auramic.domain.model.OutputFormat
-import com.kaafisir.auramic.domain.model.SilenceCut
+import com.kaafisir.auramic.domain.model.Quality
 import com.kaafisir.auramic.domain.model.ThemeMode
 import com.kaafisir.auramic.domain.model.UserSettings
-import com.kaafisir.auramic.domain.model.VoicePreset
 import com.kaafisir.auramic.domain.repository.SettingsRepository
 import com.kaafisir.auramic.ui.navigation.AppNavHost
 import com.kaafisir.auramic.ui.theme.AuraTheme
@@ -39,18 +35,7 @@ private class FakeSettings : SettingsRepository {
     override suspend fun setLanguage(language: AppLanguage) { state.value = state.value.copy(language = language) }
     override suspend fun setTourCompleted(done: Boolean) { state.value = state.value.copy(tourCompleted = done) }
     override suspend fun setServiceEnabled(enabled: Boolean) {}
-    override suspend fun setNoiseStrength(value: Float) {}
-    override suspend fun setLoudnessBoost(enabled: Boolean) {}
-    override suspend fun setLoudnessTarget(lufs: Float) {}
-    override suspend fun setEngine(engine: EnhanceEngine) {}
-    override suspend fun setFastMode(enabled: Boolean) {}
-    override suspend fun setKeepBackground(value: Float) {}
-    override suspend fun setSilenceCut(mode: SilenceCut) {}
-    override suspend fun setVoicePreset(preset: VoicePreset) {}
-    override suspend fun setAppEnabled(app: ChatApp, enabled: Boolean) {}
-    override suspend fun setTopRecentFallback(enabled: Boolean) {}
-    override suspend fun setSaveCopy(enabled: Boolean) {}
-    override suspend fun setOutputFormat(format: OutputFormat) {}
+    override suspend fun setQuality(quality: Quality) {}
     override suspend fun setAutoSend(enabled: Boolean) {}
     override suspend fun setHaptics(enabled: Boolean) {}
     override suspend fun setBubbleSize(dp: Int) {}

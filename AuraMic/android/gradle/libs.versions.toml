@@ -13,6 +13,8 @@ appcompat = "1.7.1"
 datastore = "1.2.1"
 coroutines = "1.10.2"
 onnxruntime = "1.24.3"
+billing = "8.0.0"
+appUpdate = "2.1.0"
 junit = "4.13.2"
 robolectric = "4.16.1"
 testCore = "1.6.1"
@@ -42,6 +44,8 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 onnxruntime-jvm = { module = "com.microsoft.onnxruntime:onnxruntime", version.ref = "onnxruntime" }
 onnxruntime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnxruntime" }
+playbilling = { module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
+play-app-update = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdate" }
 junit = { module = "junit:junit", version.ref = "junit" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "testCore" }

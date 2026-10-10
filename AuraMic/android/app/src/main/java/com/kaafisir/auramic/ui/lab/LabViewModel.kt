@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.kaafisir.auramic.audio.PcmPlayer
 import com.kaafisir.auramic.audio.PcmRecorder
 import com.kaafisir.auramic.audio.Resampler
-import com.kaafisir.auramic.domain.model.EnhanceEngine
 import com.kaafisir.auramic.domain.repository.SettingsRepository
 import com.kaafisir.auramic.domain.usecase.ProcessVoiceNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +20,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/** The three signals Studio Lab can play: the level-matched original, the studio voice, and what was removed. */
-enum class Take { Original, Clean, Removed }
+/** The two takes Studio Lab can play: the level-matched original and the cleaned voice. */
+enum class Take { Original, Clean }
 
 sealed interface LabState {
     data object Idle : LabState
@@ -32,19 +31,17 @@ sealed interface LabState {
     class Result(
         val takes: Map<Take, ShortArray>,
         val sampleRate: Int,
-        val engine: EnhanceEngine,
         val processingMs: Long,
-        val speedFactor: Float,
-        val removedSilenceSeconds: Float,
     ) : LabState
 }
 
-/** Studio Lab: record in the app, then A/B the original, the cleaned voice and the separated background. */
+/** Studio Lab: record in the app, then compare your original voice with the cleaned one. */
 @HiltViewModel
 class LabViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val settingsRepo: SettingsRepository,
     private val process: ProcessVoiceNoteUseCase,
+    private val pro: com.kaafisir.auramic.data.pro.ProAccess,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<LabState>(LabState.Idle)
@@ -79,15 +76,13 @@ class LabViewModel @Inject constructor(
         _state.value = LabState.Processing(0f)
         viewModelScope.launch {
             val settings = settingsRepo.current()
-            val r = process.enhance(rec, settings, stems = true) { p -> _state.value = LabState.Processing(p) }
+            val r = process.enhance(rec, pro.resolve(settings), stems = true) { p -> _state.value = LabState.Processing(p) }
             _state.value = LabState.Result(
                 takes = mapOf(
                     Take.Original to Resampler.toShort(r.original!!, r.original.size),
                     Take.Clean to Resampler.toShort(r.voice, r.length),
-                    Take.Removed to Resampler.toShort(r.removed!!, r.removed.size),
                 ),
-                sampleRate = r.sampleRate, engine = r.engineUsed, processingMs = r.processingMs,
-                speedFactor = r.speedFactor, removedSilenceSeconds = r.removedSilenceSeconds,
+                sampleRate = r.sampleRate, processingMs = r.processingMs,
             )
         }
     }

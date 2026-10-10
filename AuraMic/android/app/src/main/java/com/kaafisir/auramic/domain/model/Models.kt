@@ -37,33 +37,46 @@ enum class SilenceCut { OFF, GENTLE, TIGHT }
 enum class VoicePreset { OFF, NATURAL, PODCAST }
 
 /** Chat apps the floating mic works in. Package names cover the common variants of each app. */
-enum class ChatApp(val key: String, val packages: Set<String>, val experimental: Boolean = false) {
+enum class ChatApp(val key: String, val packages: Set<String>) {
     WHATSAPP("whatsapp", setOf("com.whatsapp")),
-    WHATSAPP_BUSINESS("whatsapp_business", setOf("com.whatsapp.w4b")),
-    TELEGRAM("telegram", setOf("org.telegram.messenger", "org.telegram.messenger.web", "org.thunderdog.challegram")),
-    INSTAGRAM("instagram", setOf("com.instagram.android"), experimental = true);
+    WHATSAPP_BUSINESS("whatsapp_business", setOf("com.whatsapp.w4b"));
 
     companion object {
         val allPackages: Set<String> = entries.flatMap { it.packages }.toSet()
         fun forPackage(pkg: String?): ChatApp? = entries.firstOrNull { pkg != null && pkg in it.packages }
-        fun fromKey(key: String): ChatApp? = entries.firstOrNull { it.key == key }
-        val defaults: Set<ChatApp> = setOf(WHATSAPP, WHATSAPP_BUSINESS, TELEGRAM)
     }
 }
 
-/** Everything the enhancement pipeline needs, derived from [UserSettings]. */
+/**
+ * The only choice the user sees. MEDIUM is the fast, light cleaner (free). HIGH is the studio-grade cleaner
+ * (Pro: subscription, or a few free tries).
+ */
+enum class Quality { MEDIUM, HIGH }
+
+/** Everything the enhancement pipeline needs. Derived from [Quality]; there are no other user-facing knobs. */
 data class EnhanceOptions(
     val engine: EnhanceEngine = EnhanceEngine.AI,
     /** Maximum noise attenuation in dB (>= 100 means unlimited). */
-    val attenuationDb: Float = 100f,
-    /** 0..1 share of the removed background mixed back in ("keep ambience"). */
+    val attenuationDb: Float = ATTENUATION_DB,
+    /** 0..1 share of the removed background mixed back in. Always 0: the background is fully removed. */
     val keepBackground: Float = 0f,
     val fastMode: Boolean = false,
     val silenceCut: SilenceCut = SilenceCut.OFF,
     val preset: VoicePreset = VoicePreset.PODCAST,
     val normalize: Boolean = true,
     val targetLufs: Float = -16f,
-)
+) {
+    companion object {
+        /** Internal noise-removal strength: 97% of the range (the 95-99% band), i.e. very strong but not robotic. */
+        const val STRENGTH = 0.97f
+        const val ATTENUATION_DB = 6f + (STRENGTH - 0.2f) / 0.79f * 74f
+
+        fun forQuality(q: Quality) = when (q) {
+            Quality.HIGH -> EnhanceOptions(engine = EnhanceEngine.AI, preset = VoicePreset.PODCAST)
+            Quality.MEDIUM -> EnhanceOptions(engine = EnhanceEngine.CLASSIC, preset = VoicePreset.NATURAL)
+        }
+    }
+}
 
 enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
@@ -72,21 +85,8 @@ data class UserSettings(
     val tourCompleted: Boolean = false,
     /** The user's intent: should the floating mic service be running? */
     val serviceEnabled: Boolean = false,
-    /** 0.2 (gentle) .. 1.0 (maximum, unlimited attenuation). */
-    val noiseStrength: Float = 1.0f,
-    val loudnessBoost: Boolean = true,
-    val loudnessTarget: Float = -16f,
-    val engine: EnhanceEngine = EnhanceEngine.AI,
-    val fastMode: Boolean = false,
-    val keepBackground: Float = 0f,
-    val silenceCut: SilenceCut = SilenceCut.OFF,
-    val voicePreset: VoicePreset = VoicePreset.PODCAST,
-    val enabledApps: Set<ChatApp> = ChatApp.defaults,
-    /** If the open chat cannot be read, pick the most recent chat in the share list (off by default). */
-    val topRecentFallback: Boolean = false,
-    /** Also keep a copy of every processed note in Music/AuraMic. */
-    val saveCopy: Boolean = false,
-    val outputFormat: OutputFormat = OutputFormat.M4A,
+    /** The quality the user picked. Null = never chosen: Pro users get HIGH, everyone else MEDIUM. */
+    val quality: Quality? = null,
     val autoSend: Boolean = true,
     val haptics: Boolean = true,
     val bubbleSizeDp: Int = 64,
@@ -96,15 +96,6 @@ data class UserSettings(
     val theme: ThemeMode = ThemeMode.SYSTEM,
     val notesCleaned: Int = 0,
     val secondsPolished: Long = 0,
-)
-
-/** Maps the 0.2..1.0 strength slider to a maximum attenuation: 0.2 -> 6 dB ... 0.99 -> 80 dB, 1.0 -> unlimited. */
-fun UserSettings.attenuationDb(): Float =
-    if (noiseStrength >= 0.99f) 100f else 6f + (noiseStrength.coerceIn(0.2f, 0.99f) - 0.2f) / 0.79f * 74f
-
-fun UserSettings.toEnhanceOptions() = EnhanceOptions(
-    engine = engine, attenuationDb = attenuationDb(), keepBackground = keepBackground, fastMode = fastMode,
-    silenceCut = silenceCut, preset = voicePreset, normalize = loudnessBoost, targetLufs = loudnessTarget,
 )
 
 /** Snapshot of everything AuraMic needs from the OS. */

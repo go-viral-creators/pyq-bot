@@ -17,5 +17,9 @@ abstract class AppModule {
 
     @Binds
     @Singleton
+    abstract fun bindPro(impl: com.kaafisir.auramic.data.pro.PlayProAccess): com.kaafisir.auramic.data.pro.ProAccess
+
+    @Binds
+    @Singleton
     abstract fun bindSettings(impl: DataStoreSettingsRepository): SettingsRepository
 }

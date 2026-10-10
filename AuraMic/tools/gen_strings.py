@@ -387,6 +387,156 @@ add("lab_engine_classic", "Classic engine", "क्लासिक इंजन"
 add("ov_saved", "Saved to Music/AuraMic", "Music/AuraMic में सहेजा गया", "Music/AuraMic mein save hua", "Guardado en Music/AuraMic", "Salvo em Music/AuraMic", "تم الحفظ في Music/AuraMic", "Disimpan di Music/AuraMic")
 
 
+# ======================= v1.3: simplified, plain-language copy (WhatsApp only, two quality levels) ==============
+for _k in """set_enhance set_audio set_strength set_strength_low set_strength_high set_normalize set_normalize_desc set_format
+set_format_m4a set_format_opus set_whatsapp set_size set_engine set_engine_ai set_engine_classic set_fast_mode set_fast_mode_desc
+set_keep_bg_value set_keep_bg_desc set_preset set_preset_off set_preset_natural set_preset_podcast set_preset_desc set_loudness_target
+set_loud_chat set_loud_podcast set_loud_loud set_cut set_cut_off set_cut_gentle set_cut_tight set_cut_desc set_apps app_whatsapp
+app_business app_telegram app_instagram set_instagram_note set_fallback_recent set_fallback_recent_desc set_save_copy lab_removed lab_cut
+lab_engine_ai lab_engine_classic""".split():
+    S.pop(_k, None)
+
+def _swap(key, pairs):
+    for i, (old, new) in enumerate(pairs):
+        assert old in S[key][i], (key, i)
+        S[key][i] = S[key][i].replace(old, new)
+
+_swap("disclosure_body", [
+    ("inside your chat app (WhatsApp, WhatsApp Business, Telegram or Instagram)", "inside WhatsApp or WhatsApp Business"),
+    ("आपके चैट ऐप (WhatsApp, WhatsApp Business, Telegram या Instagram) के अंदर", "WhatsApp या WhatsApp Business के अंदर"),
+    ("aapke chat app (WhatsApp, WhatsApp Business, Telegram ya Instagram) ke andar", "WhatsApp ya WhatsApp Business ke andar"),
+    ("dentro de tu app de chat (WhatsApp, WhatsApp Business, Telegram o Instagram)", "dentro de WhatsApp o WhatsApp Business"),
+    ("dentro do seu app de chat (WhatsApp, WhatsApp Business, Telegram ou Instagram)", "dentro do WhatsApp ou WhatsApp Business"),
+    ("داخل تطبيق المحادثة (واتساب أو واتساب للأعمال أو تيليجرام أو إنستغرام)", "داخل واتساب أو واتساب للأعمال"),
+    ("di dalam aplikasi obrolan Anda (WhatsApp, WhatsApp Business, Telegram, atau Instagram)", "di dalam WhatsApp atau WhatsApp Business"),
+])
+_swap("disclosure_body", [
+    ("It works only in the chat apps you enable in Settings.", "It works only in WhatsApp and WhatsApp Business."),
+    ("यह सिर्फ़ उन चैट ऐप्स में काम करती है जिन्हें आप सेटिंग्स में चालू करते हैं।", "यह सिर्फ़ WhatsApp और WhatsApp Business में काम करती है।"),
+    ("Yeh sirf un chat apps mein kaam karti hai jinhe aap Settings mein on karte hain.", "Yeh sirf WhatsApp aur WhatsApp Business mein kaam karti hai."),
+    ("Solo funciona en las apps de chat que actives en Ajustes.", "Solo funciona en WhatsApp y WhatsApp Business."),
+    ("Funciona apenas nos apps de chat que você ativar nas Configurações.", "Funciona apenas no WhatsApp e no WhatsApp Business."),
+    ("يعمل فقط داخل تطبيقات المحادثة التي تفعّلها من الإعدادات.", "يعمل فقط داخل واتساب وواتساب للأعمال."),
+    ("Hanya bekerja di aplikasi obrolan yang Anda aktifkan di Pengaturan.", "Hanya bekerja di WhatsApp dan WhatsApp Business."),
+])
+
+add("a11y_description",
+    "AuraMic taps the Send button in WhatsApp after you record a voice note with the floating mic. It works only inside WhatsApp and never reads or stores your messages.",
+    "फ्लोटिंग माइक से वॉइस नोट रिकॉर्ड करने के बाद AuraMic WhatsApp में Send बटन दबाता है। यह सिर्फ़ WhatsApp के अंदर काम करता है और आपके संदेश कभी नहीं पढ़ता या सहेजता।",
+    "Floating mic se voice note record karne ke baad AuraMic WhatsApp mein Send button dabata hai. Yeh sirf WhatsApp ke andar kaam karta hai aur aapke messages kabhi nahi padhta ya save karta.",
+    "AuraMic pulsa el botón Enviar en WhatsApp tras grabar una nota de voz con el micrófono flotante. Solo funciona dentro de WhatsApp y nunca lee ni guarda tus mensajes.",
+    "O AuraMic toca no botão Enviar do WhatsApp depois que você grava um áudio com o microfone flutuante. Funciona apenas dentro do WhatsApp e nunca lê nem armazena suas mensagens.",
+    "يضغط AuraMic على زر الإرسال في واتساب بعد تسجيل رسالة صوتية بالميكروفون العائم. يعمل داخل واتساب فقط ولا يقرأ رسائلك ولا يخزّنها.",
+    "AuraMic menekan tombol Kirim di WhatsApp setelah Anda merekam pesan suara dengan mikrofon melayang. Hanya bekerja di dalam WhatsApp dan tidak pernah membaca atau menyimpan pesan Anda.")
+
+# ---- quality choice ----
+add("q_title", "Voice quality", "आवाज़ की क्वालिटी", "Awaaz ki quality", "Calidad de voz", "Qualidade da voz", "جودة الصوت", "Kualitas suara")
+add("q_medium", "Medium Quality", "मीडियम क्वालिटी", "Medium Quality", "Calidad media", "Qualidade média", "جودة متوسطة", "Kualitas Sedang")
+add("q_medium_desc",
+    "Fast and light. Removes most background noise like fans, traffic and room echo, and keeps your voice clear. Your voice note is ready in a moment and uses less battery. Great for everyday chats.",
+    "तेज़ और हल्का। पंखे, ट्रैफिक और कमरे की गूँज जैसा ज़्यादातर बैकग्राउंड शोर हटाता है और आपकी आवाज़ साफ़ रखता है। वॉइस नोट तुरंत तैयार होता है और बैटरी कम खर्च होती है। रोज़ की चैट के लिए बढ़िया।",
+    "Tez aur halka. Pankhe, traffic aur kamre ki goonj jaisa zyada tar background shor hatata hai aur aapki awaaz saaf rakhta hai. Voice note turant ready hota hai aur battery kam kharch hoti hai. Roz ki chat ke liye badhiya.",
+    "Rápido y ligero. Quita la mayor parte del ruido de fondo, como ventiladores, tráfico y eco de la habitación, y mantiene tu voz clara. Tu nota de voz está lista al instante y gasta menos batería. Ideal para chats de todos los días.",
+    "Rápido e leve. Remove a maior parte do ruído de fundo, como ventiladores, trânsito e eco do ambiente, e mantém sua voz clara. Seu áudio fica pronto num instante e gasta menos bateria. Ótimo para conversas do dia a dia.",
+    "سريع وخفيف. يزيل معظم ضجيج الخلفية مثل المراوح والسيارات وصدى الغرفة ويُبقي صوتك واضحًا. تكون رسالتك الصوتية جاهزة في لحظات وتستهلك بطارية أقل. مناسب للمحادثات اليومية.",
+    "Cepat dan ringan. Menghilangkan sebagian besar bising latar seperti kipas, lalu lintas, dan gema ruangan, dan menjaga suara Anda tetap jernih. Pesan suara siap dalam sekejap dan hemat baterai. Cocok untuk obrolan sehari-hari.")
+add("q_high", "High Quality", "हाई क्वालिटी", "High Quality", "Calidad alta", "Qualidade alta", "جودة عالية", "Kualitas Tinggi")
+add("q_high_desc",
+    "Studio-clean sound. Removes almost all background noise, even people talking nearby, and makes your voice rich, balanced and loud enough, like a professionally recorded podcast. Takes a few seconds longer and uses a little more battery.",
+    "स्टूडियो जैसी साफ़ आवाज़। लगभग सारा बैकग्राउंड शोर हटा देता है, पास में बोलते लोगों की आवाज़ भी, और आपकी आवाज़ को भरी-पूरी, संतुलित और पर्याप्त तेज़ बनाता है, जैसे प्रोफ़ेशनल रिकॉर्ड किया गया पॉडकास्ट। कुछ सेकंड ज़्यादा लगते हैं और बैटरी थोड़ी ज़्यादा खर्च होती है।",
+    "Studio jaisi saaf awaaz. Lagbhag sara background shor hata deta hai, paas mein bolte logon ki awaaz bhi, aur aapki awaaz ko bhari-puri, balanced aur kaafi tez banata hai, bilkul professional podcast jaisi. Kuch second zyada lagte hain aur battery thodi zyada kharch hoti hai.",
+    "Sonido limpio de estudio. Elimina casi todo el ruido de fondo, incluso a personas que hablan cerca, y deja tu voz rica, equilibrada y con buen volumen, como un pódcast grabado profesionalmente. Tarda unos segundos más y gasta un poco más de batería.",
+    "Som limpo de estúdio. Remove quase todo o ruído de fundo, até pessoas falando por perto, e deixa sua voz rica, equilibrada e com bom volume, como um podcast gravado profissionalmente. Leva alguns segundos a mais e gasta um pouco mais de bateria.",
+    "صوت نقي بجودة الاستوديو. يزيل كل ضجيج الخلفية تقريبًا، حتى أحاديث الأشخاص القريبين، ويجعل صوتك غنيًا ومتوازنًا وعالي الوضوح كأنه بودكاست مسجّل باحتراف. يستغرق بضع ثوانٍ أكثر ويستهلك بطارية أكثر قليلًا.",
+    "Suara bersih ala studio. Menghilangkan hampir semua bising latar, bahkan suara orang yang berbicara di dekat Anda, dan membuat suara Anda kaya, seimbang, dan cukup keras seperti podcast rekaman profesional. Butuh beberapa detik lebih lama dan sedikit lebih boros baterai.")
+add("q_badge_free", "FREE", "फ्री", "FREE", "GRATIS", "GRÁTIS", "مجاني", "GRATIS")
+add("q_badge_pro", "PRO", "PRO", "PRO", "PRO", "PRO", "PRO", "PRO")
+add("q_selected", "Selected", "चुना हुआ", "Selected", "Seleccionado", "Selecionado", "محدد", "Dipilih")
+add("q_trial_left", "%1$d free High Quality voice notes left", "%1$d फ्री हाई क्वालिटी वॉइस नोट बचे हैं", "%1$d free High Quality voice note bache hain",
+    "Te quedan %1$d notas de voz gratis en calidad alta", "Restam %1$d áudios grátis em qualidade alta", "تبقّت %1$d رسائل صوتية مجانية بجودة عالية", "Sisa %1$d pesan suara Kualitas Tinggi gratis")
+add("q_trial_over", "Your free High Quality tries are over. Get Pro to keep using it.", "आपके फ्री हाई क्वालिटी नोट खत्म हो गए। इसे चलाते रहने के लिए Pro लें।",
+    "Aapke free High Quality note khatam ho gaye. Chalate rehne ke liye Pro lein.", "Se acabaron tus pruebas gratis de calidad alta. Obtén Pro para seguir usándola.",
+    "Suas tentativas grátis de qualidade alta acabaram. Assine o Pro para continuar usando.", "انتهت تجاربك المجانية بالجودة العالية. اشترك في Pro لمواصلة استخدامها.",
+    "Percobaan gratis Kualitas Tinggi sudah habis. Berlangganan Pro untuk terus memakainya.")
+add("q_pro_active", "Pro is active — High Quality is unlocked.", "Pro चालू है — हाई क्वालिटी अनलॉक है।", "Pro active hai — High Quality unlock hai.",
+    "Pro está activo: la calidad alta está desbloqueada.", "O Pro está ativo — a qualidade alta está liberada.", "اشتراك Pro فعّال — الجودة العالية مفتوحة.", "Pro aktif — Kualitas Tinggi terbuka.")
+add("q_get_pro", "Get Pro", "Pro लें", "Pro lein", "Obtener Pro", "Assinar o Pro", "احصل على Pro", "Dapatkan Pro")
+
+# ---- Pro screen ----
+add("pro_title", "AuraMic Pro", "AuraMic Pro", "AuraMic Pro", "AuraMic Pro", "AuraMic Pro", "AuraMic Pro", "AuraMic Pro")
+add("pro_subtitle", "Studio-clean voice notes, every time.", "हर बार स्टूडियो जैसे साफ़ वॉइस नोट।", "Har baar studio jaise saaf voice note.",
+    "Notas de voz limpias como de estudio, siempre.", "Áudios limpos como de estúdio, sempre.", "رسائل صوتية نقية كالاستوديو في كل مرة.", "Pesan suara bersih ala studio, setiap saat.")
+add("pro_b1", "High Quality cleaning on every voice note", "हर वॉइस नोट पर हाई क्वालिटी सफ़ाई", "Har voice note par High Quality safai",
+    "Limpieza de calidad alta en cada nota de voz", "Limpeza em qualidade alta em todos os áudios", "تنقية بجودة عالية لكل رسالة صوتية", "Pembersihan Kualitas Tinggi di setiap pesan suara")
+add("pro_b2", "Your voice sounds rich, clear and professional", "आपकी आवाज़ भरी-पूरी, साफ़ और प्रोफ़ेशनल लगती है", "Aapki awaaz bhari-puri, saaf aur professional lagti hai",
+    "Tu voz suena rica, clara y profesional", "Sua voz soa rica, clara e profissional", "يبدو صوتك غنيًا وواضحًا واحترافيًا", "Suara Anda terdengar kaya, jernih, dan profesional")
+add("pro_b3", "Works fully offline — your voice never leaves your phone", "पूरी तरह ऑफ़लाइन — आपकी आवाज़ फ़ोन से बाहर नहीं जाती",
+    "Poori tarah offline — aapki awaaz phone se bahar nahi jaati", "Funciona sin conexión: tu voz nunca sale de tu teléfono",
+    "Funciona totalmente offline — sua voz nunca sai do celular", "يعمل بدون إنترنت — صوتك لا يغادر هاتفك أبدًا", "Berfungsi sepenuhnya offline — suara Anda tidak pernah keluar dari ponsel")
+add("pro_b4", "Cancel any time in Google Play", "Google Play में कभी भी रद्द करें", "Google Play mein kabhi bhi cancel karein",
+    "Cancela cuando quieras en Google Play", "Cancele quando quiser no Google Play", "ألغِ في أي وقت من Google Play", "Batalkan kapan saja di Google Play")
+add("pro_monthly", "Monthly", "मासिक", "Monthly", "Mensual", "Mensal", "شهري", "Bulanan")
+add("pro_yearly", "Yearly", "वार्षिक", "Yearly", "Anual", "Anual", "سنوي", "Tahunan")
+add("pro_best", "Best value", "सबसे किफ़ायती", "Sabse kifayati", "Mejor valor", "Melhor custo-benefício", "الأفضل قيمة", "Paling hemat")
+add("pro_per_month", "per month", "प्रति माह", "per month", "al mes", "por mês", "شهريًا", "per bulan")
+add("pro_per_year", "per year", "प्रति वर्ष", "per year", "al año", "por ano", "سنويًا", "per tahun")
+add("pro_subscribe", "Subscribe", "सब्सक्राइब करें", "Subscribe karein", "Suscribirme", "Assinar", "اشترك", "Berlangganan")
+add("pro_free", "Continue with free Medium Quality", "फ्री मीडियम क्वालिटी के साथ जारी रखें", "Free Medium Quality ke saath chalu rakhein",
+    "Seguir con la calidad media gratis", "Continuar com a qualidade média grátis", "المتابعة بالجودة المتوسطة المجانية", "Lanjut dengan Kualitas Sedang gratis")
+add("pro_restore", "Restore purchase", "खरीदारी बहाल करें", "Purchase restore karein", "Restaurar compra", "Restaurar compra", "استعادة الشراء", "Pulihkan pembelian")
+add("pro_manage", "Manage subscription", "सब्सक्रिप्शन मैनेज करें", "Subscription manage karein", "Administrar suscripción", "Gerenciar assinatura", "إدارة الاشتراك", "Kelola langganan")
+add("pro_unavailable", "Google Play isn't available right now. Check your internet connection and try again.", "Google Play अभी उपलब्ध नहीं है। इंटरनेट जाँचकर फिर कोशिश करें।",
+    "Google Play abhi available nahi hai. Internet check karke dobara try karein.", "Google Play no está disponible ahora. Revisa tu conexión a internet e inténtalo de nuevo.",
+    "O Google Play não está disponível agora. Verifique sua internet e tente de novo.", "متجر Google Play غير متاح الآن. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.",
+    "Google Play tidak tersedia saat ini. Periksa koneksi internet lalu coba lagi.")
+add("pro_active_title", "You're a Pro member 🎉", "आप Pro सदस्य हैं 🎉", "Aap Pro member hain 🎉", "Eres miembro Pro 🎉", "Você é membro Pro 🎉", "أنت عضو Pro 🎉", "Anda anggota Pro 🎉")
+
+# ---- in-app update ----
+add("upd_title", "New version available", "नया वर्ज़न उपलब्ध है", "Naya version available hai", "Nueva versión disponible", "Nova versão disponível", "إصدار جديد متاح", "Versi baru tersedia")
+add("upd_btn", "Update", "अपडेट करें", "Update karein", "Actualizar", "Atualizar", "تحديث", "Perbarui")
+add("upd_downloading", "Downloading update…", "अपडेट डाउनलोड हो रहा है…", "Update download ho raha hai…", "Descargando actualización…", "Baixando atualização…", "جارٍ تنزيل التحديث…", "Mengunduh pembaruan…")
+add("upd_ready", "Update is ready", "अपडेट तैयार है", "Update ready hai", "La actualización está lista", "A atualização está pronta", "التحديث جاهز", "Pembaruan siap")
+add("upd_restart", "Restart", "रीस्टार्ट", "Restart karein", "Reiniciar", "Reiniciar", "إعادة التشغيل", "Mulai ulang")
+add("set_check_update", "Check for updates", "अपडेट जाँचें", "Update check karein", "Buscar actualizaciones", "Buscar atualizações", "التحقق من التحديثات", "Periksa pembaruan")
+add("upd_latest", "You have the latest version", "आपके पास नया वर्ज़न है", "Aapke paas latest version hai", "Tienes la última versión", "Você está na versão mais recente", "لديك أحدث إصدار", "Anda memakai versi terbaru")
+
+# ---- plain-language rewrites ----
+add("set_battery", "Keep AuraMic running", "AuraMic को चालू रखें", "AuraMic ko chalu rakhein", "Mantener AuraMic activo", "Manter o AuraMic ativo", "إبقاء AuraMic يعمل", "Jaga AuraMic tetap aktif")
+add("set_diag", "Copy support info", "सपोर्ट जानकारी कॉपी करें", "Support info copy karein", "Copiar información para soporte", "Copiar informações para o suporte", "نسخ معلومات الدعم", "Salin info dukungan")
+add("set_diag_desc", "Having trouble with auto-send? Copy this and send it to our support team.", "ऑटो-सेंड में दिक्कत है? इसे कॉपी करके हमारी सपोर्ट टीम को भेजें।",
+    "Auto-send mein dikkat hai? Ise copy karke hamari support team ko bhejein.", "¿Problemas con el envío automático? Cópialo y envíalo a soporte.",
+    "Problemas com o envio automático? Copie e envie ao suporte.", "مشكلة في الإرسال التلقائي؟ انسخ هذا وأرسله إلى فريق الدعم.", "Ada masalah dengan kirim otomatis? Salin ini dan kirim ke tim dukungan.")
+add("set_auto_send", "Send automatically", "अपने-आप भेजें", "Apne-aap bhejein", "Enviar automáticamente", "Enviar automaticamente", "إرسال تلقائي", "Kirim otomatis")
+add("set_auto_send_desc", "Sends the voice note for you as soon as it is clean.", "वॉइस नोट साफ़ होते ही अपने-आप भेज देता है।", "Voice note saaf hote hi apne-aap bhej deta hai.",
+    "Envía la nota de voz por ti en cuanto está limpia.", "Envia o áudio por você assim que ficar limpo.", "يرسل الرسالة الصوتية عنك فور تنظيفها.", "Mengirim pesan suara untuk Anda begitu selesai dibersihkan.")
+add("set_haptics", "Vibration", "वाइब्रेशन", "Vibration", "Vibración", "Vibração", "الاهتزاز", "Getar")
+add("set_overlay", "Floating mic", "फ्लोटिंग माइक", "Floating mic", "Micrófono flotante", "Microfone flutuante", "الميكروفون العائم", "Mikrofon melayang")
+add("lab_original", "Before (your voice as recorded)", "पहले (आपकी रिकॉर्ड की आवाज़)", "Pehle (aapki record ki hui awaaz)", "Antes (tu voz tal como se grabó)", "Antes (sua voz como foi gravada)", "قبل (صوتك كما سُجّل)", "Sebelum (suara Anda apa adanya)")
+add("lab_clean", "After (noise removed)", "बाद में (शोर हटा हुआ)", "Baad mein (shor hata hua)", "Después (sin ruido)", "Depois (sem ruído)", "بعد (دون ضجيج)", "Sesudah (bising dihapus)")
+add("lab_done", "Done! Listen to the difference.", "हो गया! फ़र्क सुनें।", "Ho gaya! Farak suniye.", "¡Listo! Escucha la diferencia.", "Pronto! Ouça a diferença.", "تم! استمع إلى الفرق.", "Selesai! Dengarkan bedanya.")
+add("lab_info", "Cleaned in %1$.1f seconds", "%1$.1f सेकंड में साफ़ किया", "%1$.1f second mein saaf kiya", "Limpiado en %1$.1f segundos", "Limpo em %1$.1f segundos", "تم التنظيف خلال %1$.1f ثانية", "Dibersihkan dalam %1$.1f detik")
+add("home_stat_minutes", "Minutes of voice cleaned", "साफ़ की गई आवाज़ के मिनट", "Saaf ki gayi awaaz ke minutes", "Minutos de voz limpiados", "Minutos de voz limpos", "دقائق صوت تم تنظيفها", "Menit suara dibersihkan")
+add("home_open_whatsapp", "Open WhatsApp", "WhatsApp खोलें", "WhatsApp kholein", "Abrir WhatsApp", "Abrir o WhatsApp", "افتح واتساب", "Buka WhatsApp")
+add("home_whatsapp_missing", "WhatsApp is not installed on this phone.", "इस फ़ोन में WhatsApp इंस्टॉल नहीं है।", "Is phone mein WhatsApp install nahi hai.",
+    "WhatsApp no está instalado en este teléfono.", "O WhatsApp não está instalado neste celular.", "واتساب غير مثبّت على هذا الهاتف.", "WhatsApp belum terpasang di ponsel ini.")
+add("tour_t6_body", "A few quick permissions make this work. Everything stays on your phone.", "कुछ ज़रूरी अनुमतियों से यह काम करता है। सब कुछ आपके फ़ोन पर ही रहता है।",
+    "Kuch zaroori permissions se yeh kaam karta hai. Sab kuch aapke phone par hi rehta hai.", "Unos pocos permisos hacen que funcione. Todo se queda en tu teléfono.",
+    "Algumas permissões fazem isso funcionar. Tudo fica no seu celular.", "بضع أذونات سريعة تجعل هذا يعمل. كل شيء يبقى على هاتفك.", "Beberapa izin singkat membuatnya berfungsi. Semua tetap di ponsel Anda.")
+add("tour_p2_body", "This one taps Send in WhatsApp after your voice note is clean.", "यह आपका वॉइस नोट साफ़ होने के बाद WhatsApp में Send दबाता है।",
+    "Yeh aapka voice note saaf hone ke baad WhatsApp mein Send dabata hai.", "Este toca Enviar en WhatsApp cuando tu nota de voz está limpia.",
+    "Este toca em Enviar no WhatsApp quando seu áudio está limpo.", "هذا يضغط على إرسال في واتساب بعد تنظيف رسالتك الصوتية.", "Ini menekan Kirim di WhatsApp setelah pesan suara Anda bersih.")
+add("perm_usage_title", "Know when WhatsApp is open", "पता चले कि WhatsApp खुला है", "Pata chale ki WhatsApp khula hai", "Saber cuándo WhatsApp está abierto", "Saber quando o WhatsApp está aberto", "معرفة متى يكون واتساب مفتوحًا", "Tahu saat WhatsApp terbuka")
+add("perm_usage_body", "So the mic shows only inside WhatsApp. Android calls this “Usage access”.", "ताकि माइक सिर्फ़ WhatsApp के अंदर दिखे। Android इसे “Usage access” कहता है।",
+    "Taaki mic sirf WhatsApp ke andar dikhe. Android ise “Usage access” kehta hai.", "Para que el micrófono salga solo dentro de WhatsApp. Android lo llama “Acceso de uso”.",
+    "Para o microfone aparecer só dentro do WhatsApp. O Android chama isso de “Acesso de uso”.", "ليظهر الميكروفون داخل واتساب فقط. يسمّيه أندرويد «الوصول إلى الاستخدام».",
+    "Agar mikrofon hanya muncul di WhatsApp. Android menyebutnya “Akses penggunaan”.")
+add("perm_access_title", "Auto-send", "ऑटो-सेंड", "Auto-send", "Envío automático", "Envio automático", "الإرسال التلقائي", "Kirim otomatis")
+add("perm_access_body", "Taps Send for you once your voice note is clean. Android calls this “Accessibility”.", "वॉइस नोट साफ़ होने पर आपके लिए Send दबाता है। Android इसे “Accessibility” कहता है।",
+    "Voice note saaf hone par aapke liye Send dabata hai. Android ise “Accessibility” kehta hai.", "Toca Enviar por ti cuando tu nota está limpia. Android lo llama “Accesibilidad”.",
+    "Toca em Enviar por você quando o áudio está limpo. O Android chama isso de “Acessibilidade”.", "يضغط إرسال نيابةً عنك بعد تنظيف الرسالة. يسمّيه أندرويد «إمكانية الوصول».",
+    "Menekan Kirim untuk Anda setelah pesan suara bersih. Android menyebutnya “Aksesibilitas”.")
+
+
 def esc(v: str) -> str:
     v = escape(v).replace("\\", "\\\\").replace("'", "\\'").replace('"', '\\"').replace("\n", "\\n")
     if v.startswith("@") or v.startswith("?"):

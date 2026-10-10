@@ -85,7 +85,7 @@ class OverlayService : Service() {
             }
         }
         scope.launch {
-            val targets = settingsRepo.settings.map { s -> s.enabledApps.flatMap { it.packages }.toSet() }.distinctUntilChanged()
+            val targets = kotlinx.coroutines.flow.flowOf(com.kaafisir.auramic.domain.model.ChatApp.allPackages)
             combine(detector.foregroundPackage, targets) { pkg, set -> pkg?.takeIf { it in set } }
                 .distinctUntilChanged()
                 .collect { pkg ->

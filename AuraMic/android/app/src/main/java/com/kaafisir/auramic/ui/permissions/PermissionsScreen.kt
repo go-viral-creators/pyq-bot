@@ -250,29 +250,31 @@ fun PermissionsScreen(
 private fun PermissionCard(ui: PermUi, granted: Boolean, onAllow: () -> Unit, modifier: Modifier = Modifier) {
     val border by animateColorAsState(if (granted) AuraMint.copy(alpha = 0.6f) else MaterialTheme.colorScheme.outlineVariant, label = "border")
     AuraCard(modifier, borderBrush = androidx.compose.ui.graphics.SolidColor(border)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+        // Icon + text get the full width; the button sits below so nothing is squeezed or wrapped awkwardly.
+        Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
             IconBadge(ui.icon, ui.tint)
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(stringResource(ui.title), style = MaterialTheme.typography.titleMedium)
-                    Text(
-                        stringResource(if (ui.required) R.string.perm_required else R.string.perm_optional),
-                        fontSize = 10.sp, color = if (ui.required) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(50))
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                            .padding(horizontal = 8.dp, vertical = 2.dp),
-                    )
-                }
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(stringResource(ui.title), style = MaterialTheme.typography.titleMedium)
+                Text(
+                    stringResource(if (ui.required) R.string.perm_required else R.string.perm_optional),
+                    fontSize = 11.sp, maxLines = 1, softWrap = false,
+                    color = if (ui.required) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .padding(horizontal = 9.dp, vertical = 3.dp),
+                )
                 Text(stringResource(ui.body), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             if (granted) {
                 Box(Modifier.size(30.dp).clip(CircleShape).background(AuraMint), contentAlignment = Alignment.Center) {
                     Icon(Icons.Rounded.Check, stringResource(R.string.perm_granted), tint = Color.White, modifier = Modifier.size(18.dp))
                 }
-            } else {
-                GradientButton(stringResource(R.string.perm_allow), onAllow, Modifier, brush = AuraGradient)
             }
+        }
+        if (!granted) {
+            Spacer(Modifier.height(14.dp))
+            GradientButton(stringResource(R.string.perm_allow), onAllow, Modifier.fillMaxWidth(), brush = AuraGradient)
         }
     }
 }

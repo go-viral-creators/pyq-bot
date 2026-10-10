@@ -1,6 +1,8 @@
 package com.kaafisir.auramic.ui.home
 
 import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
@@ -28,6 +30,7 @@ import androidx.compose.material.icons.rounded.PowerSettingsNew
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Science
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material.icons.rounded.WorkspacePremium
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -52,6 +55,9 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kaafisir.auramic.R
+import com.kaafisir.auramic.data.update.UpdateState
+import com.kaafisir.auramic.ui.pro.ProViewModel
+import com.kaafisir.auramic.ui.pro.UpdateBanner
 import com.kaafisir.auramic.ui.components.AuraBubble
 import com.kaafisir.auramic.ui.components.AuraCard
 import com.kaafisir.auramic.ui.components.BubbleVisual
@@ -73,8 +79,12 @@ fun HomeScreen(
     onLab: () -> Unit,
     onSettings: () -> Unit,
     onReplayTour: () -> Unit,
+    onOpenPro: () -> Unit,
     vm: HomeViewModel = hiltViewModel(),
+    proVm: ProViewModel = hiltViewModel(),
 ) {
+    val pro by proVm.ui.collectAsStateWithLifecycle()
+    val updateLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {}
     val ui by vm.ui.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val startActivity = rememberStartActivity()
@@ -163,7 +173,7 @@ fun HomeScreen(
                         Spacer(Modifier.height(10.dp))
                         OutlinedButton(
                             onClick = {
-                                val launch = ui.settings.enabledApps.flatMap { it.packages }
+                                val launch = com.kaafisir.auramic.domain.model.ChatApp.entries.flatMap { it.packages }
                                     .firstNotNullOfOrNull { p -> runCatching { context.packageManager.getLaunchIntentForPackage(p) }.getOrNull() }
                                 if (launch != null) startActivity(launch)
                                 else Toast.makeText(context, R.string.home_whatsapp_missing, Toast.LENGTH_LONG).show()
@@ -171,6 +181,28 @@ fun HomeScreen(
                             modifier = Modifier.fillMaxWidth(),
                         ) { Text(stringResource(R.string.home_open_whatsapp), color = Color.White) }
                     }
+                }
+            }
+        }
+
+        // ---- update + Pro --------------------------------------------------------------------------
+        if (pro.update != UpdateState.NONE) {
+            Spacer(Modifier.height(16.dp))
+            UpdateBanner(pro.update, onUpdate = { proVm.startUpdate(updateLauncher) }, onRestart = proVm::installUpdate)
+        }
+        if (!pro.pro.subscribed) {
+            Spacer(Modifier.height(16.dp))
+            AuraCard(onClick = onOpenPro) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                    IconBadge(Icons.Rounded.WorkspacePremium, com.kaafisir.auramic.ui.theme.AuraAmber)
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.pro_title), style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            if (pro.pro.trialLeft > 0) stringResource(R.string.q_trial_left, pro.pro.trialLeft) else stringResource(R.string.q_trial_over),
+                            style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    Icon(Icons.AutoMirrored.Rounded.KeyboardArrowRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }

@@ -1,30 +1,39 @@
 package com.kaafisir.auramic.domain
 
 import com.kaafisir.auramic.domain.model.ChatApp
-import com.kaafisir.auramic.domain.model.UserSettings
-import com.kaafisir.auramic.domain.model.attenuationDb
-import com.kaafisir.auramic.domain.model.toEnhanceOptions
+import com.kaafisir.auramic.domain.model.EnhanceEngine
+import com.kaafisir.auramic.domain.model.EnhanceOptions
+import com.kaafisir.auramic.domain.model.Quality
+import com.kaafisir.auramic.domain.model.SilenceCut
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SettingsMappingTest {
-    @Test fun strengthMapsToAttenuation() {
-        assertEquals(100f, UserSettings(noiseStrength = 1.0f).attenuationDb(), 0f)
-        assertEquals(6f, UserSettings(noiseStrength = 0.2f).attenuationDb(), 0.01f)
-        assertTrue(UserSettings(noiseStrength = 0.6f).attenuationDb() in 30f..50f)
+    @Test fun strengthIsInTheNinetyFiveToNinetyNineBand() {
+        assertTrue(EnhanceOptions.STRENGTH in 0.95f..0.99f)
     }
 
-    @Test fun defaultsAreStudioGrade() {
-        val o = UserSettings().toEnhanceOptions()
-        assertEquals(-16f, o.targetLufs, 0f); assertEquals(100f, o.attenuationDb, 0f); assertEquals(0f, o.keepBackground, 0f)
+    @Test fun highQualityUsesTheAiCleanerAndMediumTheFastOne() {
+        assertEquals(EnhanceEngine.AI, EnhanceOptions.forQuality(Quality.HIGH).engine)
+        assertEquals(EnhanceEngine.CLASSIC, EnhanceOptions.forQuality(Quality.MEDIUM).engine)
     }
 
-    @Test fun chatAppsResolvePackages() {
-        assertEquals(ChatApp.TELEGRAM, ChatApp.forPackage("org.telegram.messenger.web"))
+    @Test fun backgroundIsFullyRemovedAndNothingIsCutForBothQualities() {
+        for (q in Quality.entries) {
+            val o = EnhanceOptions.forQuality(q)
+            assertEquals(0f, o.keepBackground, 0f)
+            assertEquals(SilenceCut.OFF, o.silenceCut)
+            assertEquals(-16f, o.targetLufs, 0f)
+            assertEquals(EnhanceOptions.ATTENUATION_DB, o.attenuationDb, 0f)
+        }
+    }
+
+    @Test fun onlyWhatsAppIsSupported() {
+        assertEquals(setOf(ChatApp.WHATSAPP, ChatApp.WHATSAPP_BUSINESS), ChatApp.entries.toSet())
         assertEquals(ChatApp.WHATSAPP_BUSINESS, ChatApp.forPackage("com.whatsapp.w4b"))
-        assertNull(ChatApp.forPackage("com.example.other"))
-        assertTrue(ChatApp.INSTAGRAM.experimental && ChatApp.INSTAGRAM !in ChatApp.defaults)
+        assertNull(ChatApp.forPackage("org.telegram.messenger"))
+        assertNull(ChatApp.forPackage("com.instagram.android"))
     }
 }

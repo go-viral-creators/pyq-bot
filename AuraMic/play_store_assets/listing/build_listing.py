@@ -12,14 +12,14 @@ ROOT = pathlib.Path(__file__).resolve().parent
 LIMITS = {"title": 30, "short_description": 80, "full_description": 4000}
 
 DISCLAIMER_EN = ("AuraMic AI is an independent app. It is not affiliated with, endorsed by or sponsored by "
-                 "WhatsApp LLC or Meta Platforms, Inc. WhatsApp is a trademark of WhatsApp LLC.")
+                 "WhatsApp LLC or Meta Platforms, Inc. WhatsApp is a trademark of WhatsApp LLC. Telegram and Instagram are trademarks of their respective owners.")
 
 L = {}
 
 # --------------------------------------------------------------------------------------------
 L["en-US"] = dict(
     title="AuraMic AI: Voice Note Cleaner",
-    short_description="Floating mic for WhatsApp: AI noise removal, studio-clear voice notes, auto-send",
+    short_description="Floating mic for WhatsApp & Telegram: AI noise removal, podcast-clear voice",
     full_description="""Studio-quality voice notes, anywhere. AuraMic AI puts a floating mic on top of WhatsApp: hold it, speak, let go — the background noise is removed by on-device AI and your voice note is sent for you.
 
 Stop re-recording because of traffic, fans, crowds or a noisy café. AuraMic AI is a voice note cleaner and background noise remover that works in real time, right on your phone.
@@ -42,11 +42,18 @@ Stop re-recording because of traffic, fans, crowds or a noisy café. AuraMic AI 
 • Quick Settings tile to switch AuraMic on or off in one tap.
 • 7 languages: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
+★ PODCAST-GRADE CLEANUP
+• DeepFilterNet3 AI (full-band 48 kHz) runs on your phone via ONNX Runtime: studio-style voice isolation, typically 10–30× faster than real time.
+• Podcast polish: EQ, de-esser, compressor and −16 LUFS loudness mastering with a look-ahead limiter.
+• Auto-cut silence: shorten long pauses and trim the start and end (Gentle or Tight).
+• Separate the background: listen to the removed noise on its own, or keep a little ambience.
+• Works in WhatsApp, WhatsApp Business and Telegram; Instagram is experimental (the note is saved for you to attach).
+
 ★ PERMISSIONS — WHY WE ASK
 • Display over other apps: to show the floating mic on top of WhatsApp.
 • Microphone: to record while you hold the button.
 • Usage access: to know when WhatsApp is open, so the mic only appears there.
-• Accessibility service: used ONLY to tap WhatsApp's Send button (and choose the chat you were in) after your voice note is ready. It works only inside WhatsApp / WhatsApp Business and does not read, store or share your messages or personal data. You will see a clear disclosure before enabling it.
+• Accessibility service: used ONLY to tap WhatsApp's Send button (and choose the chat you were in) after your voice note is ready. It works only inside WhatsApp / WhatsApp Business / Telegram / Instagram and does not read, store or share your messages or personal data. You will see a clear disclosure before enabling it.
 • Notifications: shows a small status notification while AuraMic is on.
 
 ★ PRIVACY FIRST
@@ -87,11 +94,18 @@ Traffic, pankha, bheed ya noisy café ki wajah se baar-baar record karna band. A
 • Haptic feedback, smooth animation, light aur dark theme.
 • 7 bhasha: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
+★ PODCAST-GRADE SAFAI
+• DeepFilterNet3 AI (full-band 48 kHz) seedha phone par chalta hai: studio jaisi voice isolation, real-time se 10–30× tez.
+• Podcast polish: EQ, de-esser, compressor aur −16 LUFS loudness mastering.
+• Auto-cut silence: lambe pauses chhote karo, shuruaat aur ant trim karo (Gentle ya Tight).
+• Background alag karo: hataya hua noise alag se suno, ya thoda ambience rakho.
+• WhatsApp, WhatsApp Business aur Telegram mein chalta hai; Instagram experimental hai (note save ho jata hai, aap attach karein).
+
 ★ PERMISSIONS — KYUN MAANGTE HAIN
 • Display over other apps: WhatsApp ke upar floating mic dikhane ke liye.
 • Microphone: button dabane tak record karne ke liye.
 • Usage access: pata karne ke liye ki WhatsApp khula hai, taaki mic sirf wahin dikhe.
-• Accessibility service: SIRF voice note taiyaar hone ke baad WhatsApp ka Send button dabane (aur wahi chat chunne) ke liye. Yeh sirf WhatsApp / WhatsApp Business mein kaam karti hai; aapke messages ya personal data ko na padhti hai, na save karti hai, na share karti hai. Enable karne se pehle saaf disclosure dikhaya jata hai.
+• Accessibility service: SIRF voice note taiyaar hone ke baad WhatsApp ka Send button dabane (aur wahi chat chunne) ke liye. Yeh sirf WhatsApp / WhatsApp Business / Telegram / Instagram mein kaam karti hai; aapke messages ya personal data ko na padhti hai, na save karti hai, na share karti hai. Enable karne se pehle saaf disclosure dikhaya jata hai.
 • Notifications: AuraMic on hone par chhota status notification.
 
 ★ PRIVACY PEHLE
@@ -99,7 +113,7 @@ Aapki awaaz phone se bahar nahi jati. Hum audio, messages, contacts ya koi perso
 
 Madad chahiye? support@fireclashpro.com
 
-AuraMic AI ek independent app hai. Ismein WhatsApp LLC ya Meta Platforms, Inc. ka koi affiliation, endorsement ya sponsorship nahi hai. WhatsApp, WhatsApp LLC ka trademark hai.""",
+AuraMic AI ek independent app hai. Ismein WhatsApp LLC ya Meta Platforms, Inc. ka koi affiliation, endorsement ya sponsorship nahi hai. WhatsApp, WhatsApp LLC ka trademark hai. Telegram aur Instagram apne-apne maalikon ke trademark hain.""",
 )
 
 # --------------------------------------------------------------------------------------------
@@ -125,11 +139,18 @@ L["hi-IN"] = dict(
 • छोटी, WhatsApp-फ्रेंडली फ़ाइलें (AAC/M4A, या Android 10+ पर Opus)।
 • 7 भाषाएँ: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia।
 
+★ पॉडकास्ट-ग्रेड सफ़ाई
+• DeepFilterNet3 AI (फुल-बैंड 48 kHz) सीधे आपके फ़ोन पर चलता है: स्टूडियो जैसी आवाज़, रियल-टाइम से 10–30× तेज़।
+• पॉडकास्ट पॉलिश: EQ, डी-एसर, कम्प्रेसर और −16 LUFS लाउडनेस मास्टरिंग।
+• चुप्पी अपने-आप काटें: लंबे विराम छोटे करें, शुरुआत और अंत ट्रिम करें (हल्का या सख़्त)।
+• बैकग्राउंड अलग करें: हटाया गया शोर अलग सुनें, या थोड़ा माहौल रखें।
+• WhatsApp, WhatsApp Business और Telegram में काम करता है; Instagram प्रायोगिक है (नोट सहेजा जाता है, आप जोड़ें)।
+
 ★ अनुमतियाँ — हम क्यों माँगते हैं
 • अन्य ऐप्स के ऊपर दिखाना: WhatsApp के ऊपर फ्लोटिंग माइक दिखाने के लिए।
 • माइक्रोफ़ोन: बटन दबाने तक रिकॉर्ड करने के लिए।
 • यूसेज एक्सेस: यह जानने के लिए कि WhatsApp खुला है, ताकि माइक सिर्फ़ वहीं दिखे।
-• एक्सेसिबिलिटी सेवा: सिर्फ़ वॉइस नोट तैयार होने के बाद WhatsApp का Send बटन दबाने (और वही चैट चुनने) के लिए। यह केवल WhatsApp / WhatsApp Business में काम करती है; आपके संदेश या निजी डेटा को न पढ़ती है, न सहेजती है, न साझा करती है। चालू करने से पहले स्पष्ट सूचना दिखाई जाती है।
+• एक्सेसिबिलिटी सेवा: सिर्फ़ वॉइस नोट तैयार होने के बाद WhatsApp का Send बटन दबाने (और वही चैट चुनने) के लिए। यह केवल WhatsApp / WhatsApp Business / Telegram / Instagram में काम करती है; आपके संदेश या निजी डेटा को न पढ़ती है, न सहेजती है, न साझा करती है। चालू करने से पहले स्पष्ट सूचना दिखाई जाती है।
 • सूचनाएँ: AuraMic चालू होने पर छोटी स्टेटस सूचना।
 
 ★ पहले गोपनीयता
@@ -137,7 +158,7 @@ L["hi-IN"] = dict(
 
 मदद चाहिए? support@fireclashpro.com
 
-AuraMic AI एक स्वतंत्र ऐप है। इसका WhatsApp LLC या Meta Platforms, Inc. से कोई संबंध, समर्थन या प्रायोजन नहीं है। WhatsApp, WhatsApp LLC का ट्रेडमार्क है।""",
+AuraMic AI एक स्वतंत्र ऐप है। इसका WhatsApp LLC या Meta Platforms, Inc. से कोई संबंध, समर्थन या प्रायोजन नहीं है। WhatsApp, WhatsApp LLC का ट्रेडमार्क है। Telegram और Instagram अपने-अपने स्वामियों के ट्रेडमार्क हैं।""",
 )
 
 # --------------------------------------------------------------------------------------------
@@ -164,11 +185,18 @@ Olvídate de grabar otra vez por el tráfico, un ventilador, la multitud o una c
 • Arrastra el micrófono a donde quieras; se pega al borde y recuerda su lugar.
 • 7 idiomas: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
+★ LIMPIEZA NIVEL PODCAST
+• La IA DeepFilterNet3 (banda completa de 48 kHz) funciona en tu teléfono con ONNX Runtime: aislamiento de voz de estudio, 10–30 veces más rápido que el tiempo real.
+• Pulido podcast: ecualizador, de-esser, compresor y masterización a −16 LUFS con limitador.
+• Corte automático de silencios: acorta pausas largas y recorta inicio y final (Suave o Ajustado).
+• Separa el fondo: escucha el ruido eliminado aparte o conserva algo de ambiente.
+• Funciona en WhatsApp, WhatsApp Business y Telegram; Instagram es experimental (la nota se guarda para que la adjuntes).
+
 ★ PERMISOS: POR QUÉ LOS PEDIMOS
 • Mostrar sobre otras apps: para ver el micrófono flotante sobre WhatsApp.
 • Micrófono: para grabar mientras mantienes pulsado el botón.
 • Acceso de uso: para saber cuándo WhatsApp está abierto y mostrar el micrófono solo ahí.
-• Servicio de accesibilidad: SOLO para pulsar el botón Enviar de WhatsApp (y elegir el chat en el que estabas) cuando tu nota de voz está lista. Funciona únicamente en WhatsApp / WhatsApp Business y no lee, guarda ni comparte tus mensajes ni datos personales. Verás un aviso claro antes de activarlo.
+• Servicio de accesibilidad: SOLO para pulsar el botón Enviar de WhatsApp (y elegir el chat en el que estabas) cuando tu nota de voz está lista. Funciona únicamente en WhatsApp / WhatsApp Business / Telegram / Instagram y no lee, guarda ni comparte tus mensajes ni datos personales. Verás un aviso claro antes de activarlo.
 • Notificaciones: una pequeña notificación mientras AuraMic está activo.
 
 ★ PRIVACIDAD ANTE TODO
@@ -176,7 +204,7 @@ Tu voz nunca sale del teléfono. No recopilamos audio, mensajes, contactos ni da
 
 ¿Ayuda? support@fireclashpro.com
 
-AuraMic AI es una app independiente. No está afiliada, respaldada ni patrocinada por WhatsApp LLC ni Meta Platforms, Inc. WhatsApp es una marca registrada de WhatsApp LLC.""",
+AuraMic AI es una app independiente. No está afiliada, respaldada ni patrocinada por WhatsApp LLC ni Meta Platforms, Inc. WhatsApp es una marca registrada de WhatsApp LLC. Telegram e Instagram son marcas de sus respectivos propietarios.""",
 )
 
 # --------------------------------------------------------------------------------------------
@@ -203,11 +231,18 @@ Chega de regravar por causa do trânsito, de um ventilador, da multidão ou de u
 • Arraste o microfone para onde quiser; ele gruda na borda e lembra a posição.
 • 7 idiomas: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
+★ LIMPEZA NÍVEL PODCAST
+• A IA DeepFilterNet3 (banda completa de 48 kHz) roda no seu celular com ONNX Runtime: isolamento de voz de estúdio, 10–30 vezes mais rápido que o tempo real.
+• Acabamento podcast: equalizador, de-esser, compressor e masterização em −16 LUFS com limitador.
+• Corte automático de silêncio: encurta pausas longas e apara início e fim (Suave ou Firme).
+• Separe o fundo: ouça o ruído removido à parte ou mantenha um pouco de ambiente.
+• Funciona no WhatsApp, WhatsApp Business e Telegram; o Instagram é experimental (o áudio é salvo para você anexar).
+
 ★ PERMISSÕES: POR QUE PEDIMOS
 • Sobrepor a outros apps: para mostrar o microfone flutuante sobre o WhatsApp.
 • Microfone: para gravar enquanto você segura o botão.
 • Acesso ao uso: para saber quando o WhatsApp está aberto e mostrar o microfone só lá.
-• Serviço de acessibilidade: usado SOMENTE para tocar no botão Enviar do WhatsApp (e escolher a conversa em que você estava) quando o áudio está pronto. Funciona apenas no WhatsApp / WhatsApp Business e não lê, armazena nem compartilha suas mensagens ou dados pessoais. Você verá um aviso claro antes de ativar.
+• Serviço de acessibilidade: usado SOMENTE para tocar no botão Enviar do WhatsApp (e escolher a conversa em que você estava) quando o áudio está pronto. Funciona apenas no WhatsApp / WhatsApp Business / Telegram / Instagram e não lê, armazena nem compartilha suas mensagens ou dados pessoais. Você verá um aviso claro antes de ativar.
 • Notificações: uma pequena notificação enquanto o AuraMic está ativo.
 
 ★ PRIVACIDADE EM PRIMEIRO LUGAR
@@ -215,7 +250,7 @@ Sua voz nunca sai do celular. Não coletamos áudio, mensagens, contatos nem dad
 
 Precisa de ajuda? support@fireclashpro.com
 
-O AuraMic AI é um app independente. Não é afiliado, endossado nem patrocinado pela WhatsApp LLC ou pela Meta Platforms, Inc. WhatsApp é marca registrada da WhatsApp LLC.""",
+O AuraMic AI é um app independente. Não é afiliado, endossado nem patrocinado pela WhatsApp LLC ou pela Meta Platforms, Inc. WhatsApp é marca registrada da WhatsApp LLC. Telegram e Instagram são marcas de seus respectivos proprietários.""",
 )
 
 # --------------------------------------------------------------------------------------------
@@ -242,6 +277,13 @@ L["ar"] = dict(
 • اسحب الميكروفون إلى أي مكان؛ يلتصق بالحافة ويتذكّر موضعه.
 • ٧ لغات: English، हिन्दी، Hinglish، Español، Português، العربية، Bahasa Indonesia.
 
+★ تنظيف بمستوى البودكاست
+• يعمل الذكاء الاصطناعي DeepFilterNet3 (نطاق كامل 48 kHz) على هاتفك عبر ONNX Runtime: عزل صوت بجودة الاستوديو وأسرع من الزمن الحقيقي بـ10–30 مرة.
+• لمسة بودكاست: موازنة وإزالة للصفير وضغط وضبط الجهارة عند −16 LUFS مع محدّد.
+• قصّ الصمت تلقائيًا: يقصّر الوقفات الطويلة ويقتطع البداية والنهاية (خفيف أو مشدّد).
+• افصل الخلفية: استمع إلى الضوضاء المُزالة وحدها أو احتفظ ببعض الأجواء.
+• يعمل في واتساب وواتساب للأعمال وتيليجرام؛ إنستغرام تجريبي (تُحفظ الرسالة لتقوم بإرفاقها).
+
 ★ الأذونات — لماذا نطلبها
 • العرض فوق التطبيقات الأخرى: لإظهار الميكروفون العائم فوق واتساب.
 • الميكروفون: للتسجيل أثناء الضغط على الزر.
@@ -254,7 +296,7 @@ L["ar"] = dict(
 
 هل تحتاج مساعدة؟ support@fireclashpro.com
 
-AuraMic AI تطبيق مستقل وليس تابعًا لشركة WhatsApp LLC أو Meta Platforms, Inc. ولا مدعومًا أو برعايتها. واتساب علامة تجارية لشركة WhatsApp LLC.""",
+AuraMic AI تطبيق مستقل وليس تابعًا لشركة WhatsApp LLC أو Meta Platforms, Inc. ولا مدعومًا أو برعايتها. واتساب علامة تجارية لشركة WhatsApp LLC. تيليجرام وإنستغرام علامتان تجاريتان لأصحابهما.""",
 )
 
 # --------------------------------------------------------------------------------------------
@@ -281,11 +323,18 @@ Tak perlu merekam ulang karena lalu lintas, kipas angin, keramaian, atau kafe ya
 • Seret mikrofon ke mana saja; menempel ke tepi dan mengingat posisinya.
 • 7 bahasa: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
+★ PEMBERSIHAN KELAS PODCAST
+• AI DeepFilterNet3 (full-band 48 kHz) berjalan di ponsel lewat ONNX Runtime: isolasi suara kualitas studio, 10–30 kali lebih cepat dari waktu nyata.
+• Poles podcast: EQ, de-esser, kompresor, dan mastering −16 LUFS dengan limiter.
+• Potong hening otomatis: persingkat jeda panjang dan pangkas awal serta akhir (Lembut atau Ketat).
+• Pisahkan latar: dengarkan derau yang dihapus secara terpisah atau pertahankan sedikit suasana.
+• Berfungsi di WhatsApp, WhatsApp Business, dan Telegram; Instagram eksperimental (pesan disimpan untuk Anda lampirkan).
+
 ★ IZIN — MENGAPA KAMI MEMINTANYA
 • Tampil di atas aplikasi lain: untuk menampilkan mikrofon melayang di atas WhatsApp.
 • Mikrofon: untuk merekam selama Anda menahan tombol.
 • Akses penggunaan: untuk mengetahui kapan WhatsApp terbuka agar mikrofon hanya muncul di sana.
-• Layanan Aksesibilitas: HANYA untuk menekan tombol Kirim di WhatsApp (dan memilih obrolan tempat Anda berada) setelah pesan suara siap. Hanya bekerja di WhatsApp / WhatsApp Business, dan tidak membaca, menyimpan, atau membagikan pesan maupun data pribadi Anda. Anda akan melihat pengungkapan yang jelas sebelum mengaktifkannya.
+• Layanan Aksesibilitas: HANYA untuk menekan tombol Kirim di WhatsApp (dan memilih obrolan tempat Anda berada) setelah pesan suara siap. Hanya bekerja di WhatsApp / WhatsApp Business / Telegram / Instagram, dan tidak membaca, menyimpan, atau membagikan pesan maupun data pribadi Anda. Anda akan melihat pengungkapan yang jelas sebelum mengaktifkannya.
 • Notifikasi: notifikasi status kecil saat AuraMic aktif.
 
 ★ PRIVASI NOMOR SATU
@@ -293,7 +342,7 @@ Suara Anda tidak pernah meninggalkan ponsel. Kami tidak mengumpulkan audio, pesa
 
 Butuh bantuan? support@fireclashpro.com
 
-AuraMic AI adalah aplikasi independen. Tidak berafiliasi, didukung, atau disponsori oleh WhatsApp LLC maupun Meta Platforms, Inc. WhatsApp adalah merek dagang WhatsApp LLC.""",
+AuraMic AI adalah aplikasi independen. Tidak berafiliasi, didukung, atau disponsori oleh WhatsApp LLC maupun Meta Platforms, Inc. WhatsApp adalah merek dagang WhatsApp LLC. Telegram dan Instagram adalah merek dagang pemiliknya masing-masing.""",
 )
 
 

@@ -54,6 +54,8 @@ import com.kaafisir.auramic.ui.components.BubbleVisual
 import com.kaafisir.auramic.ui.components.GradientButton
 import com.kaafisir.auramic.ui.components.GradientText
 import com.kaafisir.auramic.ui.components.IconBadge
+import com.kaafisir.auramic.domain.model.EnhanceEngine
+import com.kaafisir.auramic.ui.theme.AuraAmber
 import com.kaafisir.auramic.ui.theme.AuraCyan
 import com.kaafisir.auramic.ui.theme.AuraGradient
 import com.kaafisir.auramic.ui.theme.AuraMint
@@ -96,7 +98,7 @@ fun LabScreen(onBack: () -> Unit, vm: LabViewModel = hiltViewModel()) {
                 AuraBubble(
                     visual = when (state) {
                         LabState.Recording -> BubbleVisual.Recording
-                        LabState.Processing -> BubbleVisual.Processing
+                        is LabState.Processing -> BubbleVisual.Processing
                         is LabState.Result -> BubbleVisual.Success
                         else -> BubbleVisual.Idle
                     },
@@ -108,9 +110,9 @@ fun LabScreen(onBack: () -> Unit, vm: LabViewModel = hiltViewModel()) {
                 Text(
                     when (s) {
                         LabState.Recording -> stringResource(R.string.lab_recording)
-                        LabState.Processing -> stringResource(R.string.lab_processing)
+                        is LabState.Processing -> stringResource(R.string.lab_processing) + " " + "${(s.progress * 100).toInt()}%"
                         LabState.TooShort -> stringResource(R.string.lab_too_short)
-                        is LabState.Result -> stringResource(R.string.lab_reduction, s.reductionDb)
+                        is LabState.Result -> stringResource(if (s.engine == EnhanceEngine.AI) R.string.lab_engine_ai else R.string.lab_engine_classic)
                         LabState.Idle -> if (needMic) stringResource(R.string.lab_mic_needed) else stringResource(R.string.lab_hold)
                     },
                     style = MaterialTheme.typography.titleMedium,
@@ -120,10 +122,23 @@ fun LabScreen(onBack: () -> Unit, vm: LabViewModel = hiltViewModel()) {
             }
             Spacer(Modifier.height(24.dp))
 
-            (state as? LabState.Result)?.let {
+            (state as? LabState.Result)?.let { r ->
+                Text(
+                    stringResource(R.string.lab_info, r.processingMs / 1000f, r.speedFactor.toInt().coerceAtLeast(1)),
+                    style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center,
+                )
+                if (r.removedSilenceSeconds > 0.05f) {
+                    Text(
+                        stringResource(R.string.lab_cut, r.removedSilenceSeconds),
+                        style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center,
+                    )
+                }
+                Spacer(Modifier.height(16.dp))
                 TakeCard(stringResource(R.string.lab_original), Icons.Rounded.GraphicEq, AuraPink, playing == Take.Original) { vm.play(Take.Original) }
                 Spacer(Modifier.height(12.dp))
                 TakeCard(stringResource(R.string.lab_clean), Icons.Rounded.AutoAwesome, AuraCyan, playing == Take.Clean) { vm.play(Take.Clean) }
+                Spacer(Modifier.height(12.dp))
+                TakeCard(stringResource(R.string.lab_removed), Icons.Rounded.GraphicEq, AuraAmber, playing == Take.Removed) { vm.play(Take.Removed) }
                 Spacer(Modifier.height(20.dp))
                 GradientButton(stringResource(R.string.lab_again), { vm.reset() }, Modifier.fillMaxWidth(), icon = Icons.Rounded.Refresh, brush = AuraGradient)
             }

@@ -53,20 +53,11 @@ import com.kaafisir.auramic.ui.components.GradientText
 import com.kaafisir.auramic.ui.theme.AuraGradient
 import java.util.Locale
 
-/** Returns [base] with its resources forced to [lang] - used for the live preview. */
-private fun localized(base: Context, lang: AppLanguage): Context {
-    val cfg = Configuration(base.resources.configuration)
-    val locale = Locale.forLanguageTag(lang.tag)
-    cfg.setLocale(locale)
-    cfg.setLayoutDirection(locale)
-    return base.createConfigurationContext(cfg)
-}
-
 @Composable
 fun LanguageScreen(initial: AppLanguage, onConfirm: (AppLanguage) -> Unit) {
     var selected by rememberSaveable { mutableStateOf(initial) }
     val base = LocalContext.current
-    val preview = remember(selected) { localized(base, selected) }
+    val preview = remember(selected) { com.kaafisir.auramic.core.LocaleManager.localized(base, selected) }
 
     // Everything inside renders in the *selected* language, so tapping a card previews it live.
     CompositionLocalProvider(LocalContext provides preview, LocalConfiguration provides preview.resources.configuration) {

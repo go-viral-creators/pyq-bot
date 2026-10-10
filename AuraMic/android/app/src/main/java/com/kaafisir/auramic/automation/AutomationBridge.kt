@@ -9,7 +9,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
 
-data class SendRequest(val id: Long, val chatName: String?, val targetPackage: String)
+data class SendRequest(val id: Long, val chatName: String?, val targetPackage: String, val allowFirstRow: Boolean = false)
 
 sealed interface SendResult {
     data object Sent : SendResult
@@ -29,6 +29,9 @@ class AutomationBridge @Inject constructor() {
     /** Lets the accessibility service launch the share intent (it is exempt from background-start limits). */
     @Volatile var activityLauncher: ((Intent) -> Boolean)? = null
 
+    /** Last screen structure seen by a failed / finished flow (see [NodeDump]); copied by Settings -> Copy diagnostics. */
+    @Volatile var diagnostics: String? = null
+
     private val _connected = MutableStateFlow(false)
     val connected: StateFlow<Boolean> = _connected.asStateFlow()
     fun setConnected(value: Boolean) { _connected.value = value }
@@ -42,11 +45,11 @@ class AutomationBridge @Inject constructor() {
     fun currentChatTitle(): String? = runCatching { chatTitleProvider?.invoke() }.getOrNull()
 
     /** Posts a request for the accessibility service and suspends until it finishes or times out. */
-    suspend fun sendAndAwait(chatName: String?, targetPackage: String, timeoutMs: Long = 30_000): SendResult {
+    suspend fun sendAndAwait(chatName: String?, targetPackage: String, allowFirstRow: Boolean = false, timeoutMs: Long = 30_000): SendResult {
         val deferred = CompletableDeferred<SendResult>()
         val request = synchronized(this) {
             waiter = deferred
-            SendRequest(nextId++, chatName, targetPackage).also { _pending.value = it }
+            SendRequest(nextId++, chatName, targetPackage, allowFirstRow).also { _pending.value = it }
         }
         val result = withTimeoutOrNull(timeoutMs) { deferred.await() } ?: SendResult.Failed("timeout")
         synchronized(this) {

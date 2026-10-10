@@ -20,11 +20,18 @@ Stop re-recording because of traffic, fans, crowds or a noisy café. AuraMic AI 
 • Quick Settings tile to switch AuraMic on or off in one tap.
 • 7 languages: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
+★ PODCAST-GRADE CLEANUP
+• DeepFilterNet3 AI (full-band 48 kHz) runs on your phone via ONNX Runtime: studio-style voice isolation, typically 10–30× faster than real time.
+• Podcast polish: EQ, de-esser, compressor and −16 LUFS loudness mastering with a look-ahead limiter.
+• Auto-cut silence: shorten long pauses and trim the start and end (Gentle or Tight).
+• Separate the background: listen to the removed noise on its own, or keep a little ambience.
+• Works in WhatsApp, WhatsApp Business and Telegram; Instagram is experimental (the note is saved for you to attach).
+
 ★ PERMISSIONS — WHY WE ASK
 • Display over other apps: to show the floating mic on top of WhatsApp.
 • Microphone: to record while you hold the button.
 • Usage access: to know when WhatsApp is open, so the mic only appears there.
-• Accessibility service: used ONLY to tap WhatsApp's Send button (and choose the chat you were in) after your voice note is ready. It works only inside WhatsApp / WhatsApp Business and does not read, store or share your messages or personal data. You will see a clear disclosure before enabling it.
+• Accessibility service: used ONLY to tap WhatsApp's Send button (and choose the chat you were in) after your voice note is ready. It works only inside WhatsApp / WhatsApp Business / Telegram / Instagram and does not read, store or share your messages or personal data. You will see a clear disclosure before enabling it.
 • Notifications: shows a small status notification while AuraMic is on.
 
 ★ PRIVACY FIRST
@@ -37,4 +44,4 @@ Your voice never leaves your phone. We don't collect audio, messages, contacts o
 
 Need help? support@fireclashpro.com
 
-AuraMic AI is an independent app. It is not affiliated with, endorsed by or sponsored by WhatsApp LLC or Meta Platforms, Inc. WhatsApp is a trademark of WhatsApp LLC.
+AuraMic AI is an independent app. It is not affiliated with, endorsed by or sponsored by WhatsApp LLC or Meta Platforms, Inc. WhatsApp is a trademark of WhatsApp LLC. Telegram and Instagram are trademarks of their respective owners.

@@ -1,20 +1,23 @@
 package com.kaafisir.auramic.automation
 
 /**
- * State machine that drives WhatsApp's share screen after we fire ACTION_SEND:
+ * State machine that drives the chat app's share screen after we fire ACTION_SEND:
  *
  *   picker visible -> open the target chat (visible row -> scroll -> search) -> tap "Send".
  *
- * [step] is called repeatedly (on accessibility events and on a timer) with a fresh snapshot of
- * the active window. It is pure logic over [UiNode]/[NodeActions] so it is covered by unit tests.
+ * [step] is called repeatedly (on a timer) with a fresh snapshot of the active window. It is pure logic over
+ * [UiNode]/[NodeActions] so it is covered by unit tests.
  *
- * Safety rule: "Send" is only ever tapped after *we* selected the chat row. Without that, a
- * user's half-typed text message in a different chat could be sent by mistake.
+ * Safety rules:
+ *  - "Send" is only ever tapped after *we* selected a chat row; otherwise a user's half-typed message could be sent.
+ *  - while the original conversation is still on screen we never type or tap anything.
+ *  - [allowFirstRow] (user opt-in) picks the most recent chat when the open chat's name could not be read.
  */
 class SendFlow(
     private val chatName: String?,
     private val now: () -> Long,
     private val timeoutMs: Long = 25_000,
+    private val allowFirstRow: Boolean = false,
 ) {
     sealed interface Outcome {
         data object Continue : Outcome
@@ -24,6 +27,8 @@ class SendFlow(
 
     private val startedAt = now()
     private var chatSelected = false
+    private var rowClickedAt = 0L
+    private var rowClicks = 0
     private var typedSearch = false
     private var openedSearch = false
     private var scrolls = 0
@@ -38,38 +43,47 @@ class SendFlow(
         }
         if (root == null) return Outcome.Continue
 
-        val send = NodeFinder.sendButton(root)
+        val send = NodeFinder.sendButton(root, allowPositional = chatSelected && t - rowClickedAt > 1_200)
 
-        // ---- phase 3: Send tapped, wait for the button to go away --------------------------------
+        // ---- phase 3: Send tapped, wait for the button to go away ----------------------------------------------------
         if (sendClicks > 0) {
             if (send == null) return Outcome.Done
             if (t - sendClickedAt > 1_500) {
                 if (sendClicks >= 3) return Outcome.Failed("send did not complete")
-                actions.click(send)
+                // alternate between ACTION_CLICK and a real tap: some views only react to one of them
+                if (sendClicks % 2 == 1) actions.tap(send) else actions.click(send)
                 sendClicks++
                 sendClickedAt = t
             }
             return Outcome.Continue
         }
 
-        // ---- phase 2: chat chosen, tap Send as soon as it appears ----------------------------------
+        // ---- phase 2: chat chosen, tap Send as soon as it appears ----------------------------------------------------
         if (chatSelected) {
-            if (send != null && actions.click(send)) {
-                sendClicks = 1
-                sendClickedAt = t
+            if (send != null) {
+                if (actions.click(send)) { sendClicks = 1; sendClickedAt = t }
+                else if (actions.tap(send)) { sendClicks = 1; sendClickedAt = t }
+            } else if (t - rowClickedAt > 1_600 && rowClicks < 3) {
+                // The row click was swallowed (nothing changed): try again with a real tap on the row.
+                val row = chatName?.let { NodeFinder.chatRow(root, it) } ?: if (allowFirstRow) NodeFinder.firstRow(root) else null
+                if (row != null) { actions.tap(row); rowClicks++; rowClickedAt = t }
             }
             return Outcome.Continue
         }
 
-        // ---- phase 1: find and open the target chat ------------------------------------------------
-        if (chatName.isNullOrBlank()) return Outcome.Continue // assisted mode: the user picks, we never guess
-        if (!NodeFinder.isPicker(root) && NodeFinder.searchInput(root) == null) return Outcome.Continue // still on the chat screen
+        // ---- phase 1: find and open the target chat ------------------------------------------------------------------
+        val assisted = chatName.isNullOrBlank() && !allowFirstRow
+        if (assisted) return Outcome.Continue                      // the user picks, we never guess
+        // Still looking at the conversation we came from: wait for the share screen.
+        if (!NodeFinder.isPicker(root) && NodeFinder.hasComposer(root)) return Outcome.Continue
         stepsOnPicker++
 
-        NodeFinder.chatRow(root, chatName)?.let { row ->
-            if (actions.click(row)) chatSelected = true
+        val row = if (chatName.isNullOrBlank()) NodeFinder.firstRow(root) else NodeFinder.chatRow(root, chatName)
+        if (row != null) {
+            if (actions.click(row) || actions.tap(row)) { chatSelected = true; rowClickedAt = t; rowClicks = 1 }
             return Outcome.Continue
         }
+        if (chatName.isNullOrBlank()) return Outcome.Continue
         // Not visible: first nudge the list a couple of times (recent chats are near the top)...
         val list = NodeFinder.scrollable(root)
         if (!typedSearch && scrolls < 2 && list != null && stepsOnPicker > 1) {
@@ -89,7 +103,7 @@ class SendFlow(
         }
         if (!openedSearch) {
             NodeFinder.searchButton(root)?.let { btn ->
-                openedSearch = actions.click(btn)
+                openedSearch = actions.click(btn) || actions.tap(btn)
             }
         }
         return Outcome.Continue

@@ -21,6 +21,15 @@ object LocaleManager {
     fun saved(context: Context): AppLanguage? =
         AppLanguage.fromTag(context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY, null))
 
+    /** [base] with resources forced to [lang]; used for instant in-app language switching (no Activity recreation). */
+    fun localized(base: Context, lang: AppLanguage): Context {
+        val locale = Locale.forLanguageTag(lang.tag)
+        val config = Configuration(base.resources.configuration)
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
+        return base.createConfigurationContext(config)
+    }
+
     /** Returns a context whose resources resolve in the user's chosen language (or [base] if unset). */
     fun wrap(base: Context): Context {
         val lang = saved(base) ?: return base

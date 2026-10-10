@@ -36,7 +36,7 @@
     <string name="tour_p1_title">Toque em Permitir em cada cartão</string>
     <string name="tour_p1_body">O Android abre a tela certa; ative o AuraMic e volte. Marcaremos aqui.</string>
     <string name="tour_p2_title">A Acessibilidade envia por você</string>
-    <string name="tour_p2_body">Esta toca no botão Enviar do WhatsApp depois da limpeza. Só funciona dentro do WhatsApp.</string>
+    <string name="tour_p2_body">Esta toca em Enviar no app de chat depois da limpeza. Só funciona nos apps de chat que você ativar.</string>
     <string name="perm_title">Vamos configurar o AuraMic</string>
     <string name="perm_subtitle">Algumas permissões fazem a mágica acontecer. Seu áudio nunca sai do seu celular.</string>
     <string name="perm_overlay_title">Botão flutuante</string>
@@ -46,7 +46,7 @@
     <string name="perm_usage_title">Acesso de uso</string>
     <string name="perm_usage_body">Detecta quando o WhatsApp está aberto para a bolha aparecer só lá.</string>
     <string name="perm_access_title">Acessibilidade</string>
-    <string name="perm_access_body">Toca no botão Enviar do WhatsApp por você quando o áudio estiver limpo.</string>
+    <string name="perm_access_body">Toca em Enviar por você no app de chat quando o áudio estiver limpo.</string>
     <string name="perm_notif_title">Notificações</string>
     <string name="perm_notif_body">Necessário para o AuraMic funcionar com confiabilidade em segundo plano.</string>
     <string name="perm_battery_title">Manter ativo</string>
@@ -61,7 +61,7 @@
     <string name="perm_restricted_body">O Android bloqueia isso em apps instalados fora da Play Store. Abra Informações do app, toque no menu ⋮, escolha “Permitir configurações restritas” e tente de novo.</string>
     <string name="perm_open_app_info">Abrir info do app</string>
     <string name="disclosure_title">Aviso de acessibilidade</string>
-    <string name="disclosure_body">O AuraMic usa o Serviço de Acessibilidade do Android com um único propósito: depois que você grava um áudio, ele toca no botão Enviar dentro do WhatsApp para entregá-lo sem toques extras.\n\nFunciona apenas no WhatsApp e no WhatsApp Business. Não lê, coleta, armazena nem compartilha suas mensagens, contatos ou dados pessoais. O áudio é processado no seu dispositivo.</string>
+    <string name="disclosure_body">O AuraMic usa o Serviço de Acessibilidade do Android com um único propósito: depois que você grava um áudio, ele seleciona a conversa em que você estava e toca no botão Enviar dentro do seu app de chat (WhatsApp, WhatsApp Business, Telegram ou Instagram) para entregá-lo sem toques extras.\n\nFunciona apenas nos apps de chat que você ativar nas Configurações. Não lê, coleta, armazena nem compartilha suas mensagens, contatos ou dados pessoais. O áudio é processado no seu dispositivo.</string>
     <string name="disclosure_agree">Concordo</string>
     <string name="disclosure_decline">Agora não</string>
     <string name="home_status_on">AuraMic está ativo</string>
@@ -73,8 +73,8 @@
     <string name="home_turn_on">Ativar</string>
     <string name="home_turn_off">Desativar</string>
     <string name="home_fix_permissions">Concluir configuração</string>
-    <string name="home_open_whatsapp">Abrir WhatsApp</string>
-    <string name="home_whatsapp_missing">O WhatsApp não está instalado neste celular.</string>
+    <string name="home_open_whatsapp">Abrir app de chat</string>
+    <string name="home_whatsapp_missing">Nenhum app de chat compatível está instalado neste celular.</string>
     <string name="home_stat_notes">Áudios limpos</string>
     <string name="home_stat_minutes">Minutos aprimorados</string>
     <string name="home_lab_title">Laboratório de estúdio</string>
@@ -95,7 +95,6 @@
     <string name="lab_again">Gravar de novo</string>
     <string name="lab_too_short">Muito curto: segure um pouco mais.</string>
     <string name="lab_mic_needed">É necessária a permissão do microfone.</string>
-    <string name="lab_reduction" formatted="true">Fundo cerca de %1$d dB mais silencioso</string>
     <string name="set_title">Configurações</string>
     <string name="set_audio">Áudio</string>
     <string name="set_strength">Intensidade da redução de ruído</string>
@@ -109,7 +108,6 @@
     <string name="set_whatsapp">WhatsApp</string>
     <string name="set_auto_send">Envio automático</string>
     <string name="set_auto_send_desc">Tocar em Enviar por mim após processar.</string>
-    <string name="set_business">Funcionar também no WhatsApp Business</string>
     <string name="set_haptics">Vibração tátil</string>
     <string name="set_overlay">Botão flutuante</string>
     <string name="set_size">Tamanho do botão</string>
@@ -143,5 +141,46 @@
     <string name="notif_title">AuraMic está pronto</string>
     <string name="notif_text">O microfone flutuante aparece quando o WhatsApp está aberto.</string>
     <string name="notif_stop">Desativar</string>
-    <string name="a11y_description">O AuraMic toca no botão Enviar do WhatsApp depois que você grava um áudio com o microfone flutuante. Funciona apenas dentro do WhatsApp e nunca lê nem armazena suas mensagens.</string>
+    <string name="a11y_description">O AuraMic toca no botão Enviar do seu app de chat (WhatsApp, Telegram ou Instagram) depois que você grava um áudio com o microfone flutuante. Funciona apenas nos apps de chat que você ativar e nunca lê nem armazena suas mensagens.</string>
+    <string name="set_enhance">Melhoria de voz</string>
+    <string name="set_engine">Mecanismo de redução de ruído</string>
+    <string name="set_engine_ai">DeepFilterNet IA: qualidade de estúdio</string>
+    <string name="set_engine_classic">Clássico: o mais rápido e leve</string>
+    <string name="set_fast_mode">Modo rápido</string>
+    <string name="set_fast_mode_desc">Pula a etapa de IA mais fina: cerca de um terço mais rápido, um pouco menos de detalhe.</string>
+    <string name="set_keep_bg_value" formatted="true">Manter um pouco de ambiente: %1$d%%</string>
+    <string name="set_keep_bg_desc">0 = fundo totalmente removido (estúdio). Valores maiores trazem um pouco de volta para soar natural.</string>
+    <string name="set_preset">Acabamento de voz</string>
+    <string name="set_preset_off">Desligado</string>
+    <string name="set_preset_natural">Natural</string>
+    <string name="set_preset_podcast">Podcast</string>
+    <string name="set_preset_desc">Podcast adiciona equalização, de-esser e compressão suave para um som de rádio.</string>
+    <string name="set_loudness_target">Nível de volume</string>
+    <string name="set_loud_chat">Chat · −19 LUFS</string>
+    <string name="set_loud_podcast">Podcast · −16 LUFS</string>
+    <string name="set_loud_loud">Alto · −14 LUFS</string>
+    <string name="set_cut">Cortar silêncios automaticamente</string>
+    <string name="set_cut_off">Desligado</string>
+    <string name="set_cut_gentle">Suave</string>
+    <string name="set_cut_tight">Firme</string>
+    <string name="set_cut_desc">Encurta pausas longas e apara o início e o fim do áudio.</string>
+    <string name="set_apps">Apps de chat</string>
+    <string name="app_whatsapp">WhatsApp</string>
+    <string name="app_business">WhatsApp Business</string>
+    <string name="app_telegram">Telegram</string>
+    <string name="app_instagram">Instagram (experimental)</string>
+    <string name="set_instagram_note">O Instagram não aceita arquivos de áudio de outros apps, então os áudios são salvos em Music/AuraMic para você anexar.</string>
+    <string name="set_fallback_recent">Usar a conversa mais recente se a aberta não puder ser lida</string>
+    <string name="set_fallback_recent_desc">Desativado por padrão. Ative só se a seleção automática falhar; pode escolher outra conversa.</string>
+    <string name="set_save_copy">Salvar uma cópia em Music/AuraMic</string>
+    <string name="set_diag">Copiar diagnóstico</string>
+    <string name="set_diag_desc">Copia a estrutura da última tela de conversa (nomes abreviados) para corrigir problemas do envio automático.</string>
+    <string name="diag_copied">Copiado para a área de transferência</string>
+    <string name="diag_none">Ainda não há dados: envie um áudio primeiro.</string>
+    <string name="lab_removed">Ruído removido</string>
+    <string name="lab_info" formatted="true">Processado em %1$.1f s · %2$d× mais rápido que o tempo real</string>
+    <string name="lab_cut" formatted="true">Silêncio removido: %1$.1f s</string>
+    <string name="lab_engine_ai">Mecanismo DeepFilterNet IA</string>
+    <string name="lab_engine_classic">Mecanismo clássico</string>
+    <string name="ov_saved">Salvo em Music/AuraMic</string>
 </resources>

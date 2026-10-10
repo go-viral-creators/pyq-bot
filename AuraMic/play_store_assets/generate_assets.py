@@ -7,7 +7,7 @@
 Outputs (next to this script):
     icon/app_icon_512.png                 512x512  32-bit PNG   (Play "App icon")
     feature_graphic/feature_graphic.png   1024x500 PNG          (Play "Feature graphic")
-    screenshots/phone_01..06_*.png        1080x1920 PNG         (Play "Phone screenshots")
+    screenshots/phone_01..08_*.png        1080x1920 PNG         (Play "Phone screenshots")
 """
 import base64
 import os
@@ -17,7 +17,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent
-SHOTS = ["hold_to_record", "noise_removal", "auto_send", "privacy", "setup", "languages"]
+SHOTS = ["hold_to_record", "noise_removal", "auto_send", "privacy", "setup", "languages", "advanced_controls", "chat_apps"]
 
 
 def render(page, url, out, w, h, transparent=False):

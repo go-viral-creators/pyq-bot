@@ -36,7 +36,7 @@
     <string name="tour_p1_title">اضغط «سماح» في كل بطاقة</string>
     <string name="tour_p1_body">سيفتح أندرويد صفحة الإعدادات الصحيحة؛ فعّل AuraMic وعد إلى هنا. سنضع علامة هنا.</string>
     <string name="tour_p2_title">إمكانية الوصول ترسلها نيابةً عنك</string>
-    <string name="tour_p2_body">تضغط هذه على زر الإرسال في واتساب بعد التنظيف، وتعمل داخل واتساب فقط.</string>
+    <string name="tour_p2_body">تضغط هذه على «إرسال» في تطبيق المحادثة بعد التنظيف، وتعمل فقط داخل تطبيقات المحادثة التي تفعّلها.</string>
     <string name="perm_title">لنقم بإعداد AuraMic</string>
     <string name="perm_subtitle">بضعة أذونات تجعل السحر يعمل. صوتك لا يغادر هاتفك أبدًا.</string>
     <string name="perm_overlay_title">الزر العائم</string>
@@ -46,7 +46,7 @@
     <string name="perm_usage_title">الوصول إلى الاستخدام</string>
     <string name="perm_usage_body">يكتشف متى يكون واتساب مفتوحًا لتظهر الفقاعة هناك فقط.</string>
     <string name="perm_access_title">إمكانية الوصول</string>
-    <string name="perm_access_body">تضغط نيابةً عنك على زر الإرسال في واتساب عندما تصبح الرسالة الصوتية نظيفة.</string>
+    <string name="perm_access_body">تضغط نيابةً عنك على «إرسال» في تطبيق المحادثة عندما تصبح الرسالة الصوتية نظيفة.</string>
     <string name="perm_notif_title">الإشعارات</string>
     <string name="perm_notif_body">مطلوب لإبقاء AuraMic يعمل بثبات في الخلفية.</string>
     <string name="perm_battery_title">الاستمرار بالعمل</string>
@@ -61,7 +61,7 @@
     <string name="perm_restricted_body">يحظره أندرويد للتطبيقات المثبّتة من خارج متجر Play. افتح معلومات التطبيق، اضغط القائمة ⋮، اختر «السماح بالإعدادات المقيّدة» ثم حاول مجددًا.</string>
     <string name="perm_open_app_info">فتح معلومات التطبيق</string>
     <string name="disclosure_title">إفصاح إمكانية الوصول</string>
-    <string name="disclosure_body">يستخدم AuraMic خدمة إمكانية الوصول في أندرويد لغرض واحد فقط: بعد تسجيل رسالة صوتية، يضغط على زر الإرسال داخل واتساب لتسليمها دون نقرات إضافية.\n\nيعمل فقط داخل واتساب وواتساب للأعمال. لا يقرأ رسائلك أو جهات اتصالك أو أي بيانات شخصية ولا يجمعها أو يخزّنها أو يشاركها. تتم معالجة الصوت على جهازك.</string>
+    <string name="disclosure_body">يستخدم AuraMic خدمة إمكانية الوصول في أندرويد لغرض واحد فقط: بعد تسجيل رسالة صوتية، يختار المحادثة التي كنت فيها ويضغط على زر الإرسال داخل تطبيق المحادثة (واتساب أو واتساب للأعمال أو تيليجرام أو إنستغرام) لتسليمها دون نقرات إضافية.\n\nيعمل فقط داخل تطبيقات المحادثة التي تفعّلها من الإعدادات. لا يقرأ رسائلك أو جهات اتصالك أو أي بيانات شخصية ولا يجمعها أو يخزّنها أو يشاركها. تتم معالجة الصوت على جهازك.</string>
     <string name="disclosure_agree">أوافق</string>
     <string name="disclosure_decline">ليس الآن</string>
     <string name="home_status_on">AuraMic نشط</string>
@@ -73,8 +73,8 @@
     <string name="home_turn_on">تشغيل</string>
     <string name="home_turn_off">إيقاف</string>
     <string name="home_fix_permissions">إكمال الإعداد</string>
-    <string name="home_open_whatsapp">فتح واتساب</string>
-    <string name="home_whatsapp_missing">واتساب غير مثبّت على هذا الهاتف.</string>
+    <string name="home_open_whatsapp">فتح تطبيق المحادثة</string>
+    <string name="home_whatsapp_missing">لا يوجد تطبيق محادثة مدعوم مثبّت على هذا الهاتف.</string>
     <string name="home_stat_notes">رسائل صوتية نُظّفت</string>
     <string name="home_stat_minutes">دقائق تم تحسينها</string>
     <string name="home_lab_title">مختبر الاستوديو</string>
@@ -95,7 +95,6 @@
     <string name="lab_again">تسجيل مرة أخرى</string>
     <string name="lab_too_short">قصير جدًا — اضغط لفترة أطول قليلًا.</string>
     <string name="lab_mic_needed">مطلوب إذن الميكروفون.</string>
-    <string name="lab_reduction" formatted="true">الخلفية أهدأ بحوالي %1$d ديسيبل</string>
     <string name="set_title">الإعدادات</string>
     <string name="set_audio">الصوت</string>
     <string name="set_strength">قوة إزالة الضوضاء</string>
@@ -109,7 +108,6 @@
     <string name="set_whatsapp">واتساب</string>
     <string name="set_auto_send">الإرسال التلقائي</string>
     <string name="set_auto_send_desc">الضغط على إرسال نيابةً عني بعد المعالجة.</string>
-    <string name="set_business">العمل أيضًا في واتساب للأعمال</string>
     <string name="set_haptics">الاهتزاز اللمسي</string>
     <string name="set_overlay">الزر العائم</string>
     <string name="set_size">حجم الزر</string>
@@ -143,5 +141,46 @@
     <string name="notif_title">AuraMic جاهز</string>
     <string name="notif_text">يظهر الميكروفون العائم عند فتح واتساب.</string>
     <string name="notif_stop">إيقاف</string>
-    <string name="a11y_description">يضغط AuraMic على زر الإرسال في واتساب بعد تسجيل رسالة صوتية بالميكروفون العائم. يعمل داخل واتساب فقط ولا يقرأ رسائلك ولا يخزّنها.</string>
+    <string name="a11y_description">يضغط AuraMic على زر الإرسال في تطبيق المحادثة (واتساب أو تيليجرام أو إنستغرام) بعد تسجيل رسالة صوتية بالميكروفون العائم. يعمل فقط داخل تطبيقات المحادثة التي تفعّلها ولا يقرأ رسائلك ولا يخزّنها.</string>
+    <string name="set_enhance">تحسين الصوت</string>
+    <string name="set_engine">محرك إزالة الضوضاء</string>
+    <string name="set_engine_ai">DeepFilterNet بالذكاء الاصطناعي — جودة الاستوديو</string>
+    <string name="set_engine_classic">كلاسيكي — الأسرع والأخف</string>
+    <string name="set_fast_mode">الوضع السريع</string>
+    <string name="set_fast_mode_desc">يتخطى أدق مرحلة للذكاء الاصطناعي: أسرع بنحو الثلث وبتفاصيل أقل قليلًا.</string>
+    <string name="set_keep_bg_value" formatted="true">إبقاء بعض الأجواء: %1$d%%</string>
+    <string name="set_keep_bg_desc">0٪ = إزالة الخلفية بالكامل (استوديو). القيم الأعلى تعيد جزءًا منها لإحساس طبيعي.</string>
+    <string name="set_preset">تلميع الصوت</string>
+    <string name="set_preset_off">إيقاف</string>
+    <string name="set_preset_natural">طبيعي</string>
+    <string name="set_preset_podcast">بودكاست</string>
+    <string name="set_preset_desc">يضيف «بودكاست» موازنة وإزالة للصفير وضغطًا لطيفًا لصوت إذاعي.</string>
+    <string name="set_loudness_target">مستوى الصوت المستهدف</string>
+    <string name="set_loud_chat">محادثة · −19 LUFS</string>
+    <string name="set_loud_podcast">بودكاست · −16 LUFS</string>
+    <string name="set_loud_loud">عالٍ · −14 LUFS</string>
+    <string name="set_cut">قصّ الصمت تلقائيًا</string>
+    <string name="set_cut_off">إيقاف</string>
+    <string name="set_cut_gentle">خفيف</string>
+    <string name="set_cut_tight">مشدّد</string>
+    <string name="set_cut_desc">يقصّر الوقفات الطويلة ويقتطع بداية الرسالة ونهايتها.</string>
+    <string name="set_apps">تطبيقات المحادثة</string>
+    <string name="app_whatsapp">واتساب</string>
+    <string name="app_business">واتساب للأعمال</string>
+    <string name="app_telegram">تيليجرام</string>
+    <string name="app_instagram">إنستغرام (تجريبي)</string>
+    <string name="set_instagram_note">لا يقبل إنستغرام ملفات صوتية من تطبيقات أخرى، لذا تُحفظ الرسائل في Music/AuraMic لتقوم بإرفاقها.</string>
+    <string name="set_fallback_recent">استخدام أحدث محادثة إذا تعذّرت قراءة المحادثة المفتوحة</string>
+    <string name="set_fallback_recent_desc">معطّل افتراضيًا. فعّله فقط إذا فشل الاختيار التلقائي؛ قد يختار محادثة مختلفة.</string>
+    <string name="set_save_copy">حفظ نسخة في Music/AuraMic</string>
+    <string name="set_diag">نسخ التشخيص</string>
+    <string name="set_diag_desc">ينسخ بنية آخر شاشة محادثة (الأسماء مختصرة) لإصلاح مشكلات الإرسال التلقائي.</string>
+    <string name="diag_copied">تم النسخ إلى الحافظة</string>
+    <string name="diag_none">لا شيء بعد — أرسل رسالة صوتية أولًا.</string>
+    <string name="lab_removed">الضوضاء المُزالة</string>
+    <string name="lab_info" formatted="true">تمت المعالجة في %1$.1f ث · أسرع %2$d× من الزمن الحقيقي</string>
+    <string name="lab_cut" formatted="true">الصمت المحذوف: %1$.1f ث</string>
+    <string name="lab_engine_ai">محرك DeepFilterNet بالذكاء الاصطناعي</string>
+    <string name="lab_engine_classic">المحرك الكلاسيكي</string>
+    <string name="ov_saved">تم الحفظ في Music/AuraMic</string>
 </resources>

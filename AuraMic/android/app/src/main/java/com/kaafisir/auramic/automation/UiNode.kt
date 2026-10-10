@@ -56,4 +56,6 @@ interface NodeActions {
     fun click(node: UiNode): Boolean
     fun setText(node: UiNode, text: String): Boolean
     fun scrollForward(node: UiNode): Boolean
+    /** Synthetic touch at the centre of the node (for views that ignore ACTION_CLICK). */
+    fun tap(node: UiNode): Boolean
 }

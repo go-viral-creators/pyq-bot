@@ -1,11 +1,9 @@
 package com.kaafisir.auramic.ui.settings
 
-import android.content.Context
-import android.content.ContextWrapper
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.widget.Toast
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -49,27 +47,30 @@ import com.kaafisir.auramic.BuildConfig
 import com.kaafisir.auramic.R
 import com.kaafisir.auramic.core.Links
 import com.kaafisir.auramic.domain.model.AppLanguage
+import com.kaafisir.auramic.domain.model.ChatApp
+import com.kaafisir.auramic.domain.model.EnhanceEngine
 import com.kaafisir.auramic.domain.model.OutputFormat
+import com.kaafisir.auramic.domain.model.SilenceCut
 import com.kaafisir.auramic.domain.model.ThemeMode
+import com.kaafisir.auramic.domain.model.VoicePreset
 import com.kaafisir.auramic.ui.components.AuraCard
 import com.kaafisir.auramic.ui.components.GradientText
 import com.kaafisir.auramic.ui.components.SectionHeader
+import com.kaafisir.auramic.ui.components.rememberStartActivity
 import com.kaafisir.auramic.ui.language.LanguageCard
-
-private tailrec fun Context.activity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.activity()
-    else -> null
-}
+import kotlin.math.roundToInt
 
 @Composable
 fun SettingsScreen(onBack: () -> Unit, vm: SettingsViewModel = hiltViewModel()) {
     val s by vm.settings.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val startActivity = rememberStartActivity()
     var showLanguages by remember { mutableStateOf(false) }
     val chooserTitle = stringResource(R.string.set_email_chooser)
+    val copiedMsg = stringResource(R.string.diag_copied)
+    val noneMsg = stringResource(R.string.diag_none)
 
-    fun openUrl(url: String) { runCatching { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) } }
+    fun openUrl(url: String) { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
 
     Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).statusBarsPadding().navigationBarsPadding()) {
         Row(Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -78,8 +79,16 @@ fun SettingsScreen(onBack: () -> Unit, vm: SettingsViewModel = hiltViewModel()) 
         }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
 
-            SectionHeader(stringResource(R.string.set_audio))
+            // ---- voice enhancement ------------------------------------------------------------------------------------
+            SectionHeader(stringResource(R.string.set_enhance))
             AuraCard {
+                Text(stringResource(R.string.set_engine), style = MaterialTheme.typography.titleMedium)
+                RadioRow(stringResource(R.string.set_engine_ai), s.engine == EnhanceEngine.AI) { vm.setEngine(EnhanceEngine.AI) }
+                RadioRow(stringResource(R.string.set_engine_classic), s.engine == EnhanceEngine.CLASSIC) { vm.setEngine(EnhanceEngine.CLASSIC) }
+                if (s.engine == EnhanceEngine.AI) {
+                    SwitchRow(stringResource(R.string.set_fast_mode), stringResource(R.string.set_fast_mode_desc), s.fastMode, vm::setFastMode)
+                }
+                Spacer(Modifier.height(8.dp))
                 Text(stringResource(R.string.set_strength), style = MaterialTheme.typography.titleMedium)
                 Slider(value = s.noiseStrength, onValueChange = vm::setStrength, valueRange = 0.2f..1f)
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -87,17 +96,71 @@ fun SettingsScreen(onBack: () -> Unit, vm: SettingsViewModel = hiltViewModel()) 
                     Text(stringResource(R.string.set_strength_high), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Spacer(Modifier.height(12.dp))
+                Text(stringResource(R.string.set_keep_bg_value, (s.keepBackground * 100).roundToInt()), style = MaterialTheme.typography.titleMedium)
+                Slider(value = s.keepBackground, onValueChange = vm::setKeepBackground, valueRange = 0f..0.6f)
+                Text(stringResource(R.string.set_keep_bg_desc), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Spacer(Modifier.height(12.dp))
+            AuraCard {
+                Text(stringResource(R.string.set_preset), style = MaterialTheme.typography.titleMedium)
+                ChipRow(
+                    listOf(
+                        VoicePreset.OFF to stringResource(R.string.set_preset_off),
+                        VoicePreset.NATURAL to stringResource(R.string.set_preset_natural),
+                        VoicePreset.PODCAST to stringResource(R.string.set_preset_podcast),
+                    ),
+                    s.voicePreset, vm::setVoicePreset,
+                )
+                Text(stringResource(R.string.set_preset_desc), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(Modifier.height(12.dp))
                 SwitchRow(stringResource(R.string.set_normalize), stringResource(R.string.set_normalize_desc), s.loudnessBoost, vm::setLoudness)
-                Spacer(Modifier.height(8.dp))
+                if (s.loudnessBoost) {
+                    ChipRow(
+                        listOf(
+                            -19f to stringResource(R.string.set_loud_chat),
+                            -16f to stringResource(R.string.set_loud_podcast),
+                            -14f to stringResource(R.string.set_loud_loud),
+                        ),
+                        s.loudnessTarget, vm::setLoudnessTarget,
+                    )
+                }
+                Spacer(Modifier.height(12.dp))
+                Text(stringResource(R.string.set_cut), style = MaterialTheme.typography.titleMedium)
+                ChipRow(
+                    listOf(
+                        SilenceCut.OFF to stringResource(R.string.set_cut_off),
+                        SilenceCut.GENTLE to stringResource(R.string.set_cut_gentle),
+                        SilenceCut.TIGHT to stringResource(R.string.set_cut_tight),
+                    ),
+                    s.silenceCut, vm::setSilenceCut,
+                )
+                Text(stringResource(R.string.set_cut_desc), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(Modifier.height(12.dp))
                 Text(stringResource(R.string.set_format), style = MaterialTheme.typography.titleMedium)
                 RadioRow(stringResource(R.string.set_format_m4a), s.outputFormat == OutputFormat.M4A) { vm.setFormat(OutputFormat.M4A) }
                 RadioRow(stringResource(R.string.set_format_opus), s.outputFormat == OutputFormat.OPUS, enabled = Build.VERSION.SDK_INT >= 29) { vm.setFormat(OutputFormat.OPUS) }
             }
 
-            SectionHeader(stringResource(R.string.set_whatsapp))
+            // ---- chat apps ----------------------------------------------------------------------------------------------
+            SectionHeader(stringResource(R.string.set_apps))
             AuraCard {
+                ChatApp.entries.forEach { app ->
+                    SwitchRow(
+                        stringResource(
+                            when (app) {
+                                ChatApp.WHATSAPP -> R.string.app_whatsapp
+                                ChatApp.WHATSAPP_BUSINESS -> R.string.app_business
+                                ChatApp.TELEGRAM -> R.string.app_telegram
+                                ChatApp.INSTAGRAM -> R.string.app_instagram
+                            }
+                        ),
+                        if (app == ChatApp.INSTAGRAM) stringResource(R.string.set_instagram_note) else null,
+                        app in s.enabledApps,
+                    ) { vm.setApp(app, it) }
+                }
                 SwitchRow(stringResource(R.string.set_auto_send), stringResource(R.string.set_auto_send_desc), s.autoSend, vm::setAutoSend)
-                SwitchRow(stringResource(R.string.set_business), null, s.includeBusiness, vm::setBusiness)
+                SwitchRow(stringResource(R.string.set_fallback_recent), stringResource(R.string.set_fallback_recent_desc), s.topRecentFallback, vm::setTopRecent)
+                SwitchRow(stringResource(R.string.set_save_copy), null, s.saveCopy, vm::setSaveCopy)
             }
 
             SectionHeader(stringResource(R.string.set_overlay))
@@ -113,28 +176,16 @@ fun SettingsScreen(onBack: () -> Unit, vm: SettingsViewModel = hiltViewModel()) 
                 NavRow(stringResource(R.string.set_language), s.language?.nativeName ?: "") { showLanguages = true }
                 Spacer(Modifier.height(8.dp))
                 Text(stringResource(R.string.set_theme), style = MaterialTheme.typography.titleMedium)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
-                    ThemeMode.entries.forEach { mode ->
-                        FilterChip(
-                            selected = s.theme == mode, onClick = { vm.setTheme(mode) },
-                            label = {
-                                Text(
-                                    stringResource(
-                                        when (mode) {
-                                            ThemeMode.SYSTEM -> R.string.set_theme_system
-                                            ThemeMode.LIGHT -> R.string.set_theme_light
-                                            ThemeMode.DARK -> R.string.set_theme_dark
-                                        }
-                                    )
-                                )
-                            },
-                        )
-                    }
-                }
+                ChipRow(
+                    listOf(
+                        ThemeMode.SYSTEM to stringResource(R.string.set_theme_system),
+                        ThemeMode.LIGHT to stringResource(R.string.set_theme_light),
+                        ThemeMode.DARK to stringResource(R.string.set_theme_dark),
+                    ),
+                    s.theme, vm::setTheme,
+                )
                 Spacer(Modifier.height(8.dp))
-                NavRow(stringResource(R.string.set_battery), null) {
-                    runCatching { context.startActivity(vm.batteryIntent()) }
-                }
+                NavRow(stringResource(R.string.set_battery), null) { startActivity(vm.batteryIntent()) }
             }
 
             SectionHeader(stringResource(R.string.set_about))
@@ -145,8 +196,12 @@ fun SettingsScreen(onBack: () -> Unit, vm: SettingsViewModel = hiltViewModel()) 
                 NavRow(stringResource(R.string.set_support), Links.SUPPORT_EMAIL) {
                     val i = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:${Links.SUPPORT_EMAIL}"))
                         .putExtra(Intent.EXTRA_SUBJECT, "AuraMic ${BuildConfig.VERSION_NAME}")
-                    runCatching { context.startActivity(Intent.createChooser(i, chooserTitle)) }
+                    startActivity(Intent.createChooser(i, chooserTitle))
                 }
+                NavRow(stringResource(R.string.set_diag), null) {
+                    Toast.makeText(context, if (vm.copyDiagnostics()) copiedMsg else noneMsg, Toast.LENGTH_SHORT).show()
+                }
+                Text(stringResource(R.string.set_diag_desc), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Text(
                 stringResource(R.string.set_version, BuildConfig.VERSION_NAME),
@@ -166,12 +221,21 @@ fun SettingsScreen(onBack: () -> Unit, vm: SettingsViewModel = hiltViewModel()) 
                     AppLanguage.entries.forEach { lang ->
                         LanguageCard(lang, lang == s.language) {
                             showLanguages = false
-                            vm.setLanguage(lang) { context.activity()?.recreate() }
+                            vm.setLanguage(lang)   // applied instantly by MainActivity
                         }
                     }
                 }
             },
         )
+    }
+}
+
+@Composable
+private fun <T> ChipRow(options: List<Pair<T, String>>, selected: T, onSelect: (T) -> Unit) {
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(vertical = 8.dp).fillMaxWidth()) {
+        options.forEach { (value, label) ->
+            FilterChip(selected = selected == value, onClick = { onSelect(value) }, label = { Text(label, maxLines = 1) })
+        }
     }
 }
 

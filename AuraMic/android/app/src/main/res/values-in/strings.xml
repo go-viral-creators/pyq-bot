@@ -36,7 +36,7 @@
     <string name="tour_p1_title">Ketuk Izinkan di setiap kartu</string>
     <string name="tour_p1_body">Android membuka halaman pengaturan yang tepat; aktifkan AuraMic lalu kembali. Kami akan mencentangnya di sini.</string>
     <string name="tour_p2_title">Aksesibilitas mengirimkannya untuk Anda</string>
-    <string name="tour_p2_body">Ini menekan tombol Kirim WhatsApp setelah pembersihan. Hanya berfungsi di dalam WhatsApp.</string>
+    <string name="tour_p2_body">Ini menekan Kirim di aplikasi obrolan setelah pembersihan. Hanya bekerja di aplikasi obrolan yang Anda aktifkan.</string>
     <string name="perm_title">Mari siapkan AuraMic</string>
     <string name="perm_subtitle">Beberapa izin membuat keajaiban terjadi. Audio Anda tidak pernah meninggalkan ponsel.</string>
     <string name="perm_overlay_title">Tombol melayang</string>
@@ -46,7 +46,7 @@
     <string name="perm_usage_title">Akses penggunaan</string>
     <string name="perm_usage_body">Mendeteksi saat WhatsApp terbuka agar gelembung hanya muncul di sana.</string>
     <string name="perm_access_title">Aksesibilitas</string>
-    <string name="perm_access_body">Menekan tombol Kirim WhatsApp untuk Anda setelah pesan suara bersih.</string>
+    <string name="perm_access_body">Menekan Kirim di aplikasi obrolan untuk Anda setelah pesan suara bersih.</string>
     <string name="perm_notif_title">Notifikasi</string>
     <string name="perm_notif_body">Diperlukan agar AuraMic berjalan stabil di latar belakang.</string>
     <string name="perm_battery_title">Tetap berjalan</string>
@@ -61,7 +61,7 @@
     <string name="perm_restricted_body">Android memblokirnya untuk aplikasi yang dipasang di luar Play Store. Buka Info aplikasi, ketuk menu ⋮, pilih “Izinkan setelan terbatas”, lalu coba lagi.</string>
     <string name="perm_open_app_info">Buka info aplikasi</string>
     <string name="disclosure_title">Pengungkapan Aksesibilitas</string>
-    <string name="disclosure_body">AuraMic menggunakan Layanan Aksesibilitas Android hanya untuk satu tujuan: setelah Anda merekam pesan suara, layanan ini menekan tombol Kirim di dalam WhatsApp agar pesan terkirim tanpa ketukan tambahan.\n\nHanya bekerja di WhatsApp dan WhatsApp Business. Tidak membaca, mengumpulkan, menyimpan, atau membagikan pesan, kontak, maupun data pribadi Anda. Audio diproses di perangkat Anda.</string>
+    <string name="disclosure_body">AuraMic menggunakan Layanan Aksesibilitas Android hanya untuk satu tujuan: setelah Anda merekam pesan suara, layanan ini memilih obrolan tempat Anda berada dan menekan tombol Kirim di dalam aplikasi obrolan Anda (WhatsApp, WhatsApp Business, Telegram, atau Instagram) agar pesan terkirim tanpa ketukan tambahan.\n\nHanya bekerja di aplikasi obrolan yang Anda aktifkan di Pengaturan. Tidak membaca, mengumpulkan, menyimpan, atau membagikan pesan, kontak, maupun data pribadi Anda. Audio diproses di perangkat Anda.</string>
     <string name="disclosure_agree">Saya setuju</string>
     <string name="disclosure_decline">Nanti saja</string>
     <string name="home_status_on">AuraMic aktif</string>
@@ -73,8 +73,8 @@
     <string name="home_turn_on">Aktifkan</string>
     <string name="home_turn_off">Nonaktifkan</string>
     <string name="home_fix_permissions">Selesaikan pengaturan</string>
-    <string name="home_open_whatsapp">Buka WhatsApp</string>
-    <string name="home_whatsapp_missing">WhatsApp tidak terpasang di ponsel ini.</string>
+    <string name="home_open_whatsapp">Buka aplikasi obrolan</string>
+    <string name="home_whatsapp_missing">Tidak ada aplikasi obrolan yang didukung di ponsel ini.</string>
     <string name="home_stat_notes">Pesan suara dibersihkan</string>
     <string name="home_stat_minutes">Menit dipoles</string>
     <string name="home_lab_title">Lab Studio</string>
@@ -95,7 +95,6 @@
     <string name="lab_again">Rekam lagi</string>
     <string name="lab_too_short">Terlalu singkat — tahan sedikit lebih lama.</string>
     <string name="lab_mic_needed">Perlu izin mikrofon.</string>
-    <string name="lab_reduction" formatted="true">Latar sekitar %1$d dB lebih senyap</string>
     <string name="set_title">Pengaturan</string>
     <string name="set_audio">Audio</string>
     <string name="set_strength">Kekuatan penghilang derau</string>
@@ -109,7 +108,6 @@
     <string name="set_whatsapp">WhatsApp</string>
     <string name="set_auto_send">Kirim otomatis</string>
     <string name="set_auto_send_desc">Tekan Kirim untuk saya setelah diproses.</string>
-    <string name="set_business">Berfungsi juga di WhatsApp Business</string>
     <string name="set_haptics">Umpan balik haptik</string>
     <string name="set_overlay">Tombol melayang</string>
     <string name="set_size">Ukuran tombol</string>
@@ -143,5 +141,46 @@
     <string name="notif_title">AuraMic siap</string>
     <string name="notif_text">Mikrofon melayang muncul saat WhatsApp terbuka.</string>
     <string name="notif_stop">Nonaktifkan</string>
-    <string name="a11y_description">AuraMic menekan tombol Kirim WhatsApp setelah Anda merekam pesan suara dengan mikrofon melayang. Hanya bekerja di dalam WhatsApp dan tidak pernah membaca atau menyimpan pesan Anda.</string>
+    <string name="a11y_description">AuraMic menekan tombol Kirim di aplikasi obrolan Anda (WhatsApp, Telegram, atau Instagram) setelah Anda merekam pesan suara dengan mikrofon melayang. Hanya bekerja di aplikasi obrolan yang Anda aktifkan dan tidak pernah membaca atau menyimpan pesan Anda.</string>
+    <string name="set_enhance">Peningkatan suara</string>
+    <string name="set_engine">Mesin penghilang derau</string>
+    <string name="set_engine_ai">DeepFilterNet AI — kualitas studio</string>
+    <string name="set_engine_classic">Klasik — tercepat, ringan</string>
+    <string name="set_fast_mode">Mode cepat</string>
+    <string name="set_fast_mode_desc">Melewati tahap AI paling halus: sekitar sepertiga lebih cepat, detail sedikit berkurang.</string>
+    <string name="set_keep_bg_value" formatted="true">Pertahankan sedikit suasana: %1$d%%</string>
+    <string name="set_keep_bg_desc">0 = latar dihapus total (studio). Nilai lebih tinggi mencampur sebagian kembali agar terasa alami.</string>
+    <string name="set_preset">Poles suara</string>
+    <string name="set_preset_off">Mati</string>
+    <string name="set_preset_natural">Alami</string>
+    <string name="set_preset_podcast">Podcast</string>
+    <string name="set_preset_desc">Podcast menambah EQ, de-esser, dan kompresi halus untuk suara siaran.</string>
+    <string name="set_loudness_target">Target volume</string>
+    <string name="set_loud_chat">Obrolan · −19 LUFS</string>
+    <string name="set_loud_podcast">Podcast · −16 LUFS</string>
+    <string name="set_loud_loud">Keras · −14 LUFS</string>
+    <string name="set_cut">Potong hening otomatis</string>
+    <string name="set_cut_off">Mati</string>
+    <string name="set_cut_gentle">Lembut</string>
+    <string name="set_cut_tight">Ketat</string>
+    <string name="set_cut_desc">Memperpendek jeda panjang dan memangkas awal serta akhir pesan.</string>
+    <string name="set_apps">Aplikasi obrolan</string>
+    <string name="app_whatsapp">WhatsApp</string>
+    <string name="app_business">WhatsApp Business</string>
+    <string name="app_telegram">Telegram</string>
+    <string name="app_instagram">Instagram (eksperimental)</string>
+    <string name="set_instagram_note">Instagram tidak menerima berkas audio dari aplikasi lain, jadi pesan disimpan di Music/AuraMic untuk Anda lampirkan.</string>
+    <string name="set_fallback_recent">Gunakan obrolan terbaru jika obrolan terbuka tak terbaca</string>
+    <string name="set_fallback_recent_desc">Nonaktif secara default. Aktifkan hanya jika pilihan otomatis gagal; bisa memilih obrolan lain.</string>
+    <string name="set_save_copy">Simpan salinan ke Music/AuraMic</string>
+    <string name="set_diag">Salin diagnostik</string>
+    <string name="set_diag_desc">Menyalin struktur layar obrolan terakhir (nama dipersingkat) agar masalah kirim otomatis bisa diperbaiki.</string>
+    <string name="diag_copied">Disalin ke papan klip</string>
+    <string name="diag_none">Belum ada — kirim pesan suara dulu.</string>
+    <string name="lab_removed">Derau yang dihapus</string>
+    <string name="lab_info" formatted="true">Diproses dalam %1$.1f dtk · %2$d× lebih cepat dari waktu nyata</string>
+    <string name="lab_cut" formatted="true">Hening dihapus: %1$.1f dtk</string>
+    <string name="lab_engine_ai">Mesin DeepFilterNet AI</string>
+    <string name="lab_engine_classic">Mesin klasik</string>
+    <string name="ov_saved">Disimpan di Music/AuraMic</string>
 </resources>

@@ -35,6 +35,7 @@ class VoiceNoteOrchestrator @Inject constructor(
     private val settingsRepo: SettingsRepository,
     private val processNote: ProcessVoiceNoteUseCase,
     private val sender: WhatsAppSender,
+    private val mediaSaver: com.kaafisir.auramic.automation.MediaSaver,
     private val bridge: AutomationBridge,
     private val haptics: Haptics,
 ) {
@@ -128,14 +129,18 @@ class VoiceNoteOrchestrator @Inject constructor(
             _state.value = OverlayState.Processing
             val settings = settingsRepo.current()
             val note = processNote(rec, settings)
-            Log.i(TAG, "processed ${"%.1f".format(note.seconds)}s model=${note.usedModel} bg-${"%.0f".format(note.reductionDb)}dB -> ${note.file.name}")
+            Log.i(TAG, "processed ${"%.1f".format(note.seconds)}s engine=${note.engine} ${"%.1f".format(note.speedFactor)}x realtime -> ${note.file.name}")
 
             _state.value = OverlayState.Sending
             // WhatsApp copies the file when the user (or we) tap Send; our temporary copy is then useless.
             scope.launch { delay(TEMP_FILE_TTL_MS); runCatching { note.file.delete() } }
+            if (settings.saveCopy) mediaSaver.saveToMusic(note.file, note.mimeType)
             if (!sender.share(note.file, note.mimeType, targetPackage)) {
+                // The chat app cannot receive audio files (e.g. Instagram) or refused the intent: keep the note for manual use.
+                val saved = mediaSaver.saveToMusic(note.file, note.mimeType)
                 haptics.error()
-                showTransient(OverlayState.Done(false, R.string.ov_failed), 2_800)
+                showTransient(OverlayState.Done(saved, if (saved) R.string.ov_saved else R.string.ov_failed), 3_200)
+                if (saved) settingsRepo.recordCleanedNote(note.seconds.toLong())
                 return
             }
             settingsRepo.recordCleanedNote(note.seconds.toLong())
@@ -144,7 +149,7 @@ class VoiceNoteOrchestrator @Inject constructor(
                 showTransient(OverlayState.Done(true, R.string.ov_manual), 3_000)
                 return
             }
-            when (bridge.sendAndAwait(chatName, targetPackage)) {
+            when (bridge.sendAndAwait(chatName, targetPackage, allowFirstRow = settings.topRecentFallback && chatName == null)) {
                 SendResult.Sent -> { haptics.success(); showTransient(OverlayState.Done(true, R.string.ov_sent)) }
                 is SendResult.Failed -> { haptics.error(); showTransient(OverlayState.Done(false, R.string.ov_failed), 3_200) }
             }

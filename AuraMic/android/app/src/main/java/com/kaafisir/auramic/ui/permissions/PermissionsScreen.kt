@@ -77,6 +77,7 @@ import com.kaafisir.auramic.ui.components.AuraCard
 import com.kaafisir.auramic.ui.components.GradientButton
 import com.kaafisir.auramic.ui.components.GradientText
 import com.kaafisir.auramic.ui.components.IconBadge
+import com.kaafisir.auramic.ui.components.rememberStartActivity
 import com.kaafisir.auramic.ui.components.SpotlightScrim
 import com.kaafisir.auramic.ui.components.TourTooltip
 import com.kaafisir.auramic.ui.theme.AuraAmber
@@ -114,6 +115,7 @@ fun PermissionsScreen(
 ) {
     val context = LocalContext.current
     val activity = remember(context) { context.findActivity() }
+    val startActivity = rememberStartActivity()
     val state by vm.state.collectAsStateWithLifecycle()
 
     // Re-read permissions whenever we come back from a settings screen.
@@ -126,9 +128,7 @@ fun PermissionsScreen(
 
     fun open(p: Perm) {
         val i = vm.settingsIntent(p) ?: return
-        runCatching { context.startActivity(i) }.onFailure {
-            runCatching { context.startActivity(vm.appDetailsIntent()) }
-        }
+        if (!startActivity(i)) startActivity(vm.appDetailsIntent())
     }
 
     var micAsked by rememberSaveable { mutableStateOf(false) }
@@ -142,7 +142,7 @@ fun PermissionsScreen(
             Perm.Microphone -> {
                 val blocked = micAsked && activity != null &&
                     !ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO)
-                if (blocked) context.startActivity(vm.appDetailsIntent())
+                if (blocked) startActivity(vm.appDetailsIntent())
                 else { micAsked = true; micLauncher.launch(Manifest.permission.RECORD_AUDIO) }
             }
             Perm.Notifications -> if (Build.VERSION.SDK_INT >= 33) notifLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -191,7 +191,7 @@ fun PermissionsScreen(
                     )
                     if (ui.perm == Perm.Accessibility) {
                         AnimatedVisibility(!ok && triedAccessibility && Build.VERSION.SDK_INT >= 33) {
-                            RestrictedHelp(onOpenInfo = { runCatching { context.startActivity(vm.appDetailsIntent()) } })
+                            RestrictedHelp(onOpenInfo = { startActivity(vm.appDetailsIntent()) })
                         }
                     }
                     Spacer(Modifier.height(12.dp))

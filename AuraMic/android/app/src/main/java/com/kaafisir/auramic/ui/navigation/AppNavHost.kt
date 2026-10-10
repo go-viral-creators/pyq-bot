@@ -7,9 +7,11 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.activity.compose.LocalActivity
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -47,8 +49,16 @@ fun AppNavHost(settings: UserSettings, vm: AppViewModel, nav: NavHostController 
             else -> Routes.HOME
         }
     }
-    val activity = LocalActivity.current
     val deviceLang = LocalConfiguration.current.locales[0].language
+
+    // Once a language is chosen the language screen must never be shown: this also repairs a navigation state that was
+    // restored from before the choice (e.g. after a process or configuration change).
+    val backEntry by nav.currentBackStackEntryAsState()
+    LaunchedEffect(settings.language, settings.tourCompleted, backEntry?.destination?.route) {
+        if (backEntry?.destination?.route == Routes.LANGUAGE && settings.language != null) {
+            nav.navigate(if (settings.tourCompleted) Routes.HOME else Routes.TOUR) { popUpTo(Routes.LANGUAGE) { inclusive = true } }
+        }
+    }
 
     NavHost(
         navController = nav,
@@ -60,8 +70,8 @@ fun AppNavHost(settings: UserSettings, vm: AppViewModel, nav: NavHostController 
     ) {
         composable(Routes.LANGUAGE) {
             LanguageScreen(initial = AppLanguage.suggestedFor(deviceLang)) { lang ->
-                // Persist, then recreate so every string (and RTL) resolves in the new language.
-                vm.chooseLanguage(lang) { activity?.recreate() }
+                // Persist; MainActivity re-provides the language instantly and the effect below moves on.
+                vm.chooseLanguage(lang) {}
             }
         }
         composable(Routes.TOUR) {

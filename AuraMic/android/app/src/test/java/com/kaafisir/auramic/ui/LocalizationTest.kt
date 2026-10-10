@@ -36,7 +36,11 @@ class LocalizationTest {
         for (lang in AppLanguage.entries) {
             val ctx = contextFor(lang)
             for ((name, id) in ids) {
-                val raw = ctx.getString(id, 3, 5).trim()   // extra args are ignored by plain strings
+                // build format args from the English template: %n$d -> Int, %n$f -> Double, %n$s -> String
+                val spec = Regex("%(\\d)\\$[.\\d]*([sdf])").findAll(contextFor(AppLanguage.ENGLISH).resources.getString(id)).toList()
+                val args = arrayOfNulls<Any>(spec.maxOfOrNull { it.groupValues[1].toInt() } ?: 0)
+                spec.forEach { m -> args[m.groupValues[1].toInt() - 1] = when (m.groupValues[2]) { "d" -> 3; "f" -> 3.5; else -> "x" } }
+                val raw = ctx.getString(id, *args).trim()
                 assertTrue("${lang.tag}/$name empty", raw.isNotEmpty())
             }
         }
@@ -50,8 +54,8 @@ class LocalizationTest {
             val ctx = contextFor(lang)
             for ((name, id) in formatted) {
                 val raw = ctx.resources.getString(id)
-                val expected = Regex("%\\d\\$[sd]").findAll(en.resources.getString(id)).map { it.value }.sorted().toList()
-                val actual = Regex("%\\d\\$[sd]").findAll(raw).map { it.value }.sorted().toList()
+                val expected = Regex("%\\d\\$[.\\d]*[sdf]").findAll(en.resources.getString(id)).map { it.value }.sorted().toList()
+                val actual = Regex("%\\d\\$[.\\d]*[sdf]").findAll(raw).map { it.value }.sorted().toList()
                 assertEquals("${lang.tag}/$name placeholders", expected, actual)
             }
         }

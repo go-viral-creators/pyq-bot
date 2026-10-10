@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.ServiceCompat
-import com.kaafisir.auramic.automation.WhatsAppUi
 import com.kaafisir.auramic.core.Haptics
 import com.kaafisir.auramic.core.LocaleManager
 import com.kaafisir.auramic.domain.repository.SettingsRepository
@@ -39,6 +38,7 @@ class OverlayService : Service() {
     @Inject lateinit var orchestrator: VoiceNoteOrchestrator
     @Inject lateinit var haptics: Haptics
     @Inject lateinit var sender: com.kaafisir.auramic.automation.WhatsAppSender
+    @Inject lateinit var dfn: com.kaafisir.auramic.audio.DfnEnhancer
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var controller: OverlayController? = null
@@ -67,6 +67,7 @@ class OverlayService : Service() {
         running.value = true
         orchestrator.attach(scope)
         sender.purgeOldFiles()
+        dfn.warmUp()
 
         val ctl = OverlayController(
             context = this,
@@ -84,9 +85,7 @@ class OverlayService : Service() {
             }
         }
         scope.launch {
-            val targets = settingsRepo.settings.map { s ->
-                if (s.includeBusiness) WhatsAppUi.PACKAGES else setOf(WhatsAppUi.PKG)
-            }.distinctUntilChanged()
+            val targets = settingsRepo.settings.map { s -> s.enabledApps.flatMap { it.packages }.toSet() }.distinctUntilChanged()
             combine(detector.foregroundPackage, targets) { pkg, set -> pkg?.takeIf { it in set } }
                 .distinctUntilChanged()
                 .collect { pkg ->

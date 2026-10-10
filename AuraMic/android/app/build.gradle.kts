@@ -30,7 +30,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         ndk {
-            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64")
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
         }
         externalNativeBuild {
             cmake {
@@ -44,6 +44,18 @@ android {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
             version = "3.22.1"
+        }
+    }
+
+    // Extra per-ABI APKs next to the universal one: arm64-only is ~40% smaller (ONNX Runtime ships big native libs).
+    // Enabled with -PcompactApk (AGP cannot combine ABI splits with bundleRelease in one invocation); that flag also
+    // stores native libs compressed, which roughly halves the APK download (the AAB keeps them uncompressed, as Play prefers).
+    splits {
+        abi {
+            isEnable = providers.gradleProperty("compactApk").isPresent
+            reset()
+            include("arm64-v8a", "armeabi-v7a")
+            isUniversalApk = true
         }
     }
 
@@ -82,10 +94,11 @@ android {
         buildConfig = true
     }
     packaging {
-        jniLibs { useLegacyPackaging = false }
+        jniLibs { useLegacyPackaging = providers.gradleProperty("compactApk").isPresent }
         resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}", "DebugProbesKt.bin")
     }
     androidResources {
+        noCompress += "onnx"
         // Only ship the locales we actually translate (keeps APK small, Play detects them).
         localeFilters += listOf("en", "hi", "b+hi+Latn", "es", "pt", "ar", "in")
     }
@@ -136,7 +149,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.litert)
+    implementation(libs.onnxruntime)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

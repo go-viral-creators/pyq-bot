@@ -14,6 +14,7 @@ import android.view.accessibility.AccessibilityNodeInfo
 import com.kaafisir.auramic.automation.AutomationBridge
 import com.kaafisir.auramic.automation.Bounds
 import com.kaafisir.auramic.automation.NodeActions
+import com.kaafisir.auramic.automation.NodeDump
 import com.kaafisir.auramic.automation.NodeFinder
 import com.kaafisir.auramic.automation.SendFlow
 import com.kaafisir.auramic.automation.SendRequest
@@ -97,11 +98,16 @@ class AuraAccessibilityService : AccessibilityService() {
     private fun start(request: SendRequest) {
         runJob?.cancel()
         runJob = scope.launch {
-            val flow = SendFlow(request.chatName, now = { SystemClock.elapsedRealtime() })
+            val flow = SendFlow(request.chatName, now = { SystemClock.elapsedRealtime() }, allowFirstRow = request.allowFirstRow)
             val actions = LiveActions()
+            var lastDump: String? = null
+            var lastDumpAt = 0L
             while (isActive) {
                 val snap = snapshot(request.targetPackage)
                 val outcome = try {
+                    // keep a cheap, throttled dump of what the flow is looking at: it is the evidence needed if it fails
+                    val now = SystemClock.elapsedRealtime()
+                    if (snap?.root != null && now - lastDumpAt > 700) { lastDump = NodeDump.format(snap.root); lastDumpAt = now }
                     flow.step(snap?.root, actions)
                 } finally {
                     snap?.release()
@@ -109,7 +115,11 @@ class AuraAccessibilityService : AccessibilityService() {
                 when (outcome) {
                     SendFlow.Outcome.Continue -> delay(POLL_MS)
                     SendFlow.Outcome.Done -> { bridge.complete(request.id, SendResult.Sent); return@launch }
-                    is SendFlow.Outcome.Failed -> { bridge.complete(request.id, SendResult.Failed(outcome.reason)); return@launch }
+                    is SendFlow.Outcome.Failed -> {
+                        Log.w(TAG, "send flow failed: ${outcome.reason}")
+                        bridge.diagnostics = "reason=${outcome.reason} chat=${request.chatName?.take(3)}~ pkg=${request.targetPackage}\n" + (lastDump ?: "(no screen of the chat app was visible)")
+                        bridge.complete(request.id, SendResult.Failed(outcome.reason)); return@launch
+                    }
                 }
             }
         }
@@ -131,23 +141,36 @@ class AuraAccessibilityService : AccessibilityService() {
         }
     }
 
-    /** Converts the active window to [UiNode]s; null unless it belongs to (the requested) WhatsApp. */
+    private fun matches(pkg: String?, requiredPackage: String?) =
+        pkg != null && pkg in WhatsAppUi.PACKAGES && (requiredPackage == null || pkg == requiredPackage)
+
+    /** Finds the root of the chat app window: the active window first, then any window (share sheets can be dialogs). */
+    private fun findRoot(requiredPackage: String?): AccessibilityNodeInfo? {
+        val active = rootInActiveWindow
+        if (active != null && matches(active.packageName?.toString(), requiredPackage)) return active
+        @Suppress("DEPRECATION")
+        if (active != null && Build.VERSION.SDK_INT < 33) active.recycle()
+        return runCatching {
+            windows.sortedByDescending { it.layer }.firstNotNullOfOrNull { w ->
+                w.root?.takeIf { matches(it.packageName?.toString(), requiredPackage) }
+            }
+        }.getOrNull()
+    }
+
+    /** Converts the chat app window to [UiNode]s; null unless one of the supported chat apps (or the requested one) is showing. */
     private fun snapshot(requiredPackage: String?): Snapshot? {
-        val rootInfo = rootInActiveWindow ?: return null
-        val pkg = rootInfo.packageName?.toString()
-        if (pkg == null || pkg !in WhatsAppUi.PACKAGES || (requiredPackage != null && pkg != requiredPackage)) {
-            @Suppress("DEPRECATION")
-            if (Build.VERSION.SDK_INT < 33) rootInfo.recycle()
-            return null
-        }
+        val rootInfo = findRoot(requiredPackage) ?: return null
         val live = mutableListOf(rootInfo)
-        val budget = intArrayOf(MAX_NODES)
-        val root = build(rootInfo, 0, live, budget)
+        var root = build(rootInfo, 0, live, intArrayOf(MAX_NODES), true)
+        if (root != null && root.walk().count() < 6) {
+            // Some custom-drawn screens report almost nothing as "visible": retry without the visibility filter.
+            root = build(rootInfo, 0, live, intArrayOf(MAX_NODES), false)
+        }
         return Snapshot(root, live)
     }
 
-    private fun build(info: AccessibilityNodeInfo, depth: Int, live: MutableList<AccessibilityNodeInfo>, budget: IntArray): UiNode? {
-        if (!info.isVisibleToUser || budget[0] <= 0) return null
+    private fun build(info: AccessibilityNodeInfo, depth: Int, live: MutableList<AccessibilityNodeInfo>, budget: IntArray, requireVisible: Boolean): UiNode? {
+        if ((requireVisible && !info.isVisibleToUser) || budget[0] <= 0) return null
         budget[0]--
         val r = Rect()
         info.getBoundsInScreen(r)
@@ -167,7 +190,7 @@ class AuraAccessibilityService : AccessibilityService() {
             for (i in 0 until info.childCount) {
                 val child = info.getChild(i) ?: continue
                 live += child
-                build(child, depth + 1, live, budget)?.let { node.add(it) }
+                build(child, depth + 1, live, budget, requireVisible)?.let { node.add(it) }
             }
         }
         return node
@@ -188,6 +211,8 @@ class AuraAccessibilityService : AccessibilityService() {
             }
             return info.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, args)
         }
+
+        override fun tap(node: UiNode): Boolean = tap(node.bounds)
 
         override fun scrollForward(node: UiNode): Boolean =
             (node.handle as? AccessibilityNodeInfo)?.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD) == true

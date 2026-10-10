@@ -18,11 +18,18 @@ Olvídate de grabar otra vez por el tráfico, un ventilador, la multitud o una c
 • Arrastra el micrófono a donde quieras; se pega al borde y recuerda su lugar.
 • 7 idiomas: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
+★ LIMPIEZA NIVEL PODCAST
+• La IA DeepFilterNet3 (banda completa de 48 kHz) funciona en tu teléfono con ONNX Runtime: aislamiento de voz de estudio, 10–30 veces más rápido que el tiempo real.
+• Pulido podcast: ecualizador, de-esser, compresor y masterización a −16 LUFS con limitador.
+• Corte automático de silencios: acorta pausas largas y recorta inicio y final (Suave o Ajustado).
+• Separa el fondo: escucha el ruido eliminado aparte o conserva algo de ambiente.
+• Funciona en WhatsApp, WhatsApp Business y Telegram; Instagram es experimental (la nota se guarda para que la adjuntes).
+
 ★ PERMISOS: POR QUÉ LOS PEDIMOS
 • Mostrar sobre otras apps: para ver el micrófono flotante sobre WhatsApp.
 • Micrófono: para grabar mientras mantienes pulsado el botón.
 • Acceso de uso: para saber cuándo WhatsApp está abierto y mostrar el micrófono solo ahí.
-• Servicio de accesibilidad: SOLO para pulsar el botón Enviar de WhatsApp (y elegir el chat en el que estabas) cuando tu nota de voz está lista. Funciona únicamente en WhatsApp / WhatsApp Business y no lee, guarda ni comparte tus mensajes ni datos personales. Verás un aviso claro antes de activarlo.
+• Servicio de accesibilidad: SOLO para pulsar el botón Enviar de WhatsApp (y elegir el chat en el que estabas) cuando tu nota de voz está lista. Funciona únicamente en WhatsApp / WhatsApp Business / Telegram / Instagram y no lee, guarda ni comparte tus mensajes ni datos personales. Verás un aviso claro antes de activarlo.
 • Notificaciones: una pequeña notificación mientras AuraMic está activo.
 
 ★ PRIVACIDAD ANTE TODO
@@ -30,4 +37,4 @@ Tu voz nunca sale del teléfono. No recopilamos audio, mensajes, contactos ni da
 
 ¿Ayuda? support@fireclashpro.com
 
-AuraMic AI es una app independiente. No está afiliada, respaldada ni patrocinada por WhatsApp LLC ni Meta Platforms, Inc. WhatsApp es una marca registrada de WhatsApp LLC.
+AuraMic AI es una app independiente. No está afiliada, respaldada ni patrocinada por WhatsApp LLC ni Meta Platforms, Inc. WhatsApp es una marca registrada de WhatsApp LLC. Telegram e Instagram son marcas de sus respectivos propietarios.

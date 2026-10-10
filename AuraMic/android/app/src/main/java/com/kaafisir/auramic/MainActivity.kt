@@ -9,7 +9,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kaafisir.auramic.core.LocaleManager
@@ -41,9 +47,23 @@ class MainActivity : ComponentActivity() {
                 enableEdgeToEdge(statusBarStyle = style, navigationBarStyle = style)
                 onDispose {}
             }
-            AuraTheme(darkTheme = dark) {
-                // Wait for the first DataStore read so we pick the right start screen.
-                if (s != null) AppNavHost(settings = s, vm = vm)
+            // Language switches instantly: the whole composition resolves strings (and RTL) in the chosen language,
+            // so no Activity recreation is needed (recreating restored a stale navigation state).
+            val lang = s?.language
+            val localized = remember(lang) { lang?.let { LocaleManager.localized(this@MainActivity, it) } ?: this@MainActivity }
+            val direction = remember(lang) {
+                if (lang != null && android.text.TextUtils.getLayoutDirectionFromLocale(java.util.Locale.forLanguageTag(lang.tag)) == android.view.View.LAYOUT_DIRECTION_RTL)
+                    LayoutDirection.Rtl else LayoutDirection.Ltr
+            }
+            CompositionLocalProvider(
+                LocalContext provides localized,
+                LocalConfiguration provides localized.resources.configuration,
+                LocalLayoutDirection provides if (lang == null) LocalLayoutDirection.current else direction,
+            ) {
+                AuraTheme(darkTheme = dark) {
+                    // Wait for the first DataStore read so we pick the right start screen.
+                    if (s != null) AppNavHost(settings = s, vm = vm)
+                }
             }
         }
     }

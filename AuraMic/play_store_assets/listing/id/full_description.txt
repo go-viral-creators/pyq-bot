@@ -18,11 +18,18 @@ Tak perlu merekam ulang karena lalu lintas, kipas angin, keramaian, atau kafe ya
 • Seret mikrofon ke mana saja; menempel ke tepi dan mengingat posisinya.
 • 7 bahasa: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
+★ PEMBERSIHAN KELAS PODCAST
+• AI DeepFilterNet3 (full-band 48 kHz) berjalan di ponsel lewat ONNX Runtime: isolasi suara kualitas studio, 10–30 kali lebih cepat dari waktu nyata.
+• Poles podcast: EQ, de-esser, kompresor, dan mastering −16 LUFS dengan limiter.
+• Potong hening otomatis: persingkat jeda panjang dan pangkas awal serta akhir (Lembut atau Ketat).
+• Pisahkan latar: dengarkan derau yang dihapus secara terpisah atau pertahankan sedikit suasana.
+• Berfungsi di WhatsApp, WhatsApp Business, dan Telegram; Instagram eksperimental (pesan disimpan untuk Anda lampirkan).
+
 ★ IZIN — MENGAPA KAMI MEMINTANYA
 • Tampil di atas aplikasi lain: untuk menampilkan mikrofon melayang di atas WhatsApp.
 • Mikrofon: untuk merekam selama Anda menahan tombol.
 • Akses penggunaan: untuk mengetahui kapan WhatsApp terbuka agar mikrofon hanya muncul di sana.
-• Layanan Aksesibilitas: HANYA untuk menekan tombol Kirim di WhatsApp (dan memilih obrolan tempat Anda berada) setelah pesan suara siap. Hanya bekerja di WhatsApp / WhatsApp Business, dan tidak membaca, menyimpan, atau membagikan pesan maupun data pribadi Anda. Anda akan melihat pengungkapan yang jelas sebelum mengaktifkannya.
+• Layanan Aksesibilitas: HANYA untuk menekan tombol Kirim di WhatsApp (dan memilih obrolan tempat Anda berada) setelah pesan suara siap. Hanya bekerja di WhatsApp / WhatsApp Business / Telegram / Instagram, dan tidak membaca, menyimpan, atau membagikan pesan maupun data pribadi Anda. Anda akan melihat pengungkapan yang jelas sebelum mengaktifkannya.
 • Notifikasi: notifikasi status kecil saat AuraMic aktif.
 
 ★ PRIVASI NOMOR SATU
@@ -30,4 +37,4 @@ Suara Anda tidak pernah meninggalkan ponsel. Kami tidak mengumpulkan audio, pesa
 
 Butuh bantuan? support@fireclashpro.com
 
-AuraMic AI adalah aplikasi independen. Tidak berafiliasi, didukung, atau disponsori oleh WhatsApp LLC maupun Meta Platforms, Inc. WhatsApp adalah merek dagang WhatsApp LLC.
+AuraMic AI adalah aplikasi independen. Tidak berafiliasi, didukung, atau disponsori oleh WhatsApp LLC maupun Meta Platforms, Inc. WhatsApp adalah merek dagang WhatsApp LLC. Telegram dan Instagram adalah merek dagang pemiliknya masing-masing.

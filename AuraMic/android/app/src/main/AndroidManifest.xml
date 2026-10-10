@@ -18,10 +18,14 @@
 
     <uses-feature android:name="android.hardware.microphone" android:required="true" />
 
-    <!-- Package visibility (Android 11+): we only ever look for WhatsApp and WhatsApp Business. -->
+    <!-- Package visibility (Android 11+): only the supported chat apps are looked up. -->
     <queries>
         <package android:name="com.whatsapp" />
         <package android:name="com.whatsapp.w4b" />
+        <package android:name="org.telegram.messenger" />
+        <package android:name="org.telegram.messenger.web" />
+        <package android:name="org.thunderdog.challegram" />
+        <package android:name="com.instagram.android" />
     </queries>
 
     <application
@@ -34,6 +38,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true"
+        android:largeHeap="true"
         android:theme="@style/Theme.AuraMic">
 
         <activity

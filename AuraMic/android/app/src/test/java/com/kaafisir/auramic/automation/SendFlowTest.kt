@@ -68,7 +68,8 @@ class SendFlowTest {
         var out: SendFlow.Outcome = SendFlow.Outcome.Continue
         repeat(12) { clock += 1_600; out = f.step(FakeTree.preview(), a) }  // Send never goes away
         assertTrue(out is SendFlow.Outcome.Failed)
-        assertEquals(1 + 3, a.clicks.size) // row + 3 attempts
+        assertEquals(1 + 3, a.clicks.size + a.taps.size) // row + 3 send attempts (click, tap, click)
+        assertTrue(a.taps.isNotEmpty())
     }
 
     @Test fun neverTypesIntoTheMessageBoxOfAConversation() {

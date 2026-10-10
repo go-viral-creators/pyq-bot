@@ -13,5 +13,9 @@ import javax.inject.Singleton
 abstract class AppModule {
     @Binds
     @Singleton
+    abstract fun bindAiEnhancer(impl: com.kaafisir.auramic.audio.DfnEnhancer): com.kaafisir.auramic.audio.AiEnhancer
+
+    @Binds
+    @Singleton
     abstract fun bindSettings(impl: DataStoreSettingsRepository): SettingsRepository
 }

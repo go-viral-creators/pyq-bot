@@ -36,7 +36,7 @@
     <string name="tour_p1_title">Har card par Allow dabayein</string>
     <string name="tour_p1_body">Android sahi settings page kholega; AuraMic ko on karke wapas aayein. Hum yahan tick laga denge.</string>
     <string name="tour_p2_title">Accessibility khud bhej deti hai</string>
-    <string name="tour_p2_body">Yeh safai ke baad WhatsApp ka Send button dabati hai. Yeh sirf WhatsApp ke andar kaam karti hai.</string>
+    <string name="tour_p2_body">Yeh safai ke baad aapke chat app mein Send dabati hai. Yeh sirf aapke chune hue chat apps mein kaam karti hai.</string>
     <string name="perm_title">Chaliye AuraMic set karein</string>
     <string name="perm_subtitle">Kuch permissions isse kaam karne deti hain. Aapki audio kabhi phone se bahar nahi jati.</string>
     <string name="perm_overlay_title">Floating button</string>
@@ -46,7 +46,7 @@
     <string name="perm_usage_title">Usage access</string>
     <string name="perm_usage_body">Pata lagata hai ki WhatsApp khula hai taaki bubble sirf wahin dikhe.</string>
     <string name="perm_access_title">Accessibility</string>
-    <string name="perm_access_body">Voice note saaf hone par aapke liye WhatsApp ka Send button dabati hai.</string>
+    <string name="perm_access_body">Voice note saaf hone par aapke chat app mein aapke liye Send dabati hai.</string>
     <string name="perm_notif_title">Notifications</string>
     <string name="perm_notif_body">AuraMic ko background mein bharosemand dhang se chalane ke liye zaroori.</string>
     <string name="perm_battery_title">Chalta rahe</string>
@@ -61,7 +61,7 @@
     <string name="perm_restricted_body">Play Store ke bahar se install kiye apps ke liye Android ise rokta hai. App info kholein, ⋮ menu dabayein, “Allow restricted settings” chunein, phir dobara try karein.</string>
     <string name="perm_open_app_info">App info kholein</string>
     <string name="disclosure_title">Accessibility disclosure</string>
-    <string name="disclosure_body">AuraMic Accessibility Service ka use sirf ek kaam ke liye karta hai: voice note record karne ke baad WhatsApp ke andar Send button dabana, taaki note bina extra tap ke bhej diya jaye.\n\nYeh sirf WhatsApp aur WhatsApp Business mein kaam karti hai. Yeh aapke messages, contacts ya koi personal data na padhti hai, na store karti hai, na share karti hai. Audio aapke device par hi process hoti hai.</string>
+    <string name="disclosure_body">AuraMic Accessibility Service ka use sirf ek kaam ke liye karta hai: voice note record karne ke baad aap jis chat mein the use chunna aur aapke chat app (WhatsApp, WhatsApp Business, Telegram ya Instagram) ke andar Send button dabana, taaki note bina extra tap ke bhej diya jaye.\n\nYeh sirf un chat apps mein kaam karti hai jinhe aap Settings mein on karte hain. Yeh aapke messages, contacts ya koi personal data na padhti hai, na store karti hai, na share karti hai. Audio aapke device par hi process hoti hai.</string>
     <string name="disclosure_agree">Main agree karta hoon</string>
     <string name="disclosure_decline">Abhi nahi</string>
     <string name="home_status_on">AuraMic active hai</string>
@@ -73,8 +73,8 @@
     <string name="home_turn_on">On karein</string>
     <string name="home_turn_off">Off karein</string>
     <string name="home_fix_permissions">Setup poora karein</string>
-    <string name="home_open_whatsapp">WhatsApp kholein</string>
-    <string name="home_whatsapp_missing">Is phone mein WhatsApp install nahi hai.</string>
+    <string name="home_open_whatsapp">Chat app kholein</string>
+    <string name="home_whatsapp_missing">Is phone mein koi supported chat app install nahi hai.</string>
     <string name="home_stat_notes">Voice notes saaf kiye</string>
     <string name="home_stat_minutes">Minutes sanwaare</string>
     <string name="home_lab_title">Studio Lab</string>
@@ -95,7 +95,6 @@
     <string name="lab_again">Dobara record karein</string>
     <string name="lab_too_short">Bahut chhota — thoda aur der dabayein.</string>
     <string name="lab_mic_needed">Microphone ki permission chahiye.</string>
-    <string name="lab_reduction" formatted="true">Background lagbhag %1$d dB shaant</string>
     <string name="set_title">Settings</string>
     <string name="set_audio">Audio</string>
     <string name="set_strength">Noise hatane ki strength</string>
@@ -109,7 +108,6 @@
     <string name="set_whatsapp">WhatsApp</string>
     <string name="set_auto_send">Auto-send</string>
     <string name="set_auto_send_desc">Process hone ke baad mere liye Send dabayein.</string>
-    <string name="set_business">WhatsApp Business mein bhi kaam kare</string>
     <string name="set_haptics">Haptic feedback</string>
     <string name="set_overlay">Floating button</string>
     <string name="set_size">Button size</string>
@@ -143,5 +141,46 @@
     <string name="notif_title">AuraMic tayyar hai</string>
     <string name="notif_text">WhatsApp khulne par floating mic dikhta hai.</string>
     <string name="notif_stop">Off karein</string>
-    <string name="a11y_description">Floating mic se voice note record karne ke baad AuraMic WhatsApp ka Send button dabata hai. Yeh sirf WhatsApp mein kaam karta hai aur aapke messages kabhi nahi padhta ya save karta.</string>
+    <string name="a11y_description">Floating mic se voice note record karne ke baad AuraMic aapke chat app (WhatsApp, Telegram ya Instagram) ka Send button dabata hai. Yeh sirf aapke chune hue chat apps mein kaam karta hai aur aapke messages kabhi nahi padhta ya save karta.</string>
+    <string name="set_enhance">Awaaz enhancement</string>
+    <string name="set_engine">Noise removal engine</string>
+    <string name="set_engine_ai">DeepFilterNet AI — studio quality</string>
+    <string name="set_engine_classic">Classic — sabse tez, halka</string>
+    <string name="set_fast_mode">Fast mode</string>
+    <string name="set_fast_mode_desc">Sabse baareek AI stage chhodta hai: lagbhag ek tihai tez, thoda kam detail.</string>
+    <string name="set_keep_bg_value" formatted="true">Thoda mahaul rakhein: %1$d%%</string>
+    <string name="set_keep_bg_desc">0 = background poora hata (studio). Zyada value thoda wapas mila kar natural feel deti hai.</string>
+    <string name="set_preset">Awaaz polish</string>
+    <string name="set_preset_off">Off</string>
+    <string name="set_preset_natural">Natural</string>
+    <string name="set_preset_podcast">Podcast</string>
+    <string name="set_preset_desc">Podcast EQ, de-esser aur halka compression jodta hai, broadcast jaisi awaaz ke liye.</string>
+    <string name="set_loudness_target">Awaaz ka level</string>
+    <string name="set_loud_chat">Chat · −19 LUFS</string>
+    <string name="set_loud_podcast">Podcast · −16 LUFS</string>
+    <string name="set_loud_loud">Tez · −14 LUFS</string>
+    <string name="set_cut">Chuppi apne-aap kaatein</string>
+    <string name="set_cut_off">Off</string>
+    <string name="set_cut_gentle">Halka</string>
+    <string name="set_cut_tight">Tight</string>
+    <string name="set_cut_desc">Lambe pauses chhote karta hai aur note ki shuruaat aur ant trim karta hai.</string>
+    <string name="set_apps">Chat apps</string>
+    <string name="app_whatsapp">WhatsApp</string>
+    <string name="app_business">WhatsApp Business</string>
+    <string name="app_telegram">Telegram</string>
+    <string name="app_instagram">Instagram (experimental)</string>
+    <string name="set_instagram_note">Instagram doosre apps se audio file nahi leta, isliye notes Music/AuraMic mein save hote hain taaki aap attach kar sakein.</string>
+    <string name="set_fallback_recent">Open chat na padhi ja sake to sabse recent chat chunein</string>
+    <string name="set_fallback_recent_desc">Default mein off. Auto-select fail ho tabhi on karein; yeh doosri chat chun sakta hai.</string>
+    <string name="set_save_copy">Ek copy Music/AuraMic mein save karein</string>
+    <string name="set_diag">Diagnostics copy karein</string>
+    <string name="set_diag_desc">Aakhri chat screen ki banaawat copy karta hai (naam chhote kiye gaye) taaki auto-send ki problem theek ho sake.</string>
+    <string name="diag_copied">Clipboard par copy ho gaya</string>
+    <string name="diag_none">Abhi kuch nahi — pehle ek voice note bhejein.</string>
+    <string name="lab_removed">Hataya gaya noise</string>
+    <string name="lab_info" formatted="true">%1$.1f second mein process · real-time se %2$d× tez</string>
+    <string name="lab_cut" formatted="true">Hataya gaya silence: %1$.1f second</string>
+    <string name="lab_engine_ai">DeepFilterNet AI engine</string>
+    <string name="lab_engine_classic">Classic engine</string>
+    <string name="ov_saved">Music/AuraMic mein save hua</string>
 </resources>

@@ -120,13 +120,14 @@ add("tour_p1_body", "Android opens the right settings page; switch AuraMic on an
     "Android membuka halaman pengaturan yang tepat; aktifkan AuraMic lalu kembali. Kami akan mencentangnya di sini.")
 add("tour_p2_title", "Accessibility sends it for you", "एक्सेसिबिलिटी खुद भेज देती है", "Accessibility khud bhej deti hai",
     "Accesibilidad lo envía por ti", "A Acessibilidade envia por você", "إمكانية الوصول ترسلها نيابةً عنك", "Aksesibilitas mengirimkannya untuk Anda")
-add("tour_p2_body", "This one taps WhatsApp's Send button after cleaning. It only works inside WhatsApp.",
-    "यह सफाई के बाद WhatsApp का Send बटन दबाती है। यह सिर्फ़ WhatsApp के अंदर काम करती है।",
-    "Yeh safai ke baad WhatsApp ka Send button dabati hai. Yeh sirf WhatsApp ke andar kaam karti hai.",
-    "Esta pulsa el botón Enviar de WhatsApp tras la limpieza. Solo funciona dentro de WhatsApp.",
-    "Esta toca no botão Enviar do WhatsApp depois da limpeza. Só funciona dentro do WhatsApp.",
-    "تضغط هذه على زر الإرسال في واتساب بعد التنظيف، وتعمل داخل واتساب فقط.",
-    "Ini menekan tombol Kirim WhatsApp setelah pembersihan. Hanya berfungsi di dalam WhatsApp.")
+add("tour_p2_body",
+    'This one taps Send in your chat app after cleaning. It only works inside the chat apps you enable.',
+    'यह सफाई के बाद आपके चैट ऐप में Send दबाती है। यह सिर्फ़ आपके चुने चैट ऐप्स में काम करती है।',
+    'Yeh safai ke baad aapke chat app mein Send dabati hai. Yeh sirf aapke chune hue chat apps mein kaam karti hai.',
+    'Esta pulsa Enviar en tu app de chat tras la limpieza. Solo funciona en las apps de chat que actives.',
+    'Esta toca em Enviar no app de chat depois da limpeza. Só funciona nos apps de chat que você ativar.',
+    'تضغط هذه على «إرسال» في تطبيق المحادثة بعد التنظيف، وتعمل فقط داخل تطبيقات المحادثة التي تفعّلها.',
+    'Ini menekan Kirim di aplikasi obrolan setelah pembersihan. Hanya bekerja di aplikasi obrolan yang Anda aktifkan.')
 
 # ---- permissions ---------------------------------------------------------------------
 add("perm_title", "Let's set up AuraMic", "चलिए AuraMic सेट करें", "Chaliye AuraMic set karein",
@@ -158,13 +159,14 @@ add("perm_usage_body", "Detects when WhatsApp is open so the bubble only shows t
     "يكتشف متى يكون واتساب مفتوحًا لتظهر الفقاعة هناك فقط.",
     "Mendeteksi saat WhatsApp terbuka agar gelembung hanya muncul di sana.")
 add("perm_access_title", "Accessibility", "एक्सेसिबिलिटी", "Accessibility", "Accesibilidad", "Acessibilidade", "إمكانية الوصول", "Aksesibilitas")
-add("perm_access_body", "Taps WhatsApp's Send button for you once the voice note is clean.",
-    "वॉइस नोट साफ़ होने पर आपके लिए WhatsApp का Send बटन दबाती है।",
-    "Voice note saaf hone par aapke liye WhatsApp ka Send button dabati hai.",
-    "Pulsa por ti el botón Enviar de WhatsApp cuando la nota de voz está limpia.",
-    "Toca no botão Enviar do WhatsApp por você quando o áudio estiver limpo.",
-    "تضغط نيابةً عنك على زر الإرسال في واتساب عندما تصبح الرسالة الصوتية نظيفة.",
-    "Menekan tombol Kirim WhatsApp untuk Anda setelah pesan suara bersih.")
+add("perm_access_body",
+    'Taps Send in your chat app for you once the voice note is clean.',
+    'वॉइस नोट साफ़ होने पर आपके चैट ऐप में आपके लिए Send दबाती है।',
+    'Voice note saaf hone par aapke chat app mein aapke liye Send dabati hai.',
+    'Pulsa Enviar por ti en tu app de chat cuando la nota de voz está limpia.',
+    'Toca em Enviar por você no app de chat quando o áudio estiver limpo.',
+    'تضغط نيابةً عنك على «إرسال» في تطبيق المحادثة عندما تصبح الرسالة الصوتية نظيفة.',
+    'Menekan Kirim di aplikasi obrolan untuk Anda setelah pesan suara bersih.')
 add("perm_notif_title", "Notifications", "सूचनाएँ", "Notifications", "Notificaciones", "Notificações", "الإشعارات", "Notifikasi")
 add("perm_notif_body", "Needed to keep AuraMic running reliably in the background.",
     "AuraMic को बैकग्राउंड में भरोसेमंद ढंग से चलाने के लिए ज़रूरी।",
@@ -200,13 +202,14 @@ add("perm_restricted_body", "Android blocks it for apps installed outside the Pl
 add("perm_open_app_info", "Open App info", "ऐप जानकारी खोलें", "App info kholein", "Abrir info de la app", "Abrir info do app", "فتح معلومات التطبيق", "Buka info aplikasi")
 add("disclosure_title", "Accessibility disclosure", "एक्सेसिबिलिटी प्रकटीकरण", "Accessibility disclosure",
     "Aviso de accesibilidad", "Aviso de acessibilidade", "إفصاح إمكانية الوصول", "Pengungkapan Aksesibilitas")
-add("disclosure_body", "AuraMic uses Android's Accessibility Service for one purpose only: after you record a voice note, it taps the Send button inside WhatsApp so the note is delivered without extra taps.\n\nIt works only in WhatsApp and WhatsApp Business. It does not read, collect, store or share your messages, contacts or any personal data. Audio is processed on your device.",
-    "AuraMic एक्सेसिबिलिटी सेवा का उपयोग सिर्फ़ एक काम के लिए करता है: वॉइस नोट रिकॉर्ड करने के बाद WhatsApp के अंदर Send बटन दबाना ताकि बिना अतिरिक्त टैप के नोट भेजा जाए।\n\nयह सिर्फ़ WhatsApp और WhatsApp Business में काम करती है। यह आपके संदेश, संपर्क या कोई निजी डेटा न पढ़ती है, न जमा करती है, न साझा करती है। ऑडियो आपके डिवाइस पर ही प्रोसेस होती है।",
-    "AuraMic Accessibility Service ka use sirf ek kaam ke liye karta hai: voice note record karne ke baad WhatsApp ke andar Send button dabana, taaki note bina extra tap ke bhej diya jaye.\n\nYeh sirf WhatsApp aur WhatsApp Business mein kaam karti hai. Yeh aapke messages, contacts ya koi personal data na padhti hai, na store karti hai, na share karti hai. Audio aapke device par hi process hoti hai.",
-    "AuraMic usa el Servicio de accesibilidad de Android con un único propósito: después de grabar una nota de voz, pulsa el botón Enviar dentro de WhatsApp para entregarla sin toques adicionales.\n\nSolo funciona en WhatsApp y WhatsApp Business. No lee, recopila, almacena ni comparte tus mensajes, contactos ni datos personales. El audio se procesa en tu dispositivo.",
-    "O AuraMic usa o Serviço de Acessibilidade do Android com um único propósito: depois que você grava um áudio, ele toca no botão Enviar dentro do WhatsApp para entregá-lo sem toques extras.\n\nFunciona apenas no WhatsApp e no WhatsApp Business. Não lê, coleta, armazena nem compartilha suas mensagens, contatos ou dados pessoais. O áudio é processado no seu dispositivo.",
-    "يستخدم AuraMic خدمة إمكانية الوصول في أندرويد لغرض واحد فقط: بعد تسجيل رسالة صوتية، يضغط على زر الإرسال داخل واتساب لتسليمها دون نقرات إضافية.\n\nيعمل فقط داخل واتساب وواتساب للأعمال. لا يقرأ رسائلك أو جهات اتصالك أو أي بيانات شخصية ولا يجمعها أو يخزّنها أو يشاركها. تتم معالجة الصوت على جهازك.",
-    "AuraMic menggunakan Layanan Aksesibilitas Android hanya untuk satu tujuan: setelah Anda merekam pesan suara, layanan ini menekan tombol Kirim di dalam WhatsApp agar pesan terkirim tanpa ketukan tambahan.\n\nHanya bekerja di WhatsApp dan WhatsApp Business. Tidak membaca, mengumpulkan, menyimpan, atau membagikan pesan, kontak, maupun data pribadi Anda. Audio diproses di perangkat Anda.")
+add("disclosure_body",
+    "AuraMic uses Android's Accessibility Service for one purpose only: after you record a voice note, it selects the chat you were in and taps the Send button inside your chat app (WhatsApp, WhatsApp Business, Telegram or Instagram) so the note is delivered without extra taps.\n\nIt works only in the chat apps you enable in Settings. It does not read, collect, store or share your messages, contacts or any personal data. Audio is processed on your device.",
+    'AuraMic एक्सेसिबिलिटी सेवा का उपयोग सिर्फ़ एक काम के लिए करता है: वॉइस नोट रिकॉर्ड करने के बाद आप जिस चैट में थे उसे चुनना और आपके चैट ऐप (WhatsApp, WhatsApp Business, Telegram या Instagram) के अंदर Send बटन दबाना, ताकि बिना अतिरिक्त टैप के नोट भेजा जाए।\n\nयह सिर्फ़ उन चैट ऐप्स में काम करती है जिन्हें आप सेटिंग्स में चालू करते हैं। यह आपके संदेश, संपर्क या कोई निजी डेटा न पढ़ती है, न जमा करती है, न साझा करती है। ऑडियो आपके डिवाइस पर ही प्रोसेस होती है।',
+    'AuraMic Accessibility Service ka use sirf ek kaam ke liye karta hai: voice note record karne ke baad aap jis chat mein the use chunna aur aapke chat app (WhatsApp, WhatsApp Business, Telegram ya Instagram) ke andar Send button dabana, taaki note bina extra tap ke bhej diya jaye.\n\nYeh sirf un chat apps mein kaam karti hai jinhe aap Settings mein on karte hain. Yeh aapke messages, contacts ya koi personal data na padhti hai, na store karti hai, na share karti hai. Audio aapke device par hi process hoti hai.',
+    'AuraMic usa el Servicio de accesibilidad de Android con un único propósito: después de grabar una nota de voz, selecciona el chat en el que estabas y pulsa el botón Enviar dentro de tu app de chat (WhatsApp, WhatsApp Business, Telegram o Instagram) para entregarla sin toques adicionales.\n\nSolo funciona en las apps de chat que actives en Ajustes. No lee, recopila, almacena ni comparte tus mensajes, contactos ni datos personales. El audio se procesa en tu dispositivo.',
+    'O AuraMic usa o Serviço de Acessibilidade do Android com um único propósito: depois que você grava um áudio, ele seleciona a conversa em que você estava e toca no botão Enviar dentro do seu app de chat (WhatsApp, WhatsApp Business, Telegram ou Instagram) para entregá-lo sem toques extras.\n\nFunciona apenas nos apps de chat que você ativar nas Configurações. Não lê, coleta, armazena nem compartilha suas mensagens, contatos ou dados pessoais. O áudio é processado no seu dispositivo.',
+    'يستخدم AuraMic خدمة إمكانية الوصول في أندرويد لغرض واحد فقط: بعد تسجيل رسالة صوتية، يختار المحادثة التي كنت فيها ويضغط على زر الإرسال داخل تطبيق المحادثة (واتساب أو واتساب للأعمال أو تيليجرام أو إنستغرام) لتسليمها دون نقرات إضافية.\n\nيعمل فقط داخل تطبيقات المحادثة التي تفعّلها من الإعدادات. لا يقرأ رسائلك أو جهات اتصالك أو أي بيانات شخصية ولا يجمعها أو يخزّنها أو يشاركها. تتم معالجة الصوت على جهازك.',
+    'AuraMic menggunakan Layanan Aksesibilitas Android hanya untuk satu tujuan: setelah Anda merekam pesan suara, layanan ini memilih obrolan tempat Anda berada dan menekan tombol Kirim di dalam aplikasi obrolan Anda (WhatsApp, WhatsApp Business, Telegram, atau Instagram) agar pesan terkirim tanpa ketukan tambahan.\n\nHanya bekerja di aplikasi obrolan yang Anda aktifkan di Pengaturan. Tidak membaca, mengumpulkan, menyimpan, atau membagikan pesan, kontak, maupun data pribadi Anda. Audio diproses di perangkat Anda.')
 add("disclosure_agree", "I agree", "मैं सहमत हूँ", "Main agree karta hoon", "Acepto", "Concordo", "أوافق", "Saya setuju")
 add("disclosure_decline", "Not now", "अभी नहीं", "Abhi nahi", "Ahora no", "Agora não", "ليس الآن", "Nanti saja")
 
@@ -226,10 +229,22 @@ add("home_status_setup_body", "Finish the permissions to get started.", "शु�
 add("home_turn_on", "Turn on", "चालू करें", "On karein", "Activar", "Ativar", "تشغيل", "Aktifkan")
 add("home_turn_off", "Turn off", "बंद करें", "Off karein", "Desactivar", "Desativar", "إيقاف", "Nonaktifkan")
 add("home_fix_permissions", "Finish setup", "सेटअप पूरा करें", "Setup poora karein", "Terminar configuración", "Concluir configuração", "إكمال الإعداد", "Selesaikan pengaturan")
-add("home_open_whatsapp", "Open WhatsApp", "WhatsApp खोलें", "WhatsApp kholein", "Abrir WhatsApp", "Abrir WhatsApp", "فتح واتساب", "Buka WhatsApp")
-add("home_whatsapp_missing", "WhatsApp isn't installed on this phone.", "इस फ़ोन में WhatsApp इंस्टॉल नहीं है।",
-    "Is phone mein WhatsApp install nahi hai.", "WhatsApp no está instalado en este teléfono.", "O WhatsApp não está instalado neste celular.",
-    "واتساب غير مثبّت على هذا الهاتف.", "WhatsApp tidak terpasang di ponsel ini.")
+add("home_open_whatsapp",
+    'Open chat app',
+    'चैट ऐप खोलें',
+    'Chat app kholein',
+    'Abrir app de chat',
+    'Abrir app de chat',
+    'فتح تطبيق المحادثة',
+    'Buka aplikasi obrolan')
+add("home_whatsapp_missing",
+    'No supported chat app is installed on this phone.',
+    'इस फ़ोन में कोई समर्थित चैट ऐप इंस्टॉल नहीं है।',
+    'Is phone mein koi supported chat app install nahi hai.',
+    'No hay ninguna app de chat compatible instalada en este teléfono.',
+    'Nenhum app de chat compatível está instalado neste celular.',
+    'لا يوجد تطبيق محادثة مدعوم مثبّت على هذا الهاتف.',
+    'Tidak ada aplikasi obrolan yang didukung di ponsel ini.')
 add("home_stat_notes", "Voice notes cleaned", "साफ़ किए वॉइस नोट", "Voice notes saaf kiye", "Notas de voz limpiadas", "Áudios limpos", "رسائل صوتية نُظّفت", "Pesan suara dibersihkan")
 add("home_stat_minutes", "Minutes polished", "सँवारे गए मिनट", "Minutes sanwaare", "Minutos pulidos", "Minutos aprimorados", "دقائق تم تحسينها", "Menit dipoles")
 add("home_lab_title", "Studio Lab", "स्टूडियो लैब", "Studio Lab", "Laboratorio de estudio", "Laboratório de estúdio", "مختبر الاستوديو", "Lab Studio")
@@ -259,8 +274,6 @@ add("lab_too_short", "Too short — hold a little longer.", "बहुत छो
     "Muy corto: mantén un poco más.", "Muito curto: segure um pouco mais.", "قصير جدًا — اضغط لفترة أطول قليلًا.", "Terlalu singkat — tahan sedikit lebih lama.")
 add("lab_mic_needed", "Microphone permission needed.", "माइक्रोफ़ोन की अनुमति चाहिए।", "Microphone ki permission chahiye.",
     "Se necesita permiso de micrófono.", "É necessária a permissão do microfone.", "مطلوب إذن الميكروفون.", "Perlu izin mikrofon.")
-add("lab_reduction", "About %1$d dB quieter background", "बैकग्राउंड लगभग %1$d dB शांत", "Background lagbhag %1$d dB shaant",
-    "Fondo unos %1$d dB más silencioso", "Fundo cerca de %1$d dB mais silencioso", "الخلفية أهدأ بحوالي %1$d ديسيبل", "Latar sekitar %1$d dB lebih senyap")
 
 # ---- settings ------------------------------------------------------------------------
 add("set_title", "Settings", "सेटिंग्स", "Settings", "Ajustes", "Configurações", "الإعدادات", "Pengaturan")
@@ -278,7 +291,6 @@ add("set_whatsapp", "WhatsApp", "WhatsApp", "WhatsApp", "WhatsApp", "WhatsApp", 
 add("set_auto_send", "Auto-send", "ऑटो-सेंड", "Auto-send", "Envío automático", "Envio automático", "الإرسال التلقائي", "Kirim otomatis")
 add("set_auto_send_desc", "Tap Send for me after processing.", "प्रोसेस होने के बाद मेरे लिए Send दबाएँ।", "Process hone ke baad mere liye Send dabayein.",
     "Pulsar Enviar por mí tras procesar.", "Tocar em Enviar por mim após processar.", "الضغط على إرسال نيابةً عني بعد المعالجة.", "Tekan Kirim untuk saya setelah diproses.")
-add("set_business", "Also work in WhatsApp Business", "WhatsApp Business में भी काम करे", "WhatsApp Business mein bhi kaam kare", "Funcionar también en WhatsApp Business", "Funcionar também no WhatsApp Business", "العمل أيضًا في واتساب للأعمال", "Berfungsi juga di WhatsApp Business")
 add("set_haptics", "Haptic feedback", "हैप्टिक फ़ीडबैक", "Haptic feedback", "Respuesta háptica", "Vibração tátil", "الاهتزاز اللمسي", "Umpan balik haptik")
 add("set_overlay", "Floating button", "फ्लोटिंग बटन", "Floating button", "Botón flotante", "Botão flutuante", "الزر العائم", "Tombol melayang")
 add("set_size", "Button size", "बटन का आकार", "Button size", "Tamaño del botón", "Tamanho do botão", "حجم الزر", "Ukuran tombol")
@@ -315,13 +327,64 @@ add("notif_title", "AuraMic is ready", "AuraMic तैयार है", "AuraMi
 add("notif_text", "The floating mic appears when WhatsApp is open.", "WhatsApp खुलने पर फ्लोटिंग माइक दिखता है।", "WhatsApp khulne par floating mic dikhta hai.",
     "El micrófono flotante aparece cuando WhatsApp está abierto.", "O microfone flutuante aparece quando o WhatsApp está aberto.", "يظهر الميكروفون العائم عند فتح واتساب.", "Mikrofon melayang muncul saat WhatsApp terbuka.")
 add("notif_stop", "Turn off", "बंद करें", "Off karein", "Desactivar", "Desativar", "إيقاف", "Nonaktifkan")
-add("a11y_description", "AuraMic taps WhatsApp's Send button after you record a voice note with the floating mic. It works only inside WhatsApp and never reads or stores your messages.",
-    "फ्लोटिंग माइक से वॉइस नोट रिकॉर्ड करने के बाद AuraMic WhatsApp का Send बटन दबाता है। यह सिर्फ़ WhatsApp में काम करता है और आपके संदेश कभी नहीं पढ़ता या सहेजता।",
-    "Floating mic se voice note record karne ke baad AuraMic WhatsApp ka Send button dabata hai. Yeh sirf WhatsApp mein kaam karta hai aur aapke messages kabhi nahi padhta ya save karta.",
-    "AuraMic pulsa el botón Enviar de WhatsApp tras grabar una nota de voz con el micrófono flotante. Solo funciona dentro de WhatsApp y nunca lee ni guarda tus mensajes.",
-    "O AuraMic toca no botão Enviar do WhatsApp depois que você grava um áudio com o microfone flutuante. Funciona apenas dentro do WhatsApp e nunca lê nem armazena suas mensagens.",
-    "يضغط AuraMic على زر الإرسال في واتساب بعد تسجيل رسالة صوتية بالميكروفون العائم. يعمل داخل واتساب فقط ولا يقرأ رسائلك ولا يخزّنها.",
-    "AuraMic menekan tombol Kirim WhatsApp setelah Anda merekam pesan suara dengan mikrofon melayang. Hanya bekerja di dalam WhatsApp dan tidak pernah membaca atau menyimpan pesan Anda.")
+add("a11y_description",
+    'AuraMic taps the Send button in your chat app (WhatsApp, Telegram or Instagram) after you record a voice note with the floating mic. It works only inside the chat apps you enable and never reads or stores your messages.',
+    'फ्लोटिंग माइक से वॉइस नोट रिकॉर्ड करने के बाद AuraMic आपके चैट ऐप (WhatsApp, Telegram या Instagram) का Send बटन दबाता है। यह सिर्फ़ आपके चुने चैट ऐप्स में काम करता है और आपके संदेश कभी नहीं पढ़ता या सहेजता।',
+    'Floating mic se voice note record karne ke baad AuraMic aapke chat app (WhatsApp, Telegram ya Instagram) ka Send button dabata hai. Yeh sirf aapke chune hue chat apps mein kaam karta hai aur aapke messages kabhi nahi padhta ya save karta.',
+    'AuraMic pulsa el botón Enviar de tu app de chat (WhatsApp, Telegram o Instagram) tras grabar una nota de voz con el micrófono flotante. Solo funciona en las apps de chat que actives y nunca lee ni guarda tus mensajes.',
+    'O AuraMic toca no botão Enviar do seu app de chat (WhatsApp, Telegram ou Instagram) depois que você grava um áudio com o microfone flutuante. Funciona apenas nos apps de chat que você ativar e nunca lê nem armazena suas mensagens.',
+    'يضغط AuraMic على زر الإرسال في تطبيق المحادثة (واتساب أو تيليجرام أو إنستغرام) بعد تسجيل رسالة صوتية بالميكروفون العائم. يعمل فقط داخل تطبيقات المحادثة التي تفعّلها ولا يقرأ رسائلك ولا يخزّنها.',
+    'AuraMic menekan tombol Kirim di aplikasi obrolan Anda (WhatsApp, Telegram, atau Instagram) setelah Anda merekam pesan suara dengan mikrofon melayang. Hanya bekerja di aplikasi obrolan yang Anda aktifkan dan tidak pernah membaca atau menyimpan pesan Anda.')
+
+# ---- advanced options (v1.1) -------------------------------------------------------------------------------------
+add("set_enhance", "Voice enhancement", "आवाज़ सुधार", "Awaaz enhancement", "Mejora de voz", "Melhoria de voz", "تحسين الصوت", "Peningkatan suara")
+add("set_engine", "Noise removal engine", "शोर हटाने का इंजन", "Noise removal engine", "Motor de reducción de ruido", "Mecanismo de redução de ruído", "محرك إزالة الضوضاء", "Mesin penghilang derau")
+add("set_engine_ai", "DeepFilterNet AI — studio quality", "DeepFilterNet AI — स्टूडियो क्वालिटी", "DeepFilterNet AI — studio quality", "DeepFilterNet IA: calidad de estudio", "DeepFilterNet IA: qualidade de estúdio", "DeepFilterNet بالذكاء الاصطناعي — جودة الاستوديو", "DeepFilterNet AI — kualitas studio")
+add("set_engine_classic", "Classic — fastest, lighter", "क्लासिक — सबसे तेज़, हल्का", "Classic — sabse tez, halka", "Clásico: el más rápido y ligero", "Clássico: o mais rápido e leve", "كلاسيكي — الأسرع والأخف", "Klasik — tercepat, ringan")
+add("set_fast_mode", "Fast mode", "फ़ास्ट मोड", "Fast mode", "Modo rápido", "Modo rápido", "الوضع السريع", "Mode cepat")
+add("set_fast_mode_desc", "Skips the finest AI stage: about a third faster, slightly less detail.", "सबसे बारीक AI चरण छोड़ता है: लगभग एक तिहाई तेज़, थोड़ा कम डिटेल।", "Sabse baareek AI stage chhodta hai: lagbhag ek tihai tez, thoda kam detail.",
+    "Omite la etapa de IA más fina: un tercio más rápido, algo menos de detalle.", "Pula a etapa de IA mais fina: cerca de um terço mais rápido, um pouco menos de detalhe.", "يتخطى أدق مرحلة للذكاء الاصطناعي: أسرع بنحو الثلث وبتفاصيل أقل قليلًا.", "Melewati tahap AI paling halus: sekitar sepertiga lebih cepat, detail sedikit berkurang.")
+add("set_keep_bg_value", "Keep some ambience: %1$d%%", "थोड़ा माहौल रखें: %1$d%%", "Thoda mahaul rakhein: %1$d%%", "Conservar algo de ambiente: %1$d%%", "Manter um pouco de ambiente: %1$d%%", "إبقاء بعض الأجواء: %1$d%%", "Pertahankan sedikit suasana: %1$d%%")
+add("set_keep_bg_desc", "0 = background fully removed (studio). Higher values mix some of it back for a natural feel.", "0 = बैकग्राउंड पूरी तरह हटा (स्टूडियो)। ज़्यादा मान थोड़ा वापस मिलाकर प्राकृतिक एहसास देते हैं।", "0 = background poora hata (studio). Zyada value thoda wapas mila kar natural feel deti hai.",
+    "0 = fondo eliminado por completo (estudio). Valores altos devuelven algo para un sonido natural.", "0 = fundo totalmente removido (estúdio). Valores maiores trazem um pouco de volta para soar natural.", "0٪ = إزالة الخلفية بالكامل (استوديو). القيم الأعلى تعيد جزءًا منها لإحساس طبيعي.", "0 = latar dihapus total (studio). Nilai lebih tinggi mencampur sebagian kembali agar terasa alami.")
+add("set_preset", "Voice polish", "आवाज़ पॉलिश", "Awaaz polish", "Pulido de voz", "Acabamento de voz", "تلميع الصوت", "Poles suara")
+add("set_preset_off", "Off", "बंद", "Off", "Desactivado", "Desligado", "إيقاف", "Mati")
+add("set_preset_natural", "Natural", "प्राकृतिक", "Natural", "Natural", "Natural", "طبيعي", "Alami")
+add("set_preset_podcast", "Podcast", "पॉडकास्ट", "Podcast", "Podcast", "Podcast", "بودكاست", "Podcast")
+add("set_preset_desc", "Podcast adds EQ, a de-esser and gentle compression for a broadcast sound.", "पॉडकास्ट EQ, डी-एसर और हल्का कम्प्रेशन जोड़ता है, ब्रॉडकास्ट जैसी आवाज़ के लिए।", "Podcast EQ, de-esser aur halka compression jodta hai, broadcast jaisi awaaz ke liye.",
+    "Podcast añade ecualizador, de-esser y compresión suave para un sonido de radio.", "Podcast adiciona equalização, de-esser e compressão suave para um som de rádio.", "يضيف «بودكاست» موازنة وإزالة للصفير وضغطًا لطيفًا لصوت إذاعي.", "Podcast menambah EQ, de-esser, dan kompresi halus untuk suara siaran.")
+add("set_loudness_target", "Loudness target", "आवाज़ का स्तर", "Awaaz ka level", "Nivel de volumen", "Nível de volume", "مستوى الصوت المستهدف", "Target volume")
+add("set_loud_chat", "Chat · −19 LUFS", "चैट · −19 LUFS", "Chat · −19 LUFS", "Chat · −19 LUFS", "Chat · −19 LUFS", "محادثة · −19 LUFS", "Obrolan · −19 LUFS")
+add("set_loud_podcast", "Podcast · −16 LUFS", "पॉडकास्ट · −16 LUFS", "Podcast · −16 LUFS", "Podcast · −16 LUFS", "Podcast · −16 LUFS", "بودكاست · −16 LUFS", "Podcast · −16 LUFS")
+add("set_loud_loud", "Loud · −14 LUFS", "तेज़ · −14 LUFS", "Tez · −14 LUFS", "Alto · −14 LUFS", "Alto · −14 LUFS", "عالٍ · −14 LUFS", "Keras · −14 LUFS")
+add("set_cut", "Auto-cut silence", "चुप्पी अपने-आप काटें", "Chuppi apne-aap kaatein", "Cortar silencios automáticamente", "Cortar silêncios automaticamente", "قصّ الصمت تلقائيًا", "Potong hening otomatis")
+add("set_cut_off", "Off", "बंद", "Off", "Desactivado", "Desligado", "إيقاف", "Mati")
+add("set_cut_gentle", "Gentle", "हल्का", "Halka", "Suave", "Suave", "خفيف", "Lembut")
+add("set_cut_tight", "Tight", "सख़्त", "Tight", "Ajustado", "Firme", "مشدّد", "Ketat")
+add("set_cut_desc", "Shortens long pauses and trims the start and end of the note.", "लंबे विराम छोटे करता है और नोट की शुरुआत व अंत ट्रिम करता है।", "Lambe pauses chhote karta hai aur note ki shuruaat aur ant trim karta hai.",
+    "Acorta las pausas largas y recorta el inicio y el final de la nota.", "Encurta pausas longas e apara o início e o fim do áudio.", "يقصّر الوقفات الطويلة ويقتطع بداية الرسالة ونهايتها.", "Memperpendek jeda panjang dan memangkas awal serta akhir pesan.")
+add("set_apps", "Chat apps", "चैट ऐप्स", "Chat apps", "Apps de chat", "Apps de chat", "تطبيقات المحادثة", "Aplikasi obrolan")
+add("app_whatsapp", "WhatsApp", "WhatsApp", "WhatsApp", "WhatsApp", "WhatsApp", "واتساب", "WhatsApp")
+add("app_business", "WhatsApp Business", "WhatsApp Business", "WhatsApp Business", "WhatsApp Business", "WhatsApp Business", "واتساب للأعمال", "WhatsApp Business")
+add("app_telegram", "Telegram", "Telegram", "Telegram", "Telegram", "Telegram", "تيليجرام", "Telegram")
+add("app_instagram", "Instagram (experimental)", "Instagram (प्रायोगिक)", "Instagram (experimental)", "Instagram (experimental)", "Instagram (experimental)", "إنستغرام (تجريبي)", "Instagram (eksperimental)")
+add("set_instagram_note", "Instagram does not accept audio files from other apps, so notes are saved to Music/AuraMic for you to attach.", "Instagram दूसरे ऐप्स से ऑडियो फ़ाइल नहीं लेता, इसलिए नोट Music/AuraMic में सहेजे जाते हैं ताकि आप जोड़ सकें।", "Instagram doosre apps se audio file nahi leta, isliye notes Music/AuraMic mein save hote hain taaki aap attach kar sakein.",
+    "Instagram no acepta archivos de audio de otras apps, así que las notas se guardan en Music/AuraMic para que las adjuntes.", "O Instagram não aceita arquivos de áudio de outros apps, então os áudios são salvos em Music/AuraMic para você anexar.", "لا يقبل إنستغرام ملفات صوتية من تطبيقات أخرى، لذا تُحفظ الرسائل في Music/AuraMic لتقوم بإرفاقها.", "Instagram tidak menerima berkas audio dari aplikasi lain, jadi pesan disimpan di Music/AuraMic untuk Anda lampirkan.")
+add("set_fallback_recent", "Use the most recent chat if the open chat can't be read", "खुली चैट न पढ़ी जा सके तो सबसे हाल की चैट चुनें", "Open chat na padhi ja sake to sabse recent chat chunein", "Usar el chat más reciente si no se puede leer el chat abierto", "Usar a conversa mais recente se a aberta não puder ser lida", "استخدام أحدث محادثة إذا تعذّرت قراءة المحادثة المفتوحة", "Gunakan obrolan terbaru jika obrolan terbuka tak terbaca")
+add("set_fallback_recent_desc", "Off by default. Turn on only if auto-select fails; it may pick a different chat.", "डिफ़ॉल्ट रूप से बंद। ऑटो-सेलेक्ट फ़ेल हो तभी चालू करें; यह दूसरी चैट चुन सकता है।", "Default mein off. Auto-select fail ho tabhi on karein; yeh doosri chat chun sakta hai.",
+    "Desactivado por defecto. Actívalo solo si falla la selección automática; puede elegir otro chat.", "Desativado por padrão. Ative só se a seleção automática falhar; pode escolher outra conversa.", "معطّل افتراضيًا. فعّله فقط إذا فشل الاختيار التلقائي؛ قد يختار محادثة مختلفة.", "Nonaktif secara default. Aktifkan hanya jika pilihan otomatis gagal; bisa memilih obrolan lain.")
+add("set_save_copy", "Save a copy to Music/AuraMic", "एक कॉपी Music/AuraMic में सहेजें", "Ek copy Music/AuraMic mein save karein", "Guardar una copia en Music/AuraMic", "Salvar uma cópia em Music/AuraMic", "حفظ نسخة في Music/AuraMic", "Simpan salinan ke Music/AuraMic")
+add("set_diag", "Copy diagnostics", "डायग्नोस्टिक्स कॉपी करें", "Diagnostics copy karein", "Copiar diagnóstico", "Copiar diagnóstico", "نسخ التشخيص", "Salin diagnostik")
+add("set_diag_desc", "Copies the structure of the last chat screen (names shortened) so auto-send problems can be fixed.", "आख़िरी चैट स्क्रीन की बनावट कॉपी करता है (नाम छोटे किए गए) ताकि ऑटो-सेंड की समस्या ठीक की जा सके।", "Aakhri chat screen ki banaawat copy karta hai (naam chhote kiye gaye) taaki auto-send ki problem theek ho sake.",
+    "Copia la estructura de la última pantalla de chat (nombres abreviados) para poder arreglar problemas de envío automático.", "Copia a estrutura da última tela de conversa (nomes abreviados) para corrigir problemas do envio automático.", "ينسخ بنية آخر شاشة محادثة (الأسماء مختصرة) لإصلاح مشكلات الإرسال التلقائي.", "Menyalin struktur layar obrolan terakhir (nama dipersingkat) agar masalah kirim otomatis bisa diperbaiki.")
+add("diag_copied", "Copied to clipboard", "क्लिपबोर्ड पर कॉपी हुआ", "Clipboard par copy ho gaya", "Copiado al portapapeles", "Copiado para a área de transferência", "تم النسخ إلى الحافظة", "Disalin ke papan klip")
+add("diag_none", "Nothing yet — send a voice note first.", "अभी कुछ नहीं — पहले एक वॉइस नोट भेजें।", "Abhi kuch nahi — pehle ek voice note bhejein.", "Aún no hay datos: envía primero una nota de voz.", "Ainda não há dados: envie um áudio primeiro.", "لا شيء بعد — أرسل رسالة صوتية أولًا.", "Belum ada — kirim pesan suara dulu.")
+add("lab_removed", "Removed noise", "हटाया गया शोर", "Hataya gaya noise", "Ruido eliminado", "Ruído removido", "الضوضاء المُزالة", "Derau yang dihapus")
+add("lab_info", "Processed in %1$.1f s · %2$d× faster than real time", "%1$.1f सेकंड में प्रोसेस · रियल-टाइम से %2$d× तेज़", "%1$.1f second mein process · real-time se %2$d× tez", "Procesado en %1$.1f s · %2$d× más rápido que el tiempo real", "Processado em %1$.1f s · %2$d× mais rápido que o tempo real", "تمت المعالجة في %1$.1f ث · أسرع %2$d× من الزمن الحقيقي", "Diproses dalam %1$.1f dtk · %2$d× lebih cepat dari waktu nyata")
+add("lab_cut", "Silence removed: %1$.1f s", "हटाई गई चुप्पी: %1$.1f सेकंड", "Hataya gaya silence: %1$.1f second", "Silencio eliminado: %1$.1f s", "Silêncio removido: %1$.1f s", "الصمت المحذوف: %1$.1f ث", "Hening dihapus: %1$.1f dtk")
+add("lab_engine_ai", "DeepFilterNet AI engine", "DeepFilterNet AI इंजन", "DeepFilterNet AI engine", "Motor DeepFilterNet IA", "Mecanismo DeepFilterNet IA", "محرك DeepFilterNet بالذكاء الاصطناعي", "Mesin DeepFilterNet AI")
+add("lab_engine_classic", "Classic engine", "क्लासिक इंजन", "Classic engine", "Motor clásico", "Mecanismo clássico", "المحرك الكلاسيكي", "Mesin klasik")
+add("ov_saved", "Saved to Music/AuraMic", "Music/AuraMic में सहेजा गया", "Music/AuraMic mein save hua", "Guardado en Music/AuraMic", "Salvo em Music/AuraMic", "تم الحفظ في Music/AuraMic", "Disimpan di Music/AuraMic")
 
 
 def esc(v: str) -> str:

@@ -37,7 +37,7 @@
     <string name="tour_p1_title">Tap Allow on each card</string>
     <string name="tour_p1_body">Android opens the right settings page; switch AuraMic on and come back. We\'ll tick it off here.</string>
     <string name="tour_p2_title">Accessibility sends it for you</string>
-    <string name="tour_p2_body">This one taps WhatsApp\'s Send button after cleaning. It only works inside WhatsApp.</string>
+    <string name="tour_p2_body">This one taps Send in your chat app after cleaning. It only works inside the chat apps you enable.</string>
     <string name="perm_title">Let\'s set up AuraMic</string>
     <string name="perm_subtitle">A few permissions make the magic work. Your audio never leaves your phone.</string>
     <string name="perm_overlay_title">Floating button</string>
@@ -47,7 +47,7 @@
     <string name="perm_usage_title">Usage access</string>
     <string name="perm_usage_body">Detects when WhatsApp is open so the bubble only shows there.</string>
     <string name="perm_access_title">Accessibility</string>
-    <string name="perm_access_body">Taps WhatsApp\'s Send button for you once the voice note is clean.</string>
+    <string name="perm_access_body">Taps Send in your chat app for you once the voice note is clean.</string>
     <string name="perm_notif_title">Notifications</string>
     <string name="perm_notif_body">Needed to keep AuraMic running reliably in the background.</string>
     <string name="perm_battery_title">Keep running</string>
@@ -62,7 +62,7 @@
     <string name="perm_restricted_body">Android blocks it for apps installed outside the Play Store. Open App info, tap the ⋮ menu, choose “Allow restricted settings”, then try again.</string>
     <string name="perm_open_app_info">Open App info</string>
     <string name="disclosure_title">Accessibility disclosure</string>
-    <string name="disclosure_body">AuraMic uses Android\'s Accessibility Service for one purpose only: after you record a voice note, it taps the Send button inside WhatsApp so the note is delivered without extra taps.\n\nIt works only in WhatsApp and WhatsApp Business. It does not read, collect, store or share your messages, contacts or any personal data. Audio is processed on your device.</string>
+    <string name="disclosure_body">AuraMic uses Android\'s Accessibility Service for one purpose only: after you record a voice note, it selects the chat you were in and taps the Send button inside your chat app (WhatsApp, WhatsApp Business, Telegram or Instagram) so the note is delivered without extra taps.\n\nIt works only in the chat apps you enable in Settings. It does not read, collect, store or share your messages, contacts or any personal data. Audio is processed on your device.</string>
     <string name="disclosure_agree">I agree</string>
     <string name="disclosure_decline">Not now</string>
     <string name="home_status_on">AuraMic is active</string>
@@ -74,8 +74,8 @@
     <string name="home_turn_on">Turn on</string>
     <string name="home_turn_off">Turn off</string>
     <string name="home_fix_permissions">Finish setup</string>
-    <string name="home_open_whatsapp">Open WhatsApp</string>
-    <string name="home_whatsapp_missing">WhatsApp isn\'t installed on this phone.</string>
+    <string name="home_open_whatsapp">Open chat app</string>
+    <string name="home_whatsapp_missing">No supported chat app is installed on this phone.</string>
     <string name="home_stat_notes">Voice notes cleaned</string>
     <string name="home_stat_minutes">Minutes polished</string>
     <string name="home_lab_title">Studio Lab</string>
@@ -96,7 +96,6 @@
     <string name="lab_again">Record again</string>
     <string name="lab_too_short">Too short — hold a little longer.</string>
     <string name="lab_mic_needed">Microphone permission needed.</string>
-    <string name="lab_reduction" formatted="true">About %1$d dB quieter background</string>
     <string name="set_title">Settings</string>
     <string name="set_audio">Audio</string>
     <string name="set_strength">Noise removal strength</string>
@@ -110,7 +109,6 @@
     <string name="set_whatsapp">WhatsApp</string>
     <string name="set_auto_send">Auto-send</string>
     <string name="set_auto_send_desc">Tap Send for me after processing.</string>
-    <string name="set_business">Also work in WhatsApp Business</string>
     <string name="set_haptics">Haptic feedback</string>
     <string name="set_overlay">Floating button</string>
     <string name="set_size">Button size</string>
@@ -144,5 +142,46 @@
     <string name="notif_title">AuraMic is ready</string>
     <string name="notif_text">The floating mic appears when WhatsApp is open.</string>
     <string name="notif_stop">Turn off</string>
-    <string name="a11y_description">AuraMic taps WhatsApp\'s Send button after you record a voice note with the floating mic. It works only inside WhatsApp and never reads or stores your messages.</string>
+    <string name="a11y_description">AuraMic taps the Send button in your chat app (WhatsApp, Telegram or Instagram) after you record a voice note with the floating mic. It works only inside the chat apps you enable and never reads or stores your messages.</string>
+    <string name="set_enhance">Voice enhancement</string>
+    <string name="set_engine">Noise removal engine</string>
+    <string name="set_engine_ai">DeepFilterNet AI — studio quality</string>
+    <string name="set_engine_classic">Classic — fastest, lighter</string>
+    <string name="set_fast_mode">Fast mode</string>
+    <string name="set_fast_mode_desc">Skips the finest AI stage: about a third faster, slightly less detail.</string>
+    <string name="set_keep_bg_value" formatted="true">Keep some ambience: %1$d%%</string>
+    <string name="set_keep_bg_desc">0 = background fully removed (studio). Higher values mix some of it back for a natural feel.</string>
+    <string name="set_preset">Voice polish</string>
+    <string name="set_preset_off">Off</string>
+    <string name="set_preset_natural">Natural</string>
+    <string name="set_preset_podcast">Podcast</string>
+    <string name="set_preset_desc">Podcast adds EQ, a de-esser and gentle compression for a broadcast sound.</string>
+    <string name="set_loudness_target">Loudness target</string>
+    <string name="set_loud_chat">Chat · −19 LUFS</string>
+    <string name="set_loud_podcast">Podcast · −16 LUFS</string>
+    <string name="set_loud_loud">Loud · −14 LUFS</string>
+    <string name="set_cut">Auto-cut silence</string>
+    <string name="set_cut_off">Off</string>
+    <string name="set_cut_gentle">Gentle</string>
+    <string name="set_cut_tight">Tight</string>
+    <string name="set_cut_desc">Shortens long pauses and trims the start and end of the note.</string>
+    <string name="set_apps">Chat apps</string>
+    <string name="app_whatsapp">WhatsApp</string>
+    <string name="app_business">WhatsApp Business</string>
+    <string name="app_telegram">Telegram</string>
+    <string name="app_instagram">Instagram (experimental)</string>
+    <string name="set_instagram_note">Instagram does not accept audio files from other apps, so notes are saved to Music/AuraMic for you to attach.</string>
+    <string name="set_fallback_recent">Use the most recent chat if the open chat can\'t be read</string>
+    <string name="set_fallback_recent_desc">Off by default. Turn on only if auto-select fails; it may pick a different chat.</string>
+    <string name="set_save_copy">Save a copy to Music/AuraMic</string>
+    <string name="set_diag">Copy diagnostics</string>
+    <string name="set_diag_desc">Copies the structure of the last chat screen (names shortened) so auto-send problems can be fixed.</string>
+    <string name="diag_copied">Copied to clipboard</string>
+    <string name="diag_none">Nothing yet — send a voice note first.</string>
+    <string name="lab_removed">Removed noise</string>
+    <string name="lab_info" formatted="true">Processed in %1$.1f s · %2$d× faster than real time</string>
+    <string name="lab_cut" formatted="true">Silence removed: %1$.1f s</string>
+    <string name="lab_engine_ai">DeepFilterNet AI engine</string>
+    <string name="lab_engine_classic">Classic engine</string>
+    <string name="ov_saved">Saved to Music/AuraMic</string>
 </resources>

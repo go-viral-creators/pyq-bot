@@ -36,7 +36,7 @@
     <string name="tour_p1_title">हर कार्ड पर अनुमति दें दबाएँ</string>
     <string name="tour_p1_body">Android सही सेटिंग्स पेज खोलेगा; AuraMic को चालू करके वापस आएँ। हम यहाँ टिक लगा देंगे।</string>
     <string name="tour_p2_title">एक्सेसिबिलिटी खुद भेज देती है</string>
-    <string name="tour_p2_body">यह सफाई के बाद WhatsApp का Send बटन दबाती है। यह सिर्फ़ WhatsApp के अंदर काम करती है।</string>
+    <string name="tour_p2_body">यह सफाई के बाद आपके चैट ऐप में Send दबाती है। यह सिर्फ़ आपके चुने चैट ऐप्स में काम करती है।</string>
     <string name="perm_title">चलिए AuraMic सेट करें</string>
     <string name="perm_subtitle">कुछ अनुमतियाँ इसे काम करने देती हैं। आपकी ऑडियो कभी फ़ोन से बाहर नहीं जाती।</string>
     <string name="perm_overlay_title">फ्लोटिंग बटन</string>
@@ -46,7 +46,7 @@
     <string name="perm_usage_title">यूसेज एक्सेस</string>
     <string name="perm_usage_body">पता लगाता है कि WhatsApp खुला है ताकि बबल सिर्फ़ वहीं दिखे।</string>
     <string name="perm_access_title">एक्सेसिबिलिटी</string>
-    <string name="perm_access_body">वॉइस नोट साफ़ होने पर आपके लिए WhatsApp का Send बटन दबाती है।</string>
+    <string name="perm_access_body">वॉइस नोट साफ़ होने पर आपके चैट ऐप में आपके लिए Send दबाती है।</string>
     <string name="perm_notif_title">सूचनाएँ</string>
     <string name="perm_notif_body">AuraMic को बैकग्राउंड में भरोसेमंद ढंग से चलाने के लिए ज़रूरी।</string>
     <string name="perm_battery_title">चलता रहे</string>
@@ -61,7 +61,7 @@
     <string name="perm_restricted_body">Play Store के बाहर से इंस्टॉल किए ऐप्स के लिए Android इसे रोकता है। ऐप जानकारी खोलें, ⋮ मेनू दबाएँ, “प्रतिबंधित सेटिंग्स की अनुमति दें” चुनें, फिर दोबारा कोशिश करें।</string>
     <string name="perm_open_app_info">ऐप जानकारी खोलें</string>
     <string name="disclosure_title">एक्सेसिबिलिटी प्रकटीकरण</string>
-    <string name="disclosure_body">AuraMic एक्सेसिबिलिटी सेवा का उपयोग सिर्फ़ एक काम के लिए करता है: वॉइस नोट रिकॉर्ड करने के बाद WhatsApp के अंदर Send बटन दबाना ताकि बिना अतिरिक्त टैप के नोट भेजा जाए।\n\nयह सिर्फ़ WhatsApp और WhatsApp Business में काम करती है। यह आपके संदेश, संपर्क या कोई निजी डेटा न पढ़ती है, न जमा करती है, न साझा करती है। ऑडियो आपके डिवाइस पर ही प्रोसेस होती है।</string>
+    <string name="disclosure_body">AuraMic एक्सेसिबिलिटी सेवा का उपयोग सिर्फ़ एक काम के लिए करता है: वॉइस नोट रिकॉर्ड करने के बाद आप जिस चैट में थे उसे चुनना और आपके चैट ऐप (WhatsApp, WhatsApp Business, Telegram या Instagram) के अंदर Send बटन दबाना, ताकि बिना अतिरिक्त टैप के नोट भेजा जाए।\n\nयह सिर्फ़ उन चैट ऐप्स में काम करती है जिन्हें आप सेटिंग्स में चालू करते हैं। यह आपके संदेश, संपर्क या कोई निजी डेटा न पढ़ती है, न जमा करती है, न साझा करती है। ऑडियो आपके डिवाइस पर ही प्रोसेस होती है।</string>
     <string name="disclosure_agree">मैं सहमत हूँ</string>
     <string name="disclosure_decline">अभी नहीं</string>
     <string name="home_status_on">AuraMic सक्रिय है</string>
@@ -73,8 +73,8 @@
     <string name="home_turn_on">चालू करें</string>
     <string name="home_turn_off">बंद करें</string>
     <string name="home_fix_permissions">सेटअप पूरा करें</string>
-    <string name="home_open_whatsapp">WhatsApp खोलें</string>
-    <string name="home_whatsapp_missing">इस फ़ोन में WhatsApp इंस्टॉल नहीं है।</string>
+    <string name="home_open_whatsapp">चैट ऐप खोलें</string>
+    <string name="home_whatsapp_missing">इस फ़ोन में कोई समर्थित चैट ऐप इंस्टॉल नहीं है।</string>
     <string name="home_stat_notes">साफ़ किए वॉइस नोट</string>
     <string name="home_stat_minutes">सँवारे गए मिनट</string>
     <string name="home_lab_title">स्टूडियो लैब</string>
@@ -95,7 +95,6 @@
     <string name="lab_again">फिर रिकॉर्ड करें</string>
     <string name="lab_too_short">बहुत छोटा — थोड़ा और देर दबाएँ।</string>
     <string name="lab_mic_needed">माइक्रोफ़ोन की अनुमति चाहिए।</string>
-    <string name="lab_reduction" formatted="true">बैकग्राउंड लगभग %1$d dB शांत</string>
     <string name="set_title">सेटिंग्स</string>
     <string name="set_audio">ऑडियो</string>
     <string name="set_strength">शोर हटाने की तीव्रता</string>
@@ -109,7 +108,6 @@
     <string name="set_whatsapp">WhatsApp</string>
     <string name="set_auto_send">ऑटो-सेंड</string>
     <string name="set_auto_send_desc">प्रोसेस होने के बाद मेरे लिए Send दबाएँ।</string>
-    <string name="set_business">WhatsApp Business में भी काम करे</string>
     <string name="set_haptics">हैप्टिक फ़ीडबैक</string>
     <string name="set_overlay">फ्लोटिंग बटन</string>
     <string name="set_size">बटन का आकार</string>
@@ -143,5 +141,46 @@
     <string name="notif_title">AuraMic तैयार है</string>
     <string name="notif_text">WhatsApp खुलने पर फ्लोटिंग माइक दिखता है।</string>
     <string name="notif_stop">बंद करें</string>
-    <string name="a11y_description">फ्लोटिंग माइक से वॉइस नोट रिकॉर्ड करने के बाद AuraMic WhatsApp का Send बटन दबाता है। यह सिर्फ़ WhatsApp में काम करता है और आपके संदेश कभी नहीं पढ़ता या सहेजता।</string>
+    <string name="a11y_description">फ्लोटिंग माइक से वॉइस नोट रिकॉर्ड करने के बाद AuraMic आपके चैट ऐप (WhatsApp, Telegram या Instagram) का Send बटन दबाता है। यह सिर्फ़ आपके चुने चैट ऐप्स में काम करता है और आपके संदेश कभी नहीं पढ़ता या सहेजता।</string>
+    <string name="set_enhance">आवाज़ सुधार</string>
+    <string name="set_engine">शोर हटाने का इंजन</string>
+    <string name="set_engine_ai">DeepFilterNet AI — स्टूडियो क्वालिटी</string>
+    <string name="set_engine_classic">क्लासिक — सबसे तेज़, हल्का</string>
+    <string name="set_fast_mode">फ़ास्ट मोड</string>
+    <string name="set_fast_mode_desc">सबसे बारीक AI चरण छोड़ता है: लगभग एक तिहाई तेज़, थोड़ा कम डिटेल।</string>
+    <string name="set_keep_bg_value" formatted="true">थोड़ा माहौल रखें: %1$d%%</string>
+    <string name="set_keep_bg_desc">0 = बैकग्राउंड पूरी तरह हटा (स्टूडियो)। ज़्यादा मान थोड़ा वापस मिलाकर प्राकृतिक एहसास देते हैं।</string>
+    <string name="set_preset">आवाज़ पॉलिश</string>
+    <string name="set_preset_off">बंद</string>
+    <string name="set_preset_natural">प्राकृतिक</string>
+    <string name="set_preset_podcast">पॉडकास्ट</string>
+    <string name="set_preset_desc">पॉडकास्ट EQ, डी-एसर और हल्का कम्प्रेशन जोड़ता है, ब्रॉडकास्ट जैसी आवाज़ के लिए।</string>
+    <string name="set_loudness_target">आवाज़ का स्तर</string>
+    <string name="set_loud_chat">चैट · −19 LUFS</string>
+    <string name="set_loud_podcast">पॉडकास्ट · −16 LUFS</string>
+    <string name="set_loud_loud">तेज़ · −14 LUFS</string>
+    <string name="set_cut">चुप्पी अपने-आप काटें</string>
+    <string name="set_cut_off">बंद</string>
+    <string name="set_cut_gentle">हल्का</string>
+    <string name="set_cut_tight">सख़्त</string>
+    <string name="set_cut_desc">लंबे विराम छोटे करता है और नोट की शुरुआत व अंत ट्रिम करता है।</string>
+    <string name="set_apps">चैट ऐप्स</string>
+    <string name="app_whatsapp">WhatsApp</string>
+    <string name="app_business">WhatsApp Business</string>
+    <string name="app_telegram">Telegram</string>
+    <string name="app_instagram">Instagram (प्रायोगिक)</string>
+    <string name="set_instagram_note">Instagram दूसरे ऐप्स से ऑडियो फ़ाइल नहीं लेता, इसलिए नोट Music/AuraMic में सहेजे जाते हैं ताकि आप जोड़ सकें।</string>
+    <string name="set_fallback_recent">खुली चैट न पढ़ी जा सके तो सबसे हाल की चैट चुनें</string>
+    <string name="set_fallback_recent_desc">डिफ़ॉल्ट रूप से बंद। ऑटो-सेलेक्ट फ़ेल हो तभी चालू करें; यह दूसरी चैट चुन सकता है।</string>
+    <string name="set_save_copy">एक कॉपी Music/AuraMic में सहेजें</string>
+    <string name="set_diag">डायग्नोस्टिक्स कॉपी करें</string>
+    <string name="set_diag_desc">आख़िरी चैट स्क्रीन की बनावट कॉपी करता है (नाम छोटे किए गए) ताकि ऑटो-सेंड की समस्या ठीक की जा सके।</string>
+    <string name="diag_copied">क्लिपबोर्ड पर कॉपी हुआ</string>
+    <string name="diag_none">अभी कुछ नहीं — पहले एक वॉइस नोट भेजें।</string>
+    <string name="lab_removed">हटाया गया शोर</string>
+    <string name="lab_info" formatted="true">%1$.1f सेकंड में प्रोसेस · रियल-टाइम से %2$d× तेज़</string>
+    <string name="lab_cut" formatted="true">हटाई गई चुप्पी: %1$.1f सेकंड</string>
+    <string name="lab_engine_ai">DeepFilterNet AI इंजन</string>
+    <string name="lab_engine_classic">क्लासिक इंजन</string>
+    <string name="ov_saved">Music/AuraMic में सहेजा गया</string>
 </resources>

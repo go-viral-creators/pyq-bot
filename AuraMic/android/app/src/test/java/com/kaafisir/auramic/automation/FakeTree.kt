@@ -44,8 +44,10 @@ object FakeTree {
 class RecordingActions : NodeActions {
     val clicks = mutableListOf<UiNode>()
     val typed = mutableListOf<String>()
+    val taps = mutableListOf<UiNode>()
     var scrolls = 0
     override fun click(node: UiNode) = true.also { clicks += node }
     override fun setText(node: UiNode, text: String) = true.also { typed += text }
     override fun scrollForward(node: UiNode) = true.also { scrolls++ }
+    override fun tap(node: UiNode) = true.also { taps += node }
 }

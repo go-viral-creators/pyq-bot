@@ -52,7 +52,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kaafisir.auramic.R
-import com.kaafisir.auramic.automation.WhatsAppUi
 import com.kaafisir.auramic.ui.components.AuraBubble
 import com.kaafisir.auramic.ui.components.AuraCard
 import com.kaafisir.auramic.ui.components.BubbleVisual
@@ -60,6 +59,7 @@ import com.kaafisir.auramic.ui.components.GradientButton
 import com.kaafisir.auramic.ui.components.GradientText
 import com.kaafisir.auramic.ui.components.IconBadge
 import com.kaafisir.auramic.ui.components.SectionHeader
+import com.kaafisir.auramic.ui.components.rememberStartActivity
 import com.kaafisir.auramic.ui.theme.AuraCyan
 import com.kaafisir.auramic.ui.theme.AuraGradient
 import com.kaafisir.auramic.ui.theme.AuraGradientWarm
@@ -77,6 +77,7 @@ fun HomeScreen(
 ) {
     val ui by vm.ui.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val startActivity = rememberStartActivity()
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val obs = LifecycleEventObserver { _, e ->
@@ -162,11 +163,9 @@ fun HomeScreen(
                         Spacer(Modifier.height(10.dp))
                         OutlinedButton(
                             onClick = {
-                                val pkg = listOf(WhatsAppUi.PKG, WhatsAppUi.PKG_BUSINESS).firstOrNull { p ->
-                                    runCatching { context.packageManager.getLaunchIntentForPackage(p) }.getOrNull() != null
-                                }
-                                val launch = pkg?.let { context.packageManager.getLaunchIntentForPackage(it) }
-                                if (launch != null) context.startActivity(launch)
+                                val launch = ui.settings.enabledApps.flatMap { it.packages }
+                                    .firstNotNullOfOrNull { p -> runCatching { context.packageManager.getLaunchIntentForPackage(p) }.getOrNull() }
+                                if (launch != null) startActivity(launch)
                                 else Toast.makeText(context, R.string.home_whatsapp_missing, Toast.LENGTH_LONG).show()
                             },
                             modifier = Modifier.fillMaxWidth(),

@@ -9,7 +9,7 @@
 | Title / short / full description (7 locales) | `listing/<locale>/*.txt` (regenerate + validate: `python listing/build_listing.py`) |
 | App icon 512×512 | `icon/app_icon_512.png` |
 | Feature graphic 1024×500 | `feature_graphic/feature_graphic.png` |
-| Phone screenshots (6) | `screenshots/phone_0*.png` (1080×1920) |
+| Phone screenshots (8) | `screenshots/phone_0*.png` (1080×1920) |
 
 Locales: `en-US`, `en-IN` (Hinglish copy), `hi-IN`, `es-419`, `pt-BR`, `ar`, `id`.
 Regenerate all graphics: `CHROMIUM_PATH=... python generate_assets.py`.
@@ -22,7 +22,7 @@ Use Play App Signing. Language splits are disabled on purpose (the in-app langua
 ## Declarations (copy/paste starters)
 **Accessibility API declaration** — *Core functionality:* "After the user records a voice note with our floating microphone, the service
 selects the chat the user was in and taps the Send button inside WhatsApp so the note is delivered without extra taps. It is limited to
-com.whatsapp and com.whatsapp.w4b, reads only chat/button labels needed to find them, never message content, and stores/transmits nothing.
+the supported chat apps (WhatsApp, WhatsApp Business, Telegram, Instagram; user-selectable), reads only chat/button labels needed to find them, never message content, and stores/transmits nothing.
 The feature is optional (Auto-send can be turned off)." Add a short screen recording of: in-app disclosure → settings → record → auto-send.
 The in-app prominent disclosure is already implemented (`disclosure_*` strings; shown before opening Accessibility settings).
 

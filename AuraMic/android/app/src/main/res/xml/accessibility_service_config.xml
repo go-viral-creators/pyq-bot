@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   AuraMic accessibility service. Deliberately narrow:
-   - only WhatsApp / WhatsApp Business windows are delivered (packageNames),
+   - only the supported chat apps (WhatsApp, WhatsApp Business, Telegram, Instagram) are delivered (packageNames),
    - it needs the window content to find the chat row and the "Send" button,
    - events are ignored; it acts only when the user has just recorded a voice note.
 -->
@@ -13,4 +13,4 @@
     android:canRetrieveWindowContent="true"
     android:description="@string/a11y_description"
     android:notificationTimeout="100"
-    android:packageNames="com.whatsapp,com.whatsapp.w4b" />
+    android:packageNames="com.whatsapp,com.whatsapp.w4b,org.telegram.messenger,org.telegram.messenger.web,org.thunderdog.challegram,com.instagram.android" />

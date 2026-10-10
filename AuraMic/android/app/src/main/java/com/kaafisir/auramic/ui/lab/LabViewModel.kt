@@ -6,9 +6,10 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kaafisir.auramic.audio.NoiseSuppressionEngine
 import com.kaafisir.auramic.audio.PcmPlayer
 import com.kaafisir.auramic.audio.PcmRecorder
+import com.kaafisir.auramic.audio.Resampler
+import com.kaafisir.auramic.domain.model.EnhanceEngine
 import com.kaafisir.auramic.domain.repository.SettingsRepository
 import com.kaafisir.auramic.domain.usecase.ProcessVoiceNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,22 +20,26 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
-enum class Take { Original, Clean }
+/** The three signals Studio Lab can play: the level-matched original, the studio voice, and what was removed. */
+enum class Take { Original, Clean, Removed }
 
 sealed interface LabState {
     data object Idle : LabState
     data object Recording : LabState
-    data object Processing : LabState
+    data class Processing(val progress: Float) : LabState
     data object TooShort : LabState
     class Result(
-        val original: ShortArray, val clean: ShortArray, val length: Int, val sampleRate: Int,
-        val reductionDb: Int, val usedModel: Boolean,
+        val takes: Map<Take, ShortArray>,
+        val sampleRate: Int,
+        val engine: EnhanceEngine,
+        val processingMs: Long,
+        val speedFactor: Float,
+        val removedSilenceSeconds: Float,
     ) : LabState
 }
 
-/** Studio Lab: record in the app, then A/B the original against the AuraMic-processed take. */
+/** Studio Lab: record in the app, then A/B the original, the cleaned voice and the separated background. */
 @HiltViewModel
 class LabViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -58,7 +63,7 @@ class LabViewModel @Inject constructor(
     fun start(): Boolean {
         stopPlayback()
         if (!hasMic()) return false
-        val rec = PcmRecorder(maxSeconds = 30)
+        val rec = PcmRecorder(maxSeconds = 60)
         if (!rec.start()) return false
         recorder = rec
         _state.value = LabState.Recording
@@ -71,23 +76,28 @@ class LabViewModel @Inject constructor(
         recorder = null
         levelJob?.cancel(); _level.value = 0f
         if (rec.seconds < 0.8f) { _state.value = LabState.TooShort; return }
-        _state.value = LabState.Processing
+        _state.value = LabState.Processing(0f)
         viewModelScope.launch {
             val settings = settingsRepo.current()
-            val cleaned = process.denoise(rec, settings)
-            // Level-match the original so the comparison is about noise, not loudness.
-            val gain = (NoiseSuppressionEngine.rms(cleaned.pcm, rec.length) / (NoiseSuppressionEngine.rms(rec.pcm, rec.length) + 1e-9))
-                .coerceIn(0.25, 8.0).toFloat()
-            val matched = ShortArray(rec.length) { i -> (rec.pcm[i] * gain).roundToInt().coerceIn(-32768, 32767).toShort() }
-            _state.value = LabState.Result(matched, cleaned.pcm, rec.length, rec.sampleRate, cleaned.backgroundReductionDb.roundToInt(), cleaned.usedModel)
+            val r = process.enhance(rec, settings, stems = true) { p -> _state.value = LabState.Processing(p) }
+            _state.value = LabState.Result(
+                takes = mapOf(
+                    Take.Original to Resampler.toShort(r.original!!, r.original.size),
+                    Take.Clean to Resampler.toShort(r.voice, r.length),
+                    Take.Removed to Resampler.toShort(r.removed!!, r.removed.size),
+                ),
+                sampleRate = r.sampleRate, engine = r.engineUsed, processingMs = r.processingMs,
+                speedFactor = r.speedFactor, removedSilenceSeconds = r.removedSilenceSeconds,
+            )
         }
     }
 
     fun play(take: Take) {
         val r = _state.value as? LabState.Result ?: return
         if (_playing.value == take) { stopPlayback(); return }
+        val pcm = r.takes[take] ?: return
         _playing.value = take
-        player.play(viewModelScope, if (take == Take.Original) r.original else r.clean, r.length, r.sampleRate) {
+        player.play(viewModelScope, pcm, pcm.size, r.sampleRate) {
             if (_playing.value == take) _playing.value = null
         }
     }

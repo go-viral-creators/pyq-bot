@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "AuraMic"
 include(":app")
+include(":hosttest")

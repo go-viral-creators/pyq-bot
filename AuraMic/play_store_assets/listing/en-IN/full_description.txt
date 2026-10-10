@@ -19,11 +19,18 @@ Traffic, pankha, bheed ya noisy café ki wajah se baar-baar record karna band. A
 • Haptic feedback, smooth animation, light aur dark theme.
 • 7 bhasha: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
 
+★ PODCAST-GRADE SAFAI
+• DeepFilterNet3 AI (full-band 48 kHz) seedha phone par chalta hai: studio jaisi voice isolation, real-time se 10–30× tez.
+• Podcast polish: EQ, de-esser, compressor aur −16 LUFS loudness mastering.
+• Auto-cut silence: lambe pauses chhote karo, shuruaat aur ant trim karo (Gentle ya Tight).
+• Background alag karo: hataya hua noise alag se suno, ya thoda ambience rakho.
+• WhatsApp, WhatsApp Business aur Telegram mein chalta hai; Instagram experimental hai (note save ho jata hai, aap attach karein).
+
 ★ PERMISSIONS — KYUN MAANGTE HAIN
 • Display over other apps: WhatsApp ke upar floating mic dikhane ke liye.
 • Microphone: button dabane tak record karne ke liye.
 • Usage access: pata karne ke liye ki WhatsApp khula hai, taaki mic sirf wahin dikhe.
-• Accessibility service: SIRF voice note taiyaar hone ke baad WhatsApp ka Send button dabane (aur wahi chat chunne) ke liye. Yeh sirf WhatsApp / WhatsApp Business mein kaam karti hai; aapke messages ya personal data ko na padhti hai, na save karti hai, na share karti hai. Enable karne se pehle saaf disclosure dikhaya jata hai.
+• Accessibility service: SIRF voice note taiyaar hone ke baad WhatsApp ka Send button dabane (aur wahi chat chunne) ke liye. Yeh sirf WhatsApp / WhatsApp Business / Telegram / Instagram mein kaam karti hai; aapke messages ya personal data ko na padhti hai, na save karti hai, na share karti hai. Enable karne se pehle saaf disclosure dikhaya jata hai.
 • Notifications: AuraMic on hone par chhota status notification.
 
 ★ PRIVACY PEHLE
@@ -31,4 +38,4 @@ Aapki awaaz phone se bahar nahi jati. Hum audio, messages, contacts ya koi perso
 
 Madad chahiye? support@fireclashpro.com
 
-AuraMic AI ek independent app hai. Ismein WhatsApp LLC ya Meta Platforms, Inc. ka koi affiliation, endorsement ya sponsorship nahi hai. WhatsApp, WhatsApp LLC ka trademark hai.
+AuraMic AI ek independent app hai. Ismein WhatsApp LLC ya Meta Platforms, Inc. ka koi affiliation, endorsement ya sponsorship nahi hai. WhatsApp, WhatsApp LLC ka trademark hai. Telegram aur Instagram apne-apne maalikon ke trademark hain.

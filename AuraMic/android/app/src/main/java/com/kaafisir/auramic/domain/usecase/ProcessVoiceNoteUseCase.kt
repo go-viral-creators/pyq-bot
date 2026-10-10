@@ -2,11 +2,14 @@ package com.kaafisir.auramic.domain.usecase
 
 import android.content.Context
 import com.kaafisir.auramic.audio.AudioEncoder
-import com.kaafisir.auramic.audio.DenoiseResult
-import com.kaafisir.auramic.audio.NoiseSuppressionEngine
+import com.kaafisir.auramic.audio.EnhanceResult
+import com.kaafisir.auramic.audio.EnhancementPipeline
 import com.kaafisir.auramic.audio.PcmRecorder
+import com.kaafisir.auramic.audio.Resampler
 import com.kaafisir.auramic.automation.WhatsAppSender
+import com.kaafisir.auramic.domain.model.EnhanceEngine
 import com.kaafisir.auramic.domain.model.UserSettings
+import com.kaafisir.auramic.domain.model.toEnhanceOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,29 +21,32 @@ class ProcessedNote(
     val file: File,
     val mimeType: String,
     val seconds: Float,
-    val usedModel: Boolean,
-    val reductionDb: Float,
+    val engine: EnhanceEngine,
+    val processingMs: Long,
+    val speedFactor: Float,
+    val removedSilenceSeconds: Float,
 )
 
-/** Recording -> AI denoise -> loudness -> encode. Runs entirely on-device. */
+/** Recording -> AI denoise -> (cut silence) -> master -> encode. Runs entirely on-device. */
 class ProcessVoiceNoteUseCase @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val engine: NoiseSuppressionEngine,
+    private val pipeline: EnhancementPipeline,
 ) {
-    /** Denoise only (Studio Lab keeps the PCM for A/B playback). */
-    suspend fun denoise(rec: PcmRecorder.Recording, settings: UserSettings): DenoiseResult =
-        withContext(Dispatchers.Default) {
-            engine.process(rec.pcm, rec.length, rec.sampleRate, settings.noiseStrength, settings.loudnessBoost)
-        }
+    /** Enhancement only; Studio Lab keeps the signals for A/B playback (with stems). */
+    suspend fun enhance(
+        rec: PcmRecorder.Recording, settings: UserSettings, stems: Boolean = false, onProgress: ((Float) -> Unit)? = null,
+    ): EnhanceResult = withContext(Dispatchers.Default) {
+        pipeline.process(rec.pcm, rec.length, rec.sampleRate, settings.toEnhanceOptions(), stems, onProgress)
+    }
 
     suspend operator fun invoke(rec: PcmRecorder.Recording, settings: UserSettings): ProcessedNote {
-        val cleaned = denoise(rec, settings)
+        val r = enhance(rec, settings)
         return withContext(Dispatchers.IO) {
             val enc = AudioEncoder.encode(
-                cleaned.pcm, rec.length, rec.sampleRate, settings.outputFormat,
+                Resampler.toShort(r.voice, r.length), r.length, r.sampleRate, settings.outputFormat,
                 File(context.cacheDir, WhatsAppSender.SHARE_DIR),
             )
-            ProcessedNote(enc.file, enc.mimeType, rec.seconds, cleaned.usedModel, cleaned.backgroundReductionDb)
+            ProcessedNote(enc.file, enc.mimeType, r.seconds, r.engineUsed, r.processingMs, r.speedFactor, r.removedSilenceSeconds)
         }
     }
 }

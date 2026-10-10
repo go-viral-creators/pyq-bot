@@ -174,4 +174,6 @@
     <string name="set_check_update">Buscar actualizaciones</string>
     <string name="upd_latest">Tienes la última versión</string>
     <string name="lab_done">¡Listo! Escucha la diferencia.</string>
+    <string name="set_cut_pauses">Quitar pausas largas</string>
+    <string name="set_cut_pauses_desc">Corta los silencios de más de 0,3 segundos para que tu nota de voz sea más corta y ágil.</string>
 </resources>

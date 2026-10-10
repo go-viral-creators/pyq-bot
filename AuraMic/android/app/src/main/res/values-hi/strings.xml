@@ -174,4 +174,6 @@
     <string name="set_check_update">अपडेट जाँचें</string>
     <string name="upd_latest">आपके पास नया वर्ज़न है</string>
     <string name="lab_done">हो गया! फ़र्क सुनें।</string>
+    <string name="set_cut_pauses">लंबी चुप्पी हटाएँ</string>
+    <string name="set_cut_pauses_desc">0.3 सेकंड से लंबी चुप्पी काट देता है, ताकि वॉइस नोट छोटा और कसा हुआ रहे।</string>
 </resources>

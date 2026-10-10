@@ -35,13 +35,13 @@ class ProcessVoiceNoteUseCase @Inject constructor(
 ) {
     /** Enhancement only; Studio Lab keeps the signals for A/B playback (with stems). */
     suspend fun enhance(
-        rec: PcmRecorder.Recording, quality: Quality, stems: Boolean = false, onProgress: ((Float) -> Unit)? = null,
+        rec: PcmRecorder.Recording, quality: Quality, cutPauses: Boolean, stems: Boolean = false, onProgress: ((Float) -> Unit)? = null,
     ): EnhanceResult = withContext(Dispatchers.Default) {
-        pipeline.process(rec.pcm, rec.length, rec.sampleRate, EnhanceOptions.forQuality(quality), stems, onProgress)
+        pipeline.process(rec.pcm, rec.length, rec.sampleRate, EnhanceOptions.forQuality(quality, cutPauses), stems, onProgress)
     }
 
-    suspend operator fun invoke(rec: PcmRecorder.Recording, quality: Quality): ProcessedNote {
-        val r = enhance(rec, quality)
+    suspend operator fun invoke(rec: PcmRecorder.Recording, quality: Quality, cutPauses: Boolean): ProcessedNote {
+        val r = enhance(rec, quality, cutPauses)
         return withContext(Dispatchers.IO) {
             val enc = AudioEncoder.encode(
                 Resampler.toShort(r.voice, r.length), r.length, r.sampleRate, OutputFormat.M4A,

@@ -36,6 +36,7 @@ class DataStoreSettingsRepository @Inject constructor(
         val service = booleanPreferencesKey("service_enabled")
         val quality = stringPreferencesKey("quality")
         val autoSend = booleanPreferencesKey("auto_send")
+        val cutPauses = booleanPreferencesKey("cut_pauses")
         val haptics = booleanPreferencesKey("haptics")
         val bubbleSize = intPreferencesKey("bubble_size_dp")
         val bubbleX = intPreferencesKey("bubble_x")
@@ -55,6 +56,7 @@ class DataStoreSettingsRepository @Inject constructor(
                 serviceEnabled = p[K.service] ?: d.serviceEnabled,
                 quality = p[K.quality]?.let { runCatching { Quality.valueOf(it) }.getOrNull() },
                 autoSend = p[K.autoSend] ?: d.autoSend,
+                cutPauses = p[K.cutPauses] ?: d.cutPauses,
                 haptics = p[K.haptics] ?: d.haptics,
                 bubbleSizeDp = p[K.bubbleSize] ?: d.bubbleSizeDp,
                 bubbleX = p[K.bubbleX] ?: d.bubbleX,
@@ -81,6 +83,7 @@ class DataStoreSettingsRepository @Inject constructor(
     override suspend fun setServiceEnabled(enabled: Boolean) = edit { it[K.service] = enabled }
     override suspend fun setQuality(quality: Quality) = edit { it[K.quality] = quality.name }
     override suspend fun setAutoSend(enabled: Boolean) = edit { it[K.autoSend] = enabled }
+    override suspend fun setCutPauses(enabled: Boolean) = edit { it[K.cutPauses] = enabled }
     override suspend fun setHaptics(enabled: Boolean) = edit { it[K.haptics] = enabled }
     override suspend fun setBubbleSize(dp: Int) = edit { it[K.bubbleSize] = dp.coerceIn(48, 88) }
     override suspend fun setBubblePosition(x: Int, y: Int) = edit { it[K.bubbleX] = x; it[K.bubbleY] = y }

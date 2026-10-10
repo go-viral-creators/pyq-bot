@@ -71,9 +71,12 @@ data class EnhanceOptions(
         const val STRENGTH = 0.97f
         const val ATTENUATION_DB = 6f + (STRENGTH - 0.2f) / 0.79f * 74f
 
-        fun forQuality(q: Quality) = when (q) {
-            Quality.HIGH -> EnhanceOptions(engine = EnhanceEngine.AI)
-            Quality.MEDIUM -> EnhanceOptions(engine = EnhanceEngine.LIGHT)
+        fun forQuality(q: Quality, cutPauses: Boolean = true): EnhanceOptions {
+            val cut = if (cutPauses) SilenceCut.PAUSES else SilenceCut.OFF
+            return when (q) {
+                Quality.HIGH -> EnhanceOptions(engine = EnhanceEngine.AI, silenceCut = cut)
+                Quality.MEDIUM -> EnhanceOptions(engine = EnhanceEngine.LIGHT, silenceCut = cut)
+            }
         }
     }
 }
@@ -88,6 +91,8 @@ data class UserSettings(
     /** The quality the user picked. Null = never chosen: Pro users get HIGH, everyone else MEDIUM. */
     val quality: Quality? = null,
     val autoSend: Boolean = true,
+    /** Cut every pause longer than 0.3 s out of the voice note (on by default). */
+    val cutPauses: Boolean = true,
     val haptics: Boolean = true,
     val bubbleSizeDp: Int = 64,
     /** Bubble window position in px, or -1 for "default". */

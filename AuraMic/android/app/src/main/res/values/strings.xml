@@ -175,4 +175,6 @@
     <string name="set_check_update">Check for updates</string>
     <string name="upd_latest">You have the latest version</string>
     <string name="lab_done">Done! Listen to the difference.</string>
+    <string name="set_cut_pauses">Remove long pauses</string>
+    <string name="set_cut_pauses_desc">Cuts silent gaps longer than 0.3 seconds so your voice note is shorter and tighter.</string>
 </resources>

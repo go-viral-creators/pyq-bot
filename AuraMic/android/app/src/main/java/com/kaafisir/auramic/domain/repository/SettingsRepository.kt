@@ -14,6 +14,7 @@ interface SettingsRepository {
     suspend fun setServiceEnabled(enabled: Boolean)
     suspend fun setQuality(quality: Quality)
     suspend fun setAutoSend(enabled: Boolean)
+    suspend fun setCutPauses(enabled: Boolean)
     suspend fun setHaptics(enabled: Boolean)
     suspend fun setBubbleSize(dp: Int)
     suspend fun setBubblePosition(x: Int, y: Int)

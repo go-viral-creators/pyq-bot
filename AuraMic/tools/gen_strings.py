@@ -537,6 +537,12 @@ add("perm_access_body", "Taps Send for you once your voice note is clean. Androi
     "Menekan Kirim untuk Anda setelah pesan suara bersih. Android menyebutnya “Aksesibilitas”.")
 
 
+add("set_cut_pauses", "Remove long pauses", "लंबी चुप्पी हटाएँ", "Lambi chuppi hatayein", "Quitar pausas largas", "Remover pausas longas", "إزالة الفترات الصامتة الطويلة", "Hapus jeda panjang")
+add("set_cut_pauses_desc", "Cuts silent gaps longer than 0.3 seconds so your voice note is shorter and tighter.", "0.3 सेकंड से लंबी चुप्पी काट देता है, ताकि वॉइस नोट छोटा और कसा हुआ रहे।",
+    "0.3 second se lambi chuppi kaat deta hai, taaki voice note chhota aur tight rahe.", "Corta los silencios de más de 0,3 segundos para que tu nota de voz sea más corta y ágil.",
+    "Corta silêncios maiores que 0,3 segundo para deixar seu áudio mais curto e objetivo.", "يقطع الفراغات الصامتة الأطول من 0.3 ثانية ليصبح تسجيلك أقصر وأكثر إحكامًا.",
+    "Memotong jeda hening lebih dari 0,3 detik agar pesan suara lebih singkat dan padat.")
+
 def esc(v: str) -> str:
     v = escape(v).replace("\\", "\\\\").replace("'", "\\'").replace('"', '\\"').replace("\n", "\\n")
     if v.startswith("@") or v.startswith("?"):

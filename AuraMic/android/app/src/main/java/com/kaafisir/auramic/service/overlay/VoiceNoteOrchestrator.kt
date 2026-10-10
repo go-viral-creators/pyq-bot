@@ -130,7 +130,7 @@ class VoiceNoteOrchestrator @Inject constructor(
             _state.value = OverlayState.Processing
             val settings = settingsRepo.current()
             val quality = pro.resolve(settings)
-            val note = processNote(rec, quality)
+            val note = processNote(rec, quality, settings.cutPauses)
             if (quality == com.kaafisir.auramic.domain.model.Quality.HIGH) pro.consumeFreeHighNote()   // no-op for subscribers
             Log.i(TAG, "processed ${"%.1f".format(note.seconds)}s engine=${note.engine} ${"%.1f".format(note.speedFactor)}x realtime -> ${note.file.name}")
 

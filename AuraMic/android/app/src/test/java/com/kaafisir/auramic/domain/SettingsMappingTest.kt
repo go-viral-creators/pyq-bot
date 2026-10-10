@@ -21,6 +21,14 @@ class SettingsMappingTest {
         assertEquals(EnhanceEngine.LIGHT, EnhanceOptions.forQuality(Quality.MEDIUM).engine)
     }
 
+    @Test fun silenceCutFollowsTheUserSwitchAndIsOnByDefault() {
+        assertTrue(com.kaafisir.auramic.domain.model.UserSettings().cutPauses)
+        for (q in Quality.entries) {
+            assertEquals(SilenceCut.PAUSES, EnhanceOptions.forQuality(q, true).silenceCut)
+            assertEquals(SilenceCut.OFF, EnhanceOptions.forQuality(q, false).silenceCut)
+        }
+    }
+
     @Test fun bothQualitiesUsePodcastMasteringAndCutPausesOverThreeHundredMs() {
         for (q in Quality.entries) {
             val o = EnhanceOptions.forQuality(q)

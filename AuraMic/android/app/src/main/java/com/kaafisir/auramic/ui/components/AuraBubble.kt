@@ -97,8 +97,8 @@ fun AuraBubble(
             // soft outer glow
             val glowAlpha = if (glow || visual == BubbleVisual.Idle) 0.22f else 0.32f
             drawCircle(
-                Brush.radialGradient(listOf(colors[0].copy(alpha = glowAlpha), Color.Transparent), c, r * 1.55f),
-                radius = r * 1.55f, center = c,
+                Brush.radialGradient(listOf(colors[0].copy(alpha = glowAlpha), Color.Transparent), c, r * 1.4f),
+                radius = r * 1.4f, center = c,
             )
             // pulsing rings while recording, driven by the live mic level
             if (visual == BubbleVisual.Recording || visual == BubbleVisual.CancelArmed) {

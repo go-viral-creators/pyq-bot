@@ -37,6 +37,7 @@ private class FakeSettings : SettingsRepository {
     override suspend fun setServiceEnabled(enabled: Boolean) {}
     override suspend fun setQuality(quality: Quality) {}
     override suspend fun setAutoSend(enabled: Boolean) {}
+    override suspend fun setCutPauses(enabled: Boolean) {}
     override suspend fun setHaptics(enabled: Boolean) {}
     override suspend fun setBubbleSize(dp: Int) {}
     override suspend fun setBubblePosition(x: Int, y: Int) {}

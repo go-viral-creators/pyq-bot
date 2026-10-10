@@ -76,7 +76,7 @@ class LabViewModel @Inject constructor(
         _state.value = LabState.Processing(0f)
         viewModelScope.launch {
             val settings = settingsRepo.current()
-            val r = process.enhance(rec, pro.resolve(settings), stems = true) { p -> _state.value = LabState.Processing(p) }
+            val r = process.enhance(rec, pro.resolve(settings), settings.cutPauses, stems = true) { p -> _state.value = LabState.Processing(p) }
             _state.value = LabState.Result(
                 takes = mapOf(
                     Take.Original to Resampler.toShort(r.original!!, r.original.size),

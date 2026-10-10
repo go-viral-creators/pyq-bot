@@ -92,6 +92,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
             SectionHeader(stringResource(R.string.set_overlay))
             AuraCard {
                 SwitchRow(stringResource(R.string.set_auto_send), stringResource(R.string.set_auto_send_desc), s.autoSend, vm::setAutoSend)
+                SwitchRow(stringResource(R.string.set_cut_pauses), stringResource(R.string.set_cut_pauses_desc), s.cutPauses, vm::setCutPauses)
                 SwitchRow(stringResource(R.string.set_haptics), null, s.haptics, vm::setHaptics)
                 TextButton(onClick = vm::resetPosition) { Text(stringResource(R.string.set_reset_position)) }
             }

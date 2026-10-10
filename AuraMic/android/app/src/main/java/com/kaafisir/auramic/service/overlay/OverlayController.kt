@@ -221,7 +221,8 @@ class OverlayController(
     private fun applyLayout(updateViews: Boolean = true) {
         val size = dp(sizeDp.toFloat())
         val busy = orchestrator.state.value.isBusy || orchestrator.state.value is OverlayState.Done
-        val window = if (busy) size * 2 else size
+        // Always larger than the bubble so the breathing / pressed-down scale-up and the soft glow are never clipped by the window.
+        val window = if (busy) size * 2 else (size * 1.5f).toInt()
         val pad = (window - size) / 2
         bubbleParams.width = window; bubbleParams.height = window
         bubbleParams.x = bx - pad; bubbleParams.y = by - pad

@@ -174,4 +174,6 @@
     <string name="set_check_update">التحقق من التحديثات</string>
     <string name="upd_latest">لديك أحدث إصدار</string>
     <string name="lab_done">تم! استمع إلى الفرق.</string>
+    <string name="set_cut_pauses">إزالة الفترات الصامتة الطويلة</string>
+    <string name="set_cut_pauses_desc">يقطع الفراغات الصامتة الأطول من 0.3 ثانية ليصبح تسجيلك أقصر وأكثر إحكامًا.</string>
 </resources>

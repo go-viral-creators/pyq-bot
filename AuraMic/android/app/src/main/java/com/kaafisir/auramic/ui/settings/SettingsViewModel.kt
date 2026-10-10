@@ -33,6 +33,7 @@ class SettingsViewModel @Inject constructor(
     private fun launch(block: suspend () -> Unit) { viewModelScope.launch { block() } }
 
     fun setAutoSend(v: Boolean) = launch { repo.setAutoSend(v) }
+    fun setCutPauses(v: Boolean) = launch { repo.setCutPauses(v) }
     fun setHaptics(v: Boolean) = launch { repo.setHaptics(v) }
     fun setBubbleSize(v: Int) = launch { repo.setBubbleSize(v) }
     fun resetPosition() = launch { repo.setBubblePosition(-1, -1) }

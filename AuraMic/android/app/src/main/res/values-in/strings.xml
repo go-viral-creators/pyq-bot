@@ -174,4 +174,6 @@
     <string name="set_check_update">Periksa pembaruan</string>
     <string name="upd_latest">Anda memakai versi terbaru</string>
     <string name="lab_done">Selesai! Dengarkan bedanya.</string>
+    <string name="set_cut_pauses">Hapus jeda panjang</string>
+    <string name="set_cut_pauses_desc">Memotong jeda hening lebih dari 0,3 detik agar pesan suara lebih singkat dan padat.</string>
 </resources>

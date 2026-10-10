@@ -174,4 +174,6 @@
     <string name="set_check_update">Update check karein</string>
     <string name="upd_latest">Aapke paas latest version hai</string>
     <string name="lab_done">Ho gaya! Farak suniye.</string>
+    <string name="set_cut_pauses">Lambi chuppi hatayein</string>
+    <string name="set_cut_pauses_desc">0.3 second se lambi chuppi kaat deta hai, taaki voice note chhota aur tight rahe.</string>
 </resources>

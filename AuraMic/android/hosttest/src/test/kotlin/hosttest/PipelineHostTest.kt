@@ -5,6 +5,7 @@ import com.kaafisir.auramic.audio.EnhanceResult
 import com.kaafisir.auramic.audio.EnhancementPipeline
 import com.kaafisir.auramic.audio.GtcrnRuntime
 import com.kaafisir.auramic.audio.NativePolish
+import com.kaafisir.auramic.audio.SilenceCutter
 import com.kaafisir.auramic.audio.Resampler
 import com.kaafisir.auramic.domain.model.EnhanceEngine
 import com.kaafisir.auramic.domain.model.EnhanceOptions
@@ -221,6 +222,32 @@ class PipelineHostTest {
             pcm.forEach { bb.putShort(it) }
             File(dir, "app_${q.name}.wav").writeBytes(bb.array())
             println("dumped ${q.name}: ${r.seconds} s, engine ${r.engineUsed}, ${r.speedFactor}x")
+        }
+    }
+
+    /**
+     * The tail of the app pipeline (auto-cut pauses + podcast mastering) applied to already-denoised wav files, for
+     * experiments: -Pauramic.tailjobs=<file with "in.wav out.wav" lines>. Output is 16-bit mono 48 kHz.
+     */
+    @Test fun runTailJobs() {
+        assumeTrue(ready)
+        val jobs = System.getProperty("auramic.tailjobs")?.takeIf { File(it).exists() } ?: return
+        for (line in File(jobs).readLines().filter { it.isNotBlank() }) {
+            val parts = line.trim().split(" "); val inp = parts[0]; val out = parts[1]; val cutOnly = parts.getOrNull(2) == "cut"
+            val (pcm, sr) = readWav(inp)
+            assertEquals(48_000, sr)
+            var voice = Resampler.toFloat(pcm, pcm.size); var len = voice.size
+            val r = SilenceCutter.cut(voice, len, 48_000, SilenceCut.PAUSES)
+            voice = r.pcm; len = r.length
+            if (voice.size != len) voice = voice.copyOf(len)
+            if (!cutOnly) NativePolish.run(voice, len, VoicePreset.PODCAST, true, -16f)
+            val o = Resampler.toShort(voice, len)
+            val bb = ByteBuffer.allocate(44 + o.size * 2).order(ByteOrder.LITTLE_ENDIAN)
+            bb.put("RIFF".toByteArray()).putInt(36 + o.size * 2).put("WAVEfmt ".toByteArray()).putInt(16).putShort(1).putShort(1)
+                .putInt(48_000).putInt(96_000).putShort(2).putShort(16).put("data".toByteArray()).putInt(o.size * 2)
+            o.forEach { bb.putShort(it) }
+            File(out).writeBytes(bb.array())
+            println("tail: $inp -> $out (${len / 48000f} s)")
         }
     }
 

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en" class="scroll-pt-24">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AuraMic AI — Studio-quality voice notes with on-device AI</title>
+<meta name="description" content="AuraMic AI puts a floating mic on top of WhatsApp. Hold, speak, release: on-device AI removes background noise and your voice note is sent automatically.">
+<meta name="theme-color" content="#0A0A12">
+
+<link rel="canonical" href="https://auramic.fireclashpro.com/">
+<link rel="icon" type="image/png" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/icon-512.png">
+<meta property="og:type" content="website"><meta property="og:title" content="AuraMic AI — Studio-quality voice notes with on-device AI"><meta property="og:description" content="AuraMic AI puts a floating mic on top of WhatsApp. Hold, speak, release: on-device AI removes background noise and your voice note is sent automatically.">
+<meta property="og:image" content="https://auramic.fireclashpro.com/assets/img/og-image.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AuraMic AI","operatingSystem":"Android 9+","applicationCategory":"UtilitiesApplication","description":"On-device AI noise removal for voice notes with a floating mic.","publisher":{"@type":"Organization","name":"FireClash Pro","email":"support@fireclashpro.com"},"url":"https://auramic.fireclashpro.com/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does AuraMic upload my voice?","acceptedAnswer":{"@type":"Answer","text":"No. Recording, noise removal and encoding all happen on your phone. We have no servers that receive your audio, messages or contacts. See the Privacy Policy."}},{"@type":"Question","name":"Why does it need the Accessibility service?","acceptedAnswer":{"@type":"Answer","text":"To tap WhatsApp's own Send button (and choose the chat you were in) after your voice note is ready — nothing else. It only works inside WhatsApp / WhatsApp Business and never reads or stores your messages. Read the Accessibility Disclaimer."}},{"@type":"Question","name":"Why “Usage access”?","acceptedAnswer":{"@type":"Answer","text":"Android's Usage access lets AuraMic know which app is in front, so the floating mic shows only in WhatsApp and disappears everywhere else."}},{"@type":"Question","name":"Can Android block the Accessibility switch?","acceptedAnswer":{"@type":"Answer","text":"If you installed the APK outside the Play Store, Android 13+ may grey it out. Open Settings → Apps → AuraMic → ⋮ → “Allow restricted settings”, then enable the service."}},{"@type":"Question","name":"Which noise does it remove best?","acceptedAnswer":{"@type":"Answer","text":"Steady noise: traffic, fans, AC, hum, wind, engines. Very loud or voice-like noise (a packed crowd) is reduced but not eliminated. Try the in-app Studio Lab to hear it with your own recording."}},{"@type":"Question","name":"It stopped appearing after a while. Why?","acceptedAnswer":{"@type":"Answer","text":"Some phones (Xiaomi, Oppo, Vivo, Samsung…) put background apps to sleep. Set AuraMic's battery usage to Unrestricted — the app's setup screen has a shortcut."}},{"@type":"Question","name":"Is AuraMic affiliated with WhatsApp?","acceptedAnswer":{"@type":"Answer","text":"No. AuraMic AI is an independent app by FireClash Pro. WhatsApp is a trademark of WhatsApp LLC."}},{"@type":"Question","name":"What does it cost?","acceptedAnswer":{"@type":"Answer","text":"See the Google Play listing for current pricing. No account is ever required."}}]}</script>
+</head>
+<body>
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-black">Skip to content</a>
+<header class="sticky top-0 z-40 border-b border-white/5 bg-aura-ink/80 backdrop-blur-xl">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
+    <a href="index.html" class="flex items-center gap-3 font-bold text-white"><img src="assets/img/icon-512.png" alt="" width="36" height="36" class="h-9 w-9 rounded-xl"> AuraMic AI</a>
+    <nav class="hidden items-center gap-7 md:flex" aria-label="Main"><a class="text-sm font-medium text-slate-300 hover:text-white" href="index.html#features">Features</a><a class="text-sm font-medium text-slate-300 hover:text-white" href="index.html#how">How it works</a><a class="text-sm font-medium text-slate-300 hover:text-white" href="index.html#screens">Screenshots</a><a class="text-sm font-medium text-slate-300 hover:text-white" href="index.html#faq">FAQ</a><a class="text-sm font-medium text-slate-300 hover:text-white" href="index.html#support">Support</a></nav>
+    <div class="flex items-center gap-3">
+      <a href="index.html#get" class="btn-primary hidden !py-2.5 text-sm sm:inline-flex">Get the app</a>
+      <button id="menu-btn" class="rounded-xl border border-white/15 p-2.5 md:hidden" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden border-t border-white/5 px-5 pb-4 md:hidden"><a class="block rounded-xl px-3 py-3 text-slate-200 hover:bg-white/5" href="index.html#features">Features</a><a class="block rounded-xl px-3 py-3 text-slate-200 hover:bg-white/5" href="index.html#how">How it works</a><a class="block rounded-xl px-3 py-3 text-slate-200 hover:bg-white/5" href="index.html#screens">Screenshots</a><a class="block rounded-xl px-3 py-3 text-slate-200 hover:bg-white/5" href="index.html#faq">FAQ</a><a class="block rounded-xl px-3 py-3 text-slate-200 hover:bg-white/5" href="index.html#support">Support</a></div>
+</header>
+<main id="main">
+
+<section class="relative overflow-hidden">
+  <div class="pointer-events-none absolute -left-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-aura-violet/30 blur-[120px]"></div>
+  <div class="pointer-events-none absolute -right-40 top-40 h-[30rem] w-[30rem] rounded-full bg-aura-cyan/20 blur-[120px]"></div>
+  <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-5 pb-20 pt-16 lg:grid-cols-2 lg:pt-24">
+    <div>
+      <p class="pill"><span class="h-2 w-2 rounded-full bg-aura-mint shadow-[0_0_10px_#34D399]"></span> 100% on-device AI</p>
+      <h1 class="mt-6 text-5xl font-extrabold leading-[1.02] tracking-tight text-white sm:text-6xl">Studio-quality<br><span class="grad-text">voice notes.</span></h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">A floating mic on top of WhatsApp. Hold it, speak, let go — background noise vanishes and your voice note is sent automatically.</p>
+      <div id="get" class="mt-8 flex flex-wrap items-center gap-4">
+        <span class="btn-primary cursor-default"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.3a1.5 1.5 0 0 0-.6 1.3v16.8c0 .5.2 1 .6 1.3l9.4-9.7zM14.4 13.3l2.9 3L5.1 22.4zM17.3 7.7l-2.9 3L5.1 1.6zM21 10.4l-2.6-1.5-3.2 3.1 3.2 3.1 2.6-1.5c.9-.5.9-2.7 0-3.2z"/></svg> Coming soon on Google Play</span>
+        <a href="#how" class="btn-ghost">See how it works</a>
+      </div>
+      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400">
+        <li class="flex items-center gap-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> No account</li><li class="flex items-center gap-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Works offline</li><li class="flex items-center gap-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Nothing uploaded</li><li class="flex items-center gap-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Android 9+</li></ul>
+    </div>
+    <!-- live demo phone -->
+    <div class="relative mx-auto w-full max-w-[330px]" aria-hidden="true">
+      <div class="floaty relative rounded-[3rem] border-[6px] border-[#2b2b44] bg-[#0E0E18] p-3 shadow-2xl shadow-aura-violet/20">
+        <div id="demo" class="relative h-[600px] overflow-hidden rounded-[2.3rem] bg-aura-ink">
+          <div class="flex items-center gap-3 bg-aura-s3 px-4 py-3.5"><div class="h-9 w-9 rounded-full bg-gradient-to-br from-aura-violet to-aura-cyan"></div><div><p class="text-sm font-bold text-white">Aarav</p><p class="text-[11px] text-aura-mint">online</p></div></div>
+          <div class="space-y-3 p-4 text-[13px]">
+            <p class="w-44 rounded-2xl rounded-bl-md bg-aura-s3 px-4 py-2.5 text-slate-200">Hey! Can you send me the details?</p>
+            <p class="ml-auto w-48 rounded-2xl rounded-br-md bg-[#2A1F6B] px-4 py-2.5 text-slate-100">Sure — sending a voice note 🎙️</p>
+            <div id="demo-vn" class="ml-auto flex w-52 items-center gap-2 rounded-2xl rounded-br-md bg-[#2A1F6B] px-4 py-3 transition duration-500" style="opacity:0">
+              <span class="border-y-[6px] border-l-[10px] border-y-transparent border-l-white"></span>
+              <span class="flex h-7 flex-1 items-center gap-[2px]"><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:8px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:14px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:22px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:12px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:26px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:18px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:10px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:24px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:16px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:9px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:20px"></i><i class="block w-[3px] rounded-full bg-aura-violet2" style="height:13px"></i></span>
+              <span class="text-[11px] text-violet-200">0:07</span></div>
+          </div>
+          <div class="absolute inset-x-4 bottom-4 h-11 rounded-full bg-aura-s3"></div>
+          <div id="demo-pill" class="absolute left-1/2 top-[330px] -translate-x-1/2 whitespace-nowrap rounded-full bg-black/80 px-4 py-2 text-xs font-semibold text-white shadow-xl"></div>
+          <div class="absolute right-6 top-[390px] h-[72px] w-[72px]">
+            <div id="demo-rings" class="transition-opacity duration-300"><span class="ring absolute inset-0 rounded-full border-2 border-aura-pink/60"></span><span class="ring d2 absolute inset-0 rounded-full border-2 border-aura-pink/40"></span><span class="ring d3 absolute inset-0 rounded-full border-2 border-aura-pink/20"></span></div>
+            <div id="demo-disc" class="absolute inset-0 grid place-items-center rounded-full shadow-xl shadow-aura-violet/50 transition-all duration-500" style="background:linear-gradient(135deg,#7C5CFF,#22D3EE)">
+              <svg id="demo-icon" width="34" height="34" viewBox="0 0 24 24"></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="mx-auto max-w-6xl px-5 pt-10">
+  <div class="mx-auto max-w-2xl text-center"><p class="text-sm font-semibold uppercase tracking-widest text-aura-violet2">Why AuraMic AI</p>
+    <h2 class="mt-3 text-3xl font-extrabold text-white sm:text-4xl">Sound like you're in a studio — wherever you are</h2></div>
+  <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"><article class="card transition hover:-translate-y-1 hover:border-aura-violet/50">
+      <div class="mb-4 grid h-12 w-12 place-items-center rounded-2xl" style="background:#7C5CFF22;color:#7C5CFF"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div>
+      <h3 class="text-lg font-semibold text-white">AI noise removal</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">Traffic, fans, AC, hum and wind disappear. Crowd noise is reduced. Voice stays natural.</p></article>
+<article class="card transition hover:-translate-y-1 hover:border-aura-violet/50">
+      <div class="mb-4 grid h-12 w-12 place-items-center rounded-2xl" style="background:#22D3EE22;color:#22D3EE"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+      <h3 class="text-lg font-semibold text-white">100% on-device</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">Everything runs on your phone — no cloud, no account, no upload. Works in airplane mode.</p></article>
+<article class="card transition hover:-translate-y-1 hover:border-aura-violet/50">
+      <div class="mb-4 grid h-12 w-12 place-items-center rounded-2xl" style="background:#FF5C9322;color:#FF5C93"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+      <h3 class="text-lg font-semibold text-white">Hold, speak, release</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">A floating mic on top of WhatsApp. One gesture records, cleans and sends. Slide left to cancel.</p></article>
+<article class="card transition hover:-translate-y-1 hover:border-aura-violet/50">
+      <div class="mb-4 grid h-12 w-12 place-items-center rounded-2xl" style="background:#34D39922;color:#34D399"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></div>
+      <h3 class="text-lg font-semibold text-white">Auto-send</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">AuraMic opens the share sheet, picks the same chat and taps Send for you. Prefer manual? Turn it off.</p></article>
+<article class="card transition hover:-translate-y-1 hover:border-aura-violet/50">
+      <div class="mb-4 grid h-12 w-12 place-items-center rounded-2xl" style="background:#FFB84D22;color:#FFB84D"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h3l3-8 4 16 3-8h5"/></svg></div>
+      <h3 class="text-lg font-semibold text-white">Loudness & limiter</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">Quiet voices are evened out and peaks are limited, so you are clear without clipping.</p></article>
+<article class="card transition hover:-translate-y-1 hover:border-aura-violet/50">
+      <div class="mb-4 grid h-12 w-12 place-items-center rounded-2xl" style="background:#9B83FF22;color:#9B83FF"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+      <h3 class="text-lg font-semibold text-white">7 languages</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">English, हिन्दी, Hinglish, Español, Português, العربية and Bahasa Indonesia — chosen on first launch.</p></article></div>
+</section>
+
+<section id="how" class="mx-auto mt-28 max-w-6xl px-5">
+  <div class="mx-auto max-w-2xl text-center"><p class="text-sm font-semibold uppercase tracking-widest text-aura-violet2">How it works</p>
+    <h2 class="mt-3 text-3xl font-extrabold text-white sm:text-4xl">Three steps. Zero extra taps.</h2></div>
+  <ol class="mt-12 grid gap-5 md:grid-cols-3"><li class="card relative"><span class="mb-4 grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-aura-violet to-aura-cyan font-bold text-white">1</span>
+      <h3 class="text-lg font-semibold text-white">Open a chat</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">Open any WhatsApp or WhatsApp Business conversation. The floating mic appears; it hides when you leave.</p></li><li class="card relative"><span class="mb-4 grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-aura-violet to-aura-cyan font-bold text-white">2</span>
+      <h3 class="text-lg font-semibold text-white">Hold &amp; speak</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">Press and hold the mic. Watch the live waveform and timer. Slide left to cancel.</p></li><li class="card relative"><span class="mb-4 grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-aura-violet to-aura-cyan font-bold text-white">3</span>
+      <h3 class="text-lg font-semibold text-white">Release</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">AuraMic cleans the audio on-device, picks the same chat, and taps Send. Done in seconds.</p></li></ol>
+
+  <div class="card mt-10 grid items-center gap-8 md:grid-cols-2">
+    <div class="min-w-0"><h3 class="text-2xl font-bold text-white">Hear (and see) the difference</h3>
+      <p class="mt-3 text-slate-400">Illustration of the effect: steady background noise is pulled down while speech peaks stay. Open <strong class="text-white">Studio Lab</strong> in the app to try it with your own voice.</p>
+      <ul class="mt-5 space-y-2 text-sm text-slate-300"><li class="flex gap-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Estimates the noise floor of your recording</li><li class="flex gap-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Keeps speech, suppresses what's steady</li><li class="flex gap-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Evens out loudness and prevents clipping</li></ul></div>
+    <div id="ba" class="min-w-0 overflow-hidden rounded-2xl border border-aura-line bg-aura-ink p-5">
+      <div class="flex items-center justify-between text-sm"><span id="ba-label" class="font-semibold text-white" aria-live="polite">Original</span><span class="text-slate-500">illustration</span></div>
+      <div id="ba-bars" class="my-6 flex h-[70px] items-center justify-center gap-[2px] overflow-hidden" aria-hidden="true"></div>
+      <button id="ba-btn" class="btn-primary w-full" aria-pressed="false">Remove the noise</button></div>
+  </div>
+</section>
+
+<section class="mx-auto mt-28 max-w-6xl px-5">
+  <div class="grid gap-5 rounded-3xl border border-aura-line bg-gradient-to-br from-aura-s2 to-aura-s1 p-8 sm:grid-cols-2 lg:grid-cols-4">
+    <div><h3 class="font-bold text-white">Private by design</h3><p class="mt-2 text-sm text-slate-400">AI runs on your phone. No audio ever reaches a server.</p></div>
+    <div><h3 class="font-bold text-white">Narrow permissions</h3><p class="mt-2 text-sm text-slate-400">Accessibility is limited to WhatsApp and used only to tap Send.</p></div>
+    <div><h3 class="font-bold text-white">No ads, no account</h3><p class="mt-2 text-sm text-slate-400">Open the app, finish the guided setup, and go.</p></div>
+    <div><h3 class="font-bold text-white">Light on battery</h3><p class="mt-2 text-sm text-slate-400">Foreground checks pause when the screen is off.</p></div>
+  </div>
+</section>
+
+<section id="screens" class="mt-28">
+  <div class="mx-auto max-w-2xl px-5 text-center"><p class="text-sm font-semibold uppercase tracking-widest text-aura-violet2">Screenshots</p>
+    <h2 class="mt-3 text-3xl font-extrabold text-white sm:text-4xl">A look inside</h2></div>
+  <div class="mx-auto mt-12 flex max-w-6xl snap-x gap-6 overflow-x-auto px-5 pb-6"><figure class="w-56 shrink-0 snap-center sm:w-60"><img loading="lazy" width="540" height="960" src="assets/img/phone_01_hold_to_record.webp" alt="Hold. Speak. Release." class="rounded-3xl border border-aura-line shadow-2xl shadow-black/50"><figcaption class="mt-3 text-center text-sm text-slate-400">Hold. Speak. Release.</figcaption></figure><figure class="w-56 shrink-0 snap-center sm:w-60"><img loading="lazy" width="540" height="960" src="assets/img/phone_02_noise_removal.webp" alt="Studio Lab: before / after" class="rounded-3xl border border-aura-line shadow-2xl shadow-black/50"><figcaption class="mt-3 text-center text-sm text-slate-400">Studio Lab: before / after</figcaption></figure><figure class="w-56 shrink-0 snap-center sm:w-60"><img loading="lazy" width="540" height="960" src="assets/img/phone_03_auto_send.webp" alt="Sent automatically" class="rounded-3xl border border-aura-line shadow-2xl shadow-black/50"><figcaption class="mt-3 text-center text-sm text-slate-400">Sent automatically</figcaption></figure><figure class="w-56 shrink-0 snap-center sm:w-60"><img loading="lazy" width="540" height="960" src="assets/img/phone_04_privacy.webp" alt="Private by design" class="rounded-3xl border border-aura-line shadow-2xl shadow-black/50"><figcaption class="mt-3 text-center text-sm text-slate-400">Private by design</figcaption></figure><figure class="w-56 shrink-0 snap-center sm:w-60"><img loading="lazy" width="540" height="960" src="assets/img/phone_05_setup.webp" alt="Guided setup" class="rounded-3xl border border-aura-line shadow-2xl shadow-black/50"><figcaption class="mt-3 text-center text-sm text-slate-400">Guided setup</figcaption></figure><figure class="w-56 shrink-0 snap-center sm:w-60"><img loading="lazy" width="540" height="960" src="assets/img/phone_06_languages.webp" alt="Seven languages" class="rounded-3xl border border-aura-line shadow-2xl shadow-black/50"><figcaption class="mt-3 text-center text-sm text-slate-400">Seven languages</figcaption></figure></div>
+</section>
+
+<section id="faq" class="mx-auto mt-28 max-w-3xl px-5">
+  <div class="text-center"><p class="text-sm font-semibold uppercase tracking-widest text-aura-violet2">FAQ</p><h2 class="mt-3 text-3xl font-extrabold text-white sm:text-4xl">Good questions</h2></div>
+  <div class="mt-10 space-y-3"><details class="group card !p-0"><summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-semibold text-white">Does AuraMic upload my voice?<span class="text-aura-cyan transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span></summary><p class="px-6 pb-6 text-sm leading-relaxed text-slate-400">No. Recording, noise removal and encoding all happen on your phone. We have no servers that receive your audio, messages or contacts. See the <a class='text-aura-cyan underline' href='privacy.html'>Privacy Policy</a>.</p></details><details class="group card !p-0"><summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-semibold text-white">Why does it need the Accessibility service?<span class="text-aura-cyan transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span></summary><p class="px-6 pb-6 text-sm leading-relaxed text-slate-400">To tap WhatsApp's own Send button (and choose the chat you were in) after your voice note is ready — nothing else. It only works inside WhatsApp / WhatsApp Business and never reads or stores your messages. Read the <a class='text-aura-cyan underline' href='accessibility.html'>Accessibility Disclaimer</a>.</p></details><details class="group card !p-0"><summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-semibold text-white">Why “Usage access”?<span class="text-aura-cyan transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span></summary><p class="px-6 pb-6 text-sm leading-relaxed text-slate-400">Android's Usage access lets AuraMic know which app is in front, so the floating mic shows only in WhatsApp and disappears everywhere else.</p></details><details class="group card !p-0"><summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-semibold text-white">Can Android block the Accessibility switch?<span class="text-aura-cyan transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span></summary><p class="px-6 pb-6 text-sm leading-relaxed text-slate-400">If you installed the APK outside the Play Store, Android 13+ may grey it out. Open Settings → Apps → AuraMic → ⋮ → “Allow restricted settings”, then enable the service.</p></details><details class="group card !p-0"><summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-semibold text-white">Which noise does it remove best?<span class="text-aura-cyan transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span></summary><p class="px-6 pb-6 text-sm leading-relaxed text-slate-400">Steady noise: traffic, fans, AC, hum, wind, engines. Very loud or voice-like noise (a packed crowd) is reduced but not eliminated. Try the in-app Studio Lab to hear it with your own recording.</p></details><details class="group card !p-0"><summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-semibold text-white">It stopped appearing after a while. Why?<span class="text-aura-cyan transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span></summary><p class="px-6 pb-6 text-sm leading-relaxed text-slate-400">Some phones (Xiaomi, Oppo, Vivo, Samsung…) put background apps to sleep. Set AuraMic's battery usage to Unrestricted — the app's setup screen has a shortcut.</p></details><details class="group card !p-0"><summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-semibold text-white">Is AuraMic affiliated with WhatsApp?<span class="text-aura-cyan transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span></summary><p class="px-6 pb-6 text-sm leading-relaxed text-slate-400">No. AuraMic AI is an independent app by FireClash Pro. WhatsApp is a trademark of WhatsApp LLC.</p></details><details class="group card !p-0"><summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-semibold text-white">What does it cost?<span class="text-aura-cyan transition group-open:rotate-45 text-2xl leading-none" aria-hidden="true">+</span></summary><p class="px-6 pb-6 text-sm leading-relaxed text-slate-400">See the Google Play listing for current pricing. No account is ever required.</p></details></div>
+</section>
+
+<section id="support" class="mx-auto mt-28 max-w-4xl px-5">
+  <div class="relative overflow-hidden rounded-[2rem] border border-aura-line bg-gradient-to-br from-[#2A1F6B] via-aura-s2 to-[#0E3A44] p-10 text-center">
+    <h2 class="text-3xl font-extrabold text-white sm:text-4xl">Questions? We read every email.</h2>
+    <p class="mx-auto mt-4 max-w-xl text-slate-300">Bug, idea, or something not working on your phone? Tell us the phone model, Android version and what happened.</p>
+    <a class="btn-primary mt-8" href="mailto:support@fireclashpro.com">support@fireclashpro.com</a>
+  </div>
+</section>
+</main>
+<footer class="mt-24 border-t border-white/5 bg-black/20">
+  <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <a href="index.html" class="flex items-center gap-3 font-bold text-white"><img src="assets/img/icon-512.png" alt="" width="36" height="36" class="h-9 w-9 rounded-xl"> AuraMic AI</a>
+      <p class="mt-4 max-w-xs text-sm text-slate-400">Studio-quality voice notes with on-device AI noise removal. A FireClash Pro app.</p>
+    </div>
+    <div><h3 class="text-sm font-semibold text-white">Product</h3><ul class="mt-4 space-y-2.5 text-sm text-slate-400">
+      <li><a class="hover:text-white" href="index.html#features">Features</a></li><li><a class="hover:text-white" href="index.html#how">How it works</a></li>
+      <li><a class="hover:text-white" href="index.html#screens">Screenshots</a></li><li><a class="hover:text-white" href="index.html#faq">FAQ</a></li></ul></div>
+    <div><h3 class="text-sm font-semibold text-white">Support</h3><ul class="mt-4 space-y-2.5 text-sm text-slate-400">
+      <li><a class="font-medium text-aura-cyan hover:underline" href="mailto:support@fireclashpro.com">support@fireclashpro.com</a></li>
+      <li><a class="hover:text-white" href="mailto:support@fireclashpro.com?subject=AuraMic%20bug%20report">Report a bug</a></li></ul></div>
+    <div><h3 class="text-sm font-semibold text-white">Legal</h3><ul class="mt-4 space-y-2.5 text-sm text-slate-400">
+      <li><a class="hover:text-white" href="privacy.html">Privacy Policy</a></li><li><a class="hover:text-white" href="terms.html">Terms of Service</a></li>
+      <li><a class="hover:text-white" href="accessibility.html">Accessibility Disclaimer</a></li></ul></div>
+  </div>
+  <div class="border-t border-white/5 px-5 py-6 text-center text-xs leading-relaxed text-slate-500">
+    © 2026 FireClash Pro. All rights reserved. AuraMic AI is an independent app and is not affiliated with, endorsed by or sponsored by WhatsApp LLC or Meta Platforms, Inc.
+    WhatsApp is a trademark of WhatsApp LLC. Google Play and the Google Play logo are trademarks of Google LLC.
+  </div>
+</footer>
+<script src="assets/site.js" defer></script>
+</body></html>

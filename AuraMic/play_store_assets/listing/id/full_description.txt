@@ -1,0 +1,33 @@
+Pesan suara berkualitas studio, di mana saja. AuraMic AI menempatkan mikrofon melayang di atas WhatsApp: tahan, bicara, lepaskan — AI di ponsel Anda menghapus derau latar dan pesan suara dikirim untuk Anda.
+
+Tak perlu merekam ulang karena lalu lintas, kipas angin, keramaian, atau kafe yang bising. AuraMic AI adalah pembersih pesan suara dan penghapus derau latar yang bekerja langsung di ponsel Anda.
+
+★ CARA KERJA
+1. Buka obrolan WhatsApp mana pun — mikrofon melayang muncul (dan hilang saat Anda keluar dari WhatsApp).
+2. Tekan dan tahan mikrofon lalu bicara. Geser ke kiri untuk membatalkan.
+3. Lepaskan. AuraMic AI membersihkan audio, memilih obrolan yang sama, dan menekan Kirim untuk Anda.
+
+★ FITUR
+• Peredam derau AI: menghapus derau stabil seperti lalu lintas, kipas, AC, dengung, dan angin, serta mengurangi bising keramaian.
+• 100% di perangkat: tanpa cloud, tanpa akun, tanpa unggahan. Berfungsi dalam mode pesawat.
+• Mikrofon melayang hanya muncul di WhatsApp dan WhatsApp Business.
+• Kirim otomatis: tahan, lepas, selesai. Ingin memeriksa dulu? Matikan kirim otomatis dan pilih obrolan sendiri.
+• Penguat volume: menyeimbangkan suara pelan dan mencegah distorsi.
+• Lab Studio: rekam sampel yang bising dan bandingkan audio asli dengan yang sudah bersih.
+• Berkas kecil yang ramah WhatsApp (AAC/M4A, atau Opus di Android 10+).
+• Seret mikrofon ke mana saja; menempel ke tepi dan mengingat posisinya.
+• 7 bahasa: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
+
+★ IZIN — MENGAPA KAMI MEMINTANYA
+• Tampil di atas aplikasi lain: untuk menampilkan mikrofon melayang di atas WhatsApp.
+• Mikrofon: untuk merekam selama Anda menahan tombol.
+• Akses penggunaan: untuk mengetahui kapan WhatsApp terbuka agar mikrofon hanya muncul di sana.
+• Layanan Aksesibilitas: HANYA untuk menekan tombol Kirim di WhatsApp (dan memilih obrolan tempat Anda berada) setelah pesan suara siap. Hanya bekerja di WhatsApp / WhatsApp Business, dan tidak membaca, menyimpan, atau membagikan pesan maupun data pribadi Anda. Anda akan melihat pengungkapan yang jelas sebelum mengaktifkannya.
+• Notifikasi: notifikasi status kecil saat AuraMic aktif.
+
+★ PRIVASI NOMOR SATU
+Suara Anda tidak pernah meninggalkan ponsel. Kami tidak mengumpulkan audio, pesan, kontak, atau data pribadi. Berkas sementara dihapus otomatis setelah pengiriman.
+
+Butuh bantuan? support@fireclashpro.com
+
+AuraMic AI adalah aplikasi independen. Tidak berafiliasi, didukung, atau disponsori oleh WhatsApp LLC maupun Meta Platforms, Inc. WhatsApp adalah merek dagang WhatsApp LLC.

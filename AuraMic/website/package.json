@@ -1,0 +1,10 @@
+{
+  "name": "auramic-website",
+  "private": true,
+  "scripts": {
+    "pages": "python3 build.py",
+    "css": "tailwindcss -c tailwind.config.js -i src/input.css -o assets/styles.css --minify",
+    "build": "npm run pages && npm run css"
+  },
+  "devDependencies": { "tailwindcss": "3.4.17" }
+}

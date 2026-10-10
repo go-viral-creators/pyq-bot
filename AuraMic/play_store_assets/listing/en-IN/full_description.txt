@@ -1,0 +1,34 @@
+Studio jaisi voice notes, kahin bhi! AuraMic AI WhatsApp ke upar ek floating mic laata hai: dabaao, bolo, chhodo — background noise on-device AI se hat jata hai aur voice note khud send ho jata hai.
+
+Traffic, pankha, bheed ya noisy café ki wajah se baar-baar record karna band. AuraMic AI ek voice note cleaner aur background noise remover hai jo seedha aapke phone par chalta hai.
+
+★ KAISE KAAM KARTA HAI
+1. Koi bhi WhatsApp chat kholo — floating mic dikhne lagta hai (WhatsApp chhodte hi gayab).
+2. Mic ko dabakar rakho aur bolo. Cancel karne ke liye left slide karo.
+3. Chhodo. AuraMic AI audio saaf karta hai, wahi chat chunta hai aur Send bhi khud dabata hai.
+
+★ KHAASIYAT
+• AI noise suppression: traffic, fan, AC, hum, hawa jaisa lagataar noise hataata hai; bheed ka shor kam karta hai.
+• 100% on-device: koi cloud nahi, koi account nahi, koi upload nahi. Airplane mode mein bhi chalta hai.
+• Floating mic sirf WhatsApp aur WhatsApp Business mein dikhta hai.
+• Auto-send: ek baar dabao, ek baar chhodo, bas. Khud check karna ho to auto-send band kar do.
+• Loudness boost: dheemi awaaz ko barabar karta hai, distortion se bachata hai.
+• Studio Lab: noisy sample record karke original aur clean audio ki tulna suno.
+• Chhoti, WhatsApp-friendly files (AAC/M4A ya Android 10+ par Opus).
+• Mic ko kahin bhi drag karo; yeh kinare se chipak jata hai aur jagah yaad rakhta hai.
+• Haptic feedback, smooth animation, light aur dark theme.
+• 7 bhasha: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
+
+★ PERMISSIONS — KYUN MAANGTE HAIN
+• Display over other apps: WhatsApp ke upar floating mic dikhane ke liye.
+• Microphone: button dabane tak record karne ke liye.
+• Usage access: pata karne ke liye ki WhatsApp khula hai, taaki mic sirf wahin dikhe.
+• Accessibility service: SIRF voice note taiyaar hone ke baad WhatsApp ka Send button dabane (aur wahi chat chunne) ke liye. Yeh sirf WhatsApp / WhatsApp Business mein kaam karti hai; aapke messages ya personal data ko na padhti hai, na save karti hai, na share karti hai. Enable karne se pehle saaf disclosure dikhaya jata hai.
+• Notifications: AuraMic on hone par chhota status notification.
+
+★ PRIVACY PEHLE
+Aapki awaaz phone se bahar nahi jati. Hum audio, messages, contacts ya koi personal data collect nahi karte. Temporary files send ke baad apne aap delete ho jati hain.
+
+Madad chahiye? support@fireclashpro.com
+
+AuraMic AI ek independent app hai. Ismein WhatsApp LLC ya Meta Platforms, Inc. ka koi affiliation, endorsement ya sponsorship nahi hai. WhatsApp, WhatsApp LLC ka trademark hai.

@@ -1,0 +1,40 @@
+Studio-quality voice notes, anywhere. AuraMic AI puts a floating mic on top of WhatsApp: hold it, speak, let go — the background noise is removed by on-device AI and your voice note is sent for you.
+
+Stop re-recording because of traffic, fans, crowds or a noisy café. AuraMic AI is a voice note cleaner and background noise remover that works in real time, right on your phone.
+
+★ HOW IT WORKS
+1. Open any WhatsApp chat — the floating mic appears (and disappears when you leave WhatsApp).
+2. Press and hold the mic and speak. Slide left to cancel.
+3. Release. AuraMic AI cleans your audio, picks the same chat and taps Send for you.
+
+★ FEATURES
+• AI noise suppression: removes steady background noise such as traffic, fans, AC, hum and wind, and reduces crowd noise.
+• 100% on-device processing: no cloud, no account, no upload. Works in airplane mode.
+• Floating mic that only shows inside WhatsApp and WhatsApp Business — never in your other apps.
+• Auto-send: one hold, one release, done. Prefer to review? Turn auto-send off and choose the chat yourself.
+• Loudness boost & limiter: evens out quiet voices and prevents distortion, so everyone hears you clearly.
+• Studio Lab: record a noisy sample in the app and compare original vs. cleaned audio.
+• Tiny, WhatsApp-friendly files (AAC/M4A, or Opus on Android 10+).
+• Drag the mic anywhere; it snaps to the edge and remembers its place.
+• Haptic feedback, smooth animations, light and dark themes.
+• Quick Settings tile to switch AuraMic on or off in one tap.
+• 7 languages: English, हिन्दी, Hinglish, Español, Português, العربية, Bahasa Indonesia.
+
+★ PERMISSIONS — WHY WE ASK
+• Display over other apps: to show the floating mic on top of WhatsApp.
+• Microphone: to record while you hold the button.
+• Usage access: to know when WhatsApp is open, so the mic only appears there.
+• Accessibility service: used ONLY to tap WhatsApp's Send button (and choose the chat you were in) after your voice note is ready. It works only inside WhatsApp / WhatsApp Business and does not read, store or share your messages or personal data. You will see a clear disclosure before enabling it.
+• Notifications: shows a small status notification while AuraMic is on.
+
+★ PRIVACY FIRST
+Your voice never leaves your phone. We don't collect audio, messages, contacts or personal data. Temporary files are deleted automatically after sending.
+
+★ TIPS
+• Best results with steady noise; very loud or voice-like noise (e.g. a busy crowd) is reduced, not eliminated.
+• On some phones (Xiaomi, Oppo, Vivo, Samsung) allow "Unrestricted battery" for AuraMic so it keeps running.
+• If Android blocks the Accessibility switch for a sideloaded install, open App info → ⋮ → "Allow restricted settings".
+
+Need help? support@fireclashpro.com
+
+AuraMic AI is an independent app. It is not affiliated with, endorsed by or sponsored by WhatsApp LLC or Meta Platforms, Inc. WhatsApp is a trademark of WhatsApp LLC.

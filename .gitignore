@@ -1,0 +1,12 @@
+
+# AuraMic build outputs (the release set ships inside AuraMic_Complete_Build.zip)
+AuraMic/apk/
+AuraMic/android/.gradle/
+AuraMic/android/.kotlin/
+AuraMic/android/build/
+AuraMic/android/app/build/
+AuraMic/android/app/.cxx/
+AuraMic/android/local.properties
+AuraMic/website/node_modules/
+AuraMic/website/package-lock.json
+__pycache__/

@@ -1,0 +1,211 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<!--
+  Six Play Store screenshot scenes, 1080x1920 each. Open screens.html#1 ... #6 in a browser, or run
+  ../generate_assets.py to render all of them to PNG. Pure HTML/CSS/JS - edit freely.
+  The chat UI is a generic messaging mock-up (no third-party branding).
+-->
+<style>
+  :root{--v:#7C5CFF;--v2:#9B83FF;--c:#22D3EE;--pink:#FF5C93;--mint:#34D399;--bg:#0A0A12;--s1:#12121C;--s2:#171724;--s3:#1E1E2D;--line:#26263A;--t:#EDEDF7;--mut:#A2A2BC}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-family:'Inter','Segoe UI',Arial,sans-serif;color:var(--t)}
+  .scene{display:none;position:relative;width:1080px;height:1920px;overflow:hidden}
+  .scene.on{display:block}
+  .bgfx{position:absolute;inset:0;background:
+     radial-gradient(900px 700px at 0% 0%, rgba(124,92,255,.55), transparent 65%),
+     radial-gradient(900px 800px at 100% 100%, rgba(34,211,238,.38), transparent 65%),
+     linear-gradient(160deg,#0C0B1D,#0A0A12 55%,#06141A)}
+  .cap{position:absolute;left:80px;right:80px;top:92px}
+  .cap h2{font-size:88px;line-height:1.02;font-weight:800;letter-spacing:-2.6px}
+  .cap h2 span{background:linear-gradient(90deg,#9B83FF,#22D3EE);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cap p{margin-top:22px;font-size:38px;line-height:1.3;color:#b9bfd8;font-weight:500;max-width:860px}
+  .phone{position:absolute;left:150px;top:420px;width:780px;height:1700px;border-radius:78px;background:#0E0E18;border:6px solid #2b2b44;
+    box-shadow:0 60px 140px rgba(0,0,0,.65),0 0 0 2px rgba(255,255,255,.05) inset}
+  .screen{position:absolute;inset:16px;border-radius:64px;background:var(--bg);overflow:hidden}
+  .sb{height:70px;display:flex;justify-content:space-between;align-items:center;padding:0 44px;font-size:25px;font-weight:700;color:#cfd1e6}
+  .notch{position:absolute;left:50%;top:18px;width:34px;height:34px;border-radius:50%;background:#000;transform:translateX(-50%)}
+  /* chat */
+  .chat-top{height:118px;background:var(--s3);display:flex;align-items:center;gap:20px;padding:0 30px}
+  .chat-top .av{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--c));display:grid;place-items:center;font-weight:800;font-size:30px}
+  .chat-top b{font-size:32px;display:block}.chat-top small{font-size:22px;color:var(--mint)}
+  .chat-body{padding:30px 28px;display:flex;flex-direction:column;gap:20px}
+  .m{max-width:470px;padding:20px 26px;border-radius:30px 30px 30px 8px;background:var(--s3);font-size:28px;line-height:1.35}
+  .m.me{align-self:flex-end;border-radius:30px 30px 8px 30px;background:#2A1F6B}
+  .vn{align-self:flex-end;display:flex;align-items:center;gap:16px;padding:20px 24px;border-radius:30px 30px 8px 30px;background:#2A1F6B;width:440px}
+  .vn .play{width:0;height:0;border-left:22px solid #fff;border-top:14px solid transparent;border-bottom:14px solid transparent}
+  .bars{display:flex;gap:4px;align-items:center;height:54px;flex:1}
+  .bars i{display:block;width:6px;border-radius:3px;background:var(--v2)}
+  .vn em{font-style:normal;font-size:22px;color:#cdbfff}
+  .ticks{font-size:22px;color:var(--c);align-self:flex-end;margin-top:-10px;margin-right:6px}
+  .composer{position:absolute;left:24px;right:24px;bottom:34px;height:92px;border-radius:46px;background:var(--s3);display:flex;align-items:center;padding:0 34px;color:#6c6c88;font-size:27px}
+  /* bubble */
+  .bubble{position:absolute;width:150px;height:150px}
+  .disc{position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--c));box-shadow:0 20px 60px rgba(124,92,255,.65)}
+  .disc::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 25%,rgba(255,255,255,.35),transparent 60%)}
+  .disc svg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2}
+  .rec .disc{background:linear-gradient(135deg,var(--v),var(--pink));transform:scale(1.14)}
+  .ring{position:absolute;inset:-34px;border-radius:50%;border:6px solid rgba(255,92,147,.5)}
+  .ring.r2{inset:-72px;border-color:rgba(255,92,147,.24)}
+  .ring.r3{inset:-112px;border-color:rgba(255,92,147,.1)}
+  .pill{position:absolute;display:flex;align-items:center;gap:16px;padding:20px 30px;border-radius:99px;background:rgba(16,16,24,.94);font-size:28px;font-weight:600;white-space:nowrap;box-shadow:0 14px 40px rgba(0,0,0,.5)}
+  .pill .rd{width:18px;height:18px;border-radius:50%;background:var(--pink)}
+  .pill .mut{color:#b4b4c8;font-weight:500}
+  .wv{display:flex;gap:4px;align-items:center;height:36px}.wv i{display:block;width:5px;border-radius:3px;background:var(--c)}
+  /* cards / ui */
+  .page{padding:34px 36px}
+  .h1{font-size:50px;font-weight:800;letter-spacing:-1px;background:linear-gradient(90deg,#9B83FF,#22D3EE);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:27px;color:var(--mut);margin-top:12px;line-height:1.4}
+  .card{border-radius:36px;background:var(--s2);border:2px solid var(--line);padding:28px}
+  .row{display:flex;align-items:center;gap:24px}
+  .badge{width:80px;height:80px;border-radius:26px;display:grid;place-items:center;flex:none}
+  .badge svg{width:42px;height:42px}
+  .t{font-size:31px;font-weight:700}.d{font-size:24px;color:var(--mut);margin-top:4px;line-height:1.3}
+  .btn{padding:18px 34px;border-radius:26px;background:linear-gradient(90deg,var(--v),var(--c));font-size:26px;font-weight:700}
+  .ok{width:58px;height:58px;border-radius:50%;background:var(--mint);display:grid;place-items:center;flex:none}
+  .chip{font-size:18px;padding:3px 14px;border-radius:99px;background:#26263A;color:var(--v2);margin-left:12px;font-weight:600}
+  .prog{height:16px;border-radius:9px;background:#1C1C2B;overflow:hidden;margin-top:30px}.prog b{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--v),var(--c))}
+  .lang{display:flex;align-items:center;gap:24px;padding:26px;border-radius:36px;background:var(--s2);border:2px solid var(--line);margin-top:20px}
+  .lang.sel{border-color:var(--v2);background:rgba(42,31,107,.45)}
+  .lb{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--c));display:grid;place-items:center;font-weight:800;font-size:30px;flex:none}
+  .lang b{font-size:35px;display:block}.lang span{font-size:25px;color:var(--mut)}
+  .big{position:relative;width:340px;height:340px;margin:30px auto 0}
+  .stat{font-size:44px;font-weight:800;color:var(--mint);text-align:center;margin-top:26px}
+  .take{display:flex;align-items:center;gap:22px;margin-top:22px}
+  .take .wvbig{flex:1;display:flex;gap:4px;align-items:center;height:70px}.take .wvbig i{display:block;width:6px;border-radius:3px}
+  .playbtn{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;flex:none}
+  .privacy{display:flex;flex-direction:column;gap:26px;margin-top:40px}
+  .shield{width:360px;height:360px;margin:20px auto 0;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.25),transparent 65%);display:grid;place-items:center;position:relative}
+  .shield::before,.shield::after{content:"";position:absolute;border-radius:50%;border:3px solid rgba(124,92,255,.35)}
+  .shield::before{inset:20px}.shield::after{inset:-30px;border-color:rgba(34,211,238,.2)}
+  .steps{display:flex;gap:18px;margin:30px 0 0}
+  .step{flex:1;text-align:center;border-radius:34px;background:var(--s2);border:2px solid var(--line);padding:28px 10px}
+  .step .bubble{position:relative;width:110px;height:110px;margin:0 auto 22px}
+  .step b{font-size:27px;display:block}.step small{font-size:21px;color:var(--mut)}
+</style></head>
+<body>
+
+<!-- ============== 1. HOLD TO RECORD ============== -->
+<section class="scene" id="s1"><div class="bgfx"></div>
+  <div class="cap"><h2>Hold. Speak.<br><span>Release.</span></h2><p>A floating mic that lives on top of your chats — only when you need it.</p></div>
+  <div class="phone"><div class="screen"><div class="notch"></div>
+    <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+    <div class="chat-top"><div class="av">A</div><div><b>Aarav</b><small>online</small></div></div>
+    <div class="chat-body">
+      <div class="m">Hey! Can you send me the details?</div>
+      <div class="m me">Sure — recording a voice note now 🎙️</div>
+      <div class="m">Great, I'm on the train, noisy as always 😅</div>
+    </div>
+    <div class="composer">Message</div>
+    <div class="pill" style="left:92px;top:1000px"><span class="rd"></span><b>0:07</b><span class="wv" id="wv1"></span><span class="mut">◀ Slide to cancel</span></div>
+    <div class="bubble rec" style="left:470px;top:1130px"><div class="ring r3"></div><div class="ring r2"></div><div class="ring"></div>
+      <div class="disc"><svg width="70" height="70" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5.3-3a5.3 5.3 0 0 1-10.6 0H5a7 7 0 0 0 6 6.72V21h2v-3.28A7 7 0 0 0 19 11z"/></svg></div></div>
+  </div></div>
+</section>
+
+<!-- ============== 2. NOISE GONE ============== -->
+<section class="scene" id="s2"><div class="bgfx"></div>
+  <div class="cap"><h2>Noise gone.<br><span>Voice stays.</span></h2><p>On-device AI removes traffic, fans, crowds and hum — and evens out your volume.</p></div>
+  <div class="phone"><div class="screen"><div class="notch"></div>
+    <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+    <div class="page">
+      <div class="h1">Studio Lab</div>
+      <div class="big"><div class="bubble" style="left:95px;top:95px;width:150px;height:150px">
+        <div class="ring" style="border-color:rgba(52,211,153,.5)"></div><div class="ring r2" style="border-color:rgba(52,211,153,.22)"></div>
+        <div class="disc" style="background:linear-gradient(135deg,#34D399,#10B981);box-shadow:0 20px 60px rgba(52,211,153,.5)"><svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div></div>
+      <div class="stat">About 24 dB quieter background</div>
+      <div class="card" style="margin-top:44px">
+        <div class="take"><div class="badge" style="background:rgba(255,92,147,.16)"><svg viewBox="0 0 24 24" fill="#FF5C93"><path d="M7 4h2v16H7zM11 8h2v8h-2zM15 2h2v20h-2zM3 9h2v6H3zM19 7h2v10h-2z"/></svg></div>
+          <div style="width:170px"><div class="t">Original</div><div class="d">Noisy street</div></div>
+          <div class="wvbig" id="wo"></div>
+          <div class="playbtn" style="background:rgba(155,131,255,.18)"><svg width="30" height="30" viewBox="0 0 24 24" fill="#9B83FF"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+      <div class="card" style="margin-top:22px;border-color:#22D3EE">
+        <div class="take" style="margin-top:0"><div class="badge" style="background:rgba(34,211,238,.16)"><svg viewBox="0 0 24 24" fill="#22D3EE"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div>
+          <div style="width:170px"><div class="t">AuraMic clean</div><div class="d">Studio voice</div></div>
+          <div class="wvbig" id="wc"></div>
+          <div class="playbtn" style="background:linear-gradient(135deg,#7C5CFF,#22D3EE)"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============== 3. AUTO SEND ============== -->
+<section class="scene" id="s3"><div class="bgfx"></div>
+  <div class="cap"><h2>Sent for you.<br><span>Zero extra taps.</span></h2><p>AuraMic picks the chat and taps Send — you never leave the conversation.</p></div>
+  <div class="phone"><div class="screen"><div class="notch"></div>
+    <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+    <div class="chat-top"><div class="av">A</div><div><b>Aarav</b><small>online</small></div></div>
+    <div class="chat-body">
+      <div class="m">Hey! Can you send me the details?</div>
+      <div class="vn"><div class="play"></div><div class="bars" id="vb3"></div><em>0:07</em></div>
+      <div class="ticks">✓✓ Delivered</div>
+      <div class="m">Crystal clear, thanks! 🙌</div>
+    </div>
+    <div class="composer">Message</div>
+    <div class="pill" style="left:290px;top:1096px"><span style="color:#34D399;font-size:34px;line-height:1">✓</span><b>Sent!</b></div>
+    <div class="bubble" style="left:560px;top:1190px"><div class="disc" style="background:linear-gradient(135deg,#34D399,#10B981);box-shadow:0 20px 60px rgba(52,211,153,.5)"><svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+  </div></div>
+</section>
+
+<!-- ============== 4. PRIVACY ============== -->
+<section class="scene" id="s4"><div class="bgfx"></div>
+  <div class="cap"><h2>Private by<br><span>design.</span></h2><p>The AI runs on your phone. Your voice never touches our servers.</p></div>
+  <div class="phone"><div class="screen"><div class="notch"></div>
+    <div class="sb"><span>9:41</span><span>✈ Airplane</span></div>
+    <div class="page">
+      <div class="shield"><svg width="190" height="190" viewBox="0 0 24 24" fill="none" stroke="url(#g)" stroke-width="1.6" stroke-linejoin="round"><defs><linearGradient id="g" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#9B83FF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs><path d="M12 2.5l8 3v6c0 4.6-3.3 8.5-8 10-4.7-1.5-8-5.4-8-10v-6z"/><path d="M8.5 12.5l2.4 2.4 4.6-4.9" stroke-linecap="round"/></svg></div>
+      <div class="privacy">
+        <div class="card"><div class="row"><div class="badge" style="background:rgba(34,211,238,.16)"><svg viewBox="0 0 24 24" fill="#22D3EE"><path d="M17 1H7a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm0 17H7V6h10z"/></svg></div><div><div class="t">100% on-device AI</div><div class="d">Works even in airplane mode</div></div></div></div>
+        <div class="card"><div class="row"><div class="badge" style="background:rgba(155,131,255,.16)"><svg viewBox="0 0 24 24" fill="#9B83FF"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3 0-8 1.5-8 4.5V21h16v-2.5c0-3-5-4.5-8-4.5z"/></svg></div><div><div class="t">No account. No sign-up.</div><div class="d">Open the app and go</div></div></div></div>
+        <div class="card"><div class="row"><div class="badge" style="background:rgba(52,211,153,.16)"><svg viewBox="0 0 24 24" fill="#34D399"><path d="M19 13H5v-2h14zM12 3l-4 4h3v4h2V7h3z" transform="rotate(180 12 12)"/></svg></div><div><div class="t">Nothing uploaded</div><div class="d">Temp audio is auto-deleted</div></div></div></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============== 5. SETUP ============== -->
+<section class="scene" id="s5"><div class="bgfx"></div>
+  <div class="cap"><h2>Ready in<br><span>one minute.</span></h2><p>A friendly guide walks you through every permission — and explains why.</p></div>
+  <div class="phone"><div class="screen"><div class="notch"></div>
+    <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+    <div class="page">
+      <div class="h1">Let's set up AuraMic</div>
+      <div class="prog"><b style="width:60%"></b></div>
+      <div class="sub" style="margin-top:10px;font-size:22px">3 of 5 ready</div>
+      <div class="card" style="margin-top:22px;border-color:#34D399"><div class="row"><div class="badge" style="background:rgba(124,92,255,.16)"><svg viewBox="0 0 24 24" fill="#7C5CFF"><path d="M12 2L2 7l10 5 10-5zM2 12l10 5 10-5M2 17l10 5 10-5" stroke="#7C5CFF" stroke-width="1.6" fill="none"/></svg></div><div style="flex:1"><div class="t">Floating button</div><div class="d">Shows the mic bubble on top of chats.</div></div><div class="ok"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div></div>
+      <div class="card" style="margin-top:20px;border-color:#34D399"><div class="row"><div class="badge" style="background:rgba(255,92,147,.16)"><svg viewBox="0 0 24 24" fill="#FF5C93"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5.3-3a5.3 5.3 0 0 1-10.6 0H5a7 7 0 0 0 6 6.72V21h2v-3.28A7 7 0 0 0 19 11z"/></svg></div><div style="flex:1"><div class="t">Microphone</div><div class="d">Records while you hold the button.</div></div><div class="ok"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div></div>
+      <div class="card" style="margin-top:20px;border-color:#34D399"><div class="row"><div class="badge" style="background:rgba(34,211,238,.16)"><svg viewBox="0 0 24 24" fill="#22D3EE"><path d="M3 3h2v18H3zM8 11h2v10H8zM13 7h2v14h-2zM18 13h2v8h-2z"/></svg></div><div style="flex:1"><div class="t">Usage access</div><div class="d">Shows the bubble only in chats.</div></div><div class="ok"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div></div>
+      <div class="card" style="margin-top:20px"><div class="row"><div class="badge" style="background:rgba(52,211,153,.16)"><svg viewBox="0 0 24 24" fill="#34D399"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74a5 5 0 1 1-5 0z"/></svg></div><div style="flex:1"><div class="t">Accessibility<span class="chip">Required</span></div><div class="d">Taps Send for you inside the chat.</div></div><div class="btn">Allow</div></div></div>
+      <div class="card" style="margin-top:20px"><div class="row"><div class="badge" style="background:rgba(255,184,77,.16)"><svg viewBox="0 0 24 24" fill="#FFB84D"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"/></svg></div><div style="flex:1"><div class="t">Notifications</div><div class="d">Keeps AuraMic running reliably.</div></div><div class="btn">Allow</div></div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============== 6. LANGUAGES ============== -->
+<section class="scene" id="s6"><div class="bgfx"></div>
+  <div class="cap"><h2>Speaks<br><span>your language.</span></h2><p>English, हिन्दी, Hinglish, Español, Português, العربية and Bahasa Indonesia.</p></div>
+  <div class="phone"><div class="screen"><div class="notch"></div>
+    <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+    <div class="page" style="padding-top:20px">
+      <div class="h1">Choose your language</div>
+      <div class="lang sel"><div class="lb">EN</div><div style="flex:1"><b>English</b><span>English</span></div><div class="ok" style="width:46px;height:46px;background:var(--v)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+      <div class="lang"><div class="lb">हि</div><div><b>हिन्दी</b><span>Hindi</span></div></div>
+      <div class="lang"><div class="lb" style="font-size:24px">Hi·En</div><div><b>Hinglish</b><span>Hindi in English letters</span></div></div>
+      <div class="lang"><div class="lb">ES</div><div><b>Español</b><span>Spanish</span></div></div>
+      <div class="lang"><div class="lb">PT</div><div><b>Português</b><span>Portuguese</span></div></div>
+      <div class="lang"><div class="lb">ع</div><div><b>العربية</b><span>Arabic</span></div></div>
+      <div class="lang"><div class="lb">ID</div><div><b>Bahasa Indonesia</b><span>Indonesian</span></div></div>
+    </div>
+  </div></div>
+</section>
+
+<script>
+  let seed=11; const r=()=> (seed=(seed*16807)%2147483647)/2147483647;
+  const mk=(id,hs,color)=>{const el=document.getElementById(id); if(!el) return; hs.forEach(h=>{const i=document.createElement('i'); i.style.height=h+'px'; if(color) i.style.background=color; el.appendChild(i)})};
+  mk('wv1',[10,18,28,14,32,22,12,26,16,9,24,13],'#22D3EE');
+  mk('vb3',[10,20,34,16,40,26,12,36,22,10,30,16,9,28,18,12,24,14].map(x=>x*1.2),'#9B83FF');
+  mk('wo',[...Array(18)].map(()=>Math.round(14+r()*42)),'#FF5C93');
+  mk('wc',[...Array(18)].map((_,k)=>Math.round(5+Math.sin(k/18*Math.PI*2.6)**2*50)),'#22D3EE');
+  const n=(location.hash||'#1').slice(1); document.getElementById('s'+n).classList.add('on');
+  window.addEventListener('hashchange',()=>{document.querySelectorAll('.scene').forEach(s=>s.classList.remove('on')); document.getElementById('s'+location.hash.slice(1)).classList.add('on')});
+</script>
+</body></html>

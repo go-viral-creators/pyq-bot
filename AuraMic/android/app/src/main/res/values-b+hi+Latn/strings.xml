@@ -76,7 +76,7 @@
     <string name="home_open_whatsapp">WhatsApp kholein</string>
     <string name="home_whatsapp_missing">Is phone mein WhatsApp install nahi hai.</string>
     <string name="home_stat_notes">Voice notes saaf kiye</string>
-    <string name="home_stat_minutes">Saaf ki gayi awaaz ke minutes</string>
+    <string name="home_stat_minutes">Saaf kiye gaye minutes</string>
     <string name="home_lab_title">Studio Lab</string>
     <string name="home_lab_body">Shor wala sample record karein aur pehle / baad sunein.</string>
     <string name="home_guide_title">Tour dobara dekhein</string>

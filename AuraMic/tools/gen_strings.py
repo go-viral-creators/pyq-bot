@@ -515,7 +515,7 @@ add("lab_original", "Before (your voice as recorded)", "पहले (आपक�
 add("lab_clean", "After (noise removed)", "बाद में (शोर हटा हुआ)", "Baad mein (shor hata hua)", "Después (sin ruido)", "Depois (sem ruído)", "بعد (دون ضجيج)", "Sesudah (bising dihapus)")
 add("lab_done", "Done! Listen to the difference.", "हो गया! फ़र्क सुनें।", "Ho gaya! Farak suniye.", "¡Listo! Escucha la diferencia.", "Pronto! Ouça a diferença.", "تم! استمع إلى الفرق.", "Selesai! Dengarkan bedanya.")
 add("lab_info", "Cleaned in %1$.1f seconds", "%1$.1f सेकंड में साफ़ किया", "%1$.1f second mein saaf kiya", "Limpiado en %1$.1f segundos", "Limpo em %1$.1f segundos", "تم التنظيف خلال %1$.1f ثانية", "Dibersihkan dalam %1$.1f detik")
-add("home_stat_minutes", "Minutes of voice cleaned", "साफ़ की गई आवाज़ के मिनट", "Saaf ki gayi awaaz ke minutes", "Minutos de voz limpiados", "Minutos de voz limpos", "دقائق صوت تم تنظيفها", "Menit suara dibersihkan")
+add("home_stat_minutes", "Minutes cleaned", "साफ़ किए गए मिनट", "Saaf kiye gaye minutes", "Minutos limpiados", "Minutos limpos", "دقائق تم تنظيفها", "Menit dibersihkan")
 add("home_open_whatsapp", "Open WhatsApp", "WhatsApp खोलें", "WhatsApp kholein", "Abrir WhatsApp", "Abrir o WhatsApp", "افتح واتساب", "Buka WhatsApp")
 add("home_whatsapp_missing", "WhatsApp is not installed on this phone.", "इस फ़ोन में WhatsApp इंस्टॉल नहीं है।", "Is phone mein WhatsApp install nahi hai.",
     "WhatsApp no está instalado en este teléfono.", "O WhatsApp não está instalado neste celular.", "واتساب غير مثبّت على هذا الهاتف.", "WhatsApp belum terpasang di ponsel ini.")

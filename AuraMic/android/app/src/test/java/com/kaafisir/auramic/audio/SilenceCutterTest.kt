@@ -43,6 +43,16 @@ class SilenceCutterTest {
         assertTrue("short pause must survive", r.removedSamples < sr / 10)
     }
 
+    @Test fun pausesModeCutsEveryPauseOverThreeHundredMs() {
+        val x = clip(0.2, listOf(1.0, 1.0, 1.0), listOf(0.35, 1.5), 0.2)
+        val r = SilenceCutter.cut(x, x.size, sr, SilenceCut.PAUSES)
+        // 3 s of speech + 2 pauses cut to ~0.1 s + trimmed ends: far less than the 5.25 s input
+        assertTrue("got ${r.length / sr.toDouble()} s", r.length / sr.toDouble() < 3.6)
+        // a 0.25 s pause is below the limit and must survive
+        val y = clip(0.1, listOf(1.0, 1.0), listOf(0.25), 0.1)
+        assertTrue(SilenceCutter.cut(y, y.size, sr, SilenceCut.PAUSES).removedSamples < sr / 10)
+    }
+
     @Test fun tightCutsMoreThanGentle() {
         val x = clip(0.5, listOf(1.0, 1.0, 1.0), listOf(0.6, 0.6), 0.5)
         val g = SilenceCutter.cut(x, x.size, sr, SilenceCut.GENTLE).length

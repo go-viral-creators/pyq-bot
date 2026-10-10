@@ -17,6 +17,10 @@ abstract class AppModule {
 
     @Binds
     @Singleton
+    abstract fun bindLight(impl: com.kaafisir.auramic.audio.GtcrnEnhancer): com.kaafisir.auramic.audio.LightEnhancer
+
+    @Binds
+    @Singleton
     abstract fun bindPro(impl: com.kaafisir.auramic.data.pro.PlayProAccess): com.kaafisir.auramic.data.pro.ProAccess
 
     @Binds

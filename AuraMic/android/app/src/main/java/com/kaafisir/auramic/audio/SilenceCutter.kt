@@ -9,16 +9,19 @@ import kotlin.math.min
  * Auto-cut of silent parts. Works on the *denoised* signal, where pauses are genuinely quiet, so a simple
  * level detector is reliable:
  *   - 10 ms frames, speech threshold = max(-55 dBFS, 90th-percentile level - 32 dB), 80 ms hang-over
- *   - GENTLE shortens pauses > 0.75 s down to 0.35 s; TIGHT shortens pauses > 0.4 s down to 0.16 s
+ *   - GENTLE shortens pauses > 0.75 s down to 0.35 s; TIGHT shortens pauses > 0.4 s down to 0.16 s;
+ *     PAUSES (the app default) cuts every silence longer than 0.3 s down to about 0.1 s so words never run together
  *   - leading silence is trimmed to 80 ms, trailing to 150 ms
  * Cuts happen in the middle of a pause with an 8 ms cross-fade, so breaths and room tone around words stay natural.
  */
 object SilenceCutter {
     class Result(val pcm: FloatArray, val length: Int, val removedSamples: Int)
 
-    private class Cfg(val minPauseMs: Int, val keepMs: Int)
+    /** [minPauseMs] is measured between the hang-overs, so a pause counts as (minPauseMs + 2 x hangMs) of real silence. */
+    private class Cfg(val minPauseMs: Int, val keepMs: Int, val hangMs: Int = HANG_MS)
     private val gentle = Cfg(750, 350)
     private val tight = Cfg(400, 160)
+    private val pauses = Cfg(minPauseMs = 240, keepMs = 40, hangMs = 30)   // silence > 0.3 s is cut down to ~0.1 s
 
     private const val FRAME_MS = 10
     private const val HANG_MS = 80
@@ -28,7 +31,7 @@ object SilenceCutter {
 
     fun cut(x: FloatArray, n: Int, sr: Int, mode: SilenceCut): Result {
         if (mode == SilenceCut.OFF || n < sr / 2) return Result(x, n, 0)
-        val cfg = if (mode == SilenceCut.TIGHT) tight else gentle
+        val cfg = when (mode) { SilenceCut.TIGHT -> tight; SilenceCut.PAUSES -> pauses; else -> gentle }
         val frame = sr * FRAME_MS / 1000
         val frames = n / frame
         if (frames < 20) return Result(x, n, 0)
@@ -44,7 +47,7 @@ object SilenceCutter {
         val thr = max(-55f, ref - 32f)
 
         val speech = BooleanArray(frames) { db[it] > thr }
-        val hang = HANG_MS / FRAME_MS
+        val hang = cfg.hangMs / FRAME_MS
         val padded = speech.copyOf()
         for (f in 0 until frames) if (speech[f]) {
             for (k in max(0, f - hang)..min(frames - 1, f + hang)) padded[k] = true

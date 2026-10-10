@@ -42,10 +42,11 @@ class NativeDfn : AutoCloseable {
         const val ERB = 32
         const val DF_BINS = 96
         const val DF_ORDER = 5
-        // libDF defaults: frames below / above these local-SNR values skip or reduce processing
-        const val MIN_DB = -10f
-        const val MAX_ERB_DB = 30f
-        const val MAX_DF_DB = 20f
+        // libDF's local-SNR "stage gating" (-10 / 30 / 20 dB) skips or zeroes whole frames. On real, reverberant phone
+        // speech it also dips the voice by ~9 dB, so it is switched off: this reproduces the official PyTorch model.
+        const val MIN_DB = -100f
+        const val MAX_ERB_DB = 100f
+        const val MAX_DF_DB = 100f
 
         init { System.loadLibrary("auramic_dsp") }
     }

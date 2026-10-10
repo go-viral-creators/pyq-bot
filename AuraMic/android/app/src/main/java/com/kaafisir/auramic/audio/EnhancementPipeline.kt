@@ -31,11 +31,11 @@ class EnhanceResult(
 
 /**
  * The full voice-note pipeline:
- *   resample to 48 kHz -> denoise (DeepFilterNet3 AI, or classic DSP fallback) -> keep-ambience mix
+ *   resample to 48 kHz -> denoise (DeepFilterNet3 for High, GTCRN for Medium, classic DSP as a fallback) -> keep-ambience mix
  *   -> auto-cut silence -> mastering chain (EQ / de-ess / compressor / LUFS / limiter)
  */
 @Singleton
-class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer) {
+class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, private val light: LightEnhancer) {
 
     fun process(
         pcm: ShortArray,
@@ -55,6 +55,10 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer) {
         var enhanced: FloatArray? = null
         if (opt.engine == EnhanceEngine.AI) {
             enhanced = dfn.enhance(x, n, opt.attenuationDb, opt.fastMode, onProgress)
+            if (enhanced == null) engineUsed = EnhanceEngine.CLASSIC
+        }
+        if (opt.engine == EnhanceEngine.LIGHT) {
+            enhanced = light.enhance(x, n, onProgress)
             if (enhanced == null) engineUsed = EnhanceEngine.CLASSIC
         }
         if (enhanced == null) enhanced = classic(x, n, opt)

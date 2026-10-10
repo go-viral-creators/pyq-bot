@@ -76,7 +76,7 @@
     <string name="home_open_whatsapp">Abrir WhatsApp</string>
     <string name="home_whatsapp_missing">WhatsApp no está instalado en este teléfono.</string>
     <string name="home_stat_notes">Notas de voz limpiadas</string>
-    <string name="home_stat_minutes">Minutos de voz limpiados</string>
+    <string name="home_stat_minutes">Minutos limpiados</string>
     <string name="home_lab_title">Laboratorio de estudio</string>
     <string name="home_lab_body">Graba una muestra con ruido y escucha el antes y el después.</string>
     <string name="home_guide_title">Repetir el tutorial</string>

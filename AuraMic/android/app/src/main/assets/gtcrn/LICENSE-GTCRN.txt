@@ -1,0 +1,2 @@
+GTCRN (Grouped Temporal Convolutional Recurrent Network), Xiaobin Rong et al., ICASSP 2024.
+https://github.com/Xiaobin-Rong/gtcrn  - MIT License. Pretrained on DNS3; exported to ONNX for AuraMic.

@@ -67,7 +67,7 @@ class Native:
             l = np.ascontiguousarray(lsnr[0, a:a + n, 0], np.float32)
             mm = np.ascontiguousarray(m[a:a + n], np.float32)
             cc = np.ascontiguousarray(coefs[a:a + n].reshape(n, 960), np.float32) if use_df else None
-            self.L.dfn_apply(h, s, n, _p(l), _p(mm), _p(cc) if cc is not None else None, atten, -10.0, 30.0, 20.0, post_beta, int(use_df))
+            self.L.dfn_apply(h, s, n, _p(l), _p(mm), _p(cc) if cc is not None else None, atten, -100.0, 100.0, 100.0, post_beta, int(use_df))
         out = np.zeros(len(x), np.float32)
         self.L.dfn_output(h, _p(out))
         self.L.dfn_destroy(h)

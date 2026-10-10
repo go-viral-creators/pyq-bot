@@ -76,7 +76,7 @@
     <string name="home_open_whatsapp">Abrir o WhatsApp</string>
     <string name="home_whatsapp_missing">O WhatsApp não está instalado neste celular.</string>
     <string name="home_stat_notes">Áudios limpos</string>
-    <string name="home_stat_minutes">Minutos de voz limpos</string>
+    <string name="home_stat_minutes">Minutos limpos</string>
     <string name="home_lab_title">Laboratório de estúdio</string>
     <string name="home_lab_body">Grave uma amostra com ruído e ouça o antes e o depois.</string>
     <string name="home_guide_title">Rever o tutorial</string>

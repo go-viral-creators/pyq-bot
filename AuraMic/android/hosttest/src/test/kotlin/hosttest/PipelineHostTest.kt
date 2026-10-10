@@ -3,6 +3,7 @@ package hosttest
 import com.kaafisir.auramic.audio.DfnRuntime
 import com.kaafisir.auramic.audio.EnhanceResult
 import com.kaafisir.auramic.audio.EnhancementPipeline
+import com.kaafisir.auramic.audio.GtcrnRuntime
 import com.kaafisir.auramic.audio.NativePolish
 import com.kaafisir.auramic.audio.Resampler
 import com.kaafisir.auramic.domain.model.EnhanceEngine
@@ -27,6 +28,7 @@ class PipelineHostTest {
         lateinit var noisy: ShortArray
         var clean: ShortArray? = null
         lateinit var runtime: DfnRuntime
+        lateinit var gtcrn: GtcrnRuntime
         lateinit var pipeline: EnhancementPipeline
         var ready = false
 
@@ -61,7 +63,8 @@ class PipelineHostTest {
             System.getProperty("auramic.clean")?.takeIf { File(it).exists() }?.let { clean = readWav(it).first }
             val models = File(System.getProperty("auramic.models"))
             runtime = DfnRuntime(4) { File(models, "$it.onnx").readBytes() }
-            pipeline = EnhancementPipeline(runtime)
+            gtcrn = GtcrnRuntime(4) { File(System.getProperty("auramic.gtcrn")).readBytes() }
+            pipeline = EnhancementPipeline(runtime, gtcrn)
             ready = true
         }
 
@@ -78,7 +81,7 @@ class PipelineHostTest {
         }
     }
 
-    private val defaultOpt = EnhanceOptions(preset = VoicePreset.OFF, normalize = false)
+    private val defaultOpt = EnhanceOptions(preset = VoicePreset.OFF, normalize = false, silenceCut = SilenceCut.OFF)
 
     @Test fun networkOutputHasInputLengthAndRemovesNoise() {
         assumeTrue("host lib + sample not configured", ready)
@@ -120,7 +123,7 @@ class PipelineHostTest {
 
     @Test fun fullPipelineMastersToTargetLoudness() {
         assumeTrue(ready)
-        val r = pipeline.process(noisy, noisy.size, 48_000, EnhanceOptions(preset = VoicePreset.PODCAST, normalize = true, targetLufs = -16f), wantStems = true)
+        val r = pipeline.process(noisy, noisy.size, 48_000, EnhanceOptions(silenceCut = SilenceCut.OFF, preset = VoicePreset.PODCAST, normalize = true, targetLufs = -16f), wantStems = true)
         println("pipeline: ${r.processingMs} ms for ${r.inputSeconds} s (${r.speedFactor}x realtime), engine=${r.engineUsed}, ${r.report?.inputLufs} -> ${r.report?.outputLufs} LUFS, peak ${r.report?.peakDb} dBFS")
         assertEquals(EnhanceEngine.AI, r.engineUsed)
         assertEquals(noisy.size, r.length)
@@ -146,7 +149,7 @@ class PipelineHostTest {
 
     @Test fun classicEngineStillWorksAsFallback() {
         assumeTrue(ready)
-        val r = pipeline.process(noisy, noisy.size, 48_000, EnhanceOptions(engine = EnhanceEngine.CLASSIC, preset = VoicePreset.OFF, normalize = false))
+        val r = pipeline.process(noisy, noisy.size, 48_000, EnhanceOptions(engine = EnhanceEngine.CLASSIC, preset = VoicePreset.OFF, normalize = false, silenceCut = SilenceCut.OFF))
         assertEquals(EnhanceEngine.CLASSIC, r.engineUsed)
         assertEquals(noisy.size, r.length)
     }
@@ -154,8 +157,70 @@ class PipelineHostTest {
     @Test fun tinyAndSilentInputsAreSafe() {
         assumeTrue(ready)
         for (n in intArrayOf(1, 100, 481, 4800)) {
-            val r = pipeline.process(ShortArray(n), n, 48_000, EnhanceOptions())
+            val r = pipeline.process(ShortArray(n), n, 48_000, EnhanceOptions(silenceCut = SilenceCut.OFF))
+            pipeline.process(ShortArray(n), n, 48_000, EnhanceOptions(engine = EnhanceEngine.LIGHT))
             assertEquals(n, r.length)
+        }
+    }
+
+    private fun corr(a: FloatArray, b: FloatArray): Double {
+        val n = minOf(a.size, b.size); var ab = 0.0; var aa = 0.0; var bb = 0.0
+        for (i in 0 until n) { ab += a[i] * b[i]; aa += a[i] * a[i]; bb += b[i] * b[i] }
+        return ab / sqrt(aa * bb + 1e-30)
+    }
+
+    @Test fun deepFilterNetMatchesTheOfficialPyTorchModel() {
+        assumeTrue(ready)
+        val ref = System.getProperty("auramic.official")?.takeIf { File(it).exists() }
+        assumeNotNull(ref)
+        val r = readWav(ref!!).first.let { Resampler.toFloat(it, it.size) }
+        val y = pipeline.process(noisy, noisy.size, 48_000, EnhanceOptions(silenceCut = SilenceCut.OFF, preset = VoicePreset.OFF, normalize = false)).voice
+        val c = corr(y, r); val dl = 10 * log10(y.sumOf { it.toDouble() * it } / r.sumOf { it.toDouble() * it })
+        println("DeepFilterNet3 vs official: corr $c, level diff $dl dB")
+        assertTrue("corr $c", c > 0.99); assertTrue("level $dl", abs(dl) < 0.5)
+    }
+
+    @Test fun gtcrnMatchesTheOfficialPyTorchModel() {
+        assumeTrue(ready)
+        val ref = System.getProperty("auramic.gtcrnref")?.takeIf { File(it).exists() }
+        assumeNotNull(ref)
+        val r = readWav(ref!!).first.let { Resampler.toFloat(it, it.size) }
+        val x = Resampler.toFloat(noisy, noisy.size)
+        val t0 = System.nanoTime()
+        val y = gtcrn.enhance(x, x.size)!!
+        println("GTCRN: ${(System.nanoTime() - t0) / 1_000_000} ms for ${x.size / 48000f} s")
+        assertEquals(x.size, y.size)
+        val c = corr(y, r); val dl = 10 * log10(y.sumOf { it.toDouble() * it } / r.sumOf { it.toDouble() * it })
+        println("GTCRN vs official: corr $c, level diff $dl dB")
+        assertTrue("corr $c", c > 0.97); assertTrue("level $dl", abs(dl) < 1.0)
+    }
+
+    @Test fun mediumPipelineHasNoPauseLongerThanThreeHundredMs() {
+        assumeTrue(ready)
+        val r = pipeline.process(noisy, noisy.size, 48_000, EnhanceOptions.forQuality(com.kaafisir.auramic.domain.model.Quality.MEDIUM))
+        assertEquals(EnhanceEngine.LIGHT, r.engineUsed)
+        val db = frameDb(r.voice, r.length)
+        val ref = db.sortedArray()[(db.size * 0.9).toInt()]
+        var run = 0; var longest = 0
+        for (v in db) { if (v < ref - 40f) { run++; longest = maxOf(longest, run) } else run = 0 }
+        println("Medium: ${r.inputSeconds} s -> ${r.seconds} s, longest quiet run ${longest * 10} ms, ${r.speedFactor}x realtime")
+        assertTrue("longest pause ${longest * 10} ms", longest * 10 <= 330)
+    }
+
+    /** With -Dauramic.dump=<dir> (gradle: -Pauramic.dump) writes what the app would send, for listening tests. */
+    @Test fun dumpFinalOutputsForListening() {
+        assumeTrue(ready)
+        val dir = System.getProperty("auramic.dump")?.takeIf { it.isNotBlank() } ?: return
+        File(dir).mkdirs()
+        for (q in com.kaafisir.auramic.domain.model.Quality.entries) {
+            val r = pipeline.process(noisy, noisy.size, 48_000, EnhanceOptions.forQuality(q))
+            val pcm = Resampler.toShort(r.voice, r.length)
+            val bb = ByteBuffer.allocate(44 + pcm.size * 2).order(ByteOrder.LITTLE_ENDIAN)
+            bb.put("RIFF".toByteArray()).putInt(36 + pcm.size * 2).put("WAVEfmt ".toByteArray()).putInt(16).putShort(1).putShort(1)
+                .putInt(48_000).putInt(96_000).putShort(2).putShort(16).put("data".toByteArray()).putInt(pcm.size * 2)
+            pcm.forEach { bb.putShort(it) }
+            File(dir, "app_${q.name}.wav").writeBytes(bb.array())
+            println("dumped ${q.name}: ${r.seconds} s, engine ${r.engineUsed}, ${r.speedFactor}x")
         }
     }
 

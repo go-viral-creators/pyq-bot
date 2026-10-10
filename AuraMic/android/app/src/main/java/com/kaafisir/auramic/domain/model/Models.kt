@@ -27,11 +27,11 @@ enum class AppLanguage(
 
 enum class OutputFormat { M4A, OPUS }
 
-/** Denoising engine. AI = DeepFilterNet3 (ONNX Runtime); CLASSIC = built-in spectral DSP (fastest, lighter). */
-enum class EnhanceEngine { AI, CLASSIC }
+/** Denoising engine. AI = DeepFilterNet3 (High); LIGHT = GTCRN (Medium); CLASSIC = built-in spectral DSP (fallback only). */
+enum class EnhanceEngine { AI, LIGHT, CLASSIC }
 
 /** Auto-cut of silent parts: shortens long pauses and trims the start/end. */
-enum class SilenceCut { OFF, GENTLE, TIGHT }
+enum class SilenceCut { OFF, GENTLE, TIGHT, /** Every pause longer than 0.3 s is cut out. */ PAUSES }
 
 /** Mastering preset applied after denoising (EQ + de-esser + compressor). */
 enum class VoicePreset { OFF, NATURAL, PODCAST }
@@ -61,7 +61,7 @@ data class EnhanceOptions(
     /** 0..1 share of the removed background mixed back in. Always 0: the background is fully removed. */
     val keepBackground: Float = 0f,
     val fastMode: Boolean = false,
-    val silenceCut: SilenceCut = SilenceCut.OFF,
+    val silenceCut: SilenceCut = SilenceCut.PAUSES,
     val preset: VoicePreset = VoicePreset.PODCAST,
     val normalize: Boolean = true,
     val targetLufs: Float = -16f,
@@ -72,8 +72,8 @@ data class EnhanceOptions(
         const val ATTENUATION_DB = 6f + (STRENGTH - 0.2f) / 0.79f * 74f
 
         fun forQuality(q: Quality) = when (q) {
-            Quality.HIGH -> EnhanceOptions(engine = EnhanceEngine.AI, preset = VoicePreset.PODCAST)
-            Quality.MEDIUM -> EnhanceOptions(engine = EnhanceEngine.CLASSIC, preset = VoicePreset.NATURAL)
+            Quality.HIGH -> EnhanceOptions(engine = EnhanceEngine.AI)
+            Quality.MEDIUM -> EnhanceOptions(engine = EnhanceEngine.LIGHT)
         }
     }
 }

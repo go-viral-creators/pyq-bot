@@ -12,3 +12,9 @@ interface AiEnhancer {
     val isAvailable: Boolean
     fun enhance(x: FloatArray, n: Int, attenDb: Float, fast: Boolean, onProgress: ((Float) -> Unit)? = null): FloatArray?
 }
+
+/** The light, fast speech cleaner used for Medium Quality (GTCRN on ONNX Runtime). Works on 48 kHz audio. */
+interface LightEnhancer {
+    val isAvailable: Boolean
+    fun enhance(x: FloatArray, n: Int, onProgress: ((Float) -> Unit)? = null): FloatArray?
+}

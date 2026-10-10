@@ -16,7 +16,7 @@ sourceSets {
         kotlin.include(
             "com/kaafisir/auramic/audio/AudioLog.kt", "com/kaafisir/auramic/audio/DfnRuntime.kt",
             "com/kaafisir/auramic/audio/NativeDfn.kt", "com/kaafisir/auramic/audio/NativePolish.kt",
-            "com/kaafisir/auramic/audio/NativeDenoiser.kt", "com/kaafisir/auramic/audio/Resampler.kt",
+            "com/kaafisir/auramic/audio/NativeDenoiser.kt", "com/kaafisir/auramic/audio/GtcrnRuntime.kt", "com/kaafisir/auramic/audio/Resampler.kt",
             "com/kaafisir/auramic/audio/SilenceCutter.kt", "com/kaafisir/auramic/audio/EnhancementPipeline.kt",
             "com/kaafisir/auramic/domain/model/Models.kt",
         )
@@ -38,6 +38,10 @@ tasks.test {
     if (clean != null) systemProperty("auramic.clean", clean)
     providers.gradleProperty("auramic.reference").orNull?.let { systemProperty("auramic.reference", it) }
     systemProperty("auramic.models", file("../app/src/main/assets/dfn3").absolutePath)
+    systemProperty("auramic.gtcrn", file("../app/src/main/assets/gtcrn/gtcrn_dns3.onnx").absolutePath)
+    providers.gradleProperty("auramic.dump").orNull?.let { systemProperty("auramic.dump", it) }
+    providers.gradleProperty("auramic.official").orNull?.let { systemProperty("auramic.official", it) }
+    providers.gradleProperty("auramic.gtcrnref").orNull?.let { systemProperty("auramic.gtcrnref", it) }
     maxHeapSize = "2g"
     testLogging { showStandardStreams = true }
 }

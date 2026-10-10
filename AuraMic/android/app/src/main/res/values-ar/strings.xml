@@ -76,7 +76,7 @@
     <string name="home_open_whatsapp">افتح واتساب</string>
     <string name="home_whatsapp_missing">واتساب غير مثبّت على هذا الهاتف.</string>
     <string name="home_stat_notes">رسائل صوتية نُظّفت</string>
-    <string name="home_stat_minutes">دقائق صوت تم تنظيفها</string>
+    <string name="home_stat_minutes">دقائق تم تنظيفها</string>
     <string name="home_lab_title">مختبر الاستوديو</string>
     <string name="home_lab_body">سجّل عيّنة بها ضوضاء واستمع إلى قبل وبعد.</string>
     <string name="home_guide_title">إعادة الجولة</string>

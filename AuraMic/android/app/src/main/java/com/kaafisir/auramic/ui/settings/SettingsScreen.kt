@@ -123,7 +123,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                 NavRow(stringResource(R.string.set_privacy), null) { openUrl(Links.PRIVACY) }
                 NavRow(stringResource(R.string.set_terms), null) { openUrl(Links.TERMS) }
                 NavRow(stringResource(R.string.set_a11y_notice), null) { openUrl(Links.ACCESSIBILITY) }
-                NavRow(stringResource(R.string.set_support), Links.SUPPORT_EMAIL) {
+                NavRow(stringResource(R.string.set_support), null) {
                     val i = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:${Links.SUPPORT_EMAIL}"))
                         .putExtra(Intent.EXTRA_SUBJECT, "AuraMic ${BuildConfig.VERSION_NAME}")
                     startActivity(Intent.createChooser(i, chooserTitle))

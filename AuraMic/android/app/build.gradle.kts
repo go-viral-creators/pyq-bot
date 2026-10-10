@@ -24,8 +24,8 @@ android {
         applicationId = "com.kaafisir.auramic"
         minSdk = 28
         targetSdk = 36
-        versionCode = 13
-        versionName = "1.3.0"
+        versionCode = 14
+        versionName = "1.4.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -98,7 +98,6 @@ android {
         resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}", "DebugProbesKt.bin")
     }
     androidResources {
-        noCompress += "onnx"
         // Only ship the locales we actually translate (keeps APK small, Play detects them).
         localeFilters += listOf("en", "hi", "b+hi+Latn", "es", "pt", "ar", "in")
     }

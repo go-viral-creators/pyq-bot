@@ -76,7 +76,7 @@
     <string name="home_open_whatsapp">WhatsApp खोलें</string>
     <string name="home_whatsapp_missing">इस फ़ोन में WhatsApp इंस्टॉल नहीं है।</string>
     <string name="home_stat_notes">साफ़ किए वॉइस नोट</string>
-    <string name="home_stat_minutes">साफ़ की गई आवाज़ के मिनट</string>
+    <string name="home_stat_minutes">साफ़ किए गए मिनट</string>
     <string name="home_lab_title">स्टूडियो लैब</string>
     <string name="home_lab_body">शोर वाला सैंपल रिकॉर्ड करें और पहले / बाद सुनें।</string>
     <string name="home_guide_title">टूर दोबारा देखें</string>

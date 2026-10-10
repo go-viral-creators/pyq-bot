@@ -11,7 +11,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
+import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -209,7 +214,7 @@ fun HomeScreen(
 
         // ---- stats -----------------------------------------------------------------------------
         Spacer(Modifier.height(16.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             StatCard(Modifier.weight(1f), ui.settings.notesCleaned.toString(), stringResource(R.string.home_stat_notes), AuraViolet)
             StatCard(Modifier.weight(1f), "%.1f".format(ui.settings.secondsPolished / 60f), stringResource(R.string.home_stat_minutes), AuraCyan)
         }
@@ -253,8 +258,14 @@ fun HomeScreen(
 
 @Composable
 private fun StatCard(modifier: Modifier, value: String, label: String, tint: Color) {
-    AuraCard(modifier) {
-        Text(value, style = MaterialTheme.typography.headlineMedium, color = tint)
-        Text(label, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    // Both cards always have the same height; the label shrinks to fit on one line instead of wrapping.
+    AuraCard(modifier.fillMaxHeight()) {
+        Text(value, style = MaterialTheme.typography.headlineMedium, color = tint, maxLines = 1)
+        BasicText(
+            label,
+            style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+            maxLines = 1,
+            autoSize = TextAutoSize.StepBased(minFontSize = 9.sp, maxFontSize = 14.sp, stepSize = 0.5.sp),
+        )
     }
 }

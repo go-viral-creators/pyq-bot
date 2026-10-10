@@ -11,11 +11,13 @@ import javax.inject.Inject
 @HiltAndroidApp
 class AuraMicApp : Application() {
     @Inject lateinit var dfn: DfnEnhancer
+    @Inject lateinit var light: com.kaafisir.auramic.audio.GtcrnEnhancer
     @Inject lateinit var pro: com.kaafisir.auramic.data.pro.ProAccess
 
     override fun onCreate() {
         super.onCreate()
         kotlinx.coroutines.MainScope().launch { runCatching { pro.refresh() } } // subscription + free tries, works offline
+        light.warmUp()
         dfn.warmUp() // load the DeepFilterNet models in the background so the first voice note is fast
         // Housekeeping: processed voice notes are throw-away copies; drop anything older than an hour.
         Thread {

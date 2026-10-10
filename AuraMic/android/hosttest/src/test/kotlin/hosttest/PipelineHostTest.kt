@@ -62,7 +62,7 @@ class PipelineHostTest {
             noisy = pcm
             System.getProperty("auramic.clean")?.takeIf { File(it).exists() }?.let { clean = readWav(it).first }
             val models = File(System.getProperty("auramic.models"))
-            runtime = DfnRuntime(4) { File(models, "$it.onnx").readBytes() }
+            runtime = DfnRuntime(4) { File(models, "$it.ort").readBytes() }
             gtcrn = GtcrnRuntime(4) { File(System.getProperty("auramic.gtcrn")).readBytes() }
             pipeline = EnhancementPipeline(runtime, gtcrn)
             ready = true

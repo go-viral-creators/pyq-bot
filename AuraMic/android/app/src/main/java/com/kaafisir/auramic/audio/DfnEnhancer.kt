@@ -14,7 +14,7 @@ class DfnEnhancer @Inject constructor(@ApplicationContext private val context: C
 
     private val runtime = DfnRuntime(
         threads = min(4, max(1, Runtime.getRuntime().availableProcessors())),
-        loadModel = { name -> context.assets.open("dfn3/$name.onnx").use { it.readBytes() } },
+        loadModel = { name -> context.assets.open("dfn3/$name.ort").use { it.readBytes() } },
     )
 
     init { AudioLog.sink = { tag, msg -> Log.i(tag, msg) } }

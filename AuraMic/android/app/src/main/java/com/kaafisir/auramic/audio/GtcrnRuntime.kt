@@ -16,7 +16,7 @@ import kotlin.math.sqrt
  * Pipeline: 48 kHz -> 16 kHz -> STFT(512/256, sqrt-Hann) -> network -> iSTFT -> 48 kHz.
  * The network is stateless over the whole clip (the export takes the complete spectrogram), so there is no chunking.
  *
- * @param loadModel returns the bytes of gtcrn_dns3.onnx
+ * @param loadModel returns the bytes of gtcrn_dns3.ort
  */
 class GtcrnRuntime(
     private val threads: Int,
@@ -39,7 +39,7 @@ class GtcrnRuntime(
             val opts = OrtSession.SessionOptions().apply {
                 setIntraOpNumThreads(max(1, threads))
                 setInterOpNumThreads(1)
-                setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)
+                setOptimizationLevel(OrtSession.SessionOptions.OptLevel.NO_OPT)
                 addConfigEntry("session.intra_op.allow_spinning", "0")
             }
             session = e.createSession(loadModel(), opts)

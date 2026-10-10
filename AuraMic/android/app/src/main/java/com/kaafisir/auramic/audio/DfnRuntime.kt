@@ -18,7 +18,7 @@ import kotlin.math.min
  * (features zero-padded past the end) - verified against the libDF reference (tools/test_dfn.py).
  * Each chunk is run with [CONTEXT] frames of left context so conv/GRU history is warmed up.
  *
- * @param loadModel returns the bytes of "enc", "erb_dec" or "df_dec" (.onnx)
+ * @param loadModel returns the bytes of "enc", "erb_dec" or "df_dec" (ORT-format .ort models)
  */
 class DfnRuntime(
     private val threads: Int,
@@ -45,7 +45,7 @@ class DfnRuntime(
                 val opts = OrtSession.SessionOptions().apply {
                     setIntraOpNumThreads(max(1, threads))
                     setInterOpNumThreads(1)
-                    setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)
+                    setOptimizationLevel(OrtSession.SessionOptions.OptLevel.NO_OPT) // .ort models are already optimized (and the minimal runtime has no optimizer)
                     setExecutionMode(OrtSession.SessionOptions.ExecutionMode.SEQUENTIAL)
                     addConfigEntry("session.intra_op.allow_spinning", "0") // do not burn battery between calls
                 }

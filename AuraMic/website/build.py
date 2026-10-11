@@ -6,8 +6,20 @@ import pathlib
 ROOT = pathlib.Path(__file__).resolve().parent
 SITE = "https://auramic.fireclashpro.com"
 EMAIL = "support@fireclashpro.com"
+# --- Google Play button -------------------------------------------------------------------------------------------
+# While the app is not published yet keep PLAY_LIVE = False (the button shows "Coming soon on Google Play").
+# When the Play listing is live: set PLAY_LIVE = True, run `python3 build.py`, upload the pages again.
+PLAY_LIVE = False
+PLAY_URL = "https://play.google.com/store/apps/details?id=com.kaafisir.auramic"
 UPDATED = "October 10, 2026"
 NAV = [("Features", "/#features"), ("How it works", "/#how"), ("Screenshots", "/#screens"), ("FAQ", "/#faq"), ("Support", "/#support")]
+
+PLAY_ICON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.3a1.5 1.5 0 0 0-.6 1.3v16.8c0 .5.2 1 .6 1.3l9.4-9.7zM14.4 13.3l2.9 3L5.1 22.4zM17.3 7.7l-2.9 3L5.1 1.6zM21 10.4l-2.6-1.5-3.2 3.1 3.2 3.1 2.6-1.5c.9-.5.9-2.7 0-3.2z"/></svg>'
+
+def play_button():
+    if PLAY_LIVE:
+        return f'<a href="{PLAY_URL}" target="_blank" rel="noopener" class="btn-primary">{PLAY_ICON} Get it on Google Play</a>'
+    return f'<span class="btn-primary cursor-default">{PLAY_ICON} Coming soon on Google Play</span>'
 
 def rel(path):  # works from any directory / file:// preview as well as at the domain root
     return path.lstrip("/") if path != "/" else "index.html"
@@ -138,7 +150,7 @@ def index():
       <h1 class="mt-6 text-5xl font-extrabold leading-[1.02] tracking-tight text-white sm:text-6xl">Studio-quality<br><span class="grad-text">voice notes.</span></h1>
       <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">A floating mic on top of your chat apps. Hold it, speak, let go — the background noise is removed on your phone and your voice note is sent for you, with even volume.</p>
       <div id="get" class="mt-8 flex flex-wrap items-center gap-4">
-        <span class="btn-primary cursor-default"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.3a1.5 1.5 0 0 0-.6 1.3v16.8c0 .5.2 1 .6 1.3l9.4-9.7zM14.4 13.3l2.9 3L5.1 22.4zM17.3 7.7l-2.9 3L5.1 1.6zM21 10.4l-2.6-1.5-3.2 3.1 3.2 3.1 2.6-1.5c.9-.5.9-2.7 0-3.2z"/></svg> Coming soon on Google Play</span>
+        {play_button()}
         <a href="#how" class="btn-ghost">See how it works</a>
       </div>
       <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400">

@@ -1,4 +1,6 @@
 #include "polish.h"
+#include <cstdlib>
+#include <algorithm>
 
 #include <algorithm>
 #include <cmath>
@@ -64,6 +66,11 @@ void deEss(float *x, size_t n, int sr) {
     }
 }
 
+constexpr double kGateDepthDb = 0.0;   // pause-noise expander depth (0 = off)
+constexpr double kGateBelowDb = 36.0;  // pauses = frames this far below the speech level
+// Experiment override (host benchmark only): environment variable, falls back to the compiled default.
+double envOr(const char *name, double def) { const char *v = std::getenv(name); return v ? std::atof(v) : def; }
+
 // Downward compressor (soft knee, RMS detector). No make-up gain: loudness is set afterwards.
 void compress(float *x, size_t n, int sr, double thrDb, double ratio, double atkMs, double relMs, double kneeDb) {
     const double det = std::exp(-1.0 / (0.010 * sr));
@@ -80,6 +87,41 @@ void compress(float *x, size_t n, int sr, double thrDb, double ratio, double atk
         want = -want;                                   // positive = reduction in dB
         grDb = want > grDb ? aA * grDb + (1 - aA) * want : aR * grDb + (1 - aR) * want;
         x[i] *= static_cast<float>(std::pow(10.0, -grDb / 20));
+    }
+}
+
+// Pause-noise expander: DeepFilterNet leaves a faint floor in pauses that the make-up gain of the loudness stage lifts
+// again. Frames that stay far below the speech level (no frame above the threshold within the hold / look-ahead
+// window, so word onsets and tails are untouched) are attenuated by at most `depthDb`, opening fast and closing slowly.
+void expandPauses(float *x, size_t n, int sr, double depthDb, double belowSpeechDb) {
+    const size_t F = static_cast<size_t>(0.010 * sr);
+    if (depthDb <= 0.0 || F == 0 || n < F * 40) return;
+    const size_t nf = n / F;
+    std::vector<double> lvl(nf);
+    for (size_t f = 0; f < nf; ++f) {
+        double e = 0; for (size_t i = f * F; i < (f + 1) * F; ++i) e += static_cast<double>(x[i]) * x[i];
+        lvl[f] = 10 * std::log10(e / F + 1e-12);
+    }
+    std::vector<double> sorted;
+    for (double v : lvl) if (v > -80.0) sorted.push_back(v);
+    if (sorted.size() < 20) return;
+    std::sort(sorted.begin(), sorted.end());
+    const double speech = sorted[static_cast<size_t>(0.9 * (sorted.size() - 1))];
+    const double thr = speech - belowSpeechDb, knee = 6.0;
+    const long HOLD = 8, AHEAD = 3;                       // frames: 80 ms after, 30 ms before
+    std::vector<double> want(nf, 0.0);
+    for (size_t f = 0; f < nf; ++f) {
+        double m = -200;
+        for (long k = static_cast<long>(f) - HOLD; k <= static_cast<long>(f) + AHEAD; ++k)
+            if (k >= 0 && k < static_cast<long>(nf)) m = std::max(m, lvl[k]);
+        want[f] = depthDb * std::min(1.0, std::max(0.0, (thr - m) / knee));
+    }
+    const double aOpen = std::exp(-1.0 / (0.004 * sr)), aClose = std::exp(-1.0 / (0.100 * sr));
+    double g = 0.0;                                       // current reduction in dB
+    for (size_t i = 0; i < n; ++i) {
+        const double t = want[std::min(nf - 1, i / F)];
+        g = t < g ? aOpen * g + (1 - aOpen) * t : aClose * g + (1 - aClose) * t;
+        x[i] *= static_cast<float>(std::pow(10.0, -g / 20));
     }
 }
 
@@ -164,6 +206,7 @@ PolishReport polish(float *x, size_t n, const PolishParams &p) {
         } else {
             compress(x, n, sr, -28.0, 1.6, 10.0, 150.0, 8.0);
         }
+        expandPauses(x, n, sr, envOr("AURA_GATE_DEPTH", kGateDepthDb), envOr("AURA_GATE_BELOW", kGateBelowDb));
     }
     if (p.normalize) {
         const float cur = measureLufs(x, n, sr);

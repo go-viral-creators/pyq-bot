@@ -4,7 +4,14 @@ package com.kaafisir.auramic.audio
 object AudioLog {
     @JvmStatic var sink: (String, String) -> Unit = { tag, msg -> System.err.println("[$tag] $msg") }
     fun i(tag: String, msg: String) = sink(tag, msg)
-    fun w(tag: String, msg: String, t: Throwable? = null) = sink(tag, msg + (t?.let { " :: $it" } ?: ""))
+    /** The most recent warning and the engine of the last processed note, for "Copy support info". */
+    @Volatile @JvmStatic var lastIssue: String? = null
+    @Volatile @JvmStatic var lastEngine: String? = null
+    fun w(tag: String, msg: String, t: Throwable? = null) {
+        val line = msg + (t?.let { " :: $it" } ?: "")
+        lastIssue = line.take(300)
+        sink(tag, line)
+    }
 }
 
 /** Something that can run the neural denoiser; the Android implementation is [DfnEnhancer]. */

@@ -91,6 +91,7 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         }
         onProgress?.invoke(1f)
         val ms = (System.nanoTime() - t0) / 1_000_000
+        AudioLog.lastEngine = engineUsed.name
         AudioLog.i(TAG, "processed ${"%.1f".format(inputSeconds)}s in $ms ms (${"%.1f".format(inputSeconds * 1000f / max(1L, ms))}x realtime) engine=$engineUsed")
         return EnhanceResult(voice, len, original, removedStem, engineUsed, ms, inputSeconds, removedSilence / EnhanceResult.SAMPLE_RATE.toFloat(), report)
     }

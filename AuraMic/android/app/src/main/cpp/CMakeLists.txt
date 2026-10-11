@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22.1)
-project(auramic_dsp LANGUAGES CXX)
+project(auramic_dsp LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -13,6 +13,10 @@ if (ANDROID)
     target_link_libraries(auramic_dsp auramic_core log)
     # Android 15+ devices may use 16 KB pages: align every LOAD segment accordingly.
     target_link_options(auramic_dsp PRIVATE -Wl,-z,max-page-size=16384)
+
+    # NNAPI stand-in required by the JNI half of ONNX Runtime (see ortshim.c).
+    add_library(ortshim SHARED ortshim.c)
+    target_link_options(ortshim PRIVATE -Wl,-z,max-page-size=16384 -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/ortshim.map)
 else()
     # Host build: shared library for ctypes (python tools/tests).
     add_library(auramic_host SHARED aura_capi.cpp aura_dsp.cpp dfn.cpp polish.cpp)

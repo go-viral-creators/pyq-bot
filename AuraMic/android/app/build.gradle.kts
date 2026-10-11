@@ -98,7 +98,7 @@ android {
             useLegacyPackaging = providers.gradleProperty("compactApk").isPresent
             // The app ships its own minimal ONNX Runtime (src/main/jniLibs, built from source with only the operators our
             // models use); it replaces the full 25 MB library inside the onnxruntime-android AAR.
-            pickFirsts += "**/libonnxruntime.so"
+            pickFirsts += listOf("**/libonnxruntime.so", "**/libonnxruntime4j_jni.so")
         }
         resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}", "DebugProbesKt.bin")
     }

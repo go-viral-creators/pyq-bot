@@ -41,9 +41,11 @@ class SettingsViewModel @Inject constructor(
     fun setLanguage(lang: AppLanguage) = launch { repo.setLanguage(lang) }
     fun batteryIntent(): Intent = permissions.batteryIntent()
 
-    /** Copies the last chat-screen structure captured by the automation to the clipboard. Returns false if there is none. */
+    /** Copies the voice-engine status and the last chat-screen structure captured by the automation to the clipboard. */
     fun copyDiagnostics(): Boolean {
-        val text = bridge.diagnostics ?: return false
+        val text = "voice engine: ${com.kaafisir.auramic.audio.AudioLog.lastEngine ?: "no note processed yet"}" +
+            (com.kaafisir.auramic.audio.AudioLog.lastIssue?.let { "\nlast audio warning: $it" } ?: "") +
+            (bridge.diagnostics?.let { "\n\n$it" } ?: "")
         val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         cm.setPrimaryClip(ClipData.newPlainText("AuraMic diagnostics", text))
         return true

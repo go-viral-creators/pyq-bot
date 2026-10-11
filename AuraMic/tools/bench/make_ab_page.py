@@ -12,7 +12,9 @@ import numpy as np, soundfile as sf
 
 B = pathlib.Path(sys.argv[1]); OUT = pathlib.Path(sys.argv[2]); pairs = [a.split("=", 1) for a in sys.argv[3:]]
 orig_name, orig_dir = pairs[0]; systems = pairs[1:]
-idx = json.load(open(B / "index.json")); rng = random.Random(2026)
+import os
+idx = json.load(open(B / "index.json")); rng = random.Random(int(os.environ.get("AB_SEED", "2026")))
+if os.environ.get("AB_ONLY"): idx = [e for e in idx if e["id"][:3] in os.environ["AB_ONLY"].split(",")]
 
 
 def active(x, w=960):
@@ -38,7 +40,7 @@ for e in idx:
     clips.append(c); print(cid, flush=True)
 
 HTML = r'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AuraMic blind test 2</title>
+<title>AuraMic blind test __N__</title>
 <style>
 :root{--bg:#0b0b12;--card:#14141f;--line:#26263a;--t:#ececf8;--m:#9a9ab6;--v:#7c5cff;--c:#22d3ee;--ok:#34d399}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.45 system-ui,Segoe UI,Roboto,Arial,sans-serif;padding:16px 16px 120px;max-width:720px;margin:auto}
@@ -52,7 +54,7 @@ input[type=range]{width:100%;accent-color:var(--v)}.row{display:flex;align-items
 pre{white-space:pre-wrap;background:#0f0f18;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13px}
 .done{color:var(--ok)}
 </style></head><body>
-<h1>AuraMic blind test - round 2</h1>
+<h1>AuraMic blind test - round __N__</h1>
 <p class="s">Use headphones. For every clip, play <b>Original</b>, then switch between Options (they keep the same position in time). The options are shuffled and unnamed: rate each 1-5 stars for how <b>clean AND natural</b> the voice sounds (same voice, no robotic/underwater sound, no leftover noise or echo). Your ratings are saved on this device. At the end press <b>Finish &amp; copy results</b> and paste them to Claude.</p>
 <div class="bar"><b id="prog">0 / 0 rated</b><button class="pri" id="fin">Finish &amp; copy results</button></div>
 <div id="list"></div><pre id="out" hidden></pre>
@@ -96,5 +98,5 @@ document.getElementById('fin').onclick=()=>{
  const o=document.getElementById('out');o.hidden=false;o.textContent=t;o.scrollIntoView();
  (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).catch(()=>{const r=document.createRange();r.selectNodeContents(o);const s=getSelection();s.removeAllRanges();s.addRange(r)})};
 </script></body></html>'''
-OUT.write_text(HTML.replace("__DATA__", json.dumps(clips, separators=(",", ":"))))
+OUT.write_text(HTML.replace("__N__", os.environ.get("AB_ROUND", "3")).replace("__DATA__", json.dumps(clips, separators=(",", ":"))))
 print("wrote", OUT, round(OUT.stat().st_size / 1e6, 1), "MB")

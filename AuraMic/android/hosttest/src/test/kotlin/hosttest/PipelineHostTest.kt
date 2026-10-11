@@ -229,6 +229,40 @@ class PipelineHostTest {
         }
     }
 
+
+    /**
+     * Experiment variants on the benchmark: -Pauramic.benchdir=<dir> -Pauramic.variants=name:flag+flag,...  (flags: pf2 pf5 room twice gtafter gtbefore).
+     * Writes <dir>/v_<name>/<clip>.wav (High quality, no pause cutting).
+     */
+    @Test fun runBenchmarkVariants() {
+        assumeTrue(ready)
+        val dir = System.getProperty("auramic.benchdir")?.takeIf { File(it, "clips").isDirectory } ?: return
+        val spec = System.getProperty("auramic.variants")?.takeIf { it.isNotBlank() } ?: return
+        for (v in spec.split(",")) {
+            val (name, flags) = v.split(":").let { it[0] to it.getOrElse(1) { "" }.split("+") }
+            com.kaafisir.auramic.audio.NativeDfn.pfBeta = when { "pf2" in flags -> 0.02f; "pf5" in flags -> 0.05f; else -> 0f }
+            com.kaafisir.auramic.audio.Experiments.roomFix = "room" in flags
+            com.kaafisir.auramic.audio.Experiments.dfnTwice = "twice" in flags
+            com.kaafisir.auramic.audio.Experiments.gtcrnAfterDfn = "gtafter" in flags
+            com.kaafisir.auramic.audio.Experiments.gtcrnBeforeDfn = "gtbefore" in flags
+            val out = File(dir, "v_$name").also { it.mkdirs() }
+            for (f in File(dir, "clips").listFiles { _, n -> n.endsWith(".wav") }!!.sorted()) {
+                val (pcm, sr) = readWav(f.path)
+                val r = pipeline.process(pcm, pcm.size, sr, EnhanceOptions.forQuality(com.kaafisir.auramic.domain.model.Quality.HIGH, cutPauses = false))
+                val o = Resampler.toShort(r.voice, r.length)
+                val bb = ByteBuffer.allocate(44 + o.size * 2).order(ByteOrder.LITTLE_ENDIAN)
+                bb.put("RIFF".toByteArray()).putInt(36 + o.size * 2).put("WAVEfmt ".toByteArray()).putInt(16).putShort(1).putShort(1)
+                    .putInt(48_000).putInt(96_000).putShort(2).putShort(16).put("data".toByteArray()).putInt(o.size * 2)
+                o.forEach { bb.putShort(it) }
+                File(out, f.name).writeBytes(bb.array())
+            }
+            println("variant $name done")
+        }
+        com.kaafisir.auramic.audio.NativeDfn.pfBeta = 0f
+        com.kaafisir.auramic.audio.Experiments.roomFix = false; com.kaafisir.auramic.audio.Experiments.dfnTwice = false
+        com.kaafisir.auramic.audio.Experiments.gtcrnAfterDfn = false; com.kaafisir.auramic.audio.Experiments.gtcrnBeforeDfn = false
+    }
+
     /** With -Dauramic.dump=<dir> (gradle: -Pauramic.dump) writes what the app would send, for listening tests. */
     @Test fun dumpFinalOutputsForListening() {
         assumeTrue(ready)

@@ -54,7 +54,10 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         var engineUsed = opt.engine
         var enhanced: FloatArray? = null
         if (opt.engine == EnhanceEngine.AI) {
-            enhanced = dfn.enhance(x, n, opt.attenuationDb, opt.fastMode, onProgress)
+            val src = if (Experiments.gtcrnBeforeDfn) light.enhance(x, n, null) ?: x else x
+            enhanced = dfn.enhance(src, n, opt.attenuationDb, opt.fastMode, onProgress)
+            if (enhanced != null && Experiments.dfnTwice) enhanced = dfn.enhance(enhanced, n, opt.attenuationDb, opt.fastMode, null) ?: enhanced
+            if (enhanced != null && Experiments.gtcrnAfterDfn) enhanced = light.enhance(enhanced, n, null) ?: enhanced
             if (enhanced == null) engineUsed = EnhanceEngine.CLASSIC
         }
         if (opt.engine == EnhanceEngine.LIGHT) {
@@ -70,6 +73,8 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         val keep = opt.keepBackground
         var voice = enhanced
         if (keep > 0.001f) for (i in 0 until n) voice[i] += keep * (x[i] - enhanced[i])
+
+        if (Experiments.roomFix && n > 0) voice = RoomFix.process(voice, n, EnhanceResult.SAMPLE_RATE).voice
 
         var len = n
         var removedSilence = 0

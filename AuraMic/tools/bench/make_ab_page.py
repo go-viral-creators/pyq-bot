@@ -38,7 +38,7 @@ for e in idx:
     clips.append(c); print(cid, flush=True)
 
 HTML = r'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AuraMic blind listening test</title>
+<title>AuraMic blind test 2</title>
 <style>
 :root{--bg:#0b0b12;--card:#14141f;--line:#26263a;--t:#ececf8;--m:#9a9ab6;--v:#7c5cff;--c:#22d3ee;--ok:#34d399}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.45 system-ui,Segoe UI,Roboto,Arial,sans-serif;padding:16px 16px 120px;max-width:720px;margin:auto}
@@ -52,15 +52,15 @@ input[type=range]{width:100%;accent-color:var(--v)}.row{display:flex;align-items
 pre{white-space:pre-wrap;background:#0f0f18;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13px}
 .done{color:var(--ok)}
 </style></head><body>
-<h1>AuraMic blind listening test</h1>
+<h1>AuraMic blind test - round 2</h1>
 <p class="s">Use headphones. For every clip, play <b>Original</b>, then switch between Options (they keep the same position in time). The options are shuffled and unnamed: rate each 1-5 stars for how <b>clean AND natural</b> the voice sounds (same voice, no robotic/underwater sound, no leftover noise or echo). Your ratings are saved on this device. At the end press <b>Finish &amp; copy results</b> and paste them to Claude.</p>
 <div class="bar"><b id="prog">0 / 0 rated</b><button class="pri" id="fin">Finish &amp; copy results</button></div>
 <div id="list"></div><pre id="out" hidden></pre>
 <script>
 const CLIPS=__DATA__;
 const store=(()=>{try{return window.localStorage}catch(e){return null}})();
-let rate=JSON.parse((store&&store.getItem('auramic_ab_v1'))||'{}');
-const save=()=>{try{store&&store.setItem('auramic_ab_v1',JSON.stringify(rate))}catch(e){}};
+let rate=JSON.parse((store&&store.getItem('auramic_ab_'+(document.title.length)+'_v2'))||'{}');
+const save=()=>{try{store&&store.setItem('auramic_ab_'+(document.title.length)+'_v2',JSON.stringify(rate))}catch(e){}};
 const urls={};function url(b64){if(!urls[b64]){const bin=atob(b64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);urls[b64]=URL.createObjectURL(new Blob([u],{type:'audio/mpeg'}))}return urls[b64]}
 const list=document.getElementById('list');let current=null;
 CLIPS.forEach((c,ci)=>{

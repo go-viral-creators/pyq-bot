@@ -8,6 +8,7 @@ Reports per clip and as group averages (all outputs are level-matched to the sam
   P808              DNSMOS P.808 overall                                   - needs model_v8.onnx in DNSMOS_DIR
   SRMR              speech-to-reverberation modulation ratio (non-intrusive; higher = less reverberant)
   PESQ / STOI       against the clean reference (synthetic clips only)
+  HF                8-16 kHz level vs the clean reference in dB (0 = same, -20 = muffled) - the 16 kHz metrics above cannot see this
   resid             level of the output in frames where the clean reference is silent, dB relative to speech (lower = less noise left)
 """
 import sys, json, pathlib, warnings
@@ -62,6 +63,13 @@ def pesq_stoi(x, ref):
     return p, stoi(r, a, 16000)
 
 
+def hf_db(x, ref):
+    """Level of the 8-16 kHz band relative to the clean reference, dB (0 = same; large negative = muffled). DNSMOS/PESQ only see < 8 kHz."""
+    def band(y):
+        f, P = ss.welch(y, 48000, nperseg=4096); return 10 * np.log10(P[(f >= 8000) & (f < 16000)].mean() + 1e-20) - 10 * np.log10(P[(f >= 100) & (f < 1000)].mean() + 1e-20)
+    n = min(len(x), len(ref)); return band(x[:n]) - band(ref[:n])
+
+
 def resid(x, ref):
     w = 960; n = min(len(x), len(ref)) // w
     fx = 10 * np.log10((x[: n * w].reshape(n, w) ** 2).mean(1) + 1e-12); fr = 10 * np.log10((ref[: n * w].reshape(n, w) ** 2).mean(1) + 1e-12)
@@ -76,6 +84,6 @@ for e in idx:
         S, Bk, O, P = dnsmos(x)
         r = dict(id=cid, system=sname, group=cid[:1], SIG=S, BAK=Bk, OVRL=O, P808=P, SRMR=srmr(x))
         if ref is not None:
-            r["PESQ"], r["STOI"] = pesq_stoi(x, level(ref)[: len(x)]); r["resid"] = resid(x, level(ref))
+            r["PESQ"], r["STOI"] = pesq_stoi(x, level(ref)[: len(x)]); r["resid"] = resid(x, level(ref)); r["HF"] = hf_db(x, level(ref))
         rows.append(r); print(cid, sname, " ".join(f"{k}={v:.2f}" for k, v in r.items() if isinstance(v, float)), flush=True)
 json.dump(rows, open(B / "scores.json", "w"), indent=1, default=float)

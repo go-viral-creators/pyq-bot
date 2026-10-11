@@ -59,10 +59,10 @@ pre{white-space:pre-wrap;background:#0f0f18;border:1px solid var(--line);border-
 <div class="bar"><b id="prog">0 / 0 rated</b><button class="pri" id="fin">Finish &amp; copy results</button></div>
 <div id="list"></div><pre id="out" hidden></pre>
 <script>
-const CLIPS=__DATA__;
+const CLIPS=__DATA__;const BUILD='__BUILD__';
 const store=(()=>{try{return window.localStorage}catch(e){return null}})();
-let rate=JSON.parse((store&&store.getItem('auramic_ab_'+(document.title.length)+'_v2'))||'{}');
-const save=()=>{try{store&&store.setItem('auramic_ab_'+(document.title.length)+'_v2',JSON.stringify(rate))}catch(e){}};
+let rate=JSON.parse((store&&store.getItem('auramic_ab_'+BUILD))||'{}');
+const save=()=>{try{store&&store.setItem('auramic_ab_'+BUILD,JSON.stringify(rate))}catch(e){}};
 const urls={};function url(b64){if(!urls[b64]){const bin=atob(b64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);urls[b64]=URL.createObjectURL(new Blob([u],{type:'audio/mpeg'}))}return urls[b64]}
 const list=document.getElementById('list');let current=null;
 CLIPS.forEach((c,ci)=>{
@@ -98,5 +98,5 @@ document.getElementById('fin').onclick=()=>{
  const o=document.getElementById('out');o.hidden=false;o.textContent=t;o.scrollIntoView();
  (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).catch(()=>{const r=document.createRange();r.selectNodeContents(o);const s=getSelection();s.removeAllRanges();s.addRange(r)})};
 </script></body></html>'''
-OUT.write_text(HTML.replace("__N__", os.environ.get("AB_ROUND", "3")).replace("__DATA__", json.dumps(clips, separators=(",", ":"))))
+OUT.write_text(HTML.replace("__N__", os.environ.get("AB_ROUND", "3")).replace("__BUILD__", "r"+os.environ.get("AB_ROUND", "3")+"_s"+os.environ.get("AB_SEED", "2026")).replace("__DATA__", json.dumps(clips, separators=(",", ":"))))
 print("wrote", OUT, round(OUT.stat().st_size / 1e6, 1), "MB")

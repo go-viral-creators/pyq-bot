@@ -13,7 +13,7 @@ import org.junit.Test
 
 class SettingsMappingTest {
     @Test fun strengthIsInTheNinetyFiveToNinetyNineBand() {
-        assertTrue(EnhanceOptions.STRENGTH in 0.95f..0.99f)
+        assertEquals(1f, EnhanceOptions.STRENGTH, 0f)
     }
 
     @Test fun highQualityUsesDeepFilterNetAndMediumTheLightGtcrn() {

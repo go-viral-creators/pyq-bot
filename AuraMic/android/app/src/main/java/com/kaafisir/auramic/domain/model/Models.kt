@@ -69,9 +69,9 @@ data class EnhanceOptions(
     val roomFix: Boolean = true,
 ) {
     companion object {
-        /** Internal noise-removal strength: 97% of the range (the 95-99% band), i.e. very strong but not robotic. */
-        const val STRENGTH = 0.97f
-        const val ATTENUATION_DB = 6f + (STRENGTH - 0.2f) / 0.79f * 74f
+        /** Internal noise-removal strength: 100%, i.e. no attenuation limit at all (>= 100 dB means unlimited). */
+        const val STRENGTH = 1.0f
+        const val ATTENUATION_DB = 100f
 
         fun forQuality(q: Quality, cutPauses: Boolean = true): EnhanceOptions {
             val cut = if (cutPauses) SilenceCut.PAUSES else SilenceCut.OFF

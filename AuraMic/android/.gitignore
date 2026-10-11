@@ -6,3 +6,4 @@ local.properties
 captures/
 .cxx/
 keystore.properties
+auramic-upload-key.jks

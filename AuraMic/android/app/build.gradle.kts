@@ -24,8 +24,8 @@ android {
         applicationId = "com.kaafisir.auramic"
         minSdk = 28
         targetSdk = 36
-        versionCode = 19
-        versionName = "1.5.4"
+        versionCode = 1
+        versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 

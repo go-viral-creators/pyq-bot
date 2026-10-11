@@ -105,7 +105,7 @@ STEPS = [
 ]
 SHOTS = [("phone_01_hold_to_record", "Hold. Speak. Release."), ("phone_02_noise_removal", "Studio Lab: before / after"), ("phone_03_auto_send", "Sent automatically"),
          ("phone_04_privacy", "Private by design"), ("phone_05_setup", "Guided setup"), ("phone_06_languages", "Seven languages"),
-         ("phone_07_advanced_controls", "Podcast-grade controls"), ("phone_08_chat_apps", "Your chat apps")]
+         ("phone_07_quality_levels", "Two quality levels"), ("phone_08_whatsapp", "Built for WhatsApp")]
 FAQ = [
     ("Does AuraMic upload my voice?", "No. Recording, noise removal and encoding all happen on your phone. We have no servers that receive your audio, messages or contacts. See the <a class='text-aura-cyan underline' href='privacy.html'>Privacy Policy</a>."),
     ("Which chat apps work?", "WhatsApp and WhatsApp Business."),

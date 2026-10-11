@@ -15,9 +15,12 @@ Locales: `en-US`, `en-IN` (Hinglish copy), `hi-IN`, `es-419`, `pt-BR`, `ar`, `id
 Regenerate all graphics: `CHROMIUM_PATH=... python generate_assets.py`.
 
 ## Upload
-Upload `app-release.aab` (built by `./gradlew :app:bundleRelease`). **Replace the sample keystore** (`android/auramic-sample.jks`)
-with your own upload key: create `android/keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`) — never commit it.
-Use Play App Signing. Language splits are disabled on purpose (the in-app language picker needs every translation on-device).
+Upload `AuraMic-1.0.0-release.aab` (versionCode **1**, versionName 1.0.0; built by `./gradlew :app:bundleRelease`). It is signed with the
+**AuraMic upload key** from the `3_Keystore` folder (details in `KEYSTORE_INFO.txt`). To rebuild, copy `keystore.properties.example` to
+`android/keystore.properties`, fill in the values and put the `.jks` file next to it - never commit either. Enrol in **Play App Signing** when
+Play Console asks (Google keeps the app-signing key; this key is only your *upload* key, so a lost upload key can be reset through Play support).
+Each new upload needs a higher versionCode (next: 2).
+Language splits are disabled on purpose (the in-app language picker needs every translation on-device).
 
 ## Declarations (copy/paste starters)
 **Accessibility API declaration** — *Core functionality:* "After the user records a voice note with our floating microphone, the service

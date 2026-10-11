@@ -17,7 +17,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent
-SHOTS = ["hold_to_record", "noise_removal", "auto_send", "privacy", "setup", "languages", "advanced_controls", "chat_apps"]
+SHOTS = ["hold_to_record", "noise_removal", "auto_send", "privacy", "setup", "languages", "quality_levels", "whatsapp"]
 
 
 def render(page, url, out, w, h, transparent=False):

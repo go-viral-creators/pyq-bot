@@ -140,7 +140,12 @@ class AuraAccessibilityService : AccessibilityService() {
             val dm = resources.displayMetrics
             run {
                 val boxes = root.findAccessibilityNodeInfosByViewId("$pkg:id/entry")
-                composerHasText = boxes.any { it.isVisibleToUser && !it.isShowingHintText && !it.text.isNullOrEmpty() }
+                // An empty box exposes its hint ("Message") as text on some builds: hint, or a cursor at 0, means nothing typed.
+                composerHasText = boxes.any {
+                    val t = it.text?.toString()
+                    it.isVisibleToUser && !t.isNullOrEmpty() && !it.isShowingHintText &&
+                        t != it.hintText?.toString() && it.textSelectionEnd != 0
+                }
                 @Suppress("DEPRECATION")
                 if (Build.VERSION.SDK_INT < 33) boxes.forEach { runCatching { it.recycle() } }
             }

@@ -4,7 +4,7 @@
 <!--
   Eight Play Store screenshot scenes, 1080x1920 each. Open screens.html#1 ... #8 in a browser, or run
   ../generate_assets.py to render all of them to PNG. Pure HTML/CSS/JS - edit freely.
-  The chat UI is a generic messaging mock-up (no third-party branding).
+  The chat UI is an original messaging mock-up in a WhatsApp-like dark style (no third-party logo or artwork).
 -->
 <style>
   :root{--v:#7C5CFF;--v2:#9B83FF;--c:#22D3EE;--pink:#FF5C93;--mint:#34D399;--bg:#0A0A12;--s1:#12121C;--s2:#171724;--s3:#1E1E2D;--line:#26263A;--t:#EDEDF7;--mut:#A2A2BC}
@@ -16,11 +16,11 @@
      radial-gradient(900px 700px at 0% 0%, rgba(124,92,255,.55), transparent 65%),
      radial-gradient(900px 800px at 100% 100%, rgba(34,211,238,.38), transparent 65%),
      linear-gradient(160deg,#0C0B1D,#0A0A12 55%,#06141A)}
-  .cap{position:absolute;left:60px;right:60px;top:72px;text-align:center}
+  .cap{position:absolute;left:60px;right:60px;top:126px;text-align:center}
   .cap h2{font-size:88px;line-height:1.02;font-weight:800;letter-spacing:-2.6px}
   .cap h2 span{background:linear-gradient(90deg,#9B83FF,#22D3EE);-webkit-background-clip:text;background-clip:text;color:transparent}
   .cap p{margin:20px auto 0;font-size:34px;line-height:1.3;color:#b9bfd8;font-weight:500;max-width:880px}
-  .phone{position:absolute;left:150px;top:480px;width:780px;height:1700px;border-radius:78px;background:#0E0E18;border:6px solid #2b2b44;
+  .phone{position:absolute;left:150px;top:500px;width:780px;height:1380px;border-radius:78px;background:#0E0E18;border:6px solid #2b2b44;
     box-shadow:0 60px 140px rgba(0,0,0,.65),0 0 0 2px rgba(255,255,255,.05) inset}
   .screen{position:absolute;inset:16px;border-radius:64px;background:var(--bg);overflow:hidden}
   .sb{height:70px;display:flex;justify-content:space-between;align-items:center;padding:0 44px;font-size:25px;font-weight:700;color:#cfd1e6}
@@ -82,25 +82,58 @@
   .step{flex:1;text-align:center;border-radius:34px;background:var(--s2);border:2px solid var(--line);padding:28px 10px}
   .step .bubble{position:relative;width:110px;height:110px;margin:0 auto 22px}
   .step b{font-size:27px;display:block}.step small{font-size:21px;color:var(--mut)}
+
+  /* "for WhatsApp" tag */
+  .for{position:absolute;left:50%;top:50px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;padding:10px 26px 10px 12px;border-radius:99px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.14);font-size:27px;font-weight:700;white-space:nowrap}
+  .for i{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#25D366}
+  /* WhatsApp-style dark chat */
+  .wa{position:absolute;left:0;right:0;top:70px;bottom:0;background-color:#0B141A;background-image:radial-gradient(rgba(255,255,255,.045) 2.5px,transparent 3.5px),radial-gradient(rgba(255,255,255,.03) 2px,transparent 3px);background-size:54px 54px,54px 54px;background-position:0 0,27px 27px}
+  .wa-top{height:122px;background:#1F2C34;display:flex;align-items:center;gap:14px;padding:0 22px}
+  .wa-top .av{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#6B7C85,#3B4A54);display:grid;place-items:center;font-weight:800;font-size:30px}
+  .wa-top .nm{flex:1}.wa-top b{font-size:31px;display:block}.wa-top small{font-size:22px;color:#8696A0}
+  .wa-top .ic{display:flex;gap:30px;align-items:center}
+  .wa-body{padding:26px 22px;display:flex;flex-direction:column;gap:16px}
+  .wm{max-width:480px;padding:16px 22px 14px;border-radius:24px 24px 24px 6px;background:#202C33;font-size:28px;line-height:1.35;position:relative}
+  .wm.me{align-self:flex-end;border-radius:24px 24px 6px 24px;background:#005C4B}
+  .wm small{display:block;text-align:right;font-size:19px;color:#8fa3ad;margin-top:4px}
+  .wvn{align-self:flex-end;display:flex;align-items:center;gap:14px;padding:16px 20px 12px;border-radius:24px 24px 6px 24px;background:#005C4B;width:500px;flex-wrap:wrap}
+  .wvn .av2{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#6B7C85,#3B4A54);flex:none}
+  .wvn .play{width:0;height:0;border-left:24px solid #fff;border-top:15px solid transparent;border-bottom:15px solid transparent}
+  .wvn .bars{display:flex;gap:4px;align-items:center;height:52px;flex:1}.wvn .bars i{display:block;width:5px;border-radius:3px;background:#a9d8cd}
+  .wvn .meta{width:100%;display:flex;justify-content:space-between;font-size:19px;color:#a9d8cd}
+  .wa-comp{position:absolute;left:18px;right:18px;bottom:40px;height:100px;display:flex;gap:14px;align-items:center}
+  .wa-in{flex:1;height:100px;border-radius:50px;background:#1F2C34;display:flex;align-items:center;gap:22px;padding:0 28px;color:#8696A0;font-size:29px}
+  .wa-in span{flex:1}
+  .wa-mic{width:100px;height:100px;border-radius:50%;background:#00A884;flex:none;display:grid;place-items:center}
+  .wa-rec{flex:1;height:100px;border-radius:50px;background:#1F2C34;display:flex;align-items:center;gap:18px;padding:0 30px;font-size:28px;font-weight:600;white-space:nowrap}
+  .wa-rec .rd{width:20px;height:20px;border-radius:50%;background:#FF4D6D}
+  .wa-rec .mut{color:#8696A0;font-weight:500;font-size:26px}
+  .auramic{position:absolute;width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--c));display:grid;place-items:center;box-shadow:0 10px 30px rgba(124,92,255,.5)}
+  .auramic::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 25%,rgba(255,255,255,.35),transparent 60%)}
+  .auramic svg{position:relative;z-index:2}
+  .auramic.rec{background:linear-gradient(135deg,var(--v),var(--pink));transform:scale(1.2);box-shadow:0 14px 44px rgba(255,92,147,.55)}
+  .auramic .ring{inset:-24px}.auramic .ring.r2{inset:-50px}
+  .tag{position:absolute;display:flex;align-items:center;gap:12px;padding:14px 26px;border-radius:99px;background:rgba(16,16,24,.95);border:2px solid #2b2b44;font-size:25px;font-weight:700;white-space:nowrap;box-shadow:0 14px 40px rgba(0,0,0,.5)}
 </style></head>
 <body>
 
 <!-- ============== 1. HOLD TO RECORD ============== -->
 <section class="scene" id="s1"><div class="bgfx"></div>
-  <div class="cap"><h2>Hold. Speak.<br><span>Release.</span></h2><p>A floating mic that lives on top of your chats — only when you need it.</p></div>
+  <div class="cap"><h2>Hold. Speak.<br><span>Release.</span></h2><p>The AuraMic mic sits right on WhatsApp's voice button. Hold, speak, let go.</p></div>
   <div class="phone"><div class="screen"><div class="notch"></div>
-    <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
-    <div class="chat-top"><div class="av">A</div><div><b>Aarav</b><small>online</small></div></div>
-    <div class="chat-body">
-      <div class="m">Hey! Can you send me the details?</div>
-      <div class="m me">Sure — recording a voice note now 🎙️</div>
-      <div class="m">Great, I'm on the train, noisy as always 😅</div>
-    </div>
-    <div class="composer">Message</div>
-    <div class="pill" style="left:92px;top:1000px"><span class="rd"></span><b>0:07</b><span class="wv" id="wv1"></span><span class="mut">◀ Slide to cancel</span></div>
-    <div class="bubble rec" style="left:470px;top:1130px"><div class="ring r3"></div><div class="ring r2"></div><div class="ring"></div>
-      <div class="disc"><svg width="70" height="70" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5.3-3a5.3 5.3 0 0 1-10.6 0H5a7 7 0 0 0 6 6.72V21h2v-3.28A7 7 0 0 0 19 11z"/></svg></div></div>
-  </div></div>
+    <div class="sb" style="position:relative;z-index:3"><span>9:41</span><span>5G ▮▮▮</span></div>
+    <div class="wa"><div class="wa-top"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#E9EDEF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><div class="av">A</div><div class="nm"><b>Aarav</b><small>online</small></div><div class="ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="#E9EDEF"><path d="M4 7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3l5-3v10l-5-3v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg><svg width="36" height="36" viewBox="0 0 24 24" fill="#E9EDEF"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.2.2 2.4.56 3.5a1 1 0 0 1-.25 1z"/></svg><svg width="32" height="32" viewBox="0 0 24 24" fill="#E9EDEF"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></div></div>
+      <div class="wa-body">
+        <div class="wm">Good morning! 👋<small>9:12</small></div>
+        <div class="wm me">Morning! Did the client reply?<small>9:13 ✓✓</small></div>
+        <div class="wm">Yes, call me when you reach.<small>9:30</small></div>
+        <div class="wm">Hey! Can you send me the details?<small>9:40</small></div>
+        <div class="wm me">Sure, sending a voice note now 🎙️<small>9:40 ✓✓</small></div>
+        <div class="wm">Great, I'm on the train, noisy as always 😅<small>9:41</small></div>
+      </div>
+      <div class="wa-comp"><div class="wa-rec"><span class="rd"></span><b>0:07</b><span class="wv" id="wv1"></span><span class="mut">◀ Slide to cancel</span></div><div class="wa-mic"></div>
+        <div class="auramic rec" style="right:22px;top:0"><div class="ring r2"></div><div class="ring"></div><svg width="52" height="52" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5.3-3a5.3 5.3 0 0 1-10.6 0H5a7 7 0 0 0 6 6.72V21h2v-3.28A7 7 0 0 0 19 11z"/></svg></div></div>
+    </div></div></div>
 </section>
 
 <!-- ============== 2. NOISE GONE ============== -->
@@ -130,20 +163,22 @@
 
 <!-- ============== 3. AUTO SEND ============== -->
 <section class="scene" id="s3"><div class="bgfx"></div>
-  <div class="cap"><h2>Sent for you.<br><span>Zero extra taps.</span></h2><p>AuraMic picks the chat and taps Send — you never leave the conversation.</p></div>
+  <div class="cap"><h2>Sent for you.<br><span>Zero extra taps.</span></h2><p>AuraMic picks the chat and taps Send, so you never leave the conversation.</p></div>
   <div class="phone"><div class="screen"><div class="notch"></div>
-    <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
-    <div class="chat-top"><div class="av">A</div><div><b>Aarav</b><small>online</small></div></div>
-    <div class="chat-body">
-      <div class="m">Hey! Can you send me the details?</div>
-      <div class="vn"><div class="play"></div><div class="bars" id="vb3"></div><em>0:07</em></div>
-      <div class="ticks">✓✓ Delivered</div>
-      <div class="m">Crystal clear, thanks! 🙌</div>
-    </div>
-    <div class="composer">Message</div>
-    <div class="pill" style="left:290px;top:1096px"><span style="color:#34D399;font-size:34px;line-height:1">✓</span><b>Sent!</b></div>
-    <div class="bubble" style="left:560px;top:1190px"><div class="disc" style="background:linear-gradient(135deg,#34D399,#10B981);box-shadow:0 20px 60px rgba(52,211,153,.5)"><svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
-  </div></div>
+    <div class="sb" style="position:relative;z-index:3"><span>9:41</span><span>5G ▮▮▮</span></div>
+    <div class="wa"><div class="wa-top"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#E9EDEF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><div class="av">A</div><div class="nm"><b>Aarav</b><small>online</small></div><div class="ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="#E9EDEF"><path d="M4 7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3l5-3v10l-5-3v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg><svg width="36" height="36" viewBox="0 0 24 24" fill="#E9EDEF"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.2.2 2.4.56 3.5a1 1 0 0 1-.25 1z"/></svg><svg width="32" height="32" viewBox="0 0 24 24" fill="#E9EDEF"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></div></div>
+      <div class="wa-body">
+        <div class="wm">Good morning! 👋<small>9:12</small></div>
+        <div class="wm me">Morning! Did the client reply?<small>9:13 ✓✓</small></div>
+        <div class="wm">Yes, call me when you reach.<small>9:30</small></div>
+        <div class="wm">Hey! Can you send me the details?<small>9:40</small></div>
+        <div class="wvn"><div class="av2"></div><div class="play"></div><div class="bars" id="vb3"></div><div class="meta"><span>0:07</span><span>9:41 <span style="color:#53BDEB">✓✓</span></span></div></div>
+        <div class="wm">Crystal clear, thanks! 🙌<small>9:41</small></div>
+      </div>
+      <div class="tag" style="left:50%;transform:translateX(-50%);bottom:190px"><span style="color:#34D399;font-size:30px;line-height:1">✓</span> Voice note sent</div>
+      <div class="wa-comp"><div class="wa-in"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 14a4.5 4.5 0 0 0 8 0M9 9.5h.01M15 9.5h.01" stroke-linecap="round"/></svg><span>Message</span><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round"><path d="M16.5 7.5l-7.8 7.8a2.5 2.5 0 0 0 3.5 3.5l8-8a4.5 4.5 0 0 0-6.4-6.4l-8 8a6.5 6.5 0 0 0 9.2 9.2"/></svg><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><div class="wa-mic"></div>
+        <div class="auramic" style="right:0;top:0"><svg width="52" height="52" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5.3-3a5.3 5.3 0 0 1-10.6 0H5a7 7 0 0 0 6 6.72V21h2v-3.28A7 7 0 0 0 19 11z"/></svg></div></div>
+    </div></div></div>
 </section>
 
 <!-- ============== 4. PRIVACY ============== -->
@@ -232,12 +267,17 @@
         <div class="row" style="padding:22px 0;border-bottom:2px solid var(--line)"><div class="badge" style="background:rgba(52,211,153,.18)"><svg viewBox="0 0 24 24" fill="#34D399"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/></svg></div><div style="flex:1"><div class="t">WhatsApp</div><div class="d">Hold to record · release to send</div></div><div class="ok" style="width:70px;border-radius:40px;height:42px;background:var(--v)"></div></div>
         <div class="row" style="padding:22px 0"><div class="badge" style="background:rgba(52,211,153,.18)"><svg viewBox="0 0 24 24" fill="#34D399"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/></svg></div><div style="flex:1"><div class="t">WhatsApp Business</div><div class="d">Hold to record · release to send</div></div><div class="ok" style="width:70px;border-radius:40px;height:42px;background:var(--v)"></div></div>
       </div>
+      <div class="card" style="margin-top:22px;padding:26px"><div class="t" style="font-size:28px;margin-bottom:18px">Right on WhatsApp's voice button</div>
+        <div style="position:relative;height:100px;display:flex;gap:14px;align-items:center"><div class="wa-in" style="background:#1F2C34;height:100px"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 14a4.5 4.5 0 0 0 8 0M9 9.5h.01M15 9.5h.01" stroke-linecap="round"/></svg><span>Message</span><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round"><path d="M16.5 7.5l-7.8 7.8a2.5 2.5 0 0 0 3.5 3.5l8-8a4.5 4.5 0 0 0-6.4-6.4l-8 8a6.5 6.5 0 0 0 9.2 9.2"/></svg><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><div class="wa-mic" style="visibility:hidden"></div>
+          <div class="auramic" style="right:0;top:0"><svg width="52" height="52" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5.3-3a5.3 5.3 0 0 1-10.6 0H5a7 7 0 0 0 6 6.72V21h2v-3.28A7 7 0 0 0 19 11z"/></svg></div></div>
+        <div class="d" style="font-size:24px;margin-top:16px">Tap for a hint · hold to record · slide left to cancel</div></div>
       <div class="card" style="margin-top:22px"><div class="row"><div class="badge" style="background:rgba(255,184,77,.18)"><svg viewBox="0 0 24 24" fill="#FFB84D"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div><div><div class="t">Cleaned on your phone</div><div class="d">Audio never leaves your device</div></div></div></div>
     </div>
   </div></div>
 </section>
 
 <script>
+  document.querySelectorAll('.scene').forEach(sc=>{const f=document.createElement('div');f.className='for';f.innerHTML='<i><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/></svg></i>AuraMic for WhatsApp';sc.appendChild(f)});
   let seed=11; const r=()=> (seed=(seed*16807)%2147483647)/2147483647;
   const mk=(id,hs,color)=>{const el=document.getElementById(id); if(!el) return; hs.forEach(h=>{const i=document.createElement('i'); i.style.height=h+'px'; if(color) i.style.background=color; el.appendChild(i)})};
   mk('wv1',[10,18,28,14,32,22,12,26,16,9,24,13],'#22D3EE');

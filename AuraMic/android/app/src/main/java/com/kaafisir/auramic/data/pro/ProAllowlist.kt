@@ -9,7 +9,7 @@ import android.provider.Settings
  * different ID, so Settings -> About shows the ID this build sees; add it here if it differs.
  */
 object ProAllowlist {
-    private val IDS = setOf("92ae6fd1c66039c6")
+    private val IDS = setOf("92ae6fd1c66039c6", "42efa03f642386bd")
 
     fun deviceId(context: Context): String =
         runCatching { Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID) }.getOrNull().orEmpty()

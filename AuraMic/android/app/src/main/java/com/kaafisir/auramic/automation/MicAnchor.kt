@@ -22,10 +22,11 @@ object MicAnchorFinder {
     /** Resource-id suffixes of the same button once it turned into "Send". */
     val SEND_ONLY_IDS = listOf("send", "send_btn", "send_button")
 
-    private val MIC_WORDS = listOf(
-        "voice message", "voice note", "record", "microphone", "mic", "mensaje de voz", "nota de voz", "mensagem de voz", "áudio", "audio",
-        "suara", "pesan suara", "आवाज़", "वॉइस", "आवाज", "صوت", "صوتية", "ميكروفون",
-    ).map { WhatsAppUi.normalize(it) }
+    /** Exact accessible labels of the voice button (never substrings: "Audio call", "Microphone access" etc. must not match). */
+    private val MIC_LABELS = listOf(
+        "voice message", "voice note", "record voice message", "mensaje de voz", "nota de voz", "mensagem de voz", "grabar mensaje de voz",
+        "gravar mensagem de voz", "pesan suara", "rekam pesan suara", "वॉइस संदेश", "वॉयस मैसेज", "वॉइस मैसेज", "रिकॉर्ड", "رسالة صوتية", "تسجيل رسالة صوتية",
+    ).map { WhatsAppUi.normalize(it) }.toSet()
 
     /** Decides what a candidate button is, or null when it is neither. */
     fun classify(viewId: String?, desc: String?, text: String?): Kind? {
@@ -34,7 +35,8 @@ object MicAnchorFinder {
         val sendLabel = label in WhatsAppUi.SEND_WORDS
         if (id != null && id in MIC_IDS) return if (sendLabel) Kind.SEND else Kind.MIC
         if (id != null && id in SEND_ONLY_IDS) return Kind.SEND
-        if (label.isNotEmpty() && MIC_WORDS.any { label.contains(it) }) return Kind.MIC
+        if (label in WhatsAppUi.SEND_WORDS && id == null) return null          // a bare "Send" label is not specific enough
+        if (label in MIC_LABELS) return Kind.MIC
         return null
     }
 
@@ -48,9 +50,13 @@ object MicAnchorFinder {
     /** Searches a snapshot; mic wins over send when both exist. */
     fun find(root: UiNode, screenW: Int, screenH: Int): MicAnchor? {
         var send: MicAnchor? = null
+        val hasComposer = root.walk().any { it.editable }
         for (n in root.walk()) {
             if (!n.enabled && n.viewId == null) continue
             val kind = classify(n.viewId, n.desc, n.text) ?: continue
+            // A label alone is not enough (chat list, status, calls have similar buttons): a message box must be on screen too.
+            val byId = n.viewId?.substringAfter(":id/", "")?.let { it in MIC_IDS || it in SEND_ONLY_IDS } == true
+            if (!byId && !hasComposer) continue
             if (!plausible(n.bounds, screenW, screenH)) continue
             // The labelled node is sometimes an inner icon: use the clickable ancestor's bounds when it is a plausible button.
             val b = n.clickableSelfOrAncestor()?.bounds?.takeIf { plausible(it, screenW, screenH) } ?: n.bounds

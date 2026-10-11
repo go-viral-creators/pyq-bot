@@ -21,7 +21,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -41,6 +43,8 @@ class OverlayService : Service() {
     @Inject lateinit var sender: com.kaafisir.auramic.automation.WhatsAppSender
     @Inject lateinit var dfn: com.kaafisir.auramic.audio.DfnEnhancer
     @Inject lateinit var bridge: com.kaafisir.auramic.automation.AutomationBridge
+
+    private data class Quad(val pkg: String?, val chatOpen: Boolean, val anchored: Boolean, val connected: Boolean)
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var controller: OverlayController? = null
@@ -100,9 +104,18 @@ class OverlayService : Service() {
         // The bubble is only for conversations: it is shown while a chat is open and hidden on the chat list, status,
         // settings, calls... (if accessibility is not enabled there is no way to tell, so then it follows WhatsApp).
         scope.launch {
-            combine(detector.foregroundPackage, bridge.chatOpen, bridge.connected) { pkg, open, connected ->
-                pkg?.takeIf { it in com.kaafisir.auramic.domain.model.ChatApp.allPackages && (open || !connected) }
+            combine(detector.foregroundPackage, bridge.chatOpen, bridge.micAnchor, bridge.connected) { pkg, open, anchor, connected ->
+                Quad(pkg?.takeIf { it in com.kaafisir.auramic.domain.model.ChatApp.allPackages }, open, anchor != null, connected)
             }
+                .transformLatest { q ->
+                    when {
+                        q.pkg == null -> emit(null)
+                        !q.connected -> emit(q.pkg)                        // accessibility off: no way to tell, follow WhatsApp
+                        q.anchored -> emit(q.pkg)                          // a chat whose voice button was found
+                        q.chatOpen -> { delay(2_500); emit(q.pkg) }        // chat open but button not found: floating fallback after a grace period
+                        else -> emit(null)                                 // chat list, status, calls, settings...
+                    }
+                }
                 .distinctUntilChanged()
                 .let { f -> @OptIn(kotlinx.coroutines.FlowPreview::class) f.debounce { if (it == null) 500L else 0L } }
                 .collect { pkg ->

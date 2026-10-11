@@ -49,11 +49,25 @@ class MicAnchorFinderTest {
 
     @Test fun unknownIdsAreFoundByTheirLabel() {
         val r = FakeTree.root()
+        r.add(UiNode(viewId = P + "entry", editable = true, bounds = Bounds(20, 2190, 900, 2280)))
         r.add(UiNode(viewId = P + "some_new_id", desc = "Voice message", clickable = true, bounds = micBounds))
         assertTrue(MicAnchorFinder.find(r, w, h)!!.isMic)
         val es = FakeTree.root()
+        es.add(UiNode(className = "android.widget.EditText", editable = true, bounds = Bounds(20, 2190, 900, 2280)))
         es.add(UiNode(desc = "Mensaje de voz", clickable = true, bounds = micBounds))
         assertTrue(MicAnchorFinder.find(es, w, h)!!.isMic)
+    }
+
+    @Test fun screensWithoutAMessageBoxNeverGetTheBubble() {
+        // chat list: FAB-like buttons, an "Audio call" button, a bare label without composer
+        val list = FakeTree.root()
+        list.add(UiNode(viewId = P + "fab", desc = "New chat", clickable = true, bounds = micBounds))
+        list.add(UiNode(desc = "Audio call", clickable = true, bounds = Bounds(800, 2000, 910, 2110)))
+        list.add(UiNode(desc = "Voice message", clickable = true, bounds = Bounds(700, 2100, 810, 2210)))      // label alone, no composer
+        list.add(UiNode(desc = "Microphone access", clickable = true, bounds = Bounds(500, 2100, 610, 2210)))
+        assertNull(MicAnchorFinder.find(list, w, h))
+        assertNull(MicAnchorFinder.classify(null, "Audio call", null))
+        assertNull(MicAnchorFinder.classify(null, "Microphone access", null))
     }
 
     @Test fun implausibleShapesAndPlacesAreIgnored() {

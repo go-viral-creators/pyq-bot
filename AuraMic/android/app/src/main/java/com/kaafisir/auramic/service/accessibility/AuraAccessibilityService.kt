@@ -57,6 +57,8 @@ class AuraAccessibilityService : AccessibilityService() {
     /** Wakes the mic-anchor tracker when WhatsApp's screen changes (keyboard, typing, new chat). */
     private val wake = Channel<Unit>(Channel.CONFLATED)
     private var lastFullScan = 0L
+    private var lastAnchor: MicAnchor? = null
+    private var lastAnchorAt = 0L
 
     override fun onServiceConnected() {
         super.onServiceConnected()
@@ -106,7 +108,12 @@ class AuraAccessibilityService : AccessibilityService() {
 
     private suspend fun trackMic() {
         while (true) {
-            val anchor = runCatching { readMicAnchor() }.getOrNull()
+            val now = SystemClock.elapsedRealtime()
+            val seen = runCatching { readMicAnchor() }.getOrNull()
+            if (seen != null) { lastAnchor = seen; lastAnchorAt = now }
+            // Keep the last position for a moment when a read misses (screen transition): the bubble must not jump around.
+            val anchor = seen ?: lastAnchor?.takeIf { now - lastAnchorAt < ANCHOR_HOLD_MS }
+            if (anchor == null) lastAnchor = null
             bridge.setMicAnchor(anchor)
             bridge.setChatOpen(anchor != null || runCatching { conversationVisible }.getOrDefault(false))
             withTimeoutOrNull(TRACK_MS) { wake.receive() }
@@ -143,7 +150,7 @@ class AuraAccessibilityService : AccessibilityService() {
                 }
             }
             // Conversation screen without a visible voice button (e.g. WhatsApp changed its ids): title / message box present?
-            for (id in listOf("conversation_contact_name", "entry", "conversation_title")) {
+            for (id in listOf("conversation_contact_name")) {          // header of an open conversation; the chat list has none
                 val hits = root.findAccessibilityNodeInfosByViewId("$pkg:id/$id")
                 val found = hits.any { it.isVisibleToUser }
                 @Suppress("DEPRECATION")
@@ -157,7 +164,6 @@ class AuraAccessibilityService : AccessibilityService() {
             val snap = snapshot(null) ?: return null
             return try {
                 snap.root?.let { r ->
-                    if (!conversationVisible) conversationVisible = NodeFinder.chatTitle(r, dm.heightPixels) != null
                     MicAnchorFinder.find(r, dm.widthPixels, dm.heightPixels)
                 }
             } finally { snap.release() }
@@ -308,6 +314,7 @@ class AuraAccessibilityService : AccessibilityService() {
         private const val TAG = "AuraA11y"
         private const val POLL_MS = 220L
         private const val TRACK_MS = 450L
+        private const val ANCHOR_HOLD_MS = 1_200L
         private const val MAX_DEPTH = 40
         private const val MAX_NODES = 900
     }

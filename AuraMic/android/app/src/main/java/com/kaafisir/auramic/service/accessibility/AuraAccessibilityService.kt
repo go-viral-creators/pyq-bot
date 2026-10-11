@@ -109,7 +109,11 @@ class AuraAccessibilityService : AccessibilityService() {
     private suspend fun trackMic() {
         while (true) {
             val now = SystemClock.elapsedRealtime()
-            val seen = runCatching { readMicAnchor() }.getOrNull()
+            var seen = runCatching { readMicAnchor() }.getOrNull()
+            // Text in the message box = WhatsApp's button is "Send" now, whatever its id / label says: get out of its way.
+            if (composerHasText) {
+                seen = (seen ?: lastAnchor)?.let { MicAnchor(it.bounds, false) }
+            }
             if (seen != null) { lastAnchor = seen; lastAnchorAt = now }
             // Keep the last position for a moment when a read misses (screen transition): the bubble must not jump around.
             val anchor = seen ?: lastAnchor?.takeIf { now - lastAnchorAt < ANCHOR_HOLD_MS }
@@ -123,14 +127,23 @@ class AuraAccessibilityService : AccessibilityService() {
 
     /** Set by [readMicAnchor]: a conversation screen (title or message box) is visible even if the voice button was not found. */
     @Volatile private var conversationVisible = false
+    /** Set by [readMicAnchor]: the message box holds typed text (so WhatsApp shows its Send button, not the mic). */
+    @Volatile private var composerHasText = false
 
     private fun readMicAnchor(): MicAnchor? {
         conversationVisible = false
+        composerHasText = false
         val root = rootInActiveWindow ?: return null
         val pkg = root.packageName?.toString()
         try {
             if (pkg == null || pkg !in WhatsAppUi.PACKAGES) return null
             val dm = resources.displayMetrics
+            run {
+                val boxes = root.findAccessibilityNodeInfosByViewId("$pkg:id/entry")
+                composerHasText = boxes.any { it.isVisibleToUser && !it.isShowingHintText && !it.text.isNullOrEmpty() }
+                @Suppress("DEPRECATION")
+                if (Build.VERSION.SDK_INT < 33) boxes.forEach { runCatching { it.recycle() } }
+            }
             // Fast path: look the button up by its resource id (no tree walk).
             for (id in MicAnchorFinder.MIC_IDS + MicAnchorFinder.SEND_ONLY_IDS) {
                 val hits = root.findAccessibilityNodeInfosByViewId("$pkg:id/$id")

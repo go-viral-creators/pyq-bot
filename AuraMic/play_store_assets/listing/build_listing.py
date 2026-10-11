@@ -45,7 +45,6 @@ Stop re-recording because of traffic, fans, crowds or a noisy café. AuraMic AI 
 ★ TWO QUALITY LEVELS
 • Medium Quality (free): fast and light. Removes most background noise such as fans, traffic and room echo and keeps your voice clear.
 • High Quality (AuraMic Pro): studio-clean sound. Removes almost all background noise and makes your voice rich, balanced and loud enough. Try it with 10 free voice notes; after that it is a monthly or yearly subscription you can cancel any time in Google Play.
-• Smart room fix: if a recording has echo or reverb it is reduced; if it doesn't, nothing is changed.
 • Long pauses (over 0.3 s) are cut automatically (switch it off in Settings) and the volume is evened out.
 • Works in WhatsApp and WhatsApp Business. Inside a chat the AuraMic mic sits on WhatsApp's own voice button and works the same way: hold to record, slide left to cancel.
 
@@ -97,7 +96,6 @@ Traffic, pankha, bheed ya noisy café ki wajah se baar-baar record karna band. A
 ★ DO QUALITY LEVELS
 • Medium Quality (free): tez aur halka. Pankha, traffic aur kamre ki goonj jaisa zyada tar shor hata deta hai, aawaz saaf rehti hai.
 • High Quality (AuraMic Pro): studio jaisi saaf awaaz. Lagbhag sara shor hata deta hai aur aawaz ko bhari-puri, balanced aur kaafi tez banata hai. 10 voice notes free try karo; uske baad monthly ya yearly subscription, Google Play me kabhi bhi cancel.
-• Smart room fix: recording me echo ya reverb ho to kam hota hai; na ho to kuch nahi badalta.
 • Lambi chuppi (0.3 second se zyada) apne-aap kat jaati hai (Settings me band kar sakte ho) aur volume barabar hota hai.
 • WhatsApp aur WhatsApp Business me chalta hai. Chat ke andar AuraMic ka mic WhatsApp ke apne voice button par baithta hai aur waise hi chalta hai: dabake record, left slide par cancel.
 
@@ -188,7 +186,6 @@ Olvídate de grabar otra vez por el tráfico, un ventilador, la multitud o una c
 ★ DOS NIVELES DE CALIDAD
 • Calidad media (gratis): rápida y ligera. Quita la mayor parte del ruido de fondo, como ventiladores, tráfico y eco de la habitación, y mantiene tu voz clara.
 • Calidad alta (AuraMic Pro): sonido limpio de estudio. Elimina casi todo el ruido y deja tu voz rica, equilibrada y con buen volumen. Pruébala con 10 notas de voz gratis; después es una suscripción mensual o anual que puedes cancelar cuando quieras en Google Play.
-• Arreglo inteligente de sala: si la grabación tiene eco o reverberación se reduce; si no, no se cambia nada.
 • Las pausas largas (más de 0,3 s) se cortan automáticamente (se desactiva en Ajustes) y el volumen se nivela.
 • Funciona en WhatsApp y WhatsApp Business. Dentro de un chat el micrófono de AuraMic se coloca sobre el botón de voz de WhatsApp y funciona igual: mantén para grabar, desliza a la izquierda para cancelar.
 
@@ -234,7 +231,6 @@ Chega de regravar por causa do trânsito, de um ventilador, da multidão ou de u
 ★ DOIS NÍVEIS DE QUALIDADE
 • Qualidade média (grátis): rápida e leve. Remove a maior parte do ruído de fundo, como ventiladores, trânsito e eco do ambiente, e mantém sua voz clara.
 • Qualidade alta (AuraMic Pro): som limpo de estúdio. Remove quase todo o ruído e deixa sua voz rica, equilibrada e com bom volume. Experimente com 10 áudios grátis; depois é uma assinatura mensal ou anual que você cancela quando quiser no Google Play.
-• Ajuste inteligente do ambiente: se a gravação tiver eco ou reverberação, ela é reduzida; se não tiver, nada é alterado.
 • Pausas longas (mais de 0,3 s) são cortadas automaticamente (desative em Configurações) e o volume é nivelado.
 • Funciona no WhatsApp e no WhatsApp Business. Dentro de uma conversa o microfone do AuraMic fica sobre o botão de voz do WhatsApp e funciona igual: segure para gravar, deslize para a esquerda para cancelar.
 

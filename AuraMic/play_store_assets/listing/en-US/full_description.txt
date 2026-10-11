@@ -23,7 +23,6 @@ Stop re-recording because of traffic, fans, crowds or a noisy café. AuraMic AI 
 ★ TWO QUALITY LEVELS
 • Medium Quality (free): fast and light. Removes most background noise such as fans, traffic and room echo and keeps your voice clear.
 • High Quality (AuraMic Pro): studio-clean sound. Removes almost all background noise and makes your voice rich, balanced and loud enough. Try it with 10 free voice notes; after that it is a monthly or yearly subscription you can cancel any time in Google Play.
-• Smart room fix: if a recording has echo or reverb it is reduced; if it doesn't, nothing is changed.
 • Long pauses (over 0.3 s) are cut automatically (switch it off in Settings) and the volume is evened out.
 • Works in WhatsApp and WhatsApp Business. Inside a chat the AuraMic mic sits on WhatsApp's own voice button and works the same way: hold to record, slide left to cancel.
 

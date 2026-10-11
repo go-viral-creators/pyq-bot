@@ -184,7 +184,7 @@ def index():
   <div class="card mt-10 grid items-center gap-8 md:grid-cols-2">
     <div class="min-w-0"><h3 class="text-2xl font-bold text-white">Hear (and see) the difference</h3>
       <p class="mt-3 text-slate-400">Illustration of the effect: steady background noise is pulled down while speech peaks stay. Open <strong class="text-white">Studio Lab</strong> in the app to try it with your own voice.</p>
-      <ul class="mt-5 space-y-2 text-sm text-slate-300"><li class="flex gap-2">{check()} Neural noise removal on the full 48 kHz band (High) or a light, fast model (Medium)</li><li class="flex gap-2">{check()} Auto-cut of long pauses, echo and reverb fixes only when the recording needs them, even-volume voice chain</li><li class="flex gap-2">{check()} Many times faster than real time; fully offline</li></ul></div>
+      <ul class="mt-5 space-y-2 text-sm text-slate-300"><li class="flex gap-2">{check()} Neural noise removal on the full 48 kHz band (High) or a light, fast model (Medium)</li><li class="flex gap-2">{check()} Auto-cut of long pauses, even-volume voice chain</li><li class="flex gap-2">{check()} Many times faster than real time; fully offline</li></ul></div>
     <div id="ba" class="min-w-0 overflow-hidden rounded-2xl border border-aura-line bg-aura-ink p-5">
       <div class="flex items-center justify-between text-sm"><span id="ba-label" class="font-semibold text-white" aria-live="polite">Original</span><span class="text-slate-500">illustration</span></div>
       <div id="ba-bars" class="my-6 flex h-[70px] items-center justify-center gap-[2px] overflow-hidden" aria-hidden="true"></div>

@@ -41,6 +41,7 @@ tasks.test {
     systemProperty("auramic.gtcrn", file("../app/src/main/assets/gtcrn/gtcrn_dns3.ort").absolutePath)
     providers.gradleProperty("auramic.tailjobs").orNull?.let { systemProperty("auramic.tailjobs", it) }
     providers.gradleProperty("auramic.roomdir").orNull?.let { systemProperty("auramic.roomdir", it) }
+    providers.gradleProperty("auramic.variants").orNull?.let { systemProperty("auramic.variants", it) }
     providers.gradleProperty("auramic.dump").orNull?.let { systemProperty("auramic.dump", it) }
     providers.gradleProperty("auramic.official").orNull?.let { systemProperty("auramic.official", it) }
     providers.gradleProperty("auramic.gtcrnref").orNull?.let { systemProperty("auramic.gtcrnref", it) }

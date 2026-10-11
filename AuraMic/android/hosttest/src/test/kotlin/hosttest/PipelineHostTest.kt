@@ -55,6 +55,8 @@ class PipelineHostTest {
         }
 
         @JvmStatic @BeforeClass fun setup() {
+            // the reference comparisons below are against the official models, which run without the app's post-filter
+            com.kaafisir.auramic.audio.NativeDfn.pfBeta = 0f
             val sample = System.getProperty("auramic.sample")
             val libDir = System.getProperty("java.library.path")
             if (sample == null || libDir.isNullOrBlank() || !File(sample).exists()) return
@@ -209,11 +211,46 @@ class PipelineHostTest {
         assertTrue("longest pause ${longest * 10} ms", longest * 10 <= 330)
     }
 
+
+    /** Residual-noise experiments: -Pauramic.variants=<dir with in.wav>; writes v_*.wav (raw model outputs, no tail). */
+    @Test fun noiseVariants() {
+        assumeTrue(ready)
+        val dir = System.getProperty("auramic.variants")?.takeIf { File(it).isDirectory } ?: return
+        fun wav(name: String, x: FloatArray) {
+            val pcm = Resampler.toShort(x, x.size)
+            val bb = ByteBuffer.allocate(44 + pcm.size * 2).order(ByteOrder.LITTLE_ENDIAN)
+            bb.put("RIFF".toByteArray()).putInt(36 + pcm.size * 2).put("WAVEfmt ".toByteArray()).putInt(16).putShort(1).putShort(1)
+                .putInt(48_000).putInt(96_000).putShort(2).putShort(16).put("data".toByteArray()).putInt(pcm.size * 2)
+            pcm.forEach { bb.putShort(it) }
+            File(dir, name).writeBytes(bb.array())
+        }
+        for (f in File(dir).listFiles { _, n -> n.startsWith("in") && n.endsWith(".wav") }!!.sorted()) {
+            val tag = f.name.removeSuffix(".wav").removePrefix("in")
+            val (pcm, sr) = readWav(f.path)
+            val x0 = Resampler.toFloat(pcm, pcm.size)
+            val x = if (sr == 48_000) x0 else Resampler.resample(x0, x0.size, sr, 48_000)
+            val atten = EnhanceOptions.ATTENUATION_DB
+            val a = runtime.enhance(x, x.size, atten, false, null)!!
+            wav("v${tag}_dfn1.wav", a)
+            wav("v${tag}_dfn2.wav", runtime.enhance(a, a.size, atten, false, null)!!)
+            wav("v${tag}_dfn_unl.wav", runtime.enhance(x, x.size, 100f, false, null)!!)
+            for (b in floatArrayOf(0.02f, 0.05f)) {
+                com.kaafisir.auramic.audio.NativeDfn.pfBeta = b
+                wav("v${tag}_dfn_pf${(b * 100).toInt()}.wav", runtime.enhance(x, x.size, atten, false, null)!!)
+            }
+            com.kaafisir.auramic.audio.NativeDfn.pfBeta = 0f
+            val g = gtcrn.enhance(x, x.size, null)!!
+            wav("v${tag}_gt1.wav", g)
+            wav("v${tag}_gt2.wav", gtcrn.enhance(g, g.size, null)!!)
+        }
+    }
+
     /** With -Dauramic.dump=<dir> (gradle: -Pauramic.dump) writes what the app would send, for listening tests. */
     @Test fun dumpFinalOutputsForListening() {
         assumeTrue(ready)
         val dir = System.getProperty("auramic.dump")?.takeIf { it.isNotBlank() } ?: return
         File(dir).mkdirs()
+        com.kaafisir.auramic.audio.NativeDfn.pfBeta = 0.05f   // what the app ships with
         for (q in com.kaafisir.auramic.domain.model.Quality.entries) {
             val r = pipeline.process(noisy, noisy.size, 48_000, EnhanceOptions.forQuality(q))
             val pcm = Resampler.toShort(r.voice, r.length)

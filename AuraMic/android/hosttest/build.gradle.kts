@@ -40,6 +40,7 @@ tasks.test {
     systemProperty("auramic.models", file("../app/src/main/assets/dfn3").absolutePath)
     systemProperty("auramic.gtcrn", file("../app/src/main/assets/gtcrn/gtcrn_dns3.ort").absolutePath)
     providers.gradleProperty("auramic.tailjobs").orNull?.let { systemProperty("auramic.tailjobs", it) }
+    providers.gradleProperty("auramic.benchdir").orNull?.let { systemProperty("auramic.benchdir", it) }
     providers.gradleProperty("auramic.dump").orNull?.let { systemProperty("auramic.dump", it) }
     providers.gradleProperty("auramic.official").orNull?.let { systemProperty("auramic.official", it) }
     providers.gradleProperty("auramic.gtcrnref").orNull?.let { systemProperty("auramic.gtcrnref", it) }

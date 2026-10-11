@@ -208,6 +208,27 @@ class PipelineHostTest {
         assertTrue("longest pause ${longest * 10} ms", longest * 10 <= 330)
     }
 
+
+    /** Benchmark run: -Pauramic.benchdir=<dir containing a clips folder of wav files>; writes ours_HIGH/ and ours_MEDIUM/ (no pause cutting, so clips stay aligned). */
+    @Test fun runBenchmarkClips() {
+        assumeTrue(ready)
+        val dir = System.getProperty("auramic.benchdir")?.takeIf { File(it, "clips").isDirectory } ?: return
+        for (q in com.kaafisir.auramic.domain.model.Quality.entries) {
+            val out = File(dir, "ours_${q.name}").also { it.mkdirs() }
+            for (f in File(dir, "clips").listFiles { _, n -> n.endsWith(".wav") }!!.sorted()) {
+                val (pcm, sr) = readWav(f.path)
+                val r = pipeline.process(pcm, pcm.size, sr, EnhanceOptions.forQuality(q, cutPauses = false))
+                val o = Resampler.toShort(r.voice, r.length)
+                val bb = ByteBuffer.allocate(44 + o.size * 2).order(ByteOrder.LITTLE_ENDIAN)
+                bb.put("RIFF".toByteArray()).putInt(36 + o.size * 2).put("WAVEfmt ".toByteArray()).putInt(16).putShort(1).putShort(1)
+                    .putInt(48_000).putInt(96_000).putShort(2).putShort(16).put("data".toByteArray()).putInt(o.size * 2)
+                o.forEach { bb.putShort(it) }
+                File(out, f.name).writeBytes(bb.array())
+                println("bench ${q.name} ${f.name}: ${"%.1f".format(r.speedFactor)}x engine=${r.engineUsed}")
+            }
+        }
+    }
+
     /** With -Dauramic.dump=<dir> (gradle: -Pauramic.dump) writes what the app would send, for listening tests. */
     @Test fun dumpFinalOutputsForListening() {
         assumeTrue(ready)

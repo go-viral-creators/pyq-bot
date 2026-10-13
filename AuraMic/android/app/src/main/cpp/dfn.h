@@ -2,6 +2,7 @@
 //
 // Faithful port of libDF (DFState + the frame logic of tract.rs), re-expressed for whole-clip processing:
 //   load()         : STFT (960 / hop 480, Vorbis window), ERB + complex features with running normalisation
+//                    (only the features are kept; spectra are recomputed from the samples when they are needed)
 //   fillFeatures() : hands a frame range to the network (zero padded past the end)
 //   applyFrames()  : per-frame stage logic from the network's lsnr / ERB mask / deep-filter taps, DF, iSTFT
 //   output()       : enhanced samples, aligned with the input
@@ -57,18 +58,28 @@ public:
 private:
     void analysis(const float *hop, Cpx *spec);
     void synthesis(const Cpx *spec, float *out);
+    // Spectrum of frame t, stateless: analysis of hops t-1 and t (zeros outside the clip). Bit-identical to the
+    // sequential analysis() pass in load().
+    void spectrumOf(int t, Cpx *spec);
+    // Spectrum of frame t from a small ring (frames o-2 .. o+2 are alive at any time); computed once, in order.
+    const Cpx *frame(int t);
 
     MixedFft fft_;
     std::vector<float> window_;
     std::vector<int> erbWidths_;
     size_t n_ = 0;
     int T_ = 0;
-    std::vector<float> spec_;      // T * 481 * 2 (re,im interleaved)
+    // Samples, T * 480. Holds the input until frame o is synthesised, then frame o's output in the same place
+    // (the input hop o is never needed again by then: every spectrum up to o+2 is already in the ring).
+    std::vector<float> pcm_;
     std::vector<float> featErb_;   // T * 32
     std::vector<float> featSpec_;  // 2 * T * 96
-    std::vector<float> outPcm_;    // T * 480
     std::vector<float> synthMem_;  // 480
     std::vector<float> anaMem_;    // 480
+    static constexpr int kRing = 8;
+    std::vector<float> ring_;      // kRing * 481 * 2
+    int ringFrame_[kRing];
+    std::vector<Cpx> fftIn_, fftOut_;  // scratch, kDfnFft each
     int nextFrame_ = 0;
 };
 

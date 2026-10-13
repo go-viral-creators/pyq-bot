@@ -29,16 +29,25 @@ object SilenceCutter {
     private const val TRAIL_KEEP_MS = 150
     private const val FADE_MS = 8
 
-    fun cut(x: FloatArray, n: Int, sr: Int, mode: SilenceCut): Result {
+    /**
+     * @param inPlace write the result into [x] itself (segments only move left, so this is safe) instead of a new
+     *   array - saves a clip-sized copy for long notes. [Result.pcm] is then [x] and only its first [Result.length]
+     *   samples are valid.
+     */
+    fun cut(x: FloatArray, n: Int, sr: Int, mode: SilenceCut, inPlace: Boolean = false): Result {
         if (mode == SilenceCut.OFF || n < sr / 2) return Result(x, n, 0)
         val cfg = when (mode) { SilenceCut.TIGHT -> tight; SilenceCut.PAUSES -> pauses; else -> gentle }
         val frame = sr * FRAME_MS / 1000
         val frames = n / frame
         if (frames < 20) return Result(x, n, 0)
 
+        // Level of the speech band only (2nd-order high-pass at 120 Hz): low rumble left over from traffic / car noise
+        // is removed later by the mastering high-pass, so counting it here would keep pauses the listener hears as
+        // silence. Only the detector is filtered; the audio itself is untouched.
+        val hp = SpeechBandFilter(sr)
         val db = FloatArray(frames) { f ->
             var e = 0.0
-            for (i in f * frame until (f + 1) * frame) e += x[i].toDouble() * x[i]
+            for (i in f * frame until (f + 1) * frame) { val v = hp.process(x[i]).toDouble(); e += v * v }
             (10 * log10(e / frame + 1e-12)).toFloat()
         }
         val sorted = db.sortedArray()
@@ -90,7 +99,7 @@ object SilenceCutter {
         val total = keep.sumOf { it[1] - it[0] }
         if (total >= n - frame) return Result(x, n, 0)
 
-        val out = FloatArray(total)
+        val out = if (inPlace) x else FloatArray(total)
         val fade = FADE_MS * sr / 1000
         var pos = 0
         for ((idx, seg) in keep.withIndex()) {
@@ -111,5 +120,21 @@ object SilenceCutter {
         var e = 0.0
         for (i in from until to) e += x[i].toDouble() * x[i]
         return (10 * log10(e / max(1, to - from) + 1e-12)).toFloat()
+    }
+
+    /** RBJ 2nd-order high-pass (Q 0.707) at 120 Hz, used only to measure frame levels. */
+    private class SpeechBandFilter(sr: Int) {
+        private val b0: Double; private val b1: Double; private val b2: Double; private val a1: Double; private val a2: Double
+        private var z1 = 0.0; private var z2 = 0.0
+        init {
+            val w = 2 * Math.PI * 120.0 / sr; val c = Math.cos(w); val a = Math.sin(w) / (2 * 0.707); val a0 = 1 + a
+            b0 = (1 + c) / 2 / a0; b1 = -(1 + c) / a0; b2 = (1 + c) / 2 / a0; a1 = -2 * c / a0; a2 = (1 - a) / a0
+        }
+        fun process(x: Float): Float {
+            val y = b0 * x + z1
+            z1 = b1 * x - a1 * y + z2
+            z2 = b2 * x - a2 * y
+            return y.toFloat()
+        }
     }
 }

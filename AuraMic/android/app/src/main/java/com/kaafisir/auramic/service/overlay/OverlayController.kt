@@ -157,7 +157,8 @@ class OverlayController(
                     AuraTheme(darkTheme = true) {
                         val s by orchestrator.state.collectAsState()
                         val l by orchestrator.level.collectAsState()
-                        PillWindowContent(s, l, pillAnchor.intValue)
+                        val p by orchestrator.progress.collectAsState()
+                        PillWindowContent(s, l, pillAnchor.intValue, p)
                     }
                 }
             }

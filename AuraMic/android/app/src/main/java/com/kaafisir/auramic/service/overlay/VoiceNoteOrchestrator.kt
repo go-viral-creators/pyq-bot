@@ -46,6 +46,9 @@ class VoiceNoteOrchestrator @Inject constructor(
     val state: StateFlow<OverlayState> = _state.asStateFlow()
     private val _level = MutableStateFlow(0f)
     val level: StateFlow<Float> = _level.asStateFlow()
+    /** 0..1 while a note is being cleaned (shown for long notes). */
+    private val _progress = MutableStateFlow(0f)
+    val progress: StateFlow<Float> = _progress.asStateFlow()
 
     private var recorder: PcmRecorder? = null
     private var tickerJob: Job? = null
@@ -130,7 +133,8 @@ class VoiceNoteOrchestrator @Inject constructor(
             _state.value = OverlayState.Processing
             val settings = settingsRepo.current()
             val quality = pro.resolve(settings)
-            val note = processNote(rec, quality, settings.cutPauses)
+            _progress.value = 0f
+            val note = processNote(rec, quality, settings.cutPauses) { _progress.value = it }
             if (quality == com.kaafisir.auramic.domain.model.Quality.HIGH) pro.consumeFreeHighNote()   // no-op for subscribers
             Log.i(TAG, "processed ${"%.1f".format(note.seconds)}s engine=${note.engine} ${"%.1f".format(note.speedFactor)}x realtime -> ${note.file.name}")
 

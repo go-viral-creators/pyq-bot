@@ -20,6 +20,8 @@ class EnhanceResult(
     val inputSeconds: Float,
     val removedSilenceSeconds: Float,
     val report: NativePolish.Report?,
+    /** Wall time per stage in ms (resample, denoise, cut, master...) - for logs and benchmarks. */
+    val stageMs: Map<String, Long> = emptyMap(),
 ) {
     val sampleRate: Int get() = SAMPLE_RATE
     val seconds: Float get() = length / SAMPLE_RATE.toFloat()
@@ -46,9 +48,16 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         onProgress: ((Float) -> Unit)? = null,
     ): EnhanceResult {
         val t0 = System.nanoTime()
+        val stages = LinkedHashMap<String, Long>()
+        var tMark = t0
+        fun mark(name: String) { val t = System.nanoTime(); stages[name] = (stages[name] ?: 0L) + (t - tMark) / 1_000_000; tMark = t }
         val raw = Resampler.toFloat(pcm, length)
-        val x = if (sampleRate == EnhanceResult.SAMPLE_RATE) raw else Resampler.resample(raw, length, sampleRate, EnhanceResult.SAMPLE_RATE)
+        // The input is needed after denoising only for stems / "keep ambience"; otherwise it is dropped right away
+        // so a 5-minute note never holds more than two clip-sized float arrays.
+        var x: FloatArray = if (sampleRate == EnhanceResult.SAMPLE_RATE) raw else Resampler.resample(raw, length, sampleRate, EnhanceResult.SAMPLE_RATE)
         val n = x.size
+        val keepInput = wantStems || opt.keepBackground > 0.001f || Experiments.roomFix
+        mark("convert")
         val inputSeconds = n / EnhanceResult.SAMPLE_RATE.toFloat()
 
         var engineUsed = opt.engine
@@ -65,6 +74,7 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
             if (enhanced == null) engineUsed = EnhanceEngine.CLASSIC
         }
         if (enhanced == null) enhanced = classic(x, n, opt)
+        mark("denoise")
         onProgress?.invoke(0.9f)
 
         val removed = if (wantStems) FloatArray(n) { x[it] - enhanced[it] } else null
@@ -73,19 +83,22 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         val keep = opt.keepBackground
         var voice = enhanced
         if (keep > 0.001f) for (i in 0 until n) voice[i] += keep * (x[i] - enhanced[i])
+        if (!keepInput) x = EMPTY
 
         if (Experiments.roomFix && n > 0) voice = RoomFix.process(voice, n, EnhanceResult.SAMPLE_RATE).voice
 
         var len = n
         var removedSilence = 0
         if (opt.silenceCut != com.kaafisir.auramic.domain.model.SilenceCut.OFF) {
-            val r = SilenceCutter.cut(voice, len, EnhanceResult.SAMPLE_RATE, opt.silenceCut)
+            // In place: the enhanced array is ours (stems were computed above), so no copy is needed.
+            val r = SilenceCutter.cut(voice, len, EnhanceResult.SAMPLE_RATE, opt.silenceCut, inPlace = true)
             voice = r.pcm; len = r.length; removedSilence = r.removedSamples
         }
-        if (voice.size != len) voice = voice.copyOf(len)
+        mark("cut")
 
         val report = if (len > 0) NativePolish.run(voice, len, opt.preset, opt.normalize, opt.targetLufs) else null
 
+        mark("master")
         var original: FloatArray? = null
         var removedStem: FloatArray? = null
         if (wantStems) {
@@ -97,8 +110,8 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         onProgress?.invoke(1f)
         val ms = (System.nanoTime() - t0) / 1_000_000
         AudioLog.lastEngine = engineUsed.name
-        AudioLog.i(TAG, "processed ${"%.1f".format(inputSeconds)}s in $ms ms (${"%.1f".format(inputSeconds * 1000f / max(1L, ms))}x realtime) engine=$engineUsed")
-        return EnhanceResult(voice, len, original, removedStem, engineUsed, ms, inputSeconds, removedSilence / EnhanceResult.SAMPLE_RATE.toFloat(), report)
+        AudioLog.i(TAG, "processed ${"%.1f".format(inputSeconds)}s in $ms ms (${"%.1f".format(inputSeconds * 1000f / max(1L, ms))}x realtime) engine=$engineUsed stages=$stages")
+        return EnhanceResult(voice, len, original, removedStem, engineUsed, ms, inputSeconds, removedSilence / EnhanceResult.SAMPLE_RATE.toFloat(), report, stages)
     }
 
     private fun classic(x: FloatArray, n: Int, opt: EnhanceOptions): FloatArray {
@@ -120,5 +133,8 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         return out
     }
 
-    companion object { private const val TAG = "EnhancePipeline" }
+    companion object {
+        private const val TAG = "EnhancePipeline"
+        private val EMPTY = FloatArray(0)
+    }
 }

@@ -265,6 +265,42 @@ class PipelineHostTest {
         com.kaafisir.auramic.audio.Experiments.gtcrnAfterDfn = false; com.kaafisir.auramic.audio.Experiments.gtcrnBeforeDfn = false
     }
 
+    /**
+     * Long-recording benchmark: -Pauramic.longdir=<dir with a clips folder of wav files> [-Pauramic.longtag=name].
+     * For each clip and quality: wall time per stage, x realtime and peak RSS growth of this process (VmHWM after
+     * resetting it via /proc/self/clear_refs). Writes <dir>/out_<tag>_<QUALITY>/<clip>.wav and a line per run to
+     * <dir>/bench_<tag>.tsv.
+     */
+    @Test fun benchmarkLongRecordings() {
+        assumeTrue(ready)
+        val dir = System.getProperty("auramic.longdir")?.takeIf { File(it, "clips").isDirectory } ?: return
+        val tag = System.getProperty("auramic.longtag") ?: "run"
+        val tsv = File(dir, "bench_$tag.tsv")
+        if (!tsv.exists()) tsv.writeText("clip\tquality\tseconds\tms\tx_realtime\tpeak_rss_growth_mb\tstages\n")
+        val qualities = (System.getProperty("auramic.longq") ?: "HIGH,MEDIUM").split(",").map { com.kaafisir.auramic.domain.model.Quality.valueOf(it) }
+        fun status(key: String) = File("/proc/self/status").readLines().first { it.startsWith(key) }.filter { it.isDigit() }.toLong() / 1024
+        for (f in File(dir, "clips").listFiles { _, n -> n.endsWith(".wav") }!!.sorted()) {
+            val (pcm, sr) = readWav(f.path)
+            for (q in qualities) {
+                System.gc(); Thread.sleep(200)
+                runCatching { File("/proc/self/clear_refs").writeText("5") }
+                val base = status("VmRSS:")
+                val r = pipeline.process(pcm, pcm.size, sr, EnhanceOptions.forQuality(q, cutPauses = true))
+                val peak = status("VmHWM:") - base
+                val o = Resampler.toShort(r.voice, r.length)
+                val out = File(dir, "out_${tag}_${q.name}").also { it.mkdirs() }
+                val bb = ByteBuffer.allocate(44 + o.size * 2).order(ByteOrder.LITTLE_ENDIAN)
+                bb.put("RIFF".toByteArray()).putInt(36 + o.size * 2).put("WAVEfmt ".toByteArray()).putInt(16).putShort(1).putShort(1)
+                    .putInt(48_000).putInt(96_000).putShort(2).putShort(16).put("data".toByteArray()).putInt(o.size * 2)
+                o.forEach { bb.putShort(it) }
+                File(out, f.name).writeBytes(bb.array())
+                val line = "${f.name}\t${q.name}\t${"%.0f".format(r.inputSeconds)}\t${r.processingMs}\t${"%.1f".format(r.speedFactor)}\t$peak\t${r.stageMs}"
+                tsv.appendText(line + "\n")
+                println("LONG $line")
+            }
+        }
+    }
+
     /** With -Dauramic.dump=<dir> (gradle: -Pauramic.dump) writes what the app would send, for listening tests. */
     @Test fun dumpFinalOutputsForListening() {
         assumeTrue(ready)

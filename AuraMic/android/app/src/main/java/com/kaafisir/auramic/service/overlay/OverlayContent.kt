@@ -79,7 +79,7 @@ fun BubbleWindowContent(state: OverlayState, level: Float, bubbleSize: Dp, flat:
 
 /** Content of the (non-touchable, full-width) status pill window; the pill centres on [anchorX]. */
 @Composable
-fun PillWindowContent(state: OverlayState, level: Float, anchorX: Int) {
+fun PillWindowContent(state: OverlayState, level: Float, anchorX: Int, progress: Float = 0f) {
     Box(Modifier.fillMaxWidth()) {
         AnimatedVisibility(
             visible = state !is OverlayState.Idle,
@@ -94,13 +94,13 @@ fun PillWindowContent(state: OverlayState, level: Float, anchorX: Int) {
                 }
             },
         ) {
-            StatusPill(state, level)
+            StatusPill(state, level, progress)
         }
     }
 }
 
 @Composable
-private fun StatusPill(state: OverlayState, level: Float) {
+private fun StatusPill(state: OverlayState, level: Float, progress: Float) {
     Row(
         Modifier
             .background(Color(0xE6101018), RoundedCornerShape(50))
@@ -120,7 +120,11 @@ private fun StatusPill(state: OverlayState, level: Float) {
                     PillText(stringResource(R.string.ov_slide_cancel), Color(0xFFB4B4C8))
                 }
             }
-            OverlayState.Processing -> PillText(stringResource(R.string.ov_processing), Color.White)
+            OverlayState.Processing -> {
+                // Long notes take a few seconds: show how far along the cleaning is.
+                val label = stringResource(R.string.ov_processing)
+                PillText(if (progress in 0.05f..0.99f) "$label ${(progress * 100).toInt()}%" else label, Color.White)
+            }
             OverlayState.Sending -> PillText(stringResource(R.string.ov_sending), Color.White)
             is OverlayState.Done -> {
                 Icon(

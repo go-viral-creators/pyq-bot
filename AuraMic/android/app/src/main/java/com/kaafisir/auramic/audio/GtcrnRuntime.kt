@@ -14,7 +14,11 @@ import kotlin.math.sqrt
 /**
  * GTCRN (48 k parameters, ~33 MMAC/s) on ONNX Runtime: a very small, very fast speech cleaner that works at 16 kHz.
  * Pipeline: 48 kHz -> 16 kHz -> STFT(512/256, sqrt-Hann) -> network -> iSTFT -> 48 kHz.
- * The network is stateless over the whole clip (the export takes the complete spectrogram), so there is no chunking.
+ * The export takes a whole spectrogram, but the network is causal in time (causal dilated convs + uni-directional
+ * GRUs), so long clips run in [CHUNK]-frame pieces, each preceded by [CONTEXT] frames of history to warm the convs and
+ * GRUs up. Memory then stays flat (whole-clip runs needed ~700 MB of activations for 5 minutes). The GRU state
+ * settles slowly: with 16 s of history a chunk matches the whole-clip run to ~48 dB (2 s gave only ~25 dB), and
+ * notes up to 60 s run in one piece exactly as before.
  *
  * @param loadModel returns the bytes of gtcrn_dns3.ort
  */
@@ -60,15 +64,14 @@ class GtcrnRuntime(
             onProgress?.invoke(0.1f)
             val spec = stft(x16)                                   // [257][T][2] flattened
             val frames = spec.size / (BINS * 2)
-            val shape = longArrayOf(1, BINS.toLong(), frames.toLong(), 2)
-            val bb = ByteBuffer.allocateDirect(spec.size * 4).order(ByteOrder.nativeOrder())
-            bb.asFloatBuffer().put(spec)
-            val input = OnnxTensor.createTensor(env, bb.asFloatBuffer(), shape)
             val outSpec = FloatArray(spec.size)
-            try {
-                s.run(mapOf("spec" to input)).use { r -> (r.get(0) as OnnxTensor).floatBuffer.get(outSpec) }
-            } finally { input.close() }
-            onProgress?.invoke(0.7f)
+            var cs = 0
+            while (cs < frames) {
+                val ce = minOf(frames, cs + CHUNK)
+                runChunk(s, spec, outSpec, frames, maxOf(0, cs - CONTEXT), cs, ce)
+                cs = ce
+                onProgress?.invoke(0.1f + 0.6f * cs / frames)
+            }
             val y16 = istft(outSpec, frames, x16.size)
             val y = Resampler.resample(y16, y16.size, SR, 48_000)
             FloatArray(n) { if (it < y.size) y[it] else 0f }
@@ -76,6 +79,26 @@ class GtcrnRuntime(
             AudioLog.w(TAG, "light cleaner failed", t)
             null
         }
+    }
+
+    /** Runs frames [from, end) and keeps the output of [keep, end) (the frames before [keep] are history only). */
+    private fun runChunk(s: OrtSession, spec: FloatArray, out: FloatArray, frames: Int, from: Int, keep: Int, end: Int) {
+        val cnt = end - from
+        val bb = ByteBuffer.allocateDirect(BINS * cnt * 2 * 4).order(ByteOrder.nativeOrder())
+        val fb = bb.asFloatBuffer()
+        for (f in 0 until BINS) fb.put(spec, (f * frames + from) * 2, cnt * 2)
+        fb.rewind()
+        val input = OnnxTensor.createTensor(env, fb, longArrayOf(1, BINS.toLong(), cnt.toLong(), 2))
+        try {
+            s.run(mapOf("spec" to input)).use { r ->
+                val res = (r.get(0) as OnnxTensor).floatBuffer
+                val skip = keep - from
+                for (f in 0 until BINS) {
+                    res.position((f * cnt + skip) * 2)
+                    res.get(out, (f * frames + keep) * 2, (end - keep) * 2)
+                }
+            }
+        } finally { input.close() }
     }
 
     // ---- STFT / iSTFT identical to torch.stft/istft(n_fft=512, hop=256, win=sqrt(hann), center=True) ---------------------
@@ -141,5 +164,8 @@ class GtcrnRuntime(
         private const val FFT = 512
         private const val HOP = 256
         private const val BINS = FFT / 2 + 1
+        /** Frames per network call (62.5 frames/s: 60 s) and frames of history before each call (16 s). */
+        const val CHUNK = 3750
+        const val CONTEXT = 1000
     }
 }

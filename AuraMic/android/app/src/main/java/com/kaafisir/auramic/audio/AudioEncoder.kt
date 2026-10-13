@@ -20,13 +20,25 @@ object AudioEncoder {
      * Encodes to [wanted]; if Opus is requested but unsupported (needs API 29+, 48 kHz and an Opus
      * encoder) or fails, transparently falls back to AAC in M4A.
      */
-    fun encode(pcm: ShortArray, length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File): Encoded {
+    fun encode(pcm: ShortArray, length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File): Encoded =
+        encode(length, sampleRate, wanted, outDir) { buf, pos, n -> buf.put(pcm, pos, n) }
+
+    /** Same as above, straight from float samples (converted per codec buffer, no clip-sized PCM16 copy). */
+    fun encode(pcm: FloatArray, length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File): Encoded =
+        encode(length, sampleRate, wanted, outDir) { buf, pos, n ->
+            for (i in pos until pos + n) {
+                val v = (pcm[i] * 32767f).let { if (it >= 0) it + 0.5f else it - 0.5f }   // same rounding as Resampler.toShort
+                buf.put(v.coerceIn(-32768f, 32767f).toInt().toShort())
+            }
+        }
+
+    private fun encode(length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File, fill: Fill): Encoded {
         outDir.mkdirs()
         val stamp = java.text.SimpleDateFormat("yyyyMMdd_HHmmss", java.util.Locale.US).format(java.util.Date())
         if (wanted == OutputFormat.OPUS && Build.VERSION.SDK_INT >= 29 && sampleRate == 48_000) {
             val f = File(outDir, "AuraMic_$stamp.opus")
             try {
-                run(pcm, length, sampleRate, MediaFormat.MIMETYPE_AUDIO_OPUS, 32_000, MediaMuxer.OutputFormat.MUXER_OUTPUT_OGG, f)
+                run(fill, length, sampleRate, MediaFormat.MIMETYPE_AUDIO_OPUS, 32_000, MediaMuxer.OutputFormat.MUXER_OUTPUT_OGG, f)
                 return Encoded(f, "audio/ogg", OutputFormat.OPUS)
             } catch (t: Throwable) {
                 Log.w(TAG, "Opus encode failed, falling back to AAC", t)
@@ -34,11 +46,14 @@ object AudioEncoder {
             }
         }
         val f = File(outDir, "AuraMic_$stamp.m4a")
-        run(pcm, length, sampleRate, MediaFormat.MIMETYPE_AUDIO_AAC, 64_000, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4, f)
+        run(fill, length, sampleRate, MediaFormat.MIMETYPE_AUDIO_AAC, 64_000, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4, f)
         return Encoded(f, "audio/mp4", OutputFormat.M4A)
     }
 
-    private fun run(pcm: ShortArray, length: Int, sampleRate: Int, mime: String, bitrate: Int, muxerFormat: Int, out: File) {
+    /** Writes samples [pos, pos + n) into the codec's input buffer. */
+    private fun interface Fill { fun into(buf: java.nio.ShortBuffer, pos: Int, n: Int) }
+
+    private fun run(fill: Fill, length: Int, sampleRate: Int, mime: String, bitrate: Int, muxerFormat: Int, out: File) {
         val format = MediaFormat.createAudioFormat(mime, sampleRate, 1).apply {
             setInteger(MediaFormat.KEY_BIT_RATE, bitrate)
             setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, 16 * 1024)
@@ -70,7 +85,7 @@ object AudioEncoder {
                             codec.queueInputBuffer(idx, 0, 0, pos * 1_000_000L / sampleRate, MediaCodec.BUFFER_FLAG_END_OF_STREAM)
                             inputDone = true
                         } else {
-                            buf.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(pcm, pos, n)
+                            fill.into(buf.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer(), pos, n)
                             codec.queueInputBuffer(idx, 0, n * 2, pos * 1_000_000L / sampleRate, 0)
                             pos += n
                         }

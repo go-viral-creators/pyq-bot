@@ -43,8 +43,11 @@ tasks.test {
     providers.gradleProperty("auramic.benchdir").orNull?.let { systemProperty("auramic.benchdir", it) }
     providers.gradleProperty("auramic.variants").orNull?.let { systemProperty("auramic.variants", it) }
     providers.gradleProperty("auramic.dump").orNull?.let { systemProperty("auramic.dump", it) }
+    providers.gradleProperty("auramic.longdir").orNull?.let { systemProperty("auramic.longdir", it) }
+    providers.gradleProperty("auramic.longtag").orNull?.let { systemProperty("auramic.longtag", it) }
+    providers.gradleProperty("auramic.longq").orNull?.let { systemProperty("auramic.longq", it) }
     providers.gradleProperty("auramic.official").orNull?.let { systemProperty("auramic.official", it) }
     providers.gradleProperty("auramic.gtcrnref").orNull?.let { systemProperty("auramic.gtcrnref", it) }
-    maxHeapSize = "2g"
+    maxHeapSize = "3g"
     testLogging { showStandardStreams = true }
 }

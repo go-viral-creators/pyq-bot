@@ -5,14 +5,15 @@ import com.kaafisir.auramic.audio.AudioEncoder
 import com.kaafisir.auramic.audio.EnhanceResult
 import com.kaafisir.auramic.audio.EnhancementPipeline
 import com.kaafisir.auramic.audio.PcmRecorder
-import com.kaafisir.auramic.audio.Resampler
 import com.kaafisir.auramic.automation.WhatsAppSender
 import com.kaafisir.auramic.domain.model.EnhanceEngine
 import com.kaafisir.auramic.domain.model.EnhanceOptions
 import com.kaafisir.auramic.domain.model.OutputFormat
 import com.kaafisir.auramic.domain.model.Quality
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
@@ -37,14 +38,22 @@ class ProcessVoiceNoteUseCase @Inject constructor(
     suspend fun enhance(
         rec: PcmRecorder.Recording, quality: Quality, cutPauses: Boolean, stems: Boolean = false, onProgress: ((Float) -> Unit)? = null,
     ): EnhanceResult = withContext(Dispatchers.Default) {
-        pipeline.process(rec.pcm, rec.length, rec.sampleRate, EnhanceOptions.forQuality(quality, cutPauses), stems, onProgress)
+        val job = coroutineContext[Job]
+        // Progress is reported per network chunk (8 s of audio): also the point where a cancelled note stops early.
+        val progress: (Float) -> Unit = { p ->
+            if (job?.isActive == false) throw CancellationException("voice note cancelled")
+            onProgress?.invoke(p)
+        }
+        pipeline.process(rec.pcm, rec.length, rec.sampleRate, EnhanceOptions.forQuality(quality, cutPauses), stems, progress)
     }
 
-    suspend operator fun invoke(rec: PcmRecorder.Recording, quality: Quality, cutPauses: Boolean): ProcessedNote {
-        val r = enhance(rec, quality, cutPauses)
+    suspend operator fun invoke(
+        rec: PcmRecorder.Recording, quality: Quality, cutPauses: Boolean, onProgress: ((Float) -> Unit)? = null,
+    ): ProcessedNote {
+        val r = enhance(rec, quality, cutPauses, onProgress = onProgress)
         return withContext(Dispatchers.IO) {
             val enc = AudioEncoder.encode(
-                Resampler.toShort(r.voice, r.length), r.length, r.sampleRate, OutputFormat.M4A,
+                r.voice, r.length, r.sampleRate, OutputFormat.M4A,
                 File(context.cacheDir, WhatsAppSender.SHARE_DIR),
             )
             ProcessedNote(enc.file, enc.mimeType, r.seconds, r.engineUsed, r.processingMs, r.speedFactor, r.removedSilenceSeconds)

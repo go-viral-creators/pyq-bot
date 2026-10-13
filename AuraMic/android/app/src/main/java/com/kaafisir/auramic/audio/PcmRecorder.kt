@@ -124,6 +124,7 @@ class PcmRecorder(
     companion object {
         private const val TAG = "PcmRecorder"
         const val DEFAULT_RATE = 48_000
-        const val MAX_SECONDS = 180
+        /** Longest voice note (5 minutes); the recording stops and is sent when it is reached. */
+        const val MAX_SECONDS = 300
     }
 }

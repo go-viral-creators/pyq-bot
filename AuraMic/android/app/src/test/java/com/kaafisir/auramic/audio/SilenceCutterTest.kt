@@ -73,4 +73,13 @@ class SilenceCutterTest {
         val tiny = FloatArray(100) { 0.1f }
         assertEquals(100, SilenceCutter.cut(tiny, 100, sr, SilenceCut.TIGHT).length)
     }
+
+    @Test fun inPlaceCutGivesTheSameResultAsACopy() {
+        val x = FloatArray(sr * 6) { i -> if ((i / (sr / 2)) % 3 == 0) 0f else (0.3 * kotlin.math.sin(i * 0.05)).toFloat() }
+        val copy = SilenceCutter.cut(x.copyOf(), x.size, sr, SilenceCut.PAUSES)
+        val inPlace = SilenceCutter.cut(x.copyOf(), x.size, sr, SilenceCut.PAUSES, inPlace = true)
+        assertEquals(copy.length, inPlace.length)
+        assertTrue(copy.length < x.size)
+        for (i in 0 until copy.length) assertEquals(copy.pcm[i], inPlace.pcm[i], 0f)
+    }
 }

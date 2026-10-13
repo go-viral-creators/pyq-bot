@@ -42,6 +42,7 @@ class DataStoreSettingsRepository @Inject constructor(
         val bubbleX = intPreferencesKey("bubble_x")
         val bubbleY = intPreferencesKey("bubble_y")
         val bubbleFree = booleanPreferencesKey("bubble_free")
+        val saveNotes = booleanPreferencesKey("save_notes")
         val theme = stringPreferencesKey("theme")
         val notes = intPreferencesKey("notes_cleaned")
         val seconds = longPreferencesKey("seconds_polished")
@@ -63,6 +64,7 @@ class DataStoreSettingsRepository @Inject constructor(
                 bubbleX = p[K.bubbleX] ?: d.bubbleX,
                 bubbleY = p[K.bubbleY] ?: d.bubbleY,
                 bubbleFree = p[K.bubbleFree] ?: d.bubbleFree,
+                saveNotes = p[K.saveNotes] ?: d.saveNotes,
                 theme = p[K.theme]?.let { runCatching { ThemeMode.valueOf(it) }.getOrNull() } ?: d.theme,
                 notesCleaned = p[K.notes] ?: d.notesCleaned,
                 secondsPolished = p[K.seconds] ?: d.secondsPolished,
@@ -90,6 +92,7 @@ class DataStoreSettingsRepository @Inject constructor(
     override suspend fun setBubbleSize(dp: Int) = edit { it[K.bubbleSize] = dp.coerceIn(48, 88) }
     override suspend fun setBubblePosition(x: Int, y: Int) = edit { it[K.bubbleX] = x; it[K.bubbleY] = y }
     override suspend fun setBubbleFree(free: Boolean) = edit { it[K.bubbleFree] = free }
+    override suspend fun setSaveNotes(enabled: Boolean) = edit { it[K.saveNotes] = enabled }
     override suspend fun setTheme(mode: ThemeMode) = edit { it[K.theme] = mode.name }
     override suspend fun recordCleanedNote(seconds: Long) = edit {
         it[K.notes] = (it[K.notes] ?: 0) + 1

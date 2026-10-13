@@ -139,10 +139,6 @@
     <string name="notif_restore_perm">Sebuah izin dimatikan. Ketuk untuk memperbaikinya.</string>
     <string name="notif_stop">Nonaktifkan</string>
     <string name="a11y_description">AuraMic menekan tombol Kirim di WhatsApp setelah Anda merekam pesan suara dengan mikrofon melayang. Hanya bekerja di dalam WhatsApp dan tidak pernah membaca atau menyimpan pesan Anda. Juga mencari tombol suara WhatsApp agar mikrofon AuraMic berada di atasnya.</string>
-    <string name="set_diag">Salin info dukungan</string>
-    <string name="set_diag_desc">Ada masalah dengan kirim otomatis? Salin ini dan kirim ke tim dukungan.</string>
-    <string name="diag_copied">Disalin ke papan klip</string>
-    <string name="diag_none">Belum ada — kirim pesan suara dulu.</string>
     <string name="lab_info" formatted="true">Dibersihkan dalam %1$.1f detik</string>
     <string name="ov_saved">Disimpan di Music/AuraMic</string>
     <string name="q_title">Kualitas suara</string>
@@ -184,6 +180,24 @@
     <string name="lab_done">Selesai! Dengarkan bedanya.</string>
     <string name="set_cut_pauses">Hapus jeda panjang</string>
     <string name="set_cut_pauses_desc">Memotong jeda hening lebih dari 0,3 detik agar pesan suara lebih singkat dan padat.</string>
-    <string name="set_device_id">ID perangkat (ketuk untuk menyalin)</string>
     <string name="pro_renews">Diperpanjang otomatis sampai Anda membatalkannya di Google Play.</string>
+    <string name="set_save_notes">Simpan audio asli dan yang disempurnakan</string>
+    <string name="set_save_notes_desc" formatted="true">Kedua versi setiap pesan suara muncul di Studio Lab. Hanya disimpan di ponsel ini (%1$s).</string>
+    <string name="lab_notes_title">Pesan suara Anda</string>
+    <string name="lab_notes_empty">Belum ada pesan suara tersimpan. Kirim satu dengan mic mengambang dan kedua versinya muncul di sini.</string>
+    <string name="lab_notes_off">Penyimpanan nonaktif. Aktifkan “Simpan audio asli dan yang disempurnakan” di Pengaturan untuk menyimpan pesan baru.</string>
+    <string name="lab_loading">Memuat…</string>
+    <string name="lab_original_voice">Suara asli</string>
+    <string name="lab_enhanced_voice">Suara yang disempurnakan</string>
+    <string name="lab_not_saved">Tidak tersimpan</string>
+    <string name="lab_play_failed">Rekaman ini tidak bisa diputar</string>
+    <string name="lab_pause">Jeda</string>
+    <string name="lab_delete">Hapus</string>
+    <string name="lab_delete_all">Hapus semua</string>
+    <string name="lab_delete_title">Hapus pesan suara ini?</string>
+    <string name="lab_delete_all_title">Hapus semua pesan suara tersimpan?</string>
+    <string name="lab_delete_body">Rekaman asli dan yang disempurnakan dihapus dari ponsel ini. Pesan yang sudah dikirim di WhatsApp tetap ada.</string>
+    <string name="lab_storage" formatted="true">%1$d pesan · %2$s</string>
+    <string name="lab_compare_hint">Ketuk versi lain saat satu diputar untuk berpindah di titik yang sama.</string>
+    <string name="lab_failed">Terjadi kesalahan saat membersihkan. Coba lagi.</string>
 </resources>

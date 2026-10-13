@@ -16,7 +16,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,6 +31,7 @@ sealed interface LabState {
     data object Recording : LabState
     data class Processing(val progress: Float) : LabState
     data object TooShort : LabState
+    data object Failed : LabState
     class Result(
         val takes: Map<Take, ShortArray>,
         val sampleRate: Int,
@@ -42,6 +46,7 @@ class LabViewModel @Inject constructor(
     private val settingsRepo: SettingsRepository,
     private val process: ProcessVoiceNoteUseCase,
     private val pro: com.kaafisir.auramic.data.pro.ProAccess,
+    private val archive: com.kaafisir.auramic.data.notes.NoteArchive,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<LabState>(LabState.Idle)
@@ -54,6 +59,34 @@ class LabViewModel @Inject constructor(
     private var recorder: PcmRecorder? = null
     private var levelJob: Job? = null
     private val player = PcmPlayer()
+
+    // ---- saved voice notes (from the floating mic) -------------------------------------------------------------
+    val notes: StateFlow<com.kaafisir.auramic.data.notes.NoteArchive.State> = archive.state
+    val savingEnabled: StateFlow<Boolean> = settingsRepo.settings.map { it.saveNotes }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), true)
+    private val notePlayer = NotePlayer(viewModelScope)
+    val nowPlaying: StateFlow<NowPlaying?> = notePlayer.now
+    val playFailed: StateFlow<String?> = notePlayer.failed
+
+    init { viewModelScope.launch { archive.cleanUpInterrupted(); archive.refresh() } }
+
+    fun togglePlay(note: com.kaafisir.auramic.data.notes.SavedNote, take: Take) {
+        stopPlayback()
+        val file = (if (take == Take.Original) note.originalFile else note.enhancedFile) ?: return
+        notePlayer.toggle(note.id, take, file)
+    }
+
+    fun seek(note: com.kaafisir.auramic.data.notes.SavedNote, take: Take, fraction: Float) {
+        val file = (if (take == Take.Original) note.originalFile else note.enhancedFile) ?: return
+        notePlayer.seek(note.id, take, file, fraction)
+    }
+
+    fun delete(note: com.kaafisir.auramic.data.notes.SavedNote) {
+        if (notePlayer.now.value?.noteId == note.id) notePlayer.stop()
+        viewModelScope.launch { archive.delete(note.id) }
+    }
+
+    fun deleteAll() { notePlayer.stop(); viewModelScope.launch { archive.deleteAll() } }
 
     fun hasMic() = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
 
@@ -75,20 +108,30 @@ class LabViewModel @Inject constructor(
         if (rec.seconds < 0.8f) { _state.value = LabState.TooShort; return }
         _state.value = LabState.Processing(0f)
         viewModelScope.launch {
-            val settings = settingsRepo.current()
-            val r = process.enhance(rec, pro.resolve(settings), settings.cutPauses, stems = true) { p -> _state.value = LabState.Processing(p) }
-            _state.value = LabState.Result(
-                takes = mapOf(
-                    Take.Original to Resampler.toShort(r.original!!, r.original.size),
-                    Take.Clean to Resampler.toShort(r.voice, r.length),
-                ),
-                sampleRate = r.sampleRate, processingMs = r.processingMs,
-            )
+            try {
+                val settings = settingsRepo.current()
+                val r = process.enhance(rec, pro.resolve(settings), settings.cutPauses, stems = true) { p -> _state.value = LabState.Processing(p) }
+                val original = r.original ?: error("no original stem")
+                _state.value = LabState.Result(
+                    takes = mapOf(
+                        Take.Original to Resampler.toShort(original, original.size),
+                        Take.Clean to Resampler.toShort(r.voice, r.length),
+                    ),
+                    sampleRate = r.sampleRate, processingMs = r.processingMs,
+                )
+            } catch (t: kotlinx.coroutines.CancellationException) {
+                throw t
+            } catch (t: Throwable) {
+                // Native / encoder failure or out of memory: show it instead of crashing or spinning forever.
+                android.util.Log.e("LabViewModel", "processing failed", t)
+                _state.value = LabState.Failed
+            }
         }
     }
 
     fun play(take: Take) {
         val r = _state.value as? LabState.Result ?: return
+        notePlayer.stop()
         if (_playing.value == take) { stopPlayback(); return }
         val pcm = r.takes[take] ?: return
         _playing.value = take
@@ -101,7 +144,7 @@ class LabViewModel @Inject constructor(
     fun reset() { stopPlayback(); _state.value = LabState.Idle }
 
     override fun onCleared() {
-        recorder?.cancel(); player.stop()
+        recorder?.cancel(); player.stop(); notePlayer.stop()
         super.onCleared()
     }
 }

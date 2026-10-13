@@ -42,6 +42,7 @@ private class FakeSettings : SettingsRepository {
     override suspend fun setBubbleSize(dp: Int) {}
     override suspend fun setBubblePosition(x: Int, y: Int) {}
     override suspend fun setBubbleFree(free: Boolean) {}
+    override suspend fun setSaveNotes(enabled: Boolean) {}
     override suspend fun setTheme(mode: ThemeMode) {}
     override suspend fun recordCleanedNote(seconds: Long) {}
 }

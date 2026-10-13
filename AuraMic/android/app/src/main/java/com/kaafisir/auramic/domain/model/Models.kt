@@ -100,6 +100,8 @@ data class UserSettings(
     val bubbleY: Int = -1,
     /** False = the bubble sits on WhatsApp's mic button (default); true = the user moved it (triple tap) and it stays put. */
     val bubbleFree: Boolean = false,
+    /** Keep the original recording and the enhanced note of every WhatsApp voice note for Studio Lab (on by default). */
+    val saveNotes: Boolean = true,
     val theme: ThemeMode = ThemeMode.SYSTEM,
     val notesCleaned: Int = 0,
     val secondsPolished: Long = 0,

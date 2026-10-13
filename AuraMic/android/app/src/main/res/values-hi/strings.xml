@@ -139,10 +139,6 @@
     <string name="notif_restore_perm">कोई अनुमति बंद हो गई। ठीक करने के लिए टैप करें।</string>
     <string name="notif_stop">बंद करें</string>
     <string name="a11y_description">फ्लोटिंग माइक से वॉइस नोट रिकॉर्ड करने के बाद AuraMic WhatsApp में Send बटन दबाता है। यह सिर्फ़ WhatsApp के अंदर काम करता है और आपके संदेश कभी नहीं पढ़ता या सहेजता। यह WhatsApp का वॉइस बटन भी ढूँढता है ताकि AuraMic का माइक उस पर बैठे।</string>
-    <string name="set_diag">सपोर्ट जानकारी कॉपी करें</string>
-    <string name="set_diag_desc">ऑटो-सेंड में दिक्कत है? इसे कॉपी करके हमारी सपोर्ट टीम को भेजें।</string>
-    <string name="diag_copied">क्लिपबोर्ड पर कॉपी हुआ</string>
-    <string name="diag_none">अभी कुछ नहीं — पहले एक वॉइस नोट भेजें।</string>
     <string name="lab_info" formatted="true">%1$.1f सेकंड में साफ़ किया</string>
     <string name="ov_saved">Music/AuraMic में सहेजा गया</string>
     <string name="q_title">आवाज़ की क्वालिटी</string>
@@ -184,6 +180,24 @@
     <string name="lab_done">हो गया! फ़र्क सुनें।</string>
     <string name="set_cut_pauses">लंबी चुप्पी हटाएँ</string>
     <string name="set_cut_pauses_desc">0.3 सेकंड से लंबी चुप्पी काट देता है, ताकि वॉइस नोट छोटा और कसा हुआ रहे।</string>
-    <string name="set_device_id">डिवाइस ID (कॉपी करने के लिए टैप करें)</string>
     <string name="pro_renews">Google Play में रद्द करने तक अपने-आप नवीनीकृत होता है।</string>
+    <string name="set_save_notes">मूल और साफ़ ऑडियो सेव करें</string>
+    <string name="set_save_notes_desc" formatted="true">हर वॉइस नोट के दोनों वर्शन Studio Lab में दिखेंगे। सिर्फ़ इसी फ़ोन पर सेव (%1$s)।</string>
+    <string name="lab_notes_title">आपके वॉइस नोट</string>
+    <string name="lab_notes_empty">अभी कोई सेव वॉइस नोट नहीं। फ्लोटिंग माइक से एक भेजें, दोनों वर्शन यहाँ दिखेंगे।</string>
+    <string name="lab_notes_off">सेव करना बंद है। नए नोट यहाँ रखने के लिए सेटिंग्स में “मूल और साफ़ ऑडियो सेव करें” चालू करें।</string>
+    <string name="lab_loading">लोड हो रहा है…</string>
+    <string name="lab_original_voice">मूल आवाज़</string>
+    <string name="lab_enhanced_voice">साफ़ आवाज़</string>
+    <string name="lab_not_saved">सेव नहीं हुआ</string>
+    <string name="lab_play_failed">यह रिकॉर्डिंग नहीं चल सकती</string>
+    <string name="lab_pause">रोकें</string>
+    <string name="lab_delete">हटाएँ</string>
+    <string name="lab_delete_all">सब हटाएँ</string>
+    <string name="lab_delete_title">यह वॉइस नोट हटाएँ?</string>
+    <string name="lab_delete_all_title">सभी सेव वॉइस नोट हटाएँ?</string>
+    <string name="lab_delete_body">मूल और साफ़ रिकॉर्डिंग इस फ़ोन से हट जाएँगी। WhatsApp में भेजे गए नोट वहीं रहेंगे।</string>
+    <string name="lab_storage" formatted="true">%1$d नोट · %2$s</string>
+    <string name="lab_compare_hint">एक चलते समय दूसरा वर्शन टैप करें, उसी जगह से बदल जाएगा।</string>
+    <string name="lab_failed">साफ़ करते समय गड़बड़ हुई। फिर कोशिश करें।</string>
 </resources>

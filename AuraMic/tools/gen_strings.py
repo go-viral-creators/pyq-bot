@@ -382,11 +382,6 @@ add("set_fallback_recent", "Use the most recent chat if the open chat can't be r
 add("set_fallback_recent_desc", "Off by default. Turn on only if auto-select fails; it may pick a different chat.", "डिफ़ॉल्ट रूप से बंद। ऑटो-सेलेक्ट फ़ेल हो तभी चालू करें; यह दूसरी चैट चुन सकता है।", "Default mein off. Auto-select fail ho tabhi on karein; yeh doosri chat chun sakta hai.",
     "Desactivado por defecto. Actívalo solo si falla la selección automática; puede elegir otro chat.", "Desativado por padrão. Ative só se a seleção automática falhar; pode escolher outra conversa.", "معطّل افتراضيًا. فعّله فقط إذا فشل الاختيار التلقائي؛ قد يختار محادثة مختلفة.", "Nonaktif secara default. Aktifkan hanya jika pilihan otomatis gagal; bisa memilih obrolan lain.")
 add("set_save_copy", "Save a copy to Music/AuraMic", "एक कॉपी Music/AuraMic में सहेजें", "Ek copy Music/AuraMic mein save karein", "Guardar una copia en Music/AuraMic", "Salvar uma cópia em Music/AuraMic", "حفظ نسخة في Music/AuraMic", "Simpan salinan ke Music/AuraMic")
-add("set_diag", "Copy diagnostics", "डायग्नोस्टिक्स कॉपी करें", "Diagnostics copy karein", "Copiar diagnóstico", "Copiar diagnóstico", "نسخ التشخيص", "Salin diagnostik")
-add("set_diag_desc", "Copies the structure of the last chat screen (names shortened) so auto-send problems can be fixed.", "आख़िरी चैट स्क्रीन की बनावट कॉपी करता है (नाम छोटे किए गए) ताकि ऑटो-सेंड की समस्या ठीक की जा सके।", "Aakhri chat screen ki banaawat copy karta hai (naam chhote kiye gaye) taaki auto-send ki problem theek ho sake.",
-    "Copia la estructura de la última pantalla de chat (nombres abreviados) para poder arreglar problemas de envío automático.", "Copia a estrutura da última tela de conversa (nomes abreviados) para corrigir problemas do envio automático.", "ينسخ بنية آخر شاشة محادثة (الأسماء مختصرة) لإصلاح مشكلات الإرسال التلقائي.", "Menyalin struktur layar obrolan terakhir (nama dipersingkat) agar masalah kirim otomatis bisa diperbaiki.")
-add("diag_copied", "Copied to clipboard", "क्लिपबोर्ड पर कॉपी हुआ", "Clipboard par copy ho gaya", "Copiado al portapapeles", "Copiado para a área de transferência", "تم النسخ إلى الحافظة", "Disalin ke papan klip")
-add("diag_none", "Nothing yet — send a voice note first.", "अभी कुछ नहीं — पहले एक वॉइस नोट भेजें।", "Abhi kuch nahi — pehle ek voice note bhejein.", "Aún no hay datos: envía primero una nota de voz.", "Ainda não há dados: envie um áudio primeiro.", "لا شيء بعد — أرسل رسالة صوتية أولًا.", "Belum ada — kirim pesan suara dulu.")
 add("lab_removed", "Removed noise", "हटाया गया शोर", "Hataya gaya noise", "Ruido eliminado", "Ruído removido", "الضوضاء المُزالة", "Derau yang dihapus")
 add("lab_info", "Processed in %1$.1f s · %2$d× faster than real time", "%1$.1f सेकंड में प्रोसेस · रियल-टाइम से %2$d× तेज़", "%1$.1f second mein process · real-time se %2$d× tez", "Procesado en %1$.1f s · %2$d× más rápido que el tiempo real", "Processado em %1$.1f s · %2$d× mais rápido que o tempo real", "تمت المعالجة في %1$.1f ث · أسرع %2$d× من الزمن الحقيقي", "Diproses dalam %1$.1f dtk · %2$d× lebih cepat dari waktu nyata")
 add("lab_cut", "Silence removed: %1$.1f s", "हटाई गई चुप्पी: %1$.1f सेकंड", "Hataya gaya silence: %1$.1f second", "Silencio eliminado: %1$.1f s", "Silêncio removido: %1$.1f s", "الصمت المحذوف: %1$.1f ث", "Hening dihapus: %1$.1f dtk")
@@ -510,10 +505,6 @@ add("upd_latest", "You have the latest version", "आपके पास नय�
 
 # ---- plain-language rewrites ----
 add("set_battery", "Keep AuraMic running", "AuraMic को चालू रखें", "AuraMic ko chalu rakhein", "Mantener AuraMic activo", "Manter o AuraMic ativo", "إبقاء AuraMic يعمل", "Jaga AuraMic tetap aktif")
-add("set_diag", "Copy support info", "सपोर्ट जानकारी कॉपी करें", "Support info copy karein", "Copiar información para soporte", "Copiar informações para o suporte", "نسخ معلومات الدعم", "Salin info dukungan")
-add("set_diag_desc", "Having trouble with auto-send? Copy this and send it to our support team.", "ऑटो-सेंड में दिक्कत है? इसे कॉपी करके हमारी सपोर्ट टीम को भेजें।",
-    "Auto-send mein dikkat hai? Ise copy karke hamari support team ko bhejein.", "¿Problemas con el envío automático? Cópialo y envíalo a soporte.",
-    "Problemas com o envio automático? Copie e envie ao suporte.", "مشكلة في الإرسال التلقائي؟ انسخ هذا وأرسله إلى فريق الدعم.", "Ada masalah dengan kirim otomatis? Salin ini dan kirim ke tim dukungan.")
 add("set_auto_send", "Send automatically", "अपने-आप भेजें", "Apne-aap bhejein", "Enviar automáticamente", "Enviar automaticamente", "إرسال تلقائي", "Kirim otomatis")
 add("set_auto_send_desc", "Sends the voice note for you as soon as it is clean.", "वॉइस नोट साफ़ होते ही अपने-आप भेज देता है।", "Voice note saaf hote hi apne-aap bhej deta hai.",
     "Envía la nota de voz por ti en cuanto está limpia.", "Envia o áudio por você assim que ficar limpo.", "يرسل الرسالة الصوتية عنك فور تنظيفها.", "Mengirim pesan suara untuk Anda begitu selesai dibersihkan.")
@@ -562,7 +553,6 @@ _extra = [
 ]
 S["disclosure_body"] = [v + e for v, e in zip(S["disclosure_body"], _extra)]
 
-add("set_device_id", "Device ID (tap to copy)", "डिवाइस ID (कॉपी करने के लिए टैप करें)", "Device ID (copy karne ke liye tap karein)", "ID del dispositivo (toca para copiar)", "ID do dispositivo (toque para copiar)", "معرّف الجهاز (اضغط للنسخ)", "ID perangkat (ketuk untuk menyalin)")
 
 add("pro_renews", "Renews automatically until you cancel in Google Play.", "Google Play में रद्द करने तक अपने-आप नवीनीकृत होता है।", "Google Play mein cancel karne tak apne-aap renew hota hai.",
     "Se renueva automáticamente hasta que canceles en Google Play.", "Renova automaticamente até você cancelar no Google Play.", "يتجدد تلقائيًا حتى تلغيه من Google Play.", "Diperpanjang otomatis sampai Anda membatalkannya di Google Play.")
@@ -593,6 +583,60 @@ def main(res_dir):
             f.write("\n".join(lines))
     print(f"wrote {len(S)} strings x {len(LANGS)} languages")
 
+
+# ---- saved voice notes (Studio Lab) + setting ---------------------------------------------
+add("set_save_notes", "Save original and enhanced audio", "मूल और साफ़ ऑडियो सेव करें", "Original aur saaf audio save karein",
+    "Guardar audio original y mejorado", "Salvar áudio original e melhorado", "حفظ الصوت الأصلي والمحسّن", "Simpan audio asli dan yang disempurnakan")
+add("set_save_notes_desc", "Both versions of every voice note appear in Studio Lab. Stored only on this phone (%1$s).",
+    "हर वॉइस नोट के दोनों वर्शन Studio Lab में दिखेंगे। सिर्फ़ इसी फ़ोन पर सेव (%1$s)।",
+    "Har voice note ke dono version Studio Lab mein dikhenge. Sirf isi phone par save (%1$s).",
+    "Ambas versiones de cada nota de voz aparecen en Studio Lab. Solo en este teléfono (%1$s).",
+    "As duas versões de cada nota de voz aparecem no Studio Lab. Só neste telefone (%1$s).",
+    "تظهر نسختا كل رسالة صوتية في Studio Lab. تُحفظ على هذا الهاتف فقط (%1$s).",
+    "Kedua versi setiap pesan suara muncul di Studio Lab. Hanya disimpan di ponsel ini (%1$s).")
+add("lab_notes_title", "Your voice notes", "आपके वॉइस नोट", "Aapke voice notes", "Tus notas de voz", "Suas notas de voz", "رسائلك الصوتية", "Pesan suara Anda")
+add("lab_notes_empty", "No saved voice notes yet. Send one with the floating mic and both versions appear here.",
+    "अभी कोई सेव वॉइस नोट नहीं। फ्लोटिंग माइक से एक भेजें, दोनों वर्शन यहाँ दिखेंगे।",
+    "Abhi koi saved voice note nahi. Floating mic se ek bhejein, dono version yahan dikhenge.",
+    "Aún no hay notas guardadas. Envía una con el micrófono flotante y aparecerán aquí ambas versiones.",
+    "Ainda não há notas salvas. Envie uma com o microfone flutuante e as duas versões aparecem aqui.",
+    "لا توجد رسائل محفوظة بعد. أرسل واحدة بالميكروفون العائم وستظهر النسختان هنا.",
+    "Belum ada pesan suara tersimpan. Kirim satu dengan mic mengambang dan kedua versinya muncul di sini.")
+add("lab_notes_off", "Saving is off. Turn on “Save original and enhanced audio” in Settings to keep new notes here.",
+    "सेव करना बंद है। नए नोट यहाँ रखने के लिए सेटिंग्स में “मूल और साफ़ ऑडियो सेव करें” चालू करें।",
+    "Save karna band hai. Naye notes yahan rakhne ke liye Settings mein “Original aur saaf audio save karein” on karein.",
+    "Guardar está desactivado. Activa “Guardar audio original y mejorado” en Ajustes para conservar las notas nuevas.",
+    "Salvar está desativado. Ative “Salvar áudio original e melhorado” nas Configurações para manter as novas notas.",
+    "الحفظ متوقف. فعّل “حفظ الصوت الأصلي والمحسّن” في الإعدادات للاحتفاظ بالرسائل الجديدة.",
+    "Penyimpanan nonaktif. Aktifkan “Simpan audio asli dan yang disempurnakan” di Pengaturan untuk menyimpan pesan baru.")
+add("lab_loading", "Loading…", "लोड हो रहा है…", "Load ho raha hai…", "Cargando…", "Carregando…", "جارٍ التحميل…", "Memuat…")
+add("lab_original_voice", "Original voice", "मूल आवाज़", "Original awaaz", "Voz original", "Voz original", "الصوت الأصلي", "Suara asli")
+add("lab_enhanced_voice", "Enhanced voice", "साफ़ आवाज़", "Saaf awaaz", "Voz mejorada", "Voz melhorada", "الصوت المحسّن", "Suara yang disempurnakan")
+add("lab_not_saved", "Not saved", "सेव नहीं हुआ", "Save nahi hua", "No guardado", "Não salvo", "لم يُحفظ", "Tidak tersimpan")
+add("lab_play_failed", "Can't play this recording", "यह रिकॉर्डिंग नहीं चल सकती", "Yeh recording play nahi ho sakti", "No se puede reproducir", "Não é possível reproduzir", "تعذّر تشغيل هذا التسجيل", "Rekaman ini tidak bisa diputar")
+add("lab_pause", "Pause", "रोकें", "Pause", "Pausa", "Pausar", "إيقاف مؤقت", "Jeda")
+add("lab_delete", "Delete", "हटाएँ", "Delete karein", "Eliminar", "Excluir", "حذف", "Hapus")
+add("lab_delete_all", "Delete all", "सब हटाएँ", "Sab delete karein", "Eliminar todo", "Excluir tudo", "حذف الكل", "Hapus semua")
+add("lab_delete_title", "Delete this voice note?", "यह वॉइस नोट हटाएँ?", "Yeh voice note delete karein?", "¿Eliminar esta nota de voz?", "Excluir esta nota de voz?", "حذف هذه الرسالة الصوتية؟", "Hapus pesan suara ini?")
+add("lab_delete_all_title", "Delete all saved voice notes?", "सभी सेव वॉइस नोट हटाएँ?", "Saare saved voice notes delete karein?", "¿Eliminar todas las notas guardadas?", "Excluir todas as notas salvas?", "حذف كل الرسائل المحفوظة؟", "Hapus semua pesan suara tersimpan?")
+add("lab_delete_body", "The original and the enhanced recording are removed from this phone. Notes already sent in WhatsApp stay there.",
+    "मूल और साफ़ रिकॉर्डिंग इस फ़ोन से हट जाएँगी। WhatsApp में भेजे गए नोट वहीं रहेंगे।",
+    "Original aur saaf recording is phone se hat jayegi. WhatsApp mein bheje gaye notes wahin rahenge.",
+    "Se eliminan del teléfono la grabación original y la mejorada. Las notas ya enviadas en WhatsApp se quedan allí.",
+    "A gravação original e a melhorada são removidas do telefone. As notas já enviadas no WhatsApp continuam lá.",
+    "يُحذف التسجيل الأصلي والمحسّن من هذا الهاتف. تبقى الرسائل المرسلة في واتساب كما هي.",
+    "Rekaman asli dan yang disempurnakan dihapus dari ponsel ini. Pesan yang sudah dikirim di WhatsApp tetap ada.")
+add("lab_storage", "%1$d notes · %2$s", "%1$d नोट · %2$s", "%1$d notes · %2$s", "%1$d notas · %2$s", "%1$d notas · %2$s", "%1$d رسائل · %2$s", "%1$d pesan · %2$s")
+add("lab_compare_hint", "Tap the other version while one plays to switch at the same point.",
+    "एक चलते समय दूसरा वर्शन टैप करें, उसी जगह से बदल जाएगा।",
+    "Ek chalte waqt doosra version tap karein, usi jagah se switch ho jayega.",
+    "Toca la otra versión mientras suena una para cambiar en el mismo punto.",
+    "Toque na outra versão enquanto uma toca para trocar no mesmo ponto.",
+    "اضغط النسخة الأخرى أثناء التشغيل للتبديل من النقطة نفسها.",
+    "Ketuk versi lain saat satu diputar untuk berpindah di titik yang sama.")
+add("lab_failed", "Something went wrong while cleaning. Please try again.", "साफ़ करते समय गड़बड़ हुई। फिर कोशिश करें।",
+    "Saaf karte waqt gadbad hui. Dobara koshish karein.", "Algo salió mal al limpiar. Inténtalo de nuevo.",
+    "Algo deu errado ao limpar. Tente de novo.", "حدث خطأ أثناء التنظيف. حاول مرة أخرى.", "Terjadi kesalahan saat membersihkan. Coba lagi.")
 
 if __name__ == "__main__":
     main(sys.argv[1])

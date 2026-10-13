@@ -27,6 +27,8 @@ class ProcessedNote(
     val processingMs: Long,
     val speedFactor: Float,
     val removedSilenceSeconds: Float,
+    /** Waveform of the cleaned voice (for Studio Lab). */
+    val peaks: FloatArray = FloatArray(0),
 )
 
 /** Recording -> AI denoise -> (cut silence) -> master -> encode. Runs entirely on-device. */
@@ -56,7 +58,8 @@ class ProcessVoiceNoteUseCase @Inject constructor(
                 r.voice, r.length, r.sampleRate, OutputFormat.M4A,
                 File(context.cacheDir, WhatsAppSender.SHARE_DIR),
             )
-            ProcessedNote(enc.file, enc.mimeType, r.seconds, r.engineUsed, r.processingMs, r.speedFactor, r.removedSilenceSeconds)
+            val peaks = com.kaafisir.auramic.data.notes.peaksOf(r.length) { r.voice[it] }
+            ProcessedNote(enc.file, enc.mimeType, r.seconds, r.engineUsed, r.processingMs, r.speedFactor, r.removedSilenceSeconds, peaks)
         }
     }
 }

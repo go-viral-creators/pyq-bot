@@ -19,6 +19,7 @@ interface SettingsRepository {
     suspend fun setBubbleSize(dp: Int)
     suspend fun setBubblePosition(x: Int, y: Int)
     suspend fun setBubbleFree(free: Boolean)
+    suspend fun setSaveNotes(enabled: Boolean)
     suspend fun setTheme(mode: ThemeMode)
     suspend fun recordCleanedNote(seconds: Long)
 }

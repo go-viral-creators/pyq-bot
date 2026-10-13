@@ -140,10 +140,6 @@
     <string name="notif_restore_perm">A permission was turned off. Tap to fix it.</string>
     <string name="notif_stop">Turn off</string>
     <string name="a11y_description">AuraMic taps the Send button in WhatsApp after you record a voice note with the floating mic. It works only inside WhatsApp and never reads or stores your messages. It also finds WhatsApp\'s voice button so the AuraMic mic can sit on it.</string>
-    <string name="set_diag">Copy support info</string>
-    <string name="set_diag_desc">Having trouble with auto-send? Copy this and send it to our support team.</string>
-    <string name="diag_copied">Copied to clipboard</string>
-    <string name="diag_none">Nothing yet — send a voice note first.</string>
     <string name="lab_info" formatted="true">Cleaned in %1$.1f seconds</string>
     <string name="ov_saved">Saved to Music/AuraMic</string>
     <string name="q_title">Voice quality</string>
@@ -185,6 +181,24 @@
     <string name="lab_done">Done! Listen to the difference.</string>
     <string name="set_cut_pauses">Remove long pauses</string>
     <string name="set_cut_pauses_desc">Cuts silent gaps longer than 0.3 seconds so your voice note is shorter and tighter.</string>
-    <string name="set_device_id">Device ID (tap to copy)</string>
     <string name="pro_renews">Renews automatically until you cancel in Google Play.</string>
+    <string name="set_save_notes">Save original and enhanced audio</string>
+    <string name="set_save_notes_desc" formatted="true">Both versions of every voice note appear in Studio Lab. Stored only on this phone (%1$s).</string>
+    <string name="lab_notes_title">Your voice notes</string>
+    <string name="lab_notes_empty">No saved voice notes yet. Send one with the floating mic and both versions appear here.</string>
+    <string name="lab_notes_off">Saving is off. Turn on “Save original and enhanced audio” in Settings to keep new notes here.</string>
+    <string name="lab_loading">Loading…</string>
+    <string name="lab_original_voice">Original voice</string>
+    <string name="lab_enhanced_voice">Enhanced voice</string>
+    <string name="lab_not_saved">Not saved</string>
+    <string name="lab_play_failed">Can\'t play this recording</string>
+    <string name="lab_pause">Pause</string>
+    <string name="lab_delete">Delete</string>
+    <string name="lab_delete_all">Delete all</string>
+    <string name="lab_delete_title">Delete this voice note?</string>
+    <string name="lab_delete_all_title">Delete all saved voice notes?</string>
+    <string name="lab_delete_body">The original and the enhanced recording are removed from this phone. Notes already sent in WhatsApp stay there.</string>
+    <string name="lab_storage" formatted="true">%1$d notes · %2$s</string>
+    <string name="lab_compare_hint">Tap the other version while one plays to switch at the same point.</string>
+    <string name="lab_failed">Something went wrong while cleaning. Please try again.</string>
 </resources>

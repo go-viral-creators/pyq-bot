@@ -48,7 +48,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kaafisir.auramic.BuildConfig
 import com.kaafisir.auramic.R
 import com.kaafisir.auramic.core.Links
-import com.kaafisir.auramic.data.pro.ProAllowlist
 import com.kaafisir.auramic.domain.model.AppLanguage
 import com.kaafisir.auramic.domain.model.ThemeMode
 import com.kaafisir.auramic.ui.components.AuraCard
@@ -70,8 +69,6 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
     val startActivity = rememberStartActivity()
     var showLanguages by remember { mutableStateOf(false) }
     val chooserTitle = stringResource(R.string.set_email_chooser)
-    val copiedMsg = stringResource(R.string.diag_copied)
-    val noneMsg = stringResource(R.string.diag_none)
 
     fun openUrl(url: String) { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
 
@@ -95,6 +92,12 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                 SwitchRow(stringResource(R.string.set_auto_send), stringResource(R.string.set_auto_send_desc), s.autoSend, vm::setAutoSend)
                 SwitchRow(stringResource(R.string.set_cut_pauses), stringResource(R.string.set_cut_pauses_desc), s.cutPauses, vm::setCutPauses)
                 SwitchRow(stringResource(R.string.set_haptics), null, s.haptics, vm::setHaptics)
+                val notesBytes by vm.notesBytes.collectAsStateWithLifecycle()
+                SwitchRow(
+                    stringResource(R.string.set_save_notes),
+                    stringResource(R.string.set_save_notes_desc, android.text.format.Formatter.formatShortFileSize(context, notesBytes)),
+                    s.saveNotes, vm::setSaveNotes,
+                )
                 TextButton(onClick = vm::resetPosition) { Text(stringResource(R.string.set_reset_position)) }
             }
 
@@ -130,15 +133,6 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                         .putExtra(Intent.EXTRA_SUBJECT, "AuraMic ${BuildConfig.VERSION_NAME}")
                     startActivity(Intent.createChooser(i, chooserTitle))
                 }
-                NavRow(stringResource(R.string.set_device_id), ProAllowlist.deviceId(context).takeLast(6)) {
-                    val cm = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                    cm.setPrimaryClip(android.content.ClipData.newPlainText("AuraMic device ID", ProAllowlist.deviceId(context)))
-                    Toast.makeText(context, copiedMsg, Toast.LENGTH_SHORT).show()
-                }
-                NavRow(stringResource(R.string.set_diag), null) {
-                    Toast.makeText(context, if (vm.copyDiagnostics()) copiedMsg else noneMsg, Toast.LENGTH_SHORT).show()
-                }
-                Text(stringResource(R.string.set_diag_desc), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Text(
                 stringResource(R.string.set_version, BuildConfig.VERSION_NAME),

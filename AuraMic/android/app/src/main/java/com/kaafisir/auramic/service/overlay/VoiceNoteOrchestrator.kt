@@ -39,6 +39,7 @@ class VoiceNoteOrchestrator @Inject constructor(
     private val bridge: AutomationBridge,
     private val haptics: Haptics,
     private val pro: com.kaafisir.auramic.data.pro.ProAccess,
+    private val archive: com.kaafisir.auramic.data.notes.NoteArchive,
 ) {
     private lateinit var scope: CoroutineScope
 
@@ -141,25 +142,17 @@ class VoiceNoteOrchestrator @Inject constructor(
             _state.value = OverlayState.Sending
             // WhatsApp copies the file when the user (or we) tap Send; our temporary copy is then useless.
             scope.launch { delay(TEMP_FILE_TTL_MS); runCatching { note.file.delete() } }
-            if (!sender.share(note.file, note.mimeType, targetPackage)) {
-                // The chat app cannot receive audio files (e.g. Instagram) or refused the intent: keep the note for manual use.
-                val saved = mediaSaver.saveToMusic(note.file, note.mimeType)
-                haptics.error()
-                showTransient(OverlayState.Done(saved, if (saved) R.string.ov_saved else R.string.ov_failed), 3_200)
-                if (saved) settingsRepo.recordCleanedNote(note.seconds.toLong())
-                return
-            }
-            settingsRepo.recordCleanedNote(note.seconds.toLong())
-            if (!settings.autoSend || !bridge.connected.value) {
-                // Assisted mode: the share sheet is open, the user picks the chat and taps Send.
-                showTransient(OverlayState.Done(true, R.string.ov_manual), 3_000)
-                return
-            }
-            when (bridge.sendAndAwait(chatName, targetPackage, allowFirstRow = false)) {
-                SendResult.Sent -> { haptics.success(); showTransient(OverlayState.Done(true, R.string.ov_sent)) }
-                is SendResult.Failed -> { haptics.error(); showTransient(OverlayState.Done(false, R.string.ov_failed), 3_200) }
-                // Send was tapped but the screen changed before we could see the result: never say "not sent" (a resend would duplicate).
-                is SendResult.Unknown -> { haptics.tick(); showTransient(OverlayState.Done(true, R.string.ov_unconfirmed), 2_600) }
+            // Studio Lab keeps both versions (setting, on by default) - saved only after the hand-off below, so
+            // encoding the original never delays sending. A failed save is logged and changes nothing else.
+            val archiveJob = if (settings.saveNotes) {
+                scope.launch(start = kotlinx.coroutines.CoroutineStart.LAZY) {
+                    archive.save(rec, note.file, (note.seconds * 1000).toLong(), note.peaks)
+                }
+            } else null
+            try {
+                handOff(note, settings)
+            } finally {
+                archiveJob?.start()
             }
         } catch (t: kotlinx.coroutines.CancellationException) {
             throw t
@@ -167,6 +160,30 @@ class VoiceNoteOrchestrator @Inject constructor(
             Log.e(TAG, "pipeline failed", t)
             haptics.error()
             showTransient(OverlayState.Done(false, R.string.ov_failed), 2_800)
+        }
+    }
+
+    /** Shares the cleaned note to WhatsApp and lets the accessibility service send it. */
+    private suspend fun handOff(note: com.kaafisir.auramic.domain.usecase.ProcessedNote, settings: com.kaafisir.auramic.domain.model.UserSettings) {
+        if (!sender.share(note.file, note.mimeType, targetPackage)) {
+            // The chat app cannot receive audio files (e.g. Instagram) or refused the intent: keep the note for manual use.
+            val saved = mediaSaver.saveToMusic(note.file, note.mimeType)
+            haptics.error()
+            showTransient(OverlayState.Done(saved, if (saved) R.string.ov_saved else R.string.ov_failed), 3_200)
+            if (saved) settingsRepo.recordCleanedNote(note.seconds.toLong())
+            return
+        }
+        settingsRepo.recordCleanedNote(note.seconds.toLong())
+        if (!settings.autoSend || !bridge.connected.value) {
+            // Assisted mode: the share sheet is open, the user picks the chat and taps Send.
+            showTransient(OverlayState.Done(true, R.string.ov_manual), 3_000)
+            return
+        }
+        when (bridge.sendAndAwait(chatName, targetPackage, allowFirstRow = false)) {
+            SendResult.Sent -> { haptics.success(); showTransient(OverlayState.Done(true, R.string.ov_sent)) }
+            is SendResult.Failed -> { haptics.error(); showTransient(OverlayState.Done(false, R.string.ov_failed), 3_200) }
+            // Send was tapped but the screen changed before we could see the result: never say "not sent" (a resend would duplicate).
+            is SendResult.Unknown -> { haptics.tick(); showTransient(OverlayState.Done(true, R.string.ov_unconfirmed), 2_600) }
         }
     }
 

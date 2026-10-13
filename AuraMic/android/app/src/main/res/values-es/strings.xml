@@ -139,10 +139,6 @@
     <string name="notif_restore_perm">Se desactivó un permiso. Toca para arreglarlo.</string>
     <string name="notif_stop">Desactivar</string>
     <string name="a11y_description">AuraMic pulsa el botón Enviar en WhatsApp tras grabar una nota de voz con el micrófono flotante. Solo funciona dentro de WhatsApp y nunca lee ni guarda tus mensajes. También localiza el botón de voz de WhatsApp para colocar el micrófono de AuraMic encima.</string>
-    <string name="set_diag">Copiar información para soporte</string>
-    <string name="set_diag_desc">¿Problemas con el envío automático? Cópialo y envíalo a soporte.</string>
-    <string name="diag_copied">Copiado al portapapeles</string>
-    <string name="diag_none">Aún no hay datos: envía primero una nota de voz.</string>
     <string name="lab_info" formatted="true">Limpiado en %1$.1f segundos</string>
     <string name="ov_saved">Guardado en Music/AuraMic</string>
     <string name="q_title">Calidad de voz</string>
@@ -184,6 +180,24 @@
     <string name="lab_done">¡Listo! Escucha la diferencia.</string>
     <string name="set_cut_pauses">Quitar pausas largas</string>
     <string name="set_cut_pauses_desc">Corta los silencios de más de 0,3 segundos para que tu nota de voz sea más corta y ágil.</string>
-    <string name="set_device_id">ID del dispositivo (toca para copiar)</string>
     <string name="pro_renews">Se renueva automáticamente hasta que canceles en Google Play.</string>
+    <string name="set_save_notes">Guardar audio original y mejorado</string>
+    <string name="set_save_notes_desc" formatted="true">Ambas versiones de cada nota de voz aparecen en Studio Lab. Solo en este teléfono (%1$s).</string>
+    <string name="lab_notes_title">Tus notas de voz</string>
+    <string name="lab_notes_empty">Aún no hay notas guardadas. Envía una con el micrófono flotante y aparecerán aquí ambas versiones.</string>
+    <string name="lab_notes_off">Guardar está desactivado. Activa “Guardar audio original y mejorado” en Ajustes para conservar las notas nuevas.</string>
+    <string name="lab_loading">Cargando…</string>
+    <string name="lab_original_voice">Voz original</string>
+    <string name="lab_enhanced_voice">Voz mejorada</string>
+    <string name="lab_not_saved">No guardado</string>
+    <string name="lab_play_failed">No se puede reproducir</string>
+    <string name="lab_pause">Pausa</string>
+    <string name="lab_delete">Eliminar</string>
+    <string name="lab_delete_all">Eliminar todo</string>
+    <string name="lab_delete_title">¿Eliminar esta nota de voz?</string>
+    <string name="lab_delete_all_title">¿Eliminar todas las notas guardadas?</string>
+    <string name="lab_delete_body">Se eliminan del teléfono la grabación original y la mejorada. Las notas ya enviadas en WhatsApp se quedan allí.</string>
+    <string name="lab_storage" formatted="true">%1$d notas · %2$s</string>
+    <string name="lab_compare_hint">Toca la otra versión mientras suena una para cambiar en el mismo punto.</string>
+    <string name="lab_failed">Algo salió mal al limpiar. Inténtalo de nuevo.</string>
 </resources>

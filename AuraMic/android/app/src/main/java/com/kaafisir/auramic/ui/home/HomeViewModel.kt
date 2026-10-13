@@ -29,6 +29,7 @@ class HomeViewModel @Inject constructor(
     private val repo: SettingsRepository,
     private val permissionRepo: PermissionRepository,
     private val restarter: com.kaafisir.auramic.service.overlay.OverlayRestarter,
+    private val review: com.kaafisir.auramic.data.review.ReviewPrompter,
 ) : ViewModel() {
 
     val ui: StateFlow<HomeUi> = combine(repo.settings, permissionRepo.state, OverlayService.isRunning) { s, p, r ->
@@ -55,5 +56,10 @@ class HomeViewModel @Inject constructor(
      */
     fun ensureRunning() {
         viewModelScope.launch { restarter.restoreIfWanted(inForeground = true) }
+    }
+
+    /** Offers the Google Play review sheet when it is a good moment (see ReviewPrompter). */
+    fun maybeAskForReview(activity: android.app.Activity) {
+        viewModelScope.launch { review.maybeAsk(activity) }
     }
 }

@@ -181,6 +181,7 @@
     <string name="set_cut_pauses">Remover pausas longas</string>
     <string name="set_cut_pauses_desc">Corta silêncios maiores que 0,3 segundo para deixar seu áudio mais curto e objetivo.</string>
     <string name="pro_renews">Renova automaticamente até você cancelar no Google Play.</string>
+    <string name="set_rate">Avalie o AuraMic no Google Play</string>
     <string name="pro_redeem">Tem um código? Resgate</string>
     <string name="pro_redeem_title">Resgatar um código Pro</string>
     <string name="pro_redeem_field">Cole seu código</string>

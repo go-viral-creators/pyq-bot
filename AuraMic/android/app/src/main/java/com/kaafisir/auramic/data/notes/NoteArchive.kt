@@ -64,7 +64,12 @@ class NoteArchive @Inject constructor(@ApplicationContext private val context: C
             val tmp = File(root, "$TMP$createdAt")
             try {
                 tmp.deleteRecursively(); tmp.mkdirs()
-                if (tmp.usableSpace < MIN_FREE_BYTES) { Log.w(TAG, "not enough space, note not saved"); tmp.deleteRecursively(); return@withLock false }
+                // Space Android can actually give us (counts cache it may clear), not just the raw free bytes.
+                val free = runCatching {
+                    val sm = context.getSystemService(android.os.storage.StorageManager::class.java)
+                    sm.getAllocatableBytes(sm.getUuidForPath(tmp))
+                }.getOrDefault(tmp.usableSpace)
+                if (free < MIN_FREE_BYTES) { Log.w(TAG, "not enough space, note not saved"); tmp.deleteRecursively(); return@withLock false }
                 val origOk = runCatching {
                     val enc = AudioEncoder.encode(original.pcm, original.length, original.sampleRate, OutputFormat.M4A, tmp)
                     enc.file.renameTo(File(tmp, ORIGINAL)) || throw IllegalStateException("rename failed")

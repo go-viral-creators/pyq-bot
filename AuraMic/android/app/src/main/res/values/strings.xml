@@ -182,6 +182,7 @@
     <string name="set_cut_pauses">Remove long pauses</string>
     <string name="set_cut_pauses_desc">Cuts silent gaps longer than 0.3 seconds so your voice note is shorter and tighter.</string>
     <string name="pro_renews">Renews automatically until you cancel in Google Play.</string>
+    <string name="set_rate">Rate AuraMic on Google Play</string>
     <string name="pro_redeem">Have a code? Redeem it</string>
     <string name="pro_redeem_title">Redeem a Pro code</string>
     <string name="pro_redeem_field">Paste your code</string>

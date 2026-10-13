@@ -92,11 +92,16 @@ fun HomeScreen(
     val updateLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {}
     val ui by vm.ui.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    // LocalContext is the language-wrapped context here, not the Activity the review sheet needs.
+    val activity = androidx.activity.compose.LocalActivity.current
     val startActivity = rememberStartActivity()
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val obs = LifecycleEventObserver { _, e ->
-            if (e == Lifecycle.Event.ON_RESUME) { vm.refresh(); vm.ensureRunning() }
+            if (e == Lifecycle.Event.ON_RESUME) {
+                vm.refresh(); vm.ensureRunning()
+                activity?.let { vm.maybeAskForReview(it) }
+            }
         }
         lifecycleOwner.lifecycle.addObserver(obs)
         onDispose { lifecycleOwner.lifecycle.removeObserver(obs) }

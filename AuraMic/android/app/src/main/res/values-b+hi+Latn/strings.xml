@@ -181,6 +181,7 @@
     <string name="set_cut_pauses">Lambi chuppi hatayein</string>
     <string name="set_cut_pauses_desc">0.3 second se lambi chuppi kaat deta hai, taaki voice note chhota aur tight rahe.</string>
     <string name="pro_renews">Google Play mein cancel karne tak apne-aap renew hota hai.</string>
+    <string name="set_rate">Google Play par AuraMic ko rate karein</string>
     <string name="pro_redeem">Code hai? Redeem karein</string>
     <string name="pro_redeem_title">Pro code redeem karein</string>
     <string name="pro_redeem_field">Apna code paste karein</string>

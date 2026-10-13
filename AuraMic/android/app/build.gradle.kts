@@ -8,8 +8,8 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
-// Release signing: keystore.properties (git-ignored) overrides the bundled sample keystore.
-// Replace the sample keystore with your own upload key before publishing to Google Play.
+// Release signing: keystore.properties (git-ignored) holds the upload key; see signingConfigs below.
+// Without it release outputs are unsigned (the sample keystore is only used with -PsampleSigning).
 val keystoreProps = Properties().apply {
     val f = rootProject.file("keystore.properties")
     if (f.exists()) f.inputStream().use { load(it) }
@@ -24,8 +24,8 @@ android {
         applicationId = "com.kaafisir.auramic"
         minSdk = 28
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -59,14 +59,20 @@ android {
         }
     }
 
+    // Release builds are signed only with the real upload key (keystore.properties). Without it they are left
+    // UNSIGNED - never silently signed with the public sample key, which anyone with this repo could use.
+    // Local test builds that need a signature can opt in with -PsampleSigning.
+    val hasUploadKey = keystoreProps.getProperty("storeFile") != null
+    val useSampleKey = !hasUploadKey && providers.gradleProperty("sampleSigning").isPresent
     signingConfigs {
-        create("release") {
+        if (hasUploadKey || useSampleKey) create("release") {
             storeFile = rootProject.file(keystoreProps.getProperty("storeFile", "auramic-sample.jks"))
             storePassword = keystoreProps.getProperty("storePassword", "auramic-sample")
             keyAlias = keystoreProps.getProperty("keyAlias", "auramic")
             keyPassword = keystoreProps.getProperty("keyPassword", "auramic-sample")
         }
     }
+    if (!hasUploadKey) logger.warn("AuraMic: no keystore.properties - release outputs are ${if (useSampleKey) "signed with the SAMPLE key (testing only)" else "unsigned"}")
 
     buildTypes {
         debug {
@@ -76,7 +82,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.findByName("release")
         }
     }
 
@@ -100,7 +106,8 @@ android {
             // models use); it replaces the full 25 MB library inside the onnxruntime-android AAR.
             pickFirsts += listOf("**/libonnxruntime.so", "**/libonnxruntime4j_jni.so")
         }
-        resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}", "DebugProbesKt.bin")
+        // Kotlin reflection metadata and library version stamps are not used at run time (no kotlin-reflect).
+        resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}", "DebugProbesKt.bin", "/kotlin/**", "/META-INF/*.version", "/kotlin-tooling-metadata.json")
     }
     androidResources {
         // Only ship the locales we actually translate (keeps APK small, Play detects them).
@@ -129,7 +136,6 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
@@ -155,6 +161,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.playbilling)
     implementation(libs.play.app.update)
+    implementation(libs.play.review)
     implementation(libs.onnxruntime)
 
     testImplementation(libs.junit)

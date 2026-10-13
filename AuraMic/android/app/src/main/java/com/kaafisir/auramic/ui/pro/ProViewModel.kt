@@ -73,6 +73,7 @@ class ProViewModel @Inject constructor(
     fun removeGrant() { viewModelScope.launch { access.removeGrant() } }
 
     fun checkUpdate(onResult: (Boolean) -> Unit) = updates.check(onResult)
+    fun checkAndUpdate(launcher: ActivityResultLauncher<IntentSenderRequest>, onResult: (UpdateState) -> Unit) = updates.checkAndAct(launcher, onResult)
     fun startUpdate(launcher: ActivityResultLauncher<IntentSenderRequest>) = updates.start(launcher)
     fun installUpdate() = updates.install()
 }

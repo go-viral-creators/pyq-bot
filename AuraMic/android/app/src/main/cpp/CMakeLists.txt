@@ -6,13 +6,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Core DSP + C API (also built standalone on the host, see tools/).
 add_library(auramic_core STATIC aura_dsp.cpp dfn.cpp polish.cpp aura_capi.cpp)
-target_compile_options(auramic_core PRIVATE -O3 -fPIC -fno-finite-math-only -ffp-contract=fast)
+target_compile_options(auramic_core PRIVATE -O3 -fPIC -fno-finite-math-only -ffp-contract=fast -ffunction-sections -fdata-sections)
 
 if (ANDROID)
     add_library(auramic_dsp SHARED aura_jni.cpp)
+    target_compile_options(auramic_dsp PRIVATE -ffunction-sections -fdata-sections)
     target_link_libraries(auramic_dsp auramic_core log)
     # Android 15+ devices may use 16 KB pages: align every LOAD segment accordingly.
-    target_link_options(auramic_dsp PRIVATE -Wl,-z,max-page-size=16384)
+    # Size: drop unreferenced code / data and keep the static C++ runtime's symbols private (only JNI entry points
+    # are exported). The generated code is unchanged (same -O3 objects).
+    target_link_options(auramic_dsp PRIVATE -Wl,-z,max-page-size=16384 -Wl,--gc-sections -Wl,--exclude-libs,ALL)
 
     # NNAPI stand-in required by the JNI half of ONNX Runtime (see ortshim.c).
     add_library(ortshim SHARED ortshim.c)

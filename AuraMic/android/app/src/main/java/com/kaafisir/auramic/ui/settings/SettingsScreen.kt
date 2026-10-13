@@ -65,6 +65,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
     val pro by proVm.ui.collectAsStateWithLifecycle()
     val updateLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {}
     val latestMsg = stringResource(R.string.upd_latest)
+    val downloadingMsg = stringResource(R.string.upd_downloading)
     val context = LocalContext.current
     val startActivity = rememberStartActivity()
     var showLanguages by remember { mutableStateOf(false) }
@@ -121,8 +122,20 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
             SectionHeader(stringResource(R.string.set_about))
             AuraCard {
                 NavRow(stringResource(R.string.set_check_update), null) {
-                    proVm.checkUpdate { available ->
-                        if (available) proVm.startUpdate(updateLauncher) else Toast.makeText(context, latestMsg, Toast.LENGTH_SHORT).show()
+                    proVm.checkAndUpdate(updateLauncher) { st ->
+                        when (st) {
+                            com.kaafisir.auramic.data.update.UpdateState.NONE -> Toast.makeText(context, latestMsg, Toast.LENGTH_SHORT).show()
+                            com.kaafisir.auramic.data.update.UpdateState.DOWNLOADING -> Toast.makeText(context, downloadingMsg, Toast.LENGTH_SHORT).show()
+                            else -> Unit   // AVAILABLE: Play's update sheet opens; READY: installs and restarts
+                        }
+                    }
+                }
+                NavRow(stringResource(R.string.set_rate), null) {
+                    // Store page (a button must not trigger the in-app review API - Play guideline); the in-app review
+                    // itself is offered automatically after a few successful notes (ReviewPrompter).
+                    val market = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context.packageName}"))
+                    if (runCatching { context.startActivity(market.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }.isFailure) {
+                        openUrl("https://play.google.com/store/apps/details?id=${context.packageName}")
                     }
                 }
                 NavRow(stringResource(R.string.set_privacy), null) { openUrl(Links.PRIVACY) }

@@ -66,4 +66,20 @@ class UpdateManager @Inject constructor(@ApplicationContext private val context:
 
     /** Installs a finished download and restarts the app. */
     fun install() { mgr()?.completeUpdate() }
+
+    /**
+     * "Check for update" in Settings: asks Play, then does the right thing for the state it finds - start the
+     * download, or install one that already finished (previously a finished download was started again and never
+     * installed). [onResult] gets the state found.
+     */
+    fun checkAndAct(launcher: ActivityResultLauncher<IntentSenderRequest>, onResult: (UpdateState) -> Unit) {
+        check { _ ->
+            when (_state.value) {
+                UpdateState.AVAILABLE -> start(launcher)
+                UpdateState.READY -> install()
+                else -> Unit
+            }
+            onResult(_state.value)
+        }
+    }
 }

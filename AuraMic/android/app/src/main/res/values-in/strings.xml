@@ -181,6 +181,7 @@
     <string name="set_cut_pauses">Hapus jeda panjang</string>
     <string name="set_cut_pauses_desc">Memotong jeda hening lebih dari 0,3 detik agar pesan suara lebih singkat dan padat.</string>
     <string name="pro_renews">Diperpanjang otomatis sampai Anda membatalkannya di Google Play.</string>
+    <string name="set_rate">Beri rating AuraMic di Google Play</string>
     <string name="pro_redeem">Punya kode? Tukarkan</string>
     <string name="pro_redeem_title">Tukarkan kode Pro</string>
     <string name="pro_redeem_field">Tempel kode Anda</string>

@@ -584,6 +584,8 @@ def main(res_dir):
     print(f"wrote {len(S)} strings x {len(LANGS)} languages")
 
 
+add("set_rate", "Rate AuraMic on Google Play", "Google Play पर AuraMic को रेट करें", "Google Play par AuraMic ko rate karein", "Valora AuraMic en Google Play", "Avalie o AuraMic no Google Play", "قيّم AuraMic على Google Play", "Beri rating AuraMic di Google Play")
+
 # ---- free-Pro grant codes -----------------------------------------------------------------------
 add("pro_redeem", "Have a code? Redeem it", "कोड है? रिडीम करें", "Code hai? Redeem karein", "¿Tienes un código? Canjéalo", "Tem um código? Resgate", "لديك رمز؟ استبدله", "Punya kode? Tukarkan")
 add("pro_redeem_title", "Redeem a Pro code", "Pro कोड रिडीम करें", "Pro code redeem karein", "Canjear un código Pro", "Resgatar um código Pro", "استبدال رمز Pro", "Tukarkan kode Pro")

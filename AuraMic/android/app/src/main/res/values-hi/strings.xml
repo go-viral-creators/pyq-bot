@@ -181,6 +181,7 @@
     <string name="set_cut_pauses">लंबी चुप्पी हटाएँ</string>
     <string name="set_cut_pauses_desc">0.3 सेकंड से लंबी चुप्पी काट देता है, ताकि वॉइस नोट छोटा और कसा हुआ रहे।</string>
     <string name="pro_renews">Google Play में रद्द करने तक अपने-आप नवीनीकृत होता है।</string>
+    <string name="set_rate">Google Play पर AuraMic को रेट करें</string>
     <string name="pro_redeem">कोड है? रिडीम करें</string>
     <string name="pro_redeem_title">Pro कोड रिडीम करें</string>
     <string name="pro_redeem_field">अपना कोड पेस्ट करें</string>

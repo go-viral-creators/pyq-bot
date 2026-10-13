@@ -32,7 +32,7 @@ The in-app prominent disclosure is already implemented (`disclosure_*` strings; 
 **Foreground service (microphone):** records the user's voice note while they hold the floating button; started from the visible app UI / Quick Settings tile.
 **PACKAGE_USAGE_STATS:** detects when WhatsApp is the foreground app so the overlay shows only there (declare as core functionality).
 **SYSTEM_ALERT_WINDOW:** draws the floating mic.
-**Data safety:** collects **no** data; no data shared; data processed on-device; no account. Audio is processed ephemerally on-device (not "collected").
+**Data safety:** collects **no** data; no data shared; data processed on-device; no account. Audio is processed on-device; the optional saved original/enhanced notes stay in app-private storage on the phone and are never transmitted, which Google does not count as "collected" (re-check this answer if the app ever gets network access).
 **Content rating:** utility, no user-generated content hosted → Everyone. **Ads:** none. **Target audience:** 13+.
 
 ## Honest risk notes
@@ -53,7 +53,7 @@ The in-app prominent disclosure is already implemented (`disclosure_*` strings; 
 | **Foreground service (microphone)** | Declare `FOREGROUND_SERVICE_MICROPHONE` with the video: the notification is visible, the mic is only used while the user holds the button. |
 | **`SYSTEM_ALERT_WINDOW`** | Core functionality: the AuraMic mic is drawn over WhatsApp's own voice button. It is AuraMic-branded (does not imitate WhatsApp's UI), appears only inside a WhatsApp chat, and hides when text is typed. |
 | **`PACKAGE_USAGE_STATS`** | Used only to know whether WhatsApp is in front (evaluated on the device, never stored or sent). |
-| **Data safety** | Collected: none. Shared: none. All audio is processed on the device and deleted after sending. (Google Play Billing / Play update APIs are handled by Google; declare "No data collected" and "Data is encrypted in transit".) |
+| **Data safety** | Collected: none. Shared: none. All audio is processed on the device; the cache copy is deleted after sending and the optional saved notes (original + enhanced) stay in app-private storage on the phone. (Google Play Billing / Play update APIs are handled by Google; declare "No data collected" and "Data is encrypted in transit".) |
 | **Subscriptions** | One subscription `auramic_pro` with base plans `monthly` and `yearly`. The app shows the price from Play, says it renews until cancelled, offers *Manage subscription* and *Restore*. No external payment links. |
 | **In-app updates** | `com.google.android.play:app-update` (flexible). Only active for Play installs. |
 | **Backup** | Only the tiny Pro / free-try file is included in backup (`backup_rules.xml`, `data_extraction_rules.xml`). |

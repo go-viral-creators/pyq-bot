@@ -14,7 +14,7 @@ AuraMic/
 
 ## Technical approach
 ### Audio
-1. `AudioRecord` 48 kHz mono PCM16 (44.1 kHz devices are resampled) -> in-memory buffer (<= 3 min).
+1. `AudioRecord` 48 kHz mono PCM16 (44.1 kHz devices are resampled) -> in-memory buffer (<= 5 min).
 2. **DeepFilterNet3** (full-band, ~2.1 M parameters, MIT/Apache-2.0) via **ONNX Runtime**: the C++ front/back end (`cpp/dfn.cpp`,
    a port of libDF: 960-pt STFT, ERB + complex features, ERB mask, 5-tap deep filtering, iSTFT) wraps the three ONNX models
    (`assets/dfn3/enc|erb_dec|df_dec.onnx`) which run in 8 s chunks with warm-up context (`DfnRuntime.kt`). ~25x real time on a laptop CPU.
@@ -31,6 +31,10 @@ runs `SendFlow`, a tested state machine: find the chat row (exact match, unambig
 Safety rule: Send is only tapped after the flow itself selected the chat, and it never types into a conversation's message box.
 
 ### App features
+Floating mic fixed on WhatsApp's own mic button (triple-tap: move it anywhere / fix it again), automatic restore after reboot,
+update or a killed process (tap-to-restore notification where Android forbids a background start), Studio Lab with the original and
+enhanced version of every sent note (setting, on by default; app-private storage), free-Pro gift codes (signed with an offline admin key,
+`tools/pro_grants.py`), Play In-App Updates and In-App Review.
 Floating overlay shown only when WhatsApp is foreground (UsageStatsManager polling, paused when the screen is off), hold/slide-to-cancel/drag-to-snap gestures,
 haptics, animated bubble + status pill, interactive spotlight tutorial (real gesture engine), guided permission screen with Play-compliant accessibility
 disclosure and "restricted settings" help, Studio Lab (A/B playback), Quick Settings tile, battery-optimisation shortcut, 7 languages

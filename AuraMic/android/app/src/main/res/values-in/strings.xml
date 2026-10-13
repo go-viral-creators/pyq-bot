@@ -130,6 +130,10 @@
     <string name="notif_channel">Layanan AuraMic</string>
     <string name="notif_title">AuraMic siap</string>
     <string name="notif_text">Mikrofon melayang muncul saat WhatsApp terbuka.</string>
+    <string name="notif_restore_channel">Peringatan AuraMic</string>
+    <string name="notif_restore_title">Mic mengambang mati</string>
+    <string name="notif_restore_text">Android menghentikannya. Ketuk untuk menyalakan lagi.</string>
+    <string name="notif_restore_perm">Sebuah izin dimatikan. Ketuk untuk memperbaikinya.</string>
     <string name="notif_stop">Nonaktifkan</string>
     <string name="a11y_description">AuraMic menekan tombol Kirim di WhatsApp setelah Anda merekam pesan suara dengan mikrofon melayang. Hanya bekerja di dalam WhatsApp dan tidak pernah membaca atau menyimpan pesan Anda. Juga mencari tombol suara WhatsApp agar mikrofon AuraMic berada di atasnya.</string>
     <string name="set_diag">Salin info dukungan</string>

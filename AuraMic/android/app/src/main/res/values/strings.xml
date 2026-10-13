@@ -131,6 +131,10 @@
     <string name="notif_channel">AuraMic service</string>
     <string name="notif_title">AuraMic is ready</string>
     <string name="notif_text">The floating mic appears when WhatsApp is open.</string>
+    <string name="notif_restore_channel">AuraMic alerts</string>
+    <string name="notif_restore_title">Floating mic is off</string>
+    <string name="notif_restore_text">Android stopped it. Tap to turn it back on.</string>
+    <string name="notif_restore_perm">A permission was turned off. Tap to fix it.</string>
     <string name="notif_stop">Turn off</string>
     <string name="a11y_description">AuraMic taps the Send button in WhatsApp after you record a voice note with the floating mic. It works only inside WhatsApp and never reads or stores your messages. It also finds WhatsApp\'s voice button so the AuraMic mic can sit on it.</string>
     <string name="set_diag">Copy support info</string>

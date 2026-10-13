@@ -327,6 +327,10 @@ add("notif_channel", "AuraMic service", "AuraMic सेवा", "AuraMic service
 add("notif_title", "AuraMic is ready", "AuraMic तैयार है", "AuraMic tayyar hai", "AuraMic está listo", "AuraMic está pronto", "AuraMic جاهز", "AuraMic siap")
 add("notif_text", "The floating mic appears when WhatsApp is open.", "WhatsApp खुलने पर फ्लोटिंग माइक दिखता है।", "WhatsApp khulne par floating mic dikhta hai.",
     "El micrófono flotante aparece cuando WhatsApp está abierto.", "O microfone flutuante aparece quando o WhatsApp está aberto.", "يظهر الميكروفون العائم عند فتح واتساب.", "Mikrofon melayang muncul saat WhatsApp terbuka.")
+add("notif_restore_channel", "AuraMic alerts", "AuraMic अलर्ट", "AuraMic alerts", "Avisos de AuraMic", "Alertas do AuraMic", "تنبيهات AuraMic", "Peringatan AuraMic")
+add("notif_restore_title", "Floating mic is off", "फ्लोटिंग माइक बंद है", "Floating mic band hai", "El micrófono flotante está apagado", "O microfone flutuante está desligado", "الميكروفون العائم متوقف", "Mic mengambang mati")
+add("notif_restore_text", "Android stopped it. Tap to turn it back on.", "Android ने इसे रोक दिया। फिर से चालू करने के लिए टैप करें।", "Android ne ise rok diya. Wapas on karne ke liye tap karein.", "Android lo detuvo. Toca para volver a activarlo.", "O Android o interrompeu. Toque para ativar de novo.", "أوقفه Android. اضغط لإعادة تشغيله.", "Android menghentikannya. Ketuk untuk menyalakan lagi.")
+add("notif_restore_perm", "A permission was turned off. Tap to fix it.", "कोई अनुमति बंद हो गई। ठीक करने के लिए टैप करें।", "Koi permission band ho gayi. Theek karne ke liye tap karein.", "Se desactivó un permiso. Toca para arreglarlo.", "Uma permissão foi desativada. Toque para corrigir.", "تم إيقاف أحد الأذونات. اضغط لإصلاحه.", "Sebuah izin dimatikan. Ketuk untuk memperbaikinya.")
 add("notif_stop", "Turn off", "बंद करें", "Off karein", "Desactivar", "Desativar", "إيقاف", "Nonaktifkan")
 add("a11y_description",
     'AuraMic taps the Send button in your chat app (WhatsApp or WhatsApp Business) after you record a voice note with the floating mic. It works only inside the chat apps you enable and never reads or stores your messages.',

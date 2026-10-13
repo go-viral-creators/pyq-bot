@@ -43,6 +43,7 @@ class OverlayService : Service() {
     @Inject lateinit var sender: com.kaafisir.auramic.automation.WhatsAppSender
     @Inject lateinit var dfn: com.kaafisir.auramic.audio.DfnEnhancer
     @Inject lateinit var bridge: com.kaafisir.auramic.automation.AutomationBridge
+    @Inject lateinit var restarter: OverlayRestarter
 
     private data class Quad(val pkg: String?, val chatOpen: Boolean, val anchored: Boolean, val connected: Boolean)
 
@@ -50,6 +51,8 @@ class OverlayService : Service() {
     private var controller: OverlayController? = null
     /** True while WhatsApp is the foreground app (the bubble should be on screen). */
     private var wantVisible = false
+    /** onCreate could not become a foreground service: nothing else was set up. */
+    private var refused = false
 
     override fun attachBaseContext(newBase: Context) = super.attachBaseContext(LocaleManager.wrap(newBase))
 
@@ -65,12 +68,16 @@ class OverlayService : Service() {
                 startForeground(ServiceNotification.ID, notification)
             }
         } catch (t: Throwable) {
-            // Android 14+: the mic foreground type needs RECORD_AUDIO and a foreground-eligible start.
+            // Android 14+: the mic foreground type needs RECORD_AUDIO and a start while AuraMic is visible.
+            // Tell the user instead of silently showing "on" with no bubble.
             Log.w(TAG, "cannot start foreground", t)
+            refused = true
+            restarter.onStartRefused()
             stopSelf()
             return
         }
         running.value = true
+        restarter.cancelNotice()
         orchestrator.attach(scope)
         sender.purgeOldFiles()
         dfn.warmUp()
@@ -124,7 +131,10 @@ class OverlayService : Service() {
                         try {
                             ctl.show()
                         } catch (t: Throwable) {
+                            // "Display over other apps" was revoked: stop and point the user at the fix.
                             Log.e(TAG, "overlay permission lost?", t)
+                            running.value = false
+                            restarter.onStartRefused()
                             stopSelf()
                         }
                     } else if (!orchestrator.state.value.isBusy) {
@@ -156,6 +166,7 @@ class OverlayService : Service() {
 
     override fun onDestroy() {
         running.value = false
+        if (refused) { scope.cancel(); super.onDestroy(); return }
         bridge.setAnchorTracking(false)
         orchestrator.release()
         controller?.destroy()

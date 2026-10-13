@@ -26,48 +26,68 @@ class ForegroundAppDetector @Inject constructor(
     private val power = context.getSystemService(Context.POWER_SERVICE) as PowerManager
 
     val foregroundPackage: Flow<String?> = flow {
-        var current: String? = null
+        val tracker = ResumedActivityTracker()
         var lastQuery = System.currentTimeMillis() - INITIAL_LOOKBACK_MS
         while (true) {
             if (!power.isInteractive) {
-                current = null
+                tracker.reset()
                 emit(null)
                 delay(SCREEN_OFF_POLL_MS)
                 lastQuery = System.currentTimeMillis() - 2_000
                 continue
             }
             val now = System.currentTimeMillis()
-            current = drain(current, lastQuery, now)
+            drain(tracker, lastQuery, now)
             lastQuery = now - 500 // slight overlap so no event is missed; re-applying is idempotent
-            emit(current)
+            emit(tracker.packageName)
             delay(POLL_MS)
         }
     }.distinctUntilChanged().flowOn(Dispatchers.IO)
 
-    /** Applies all resume/pause events in (from, to] to [start] and returns the new foreground package. */
-    private fun drain(start: String?, from: Long, to: Long): String? {
-        var result = start
+    /** Applies all resume/pause events in (from, to] to [tracker]. */
+    private fun drain(tracker: ResumedActivityTracker, from: Long, to: Long) {
         val events = try {
             usage.queryEvents(from, to)
         } catch (_: SecurityException) {
-            return result
-        }
+            return
+        } ?: return
         val e = UsageEvents.Event()
         while (events.hasNextEvent()) {
             events.getNextEvent(e)
-            when (e.eventType) {
-                // 1 = ACTIVITY_RESUMED / MOVE_TO_FOREGROUND
-                1 -> result = e.packageName
-                // 2 = ACTIVITY_PAUSED / MOVE_TO_BACKGROUND
-                2 -> if (result == e.packageName) result = null
-            }
+            tracker.onEvent(e.eventType, e.packageName, e.className)
         }
-        return result
     }
 
     private companion object {
         const val POLL_MS = 450L
         const val SCREEN_OFF_POLL_MS = 2_000L
         const val INITIAL_LOOKBACK_MS = 10 * 60 * 1000L
+    }
+}
+
+/**
+ * Which activity is in front, from usage events. Tracked per activity (package + class), not per package: when
+ * WhatsApp opens a chat, Android 10+ (and several OEM builds) report the new activity's RESUMED *before* the old
+ * one's PAUSED - both are com.whatsapp, so a package-only check decided WhatsApp had left and hid the bubble.
+ */
+class ResumedActivityTracker {
+    private var pkg: String? = null
+    private var cls: String? = null
+
+    val packageName: String? get() = pkg
+
+    fun reset() { pkg = null; cls = null }
+
+    fun onEvent(type: Int, packageName: String?, className: String?) {
+        when (type) {
+            RESUMED -> { pkg = packageName; cls = className }
+            // Only the activity that is in front can take the app out of the front.
+            PAUSED -> if (packageName == pkg && (className == null || cls == null || className == cls)) { pkg = null; cls = null }
+        }
+    }
+
+    companion object {
+        const val RESUMED = 1   // UsageEvents.Event.ACTIVITY_RESUMED (MOVE_TO_FOREGROUND)
+        const val PAUSED = 2    // UsageEvents.Event.ACTIVITY_PAUSED (MOVE_TO_BACKGROUND)
     }
 }

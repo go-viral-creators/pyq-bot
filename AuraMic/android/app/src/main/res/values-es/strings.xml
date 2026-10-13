@@ -130,6 +130,10 @@
     <string name="notif_channel">Servicio de AuraMic</string>
     <string name="notif_title">AuraMic está listo</string>
     <string name="notif_text">El micrófono flotante aparece cuando WhatsApp está abierto.</string>
+    <string name="notif_restore_channel">Avisos de AuraMic</string>
+    <string name="notif_restore_title">El micrófono flotante está apagado</string>
+    <string name="notif_restore_text">Android lo detuvo. Toca para volver a activarlo.</string>
+    <string name="notif_restore_perm">Se desactivó un permiso. Toca para arreglarlo.</string>
     <string name="notif_stop">Desactivar</string>
     <string name="a11y_description">AuraMic pulsa el botón Enviar en WhatsApp tras grabar una nota de voz con el micrófono flotante. Solo funciona dentro de WhatsApp y nunca lee ni guarda tus mensajes. También localiza el botón de voz de WhatsApp para colocar el micrófono de AuraMic encima.</string>
     <string name="set_diag">Copiar información para soporte</string>

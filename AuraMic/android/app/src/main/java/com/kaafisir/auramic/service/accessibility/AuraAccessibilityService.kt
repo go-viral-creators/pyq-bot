@@ -51,6 +51,7 @@ import javax.inject.Inject
 class AuraAccessibilityService : AccessibilityService() {
 
     @Inject lateinit var bridge: AutomationBridge
+    @Inject lateinit var restarter: com.kaafisir.auramic.service.overlay.OverlayRestarter
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var runJob: Job? = null
@@ -67,6 +68,9 @@ class AuraAccessibilityService : AccessibilityService() {
         bridge.setConnected(true)
         scope.launch { bridge.pending.collect { req -> if (req != null) start(req) else runJob?.cancel() } }
         scope.launch { bridge.anchorTracking.collectLatest { on -> if (on) trackMic() else bridge.setMicAnchor(null) } }
+        // The system reconnects this service after a reboot, an app update or a killed process: bring the floating mic
+        // back too (or tell the user how, if Android refuses a background start).
+        scope.launch { delay(1_500); runCatching { restarter.restoreIfWanted(inForeground = false) } }
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {

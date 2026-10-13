@@ -130,6 +130,10 @@
     <string name="notif_channel">خدمة AuraMic</string>
     <string name="notif_title">AuraMic جاهز</string>
     <string name="notif_text">يظهر الميكروفون العائم عند فتح واتساب.</string>
+    <string name="notif_restore_channel">تنبيهات AuraMic</string>
+    <string name="notif_restore_title">الميكروفون العائم متوقف</string>
+    <string name="notif_restore_text">أوقفه Android. اضغط لإعادة تشغيله.</string>
+    <string name="notif_restore_perm">تم إيقاف أحد الأذونات. اضغط لإصلاحه.</string>
     <string name="notif_stop">إيقاف</string>
     <string name="a11y_description">يضغط AuraMic على زر الإرسال في واتساب بعد تسجيل رسالة صوتية بالميكروفون العائم. يعمل داخل واتساب فقط ولا يقرأ رسائلك ولا يخزّنها. كما يحدد مكان زر الصوت في واتساب ليظهر ميكروفون AuraMic فوقه.</string>
     <string name="set_diag">نسخ معلومات الدعم</string>

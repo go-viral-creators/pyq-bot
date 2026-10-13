@@ -28,6 +28,7 @@ class HomeViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val repo: SettingsRepository,
     private val permissionRepo: PermissionRepository,
+    private val restarter: com.kaafisir.auramic.service.overlay.OverlayRestarter,
 ) : ViewModel() {
 
     val ui: StateFlow<HomeUi> = combine(repo.settings, permissionRepo.state, OverlayService.isRunning) { s, p, r ->
@@ -38,21 +39,21 @@ class HomeViewModel @Inject constructor(
 
     /** Turns the floating mic on/off, or sends the user to setup if permissions are missing. */
     fun toggle(onNeedSetup: () -> Unit) {
-        val cur = ui.value
         viewModelScope.launch {
             when {
-                cur.running -> { OverlayService.stop(context); repo.setServiceEnabled(false) }
+                // Live state, not [ui] (which starts from defaults until DataStore has answered).
+                OverlayService.isRunning.value -> { OverlayService.stop(context); repo.setServiceEnabled(false) }
                 !permissionRepo.refresh().requiredGranted -> onNeedSetup()
                 else -> if (OverlayService.start(context)) repo.setServiceEnabled(true)
             }
         }
     }
 
-    /** If the user wants it on (and everything is granted) but the process was killed, bring it back. */
+    /**
+     * If the user wants it on but the process was killed (update, OEM task killer, low memory), bring it back.
+     * Reads the stored setting directly: [ui] still holds its defaults right after a process restart.
+     */
     fun ensureRunning() {
-        val cur = ui.value
-        if (cur.settings.serviceEnabled && !cur.running && permissionRepo.refresh().requiredGranted) {
-            OverlayService.start(context)
-        }
+        viewModelScope.launch { restarter.restoreIfWanted(inForeground = true) }
     }
 }

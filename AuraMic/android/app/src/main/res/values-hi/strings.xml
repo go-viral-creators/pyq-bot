@@ -130,6 +130,10 @@
     <string name="notif_channel">AuraMic सेवा</string>
     <string name="notif_title">AuraMic तैयार है</string>
     <string name="notif_text">WhatsApp खुलने पर फ्लोटिंग माइक दिखता है।</string>
+    <string name="notif_restore_channel">AuraMic अलर्ट</string>
+    <string name="notif_restore_title">फ्लोटिंग माइक बंद है</string>
+    <string name="notif_restore_text">Android ने इसे रोक दिया। फिर से चालू करने के लिए टैप करें।</string>
+    <string name="notif_restore_perm">कोई अनुमति बंद हो गई। ठीक करने के लिए टैप करें।</string>
     <string name="notif_stop">बंद करें</string>
     <string name="a11y_description">फ्लोटिंग माइक से वॉइस नोट रिकॉर्ड करने के बाद AuraMic WhatsApp में Send बटन दबाता है। यह सिर्फ़ WhatsApp के अंदर काम करता है और आपके संदेश कभी नहीं पढ़ता या सहेजता। यह WhatsApp का वॉइस बटन भी ढूँढता है ताकि AuraMic का माइक उस पर बैठे।</string>
     <string name="set_diag">सपोर्ट जानकारी कॉपी करें</string>

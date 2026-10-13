@@ -116,7 +116,7 @@
     <string name="set_support">Contact support</string>
     <string name="set_version" formatted="true">Version %1$s</string>
     <string name="set_email_chooser">Send email with…</string>
-    <string name="ov_hint">Hold to record</string>
+    <string name="ov_hint">Hold to record · triple-tap to move</string>
     <string name="ov_slide_cancel">◀ Slide to cancel</string>
     <string name="ov_release_cancel">Release to cancel</string>
     <string name="ov_processing">Cleaning audio…</string>
@@ -124,6 +124,9 @@
     <string name="ov_sent">Sent!</string>
     <string name="ov_failed">Couldn\'t send — tap Send manually</string>
     <string name="ov_too_short">Too short</string>
+    <string name="ov_free_on">Move mode: drag the mic anywhere. Triple-tap to fix it again</string>
+    <string name="ov_free_off">Mic fixed on WhatsApp\'s button</string>
+    <string name="ov_hint_free">Hold to record · triple-tap to fix on WhatsApp\'s mic</string>
     <string name="ov_unconfirmed">Probably sent — check the chat</string>
     <string name="ov_manual">Pick a chat, then tap Send</string>
     <string name="ov_error_mic">Microphone is busy</string>

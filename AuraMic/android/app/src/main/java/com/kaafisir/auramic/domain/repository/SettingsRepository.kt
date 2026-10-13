@@ -18,6 +18,7 @@ interface SettingsRepository {
     suspend fun setHaptics(enabled: Boolean)
     suspend fun setBubbleSize(dp: Int)
     suspend fun setBubblePosition(x: Int, y: Int)
+    suspend fun setBubbleFree(free: Boolean)
     suspend fun setTheme(mode: ThemeMode)
     suspend fun recordCleanedNote(seconds: Long)
 }

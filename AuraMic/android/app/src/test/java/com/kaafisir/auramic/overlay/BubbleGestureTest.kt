@@ -19,13 +19,41 @@ class BubbleGestureTest {
         override fun onDrag(dx: Float, dy: Float) { events += "drag($dx,$dy)" }
         override fun onDragEnd() { events += "dragEnd" }
         override fun onTap() { events += "tap" }
+        override fun onTripleTap() { events += "triple" }
     }
     private fun gesture() = BubbleGesture(scheduler, listener, slopPx = 10f, cancelDistancePx = 100f)
     private fun fireTimer() { pending.toList().forEach { it.second() }; pending.clear() }
 
     @Test fun quickTouchIsATap() {
         val g = gesture(); g.down(0f, 0f); g.up()
+        assertEquals(emptyList<String>(), events)     // reported only once the triple-tap window has passed
+        fireTimer()
         assertEquals(listOf("tap"), events)
+    }
+
+    @Test fun threeQuickTapsAreATripleTapAndNoSingleTaps() {
+        val g = gesture()
+        repeat(3) { g.down(0f, 0f); g.up() }
+        assertEquals(listOf("triple"), events)
+        fireTimer()
+        assertEquals(listOf("triple"), events)
+    }
+
+    @Test fun slowTapsAreSingleTaps() {
+        val g = gesture()
+        repeat(3) { g.down(0f, 0f); g.up(); fireTimer() }   // window expires between taps
+        assertEquals(listOf("tap", "tap", "tap"), events)
+    }
+
+    @Test fun holdBetweenTapsResetsTheCount() {
+        val g = gesture()
+        g.down(0f, 0f); g.up()
+        g.down(0f, 0f); g.up()
+        g.down(0f, 0f)
+        pending.toList().forEach { if (it.first == 200L) it.second() }   // hold timer only: recording starts
+        g.up()
+        g.down(0f, 0f); g.up()
+        assertEquals(listOf("hold", "release(cancel=false)"), events)       // no triple from tap-tap-hold-tap
     }
 
     @Test fun holdThenReleaseSends() {
@@ -64,7 +92,7 @@ class BubbleGestureTest {
     }
 
     @Test fun anchoredTapStillShowsTheHint() {
-        val g = gesture().also { it.allowDrag = false }; g.down(0f, 0f); g.up()
+        val g = gesture().also { it.allowDrag = false }; g.down(0f, 0f); g.up(); fireTimer()
         assertEquals(listOf("tap"), events)
     }
 

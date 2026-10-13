@@ -115,7 +115,7 @@
     <string name="set_support">Hubungi dukungan</string>
     <string name="set_version" formatted="true">Versi %1$s</string>
     <string name="set_email_chooser">Kirim email dengan…</string>
-    <string name="ov_hint">Tahan untuk merekam</string>
+    <string name="ov_hint">Tahan untuk merekam · ketuk 3 kali untuk memindah</string>
     <string name="ov_slide_cancel">◀ Geser untuk batal</string>
     <string name="ov_release_cancel">Lepas untuk batal</string>
     <string name="ov_processing">Membersihkan audio…</string>
@@ -123,6 +123,9 @@
     <string name="ov_sent">Terkirim!</string>
     <string name="ov_failed">Gagal mengirim — tekan Kirim manual</string>
     <string name="ov_too_short">Terlalu singkat</string>
+    <string name="ov_free_on">Mode pindah: seret mic ke mana saja. Ketuk 3 kali untuk menempelkan lagi</string>
+    <string name="ov_free_off">Mic ditempel di tombol WhatsApp</string>
+    <string name="ov_hint_free">Tahan untuk merekam · ketuk 3 kali untuk menempel</string>
     <string name="ov_unconfirmed">Mungkin terkirim — cek obrolan</string>
     <string name="ov_manual">Pilih obrolan, lalu tekan Kirim</string>
     <string name="ov_error_mic">Mikrofon sedang dipakai</string>

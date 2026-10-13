@@ -115,7 +115,7 @@
     <string name="set_support">Support se contact karein</string>
     <string name="set_version" formatted="true">Version %1$s</string>
     <string name="set_email_chooser">Email bhejein…</string>
-    <string name="ov_hint">Record ke liye dabayein</string>
+    <string name="ov_hint">Record ke liye daba ke rakhein · move karne ke liye 3 baar tap</string>
     <string name="ov_slide_cancel">◀ Cancel ke liye slide karein</string>
     <string name="ov_release_cancel">Cancel ke liye chhodein</string>
     <string name="ov_processing">Audio saaf ho rahi hai…</string>
@@ -123,6 +123,9 @@
     <string name="ov_sent">Bhej diya!</string>
     <string name="ov_failed">Bhej nahi saka — Send khud dabayein</string>
     <string name="ov_too_short">Bahut chhota</string>
+    <string name="ov_free_on">Move mode: mic ko kahin bhi khichein. Wapas fix karne ke liye 3 baar tap karein</string>
+    <string name="ov_free_off">Mic WhatsApp ke button par fix</string>
+    <string name="ov_hint_free">Record ke liye daba ke rakhein · WhatsApp mic par fix ke liye 3 baar tap</string>
     <string name="ov_unconfirmed">Shayad bhej diya — chat check kar lein</string>
     <string name="ov_manual">Chat chunein, phir Send dabayein</string>
     <string name="ov_error_mic">Microphone busy hai</string>

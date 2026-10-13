@@ -9,6 +9,10 @@ package com.kaafisir.auramic.service.overlay
  *        -> (held still for [holdDelayMs])           -> HOLD   (recording)
  *             while HOLD: dragging left past [cancelDistancePx] arms "cancel"
  *   up   -> TAP / release(cancelled?) / dragEnd
+ *
+ * Taps are counted: three quick taps (each within [tapGapMs] of the previous one) are a TRIPLE TAP, which switches the
+ * bubble between "fixed on WhatsApp's mic" and "move anywhere". A single / double tap is reported only once the
+ * window has passed, so the first tap of a triple tap never shows a hint. Holding or dragging resets the count.
  */
 class BubbleGesture(
     private val scheduler: Scheduler,
@@ -16,6 +20,7 @@ class BubbleGesture(
     private val slopPx: Float,
     private val cancelDistancePx: Float,
     private val holdDelayMs: Long = 200L,
+    private val tapGapMs: Long = 350L,
 ) {
     fun interface Cancelable { fun cancel() }
     fun interface Scheduler { fun postDelayed(delayMs: Long, action: () -> Unit): Cancelable }
@@ -27,6 +32,8 @@ class BubbleGesture(
         fun onDrag(dx: Float, dy: Float)
         fun onDragEnd()
         fun onTap()
+        /** Three quick taps: toggle fixed / movable. */
+        fun onTripleTap() {}
     }
 
     enum class Mode { IDLE, PENDING, HOLDING, DRAGGING }
@@ -45,6 +52,8 @@ class BubbleGesture(
     private var lastY = 0f
     private var armed = false
     private var timer: Cancelable? = null
+    private var taps = 0
+    private var tapTimer: Cancelable? = null
 
     fun down(x: Float, y: Float) {
         reset()
@@ -53,6 +62,7 @@ class BubbleGesture(
         timer = scheduler.postDelayed(holdDelayMs) {
             if (mode == Mode.PENDING) {
                 mode = Mode.HOLDING
+                clearTaps()
                 listener.onHoldStart()
             }
         }
@@ -65,6 +75,7 @@ class BubbleGesture(
                 val dy = y - downY
                 if (dx * dx + dy * dy > slopPx * slopPx) {
                     timer?.cancel()
+                    clearTaps()
                     if (allowDrag) {
                         mode = Mode.DRAGGING
                         listener.onDrag(x - lastX, y - lastY)
@@ -95,7 +106,7 @@ class BubbleGesture(
     fun up() {
         timer?.cancel()
         when (mode) {
-            Mode.PENDING -> listener.onTap()
+            Mode.PENDING -> countTap()
             Mode.HOLDING -> listener.onRelease(armed)
             Mode.DRAGGING -> listener.onDragEnd()
             Mode.IDLE -> Unit
@@ -112,6 +123,24 @@ class BubbleGesture(
             else -> Unit
         }
         reset()
+    }
+
+    private fun countTap() {
+        tapTimer?.cancel()
+        taps++
+        if (taps >= 3) {
+            clearTaps()
+            listener.onTripleTap()
+            return
+        }
+        tapTimer = scheduler.postDelayed(tapGapMs) {
+            if (taps > 0) { clearTaps(); listener.onTap() }
+        }
+    }
+
+    private fun clearTaps() {
+        tapTimer?.cancel(); tapTimer = null
+        taps = 0
     }
 
     private fun reset() {

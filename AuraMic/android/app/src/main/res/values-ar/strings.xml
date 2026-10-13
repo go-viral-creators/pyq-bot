@@ -115,7 +115,7 @@
     <string name="set_support">التواصل مع الدعم</string>
     <string name="set_version" formatted="true">الإصدار %1$s</string>
     <string name="set_email_chooser">إرسال بريد عبر…</string>
-    <string name="ov_hint">اضغط مطولًا للتسجيل</string>
+    <string name="ov_hint">اضغط مطولًا للتسجيل · اضغط 3 مرات للتحريك</string>
     <string name="ov_slide_cancel">◀ اسحب للإلغاء</string>
     <string name="ov_release_cancel">ارفع إصبعك للإلغاء</string>
     <string name="ov_processing">جارٍ تنظيف الصوت…</string>
@@ -123,6 +123,9 @@
     <string name="ov_sent">تم الإرسال!</string>
     <string name="ov_failed">تعذّر الإرسال — اضغط إرسال يدويًا</string>
     <string name="ov_too_short">قصير جدًا</string>
+    <string name="ov_free_on">وضع التحريك: اسحب الميكروفون لأي مكان. اضغط 3 مرات لتثبيته</string>
+    <string name="ov_free_off">تم تثبيت الميكروفون على زر واتساب</string>
+    <string name="ov_hint_free">اضغط مطولًا للتسجيل · اضغط 3 مرات للتثبيت</string>
     <string name="ov_unconfirmed">ربما تم الإرسال — تحقّق من المحادثة</string>
     <string name="ov_manual">اختر محادثة ثم اضغط إرسال</string>
     <string name="ov_error_mic">الميكروفون مشغول</string>

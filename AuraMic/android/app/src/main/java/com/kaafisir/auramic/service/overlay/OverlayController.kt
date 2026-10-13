@@ -52,6 +52,7 @@ class OverlayController(
     private val orchestrator: VoiceNoteOrchestrator,
     private val haptics: Haptics,
     private val onPositionSaved: (x: Int, y: Int) -> Unit,
+    private val onFreeModeChanged: (free: Boolean) -> Unit = {},
 ) {
     private val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val density = context.resources.displayMetrics.density
@@ -79,8 +80,13 @@ class OverlayController(
     private var anchor: com.kaafisir.auramic.automation.MicAnchor? = null
     private val bubbleDp = mutableFloatStateOf(64f)
     private val flatState = mutableStateOf(false)
+    /**
+     * Triple tap toggles this. false (default) = "fixed": the bubble covers WhatsApp's mic and cannot be dragged.
+     * true = "free": the user drags it anywhere and it stays where it was dropped (no anchoring, no snapping).
+     */
+    private var freeMode = false
     /** Anchored = the bubble covers WhatsApp's mic; it then neither drags nor snaps and has the mic's exact size. */
-    private val anchoredNow get() = anchor?.takeIf { it.isMic }
+    private val anchoredNow get() = if (freeMode) null else anchor?.takeIf { it.isMic }
     private fun freePx() = dp(sizeDp.toFloat())
     private fun sizePx(): Int = anchoredNow?.let { it.size.coerceIn(dp(32f), dp(84f)) } ?: freePx()
 
@@ -94,9 +100,10 @@ class OverlayController(
     val isAttached: Boolean get() = bubbleRoot != null
 
     /** Applies user settings (size / saved position) - cheap to call repeatedly. */
-    fun configure(sizeDp: Int, savedX: Int, savedY: Int) {
+    fun configure(sizeDp: Int, savedX: Int, savedY: Int, free: Boolean = freeMode) {
         val resized = sizeDp != this.sizeDp
         this.sizeDp = sizeDp
+        if (free != freeMode) { freeMode = free; if (isAttached) applyLayout() }
         if (bx == -1 && savedX >= 0) { bx = savedX; by = savedY }
         // "Reset position" in Settings stores -1: go back to the default spot.
         if (savedX == -1 && lastSavedX != -1) resetPosition()
@@ -257,10 +264,12 @@ class OverlayController(
         bubbleParams.x = left - pad; bubbleParams.y = top - pad
         bubbleDp.floatValue = size / density
         flatState.value = anchored != null
-        bubbleRoot?.gesture?.allowDrag = anchored == null
+        // Dragging only in "free" mode: in fixed mode a touch that moves simply records, like WhatsApp's own button.
+        bubbleRoot?.gesture?.allowDrag = freeMode
 
         // While WhatsApp shows "Send" (text typed) its own button must be usable: hide and ignore touches.
-        val hideForSend = anchor != null && !anchor!!.isMic && !busy
+        // (A bubble the user moved elsewhere does not cover it, so it stays.)
+        val hideForSend = !freeMode && anchor != null && !anchor!!.isMic && !busy
         val flags = baseFlags(touchable = !hideForSend)
         bubbleParams.flags = flags
         bubbleRoot?.alpha = if (hideForSend) 0f else 1f
@@ -334,9 +343,28 @@ class OverlayController(
             applyLayout()
         }
 
-        override fun onDragEnd() { haptics.tick(); snapToEdge() }
+        override fun onDragEnd() {
+            haptics.tick()
+            // Free mode: stays exactly where it was dropped (clamped on screen); saved for next time.
+            if (freeMode) onPositionSaved(bx, by) else snapToEdge()
+        }
 
-        override fun onTap() { orchestrator.showHint(R.string.ov_hint) }
+        override fun onTap() { orchestrator.showHint(if (freeMode) R.string.ov_hint_free else R.string.ov_hint) }
+
+        override fun onTripleTap() {
+            if (orchestrator.state.value.isBusy) return
+            val wasAnchored = anchoredNow
+            freeMode = !freeMode
+            if (freeMode) {
+                // Start moving from where the bubble is now (on WhatsApp's mic) instead of jumping to the old spot.
+                wasAnchored?.let { a -> val (w, h) = screen(); bx = clampX(a.centerX - freePx() / 2, w); by = clampY(a.centerY - freePx() / 2, h) }
+                onPositionSaved(bx, by)
+            }
+            haptics.success()
+            applyLayout()
+            onFreeModeChanged(freeMode)
+            orchestrator.showHint(if (freeMode) R.string.ov_free_on else R.string.ov_free_off)
+        }
     }
 
     // ---------------------------------------------------------------------------------------

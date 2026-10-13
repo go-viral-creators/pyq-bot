@@ -98,6 +98,8 @@ data class UserSettings(
     /** Bubble window position in px, or -1 for "default". */
     val bubbleX: Int = -1,
     val bubbleY: Int = -1,
+    /** False = the bubble sits on WhatsApp's mic button (default); true = the user moved it (triple tap) and it stays put. */
+    val bubbleFree: Boolean = false,
     val theme: ThemeMode = ThemeMode.SYSTEM,
     val notesCleaned: Int = 0,
     val secondsPolished: Long = 0,

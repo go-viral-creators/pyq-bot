@@ -115,7 +115,7 @@
     <string name="set_support">सहायता से संपर्क करें</string>
     <string name="set_version" formatted="true">संस्करण %1$s</string>
     <string name="set_email_chooser">ईमेल भेजें…</string>
-    <string name="ov_hint">रिकॉर्ड के लिए दबाएँ</string>
+    <string name="ov_hint">रिकॉर्ड के लिए दबाकर रखें · खिसकाने के लिए 3 बार टैप</string>
     <string name="ov_slide_cancel">◀ रद्द करने के लिए स्लाइड करें</string>
     <string name="ov_release_cancel">रद्द करने के लिए छोड़ें</string>
     <string name="ov_processing">ऑडियो साफ़ हो रही है…</string>
@@ -123,6 +123,9 @@
     <string name="ov_sent">भेज दिया!</string>
     <string name="ov_failed">भेज नहीं सका — Send खुद दबाएँ</string>
     <string name="ov_too_short">बहुत छोटा</string>
+    <string name="ov_free_on">मूव मोड: माइक को कहीं भी खींचें। फिर से फ़िक्स करने के लिए तीन बार टैप करें</string>
+    <string name="ov_free_off">माइक WhatsApp के बटन पर फ़िक्स</string>
+    <string name="ov_hint_free">रिकॉर्ड के लिए दबाकर रखें · WhatsApp माइक पर फ़िक्स करने के लिए 3 बार टैप</string>
     <string name="ov_unconfirmed">शायद भेज दिया — चैट देख लें</string>
     <string name="ov_manual">चैट चुनें, फिर Send दबाएँ</string>
     <string name="ov_error_mic">माइक्रोफ़ोन व्यस्त है</string>

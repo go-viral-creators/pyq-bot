@@ -115,7 +115,7 @@
     <string name="set_support">Falar com o suporte</string>
     <string name="set_version" formatted="true">Versão %1$s</string>
     <string name="set_email_chooser">Enviar e-mail com…</string>
-    <string name="ov_hint">Segure para gravar</string>
+    <string name="ov_hint">Segure para gravar · toque 3 vezes para mover</string>
     <string name="ov_slide_cancel">◀ Deslize para cancelar</string>
     <string name="ov_release_cancel">Solte para cancelar</string>
     <string name="ov_processing">Limpando áudio…</string>
@@ -123,6 +123,9 @@
     <string name="ov_sent">Enviado!</string>
     <string name="ov_failed">Não foi possível enviar: toque em Enviar</string>
     <string name="ov_too_short">Muito curto</string>
+    <string name="ov_free_on">Modo mover: arraste o microfone. Toque 3 vezes para fixar</string>
+    <string name="ov_free_off">Microfone fixado no botão do WhatsApp</string>
+    <string name="ov_hint_free">Segure para gravar · toque 3 vezes para fixar</string>
     <string name="ov_unconfirmed">Provavelmente enviado: confira a conversa</string>
     <string name="ov_manual">Escolha uma conversa e toque em Enviar</string>
     <string name="ov_error_mic">O microfone está ocupado</string>

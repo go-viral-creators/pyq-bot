@@ -88,13 +88,14 @@ class OverlayService : Service() {
             orchestrator = orchestrator,
             haptics = haptics,
             onPositionSaved = { x, y -> scope.launch { settingsRepo.setBubblePosition(x, y) } },
+            onFreeModeChanged = { free -> scope.launch { settingsRepo.setBubbleFree(free) } },
         )
         controller = ctl
 
         scope.launch {
             settingsRepo.settings.collect { s ->
                 haptics.enabled = s.haptics
-                ctl.configure(s.bubbleSizeDp, s.bubbleX, s.bubbleY)
+                ctl.configure(s.bubbleSizeDp, s.bubbleX, s.bubbleY, s.bubbleFree)
             }
         }
         // Sit exactly on top of WhatsApp's own voice button whenever the accessibility service can see it.

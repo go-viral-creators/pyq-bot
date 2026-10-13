@@ -181,6 +181,21 @@
     <string name="set_cut_pauses">Hapus jeda panjang</string>
     <string name="set_cut_pauses_desc">Memotong jeda hening lebih dari 0,3 detik agar pesan suara lebih singkat dan padat.</string>
     <string name="pro_renews">Diperpanjang otomatis sampai Anda membatalkannya di Google Play.</string>
+    <string name="pro_redeem">Punya kode? Tukarkan</string>
+    <string name="pro_redeem_title">Tukarkan kode Pro</string>
+    <string name="pro_redeem_field">Tempel kode Anda</string>
+    <string name="pro_redeem_button">Tukarkan</string>
+    <string name="pro_request_code" formatted="true">Kode permintaan: %1$s</string>
+    <string name="pro_request_code_desc">Jika pemberi Pro memintanya, kirim kode permintaan ini: kodenya hanya akan berfungsi di ponsel ini.</string>
+    <string name="pro_grant_until" formatted="true">Pro gratis sampai %1$s</string>
+    <string name="pro_redeem_ok" formatted="true">Pro aktif sampai %1$s.</string>
+    <string name="pro_redeem_bad">Kode ini tidak valid. Periksa lalu coba lagi.</string>
+    <string name="pro_redeem_expired">Kode ini sudah kedaluwarsa.</string>
+    <string name="pro_redeem_other_phone">Kode ini dibuat untuk ponsel lain.</string>
+    <string name="pro_redeem_revoked">Kode ini telah dibatalkan.</string>
+    <string name="pro_grant_remove">Hapus kode</string>
+    <string name="common_copy">Salin</string>
+    <string name="common_copied">Disalin</string>
     <string name="set_save_notes">Simpan audio asli dan yang disempurnakan</string>
     <string name="set_save_notes_desc" formatted="true">Kedua versi setiap pesan suara muncul di Studio Lab. Hanya disimpan di ponsel ini (%1$s).</string>
     <string name="lab_notes_title">Pesan suara Anda</string>

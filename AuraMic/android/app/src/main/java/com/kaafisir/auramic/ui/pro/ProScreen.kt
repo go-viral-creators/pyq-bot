@@ -65,6 +65,7 @@ fun ProScreen(onBack: () -> Unit, vm: ProViewModel = hiltViewModel()) {
     val context = LocalContext.current
     var plan by remember { mutableStateOf(Plan.YEARLY) }
     val unavailable = stringResource(R.string.pro_unavailable)
+    var showRedeem by remember { mutableStateOf(false) }
 
     // A purchase finished while this screen was open: switch to High Quality and close.
     val wasSubscribed = remember { ui.pro.subscribed }
@@ -94,6 +95,12 @@ fun ProScreen(onBack: () -> Unit, vm: ProViewModel = hiltViewModel()) {
             }
             Spacer(Modifier.height(18.dp))
 
+            if (ui.pro.pro && !ui.pro.subscribed) {
+                // Free Pro from a redeemed code. Plans stay available below (a subscription simply takes over).
+                Text(stringResource(R.string.pro_grant_until, formatDay(ui.pro.grantUntil ?: 0)), style = MaterialTheme.typography.titleLarge, color = AuraMint, textAlign = TextAlign.Center)
+                TextButton(onClick = { vm.removeGrant() }) { Text(stringResource(R.string.pro_grant_remove), color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                Spacer(Modifier.height(8.dp))
+            }
             if (ui.pro.subscribed) {
                 Text(stringResource(R.string.pro_active_title), style = MaterialTheme.typography.titleLarge, color = AuraMint, textAlign = TextAlign.Center)
                 Spacer(Modifier.height(12.dp))
@@ -123,11 +130,13 @@ fun ProScreen(onBack: () -> Unit, vm: ProViewModel = hiltViewModel()) {
                 )
                 Text(stringResource(R.string.pro_renews), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
                 TextButton(onClick = { vm.refresh() }) { Text(stringResource(R.string.pro_restore)) }
+                TextButton(onClick = { showRedeem = true }) { Text(stringResource(R.string.pro_redeem)) }
                 TextButton(onClick = onBack) { Text(stringResource(R.string.pro_free), color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center) }
             }
             Spacer(Modifier.height(24.dp))
         }
     }
+    if (showRedeem) RedeemDialog(vm) { showRedeem = false }
 }
 
 @Composable
@@ -150,4 +159,64 @@ private fun PlanCard(title: String, price: String, per: String, best: Boolean, s
             Text(price, style = MaterialTheme.typography.titleLarge)
         }
     }
+}
+
+@Composable
+private fun RedeemDialog(vm: ProViewModel, onDismiss: () -> Unit) {
+    val context = LocalContext.current
+    var code by remember { mutableStateOf("") }
+    var requestCode by remember { mutableStateOf("") }
+    var message by remember { mutableStateOf<String?>(null) }
+    var ok by remember { mutableStateOf(false) }
+    var busy by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { requestCode = vm.requestCode() }
+    val copied = stringResource(R.string.common_copied)
+    val msgBad = stringResource(R.string.pro_redeem_bad)
+    val msgExpired = stringResource(R.string.pro_redeem_expired)
+    val msgOther = stringResource(R.string.pro_redeem_other_phone)
+    val msgRevoked = stringResource(R.string.pro_redeem_revoked)
+    val okTemplate = stringResource(R.string.pro_redeem_ok)
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.pro_redeem_title)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                androidx.compose.material3.OutlinedTextField(
+                    value = code, onValueChange = { code = it; message = null },
+                    label = { Text(stringResource(R.string.pro_redeem_field)) },
+                    singleLine = false, maxLines = 4, modifier = Modifier.fillMaxWidth(), enabled = !ok,
+                )
+                message?.let { Text(it, color = if (ok) AuraMint else MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium) }
+                if (requestCode.isNotEmpty()) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.pro_request_code, requestCode), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                        TextButton(onClick = {
+                            val cm = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                            cm.setPrimaryClip(android.content.ClipData.newPlainText("AuraMic request code", requestCode))
+                            Toast.makeText(context, copied, Toast.LENGTH_SHORT).show()
+                        }) { Text(stringResource(R.string.common_copy)) }
+                    }
+                    Text(stringResource(R.string.pro_request_code_desc), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+        },
+        confirmButton = {
+            if (ok) TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_done)) }
+            else TextButton(enabled = code.isNotBlank() && !busy, onClick = {
+                busy = true
+                vm.redeem(code) { r ->
+                    busy = false
+                    ok = r is com.kaafisir.auramic.data.pro.GrantCheck.Valid
+                    message = when (r) {
+                        is com.kaafisir.auramic.data.pro.GrantCheck.Valid -> okTemplate.format(formatDay(r.grant.expiresAtMillis))
+                        com.kaafisir.auramic.data.pro.GrantCheck.Expired -> msgExpired
+                        com.kaafisir.auramic.data.pro.GrantCheck.OtherPhone -> msgOther
+                        com.kaafisir.auramic.data.pro.GrantCheck.Revoked -> msgRevoked
+                        else -> msgBad
+                    }
+                }
+            }) { Text(stringResource(R.string.pro_redeem_button)) }
+        },
+        dismissButton = { if (!ok) TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_cancel)) } },
+    )
 }

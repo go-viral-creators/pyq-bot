@@ -584,6 +584,29 @@ def main(res_dir):
     print(f"wrote {len(S)} strings x {len(LANGS)} languages")
 
 
+# ---- free-Pro grant codes -----------------------------------------------------------------------
+add("pro_redeem", "Have a code? Redeem it", "कोड है? रिडीम करें", "Code hai? Redeem karein", "¿Tienes un código? Canjéalo", "Tem um código? Resgate", "لديك رمز؟ استبدله", "Punya kode? Tukarkan")
+add("pro_redeem_title", "Redeem a Pro code", "Pro कोड रिडीम करें", "Pro code redeem karein", "Canjear un código Pro", "Resgatar um código Pro", "استبدال رمز Pro", "Tukarkan kode Pro")
+add("pro_redeem_field", "Paste your code", "अपना कोड पेस्ट करें", "Apna code paste karein", "Pega tu código", "Cole seu código", "الصق الرمز", "Tempel kode Anda")
+add("pro_redeem_button", "Redeem", "रिडीम करें", "Redeem karein", "Canjear", "Resgatar", "استبدال", "Tukarkan")
+add("pro_request_code", "Request code: %1$s", "रिक्वेस्ट कोड: %1$s", "Request code: %1$s", "Código de solicitud: %1$s", "Código de solicitação: %1$s", "رمز الطلب: %1$s", "Kode permintaan: %1$s")
+add("pro_request_code_desc", "If the person giving you Pro asks for it, send them this request code: their code will then work only on this phone.",
+    "अगर Pro देने वाला मांगे तो यह रिक्वेस्ट कोड भेजें: तब उनका कोड सिर्फ़ इसी फ़ोन पर चलेगा।",
+    "Agar Pro dene wala maange to yeh request code bhejein: tab unka code sirf isi phone par chalega.",
+    "Si quien te regala Pro te lo pide, envíale este código: su código funcionará solo en este teléfono.",
+    "Se quem te dá o Pro pedir, envie este código: o código dele funcionará só neste telefone.",
+    "إذا طلبه من يمنحك Pro فأرسل له رمز الطلب هذا: سيعمل رمزه على هذا الهاتف فقط.",
+    "Jika pemberi Pro memintanya, kirim kode permintaan ini: kodenya hanya akan berfungsi di ponsel ini.")
+add("pro_grant_until", "Free Pro until %1$s", "%1$s तक फ़्री Pro", "%1$s tak free Pro", "Pro gratis hasta el %1$s", "Pro grátis até %1$s", "Pro مجاني حتى %1$s", "Pro gratis sampai %1$s")
+add("pro_redeem_ok", "Pro is on until %1$s.", "Pro %1$s तक चालू है।", "Pro %1$s tak on hai.", "Pro activo hasta el %1$s.", "Pro ativo até %1$s.", "تم تفعيل Pro حتى %1$s.", "Pro aktif sampai %1$s.")
+add("pro_redeem_bad", "This code isn't valid. Check it and try again.", "यह कोड सही नहीं है। जाँचकर फिर कोशिश करें।", "Yeh code sahi nahi hai. Check karke dobara try karein.", "Este código no es válido. Revísalo e inténtalo de nuevo.", "Este código não é válido. Confira e tente de novo.", "هذا الرمز غير صالح. تحقّق منه وحاول مرة أخرى.", "Kode ini tidak valid. Periksa lalu coba lagi.")
+add("pro_redeem_expired", "This code has expired.", "यह कोड एक्सपायर हो गया है।", "Yeh code expire ho gaya hai.", "Este código ha caducado.", "Este código expirou.", "انتهت صلاحية هذا الرمز.", "Kode ini sudah kedaluwarsa.")
+add("pro_redeem_other_phone", "This code was made for another phone.", "यह कोड किसी दूसरे फ़ोन के लिए बना है।", "Yeh code kisi doosre phone ke liye bana hai.", "Este código es para otro teléfono.", "Este código é para outro telefone.", "هذا الرمز مخصص لهاتف آخر.", "Kode ini dibuat untuk ponsel lain.")
+add("pro_redeem_revoked", "This code was cancelled.", "यह कोड रद्द कर दिया गया है।", "Yeh code cancel kar diya gaya hai.", "Este código fue cancelado.", "Este código foi cancelado.", "تم إلغاء هذا الرمز.", "Kode ini telah dibatalkan.")
+add("pro_grant_remove", "Remove code", "कोड हटाएँ", "Code hatayein", "Quitar código", "Remover código", "إزالة الرمز", "Hapus kode")
+add("common_copy", "Copy", "कॉपी करें", "Copy karein", "Copiar", "Copiar", "نسخ", "Salin")
+add("common_copied", "Copied", "कॉपी हो गया", "Copy ho gaya", "Copiado", "Copiado", "تم النسخ", "Disalin")
+
 # ---- saved voice notes (Studio Lab) + setting ---------------------------------------------
 add("set_save_notes", "Save original and enhanced audio", "मूल और साफ़ ऑडियो सेव करें", "Original aur saaf audio save karein",
     "Guardar audio original y mejorado", "Salvar áudio original e melhorado", "حفظ الصوت الأصلي والمحسّن", "Simpan audio asli dan yang disempurnakan")

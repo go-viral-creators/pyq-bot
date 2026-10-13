@@ -195,7 +195,7 @@ fun HomeScreen(
             Spacer(Modifier.height(16.dp))
             UpdateBanner(pro.update, onUpdate = { proVm.startUpdate(updateLauncher) }, onRestart = proVm::installUpdate)
         }
-        if (!pro.pro.subscribed) {
+        if (!pro.pro.pro) {
             Spacer(Modifier.height(16.dp))
             AuraCard(onClick = onOpenPro) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {

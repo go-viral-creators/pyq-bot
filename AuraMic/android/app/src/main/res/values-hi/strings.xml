@@ -181,6 +181,21 @@
     <string name="set_cut_pauses">लंबी चुप्पी हटाएँ</string>
     <string name="set_cut_pauses_desc">0.3 सेकंड से लंबी चुप्पी काट देता है, ताकि वॉइस नोट छोटा और कसा हुआ रहे।</string>
     <string name="pro_renews">Google Play में रद्द करने तक अपने-आप नवीनीकृत होता है।</string>
+    <string name="pro_redeem">कोड है? रिडीम करें</string>
+    <string name="pro_redeem_title">Pro कोड रिडीम करें</string>
+    <string name="pro_redeem_field">अपना कोड पेस्ट करें</string>
+    <string name="pro_redeem_button">रिडीम करें</string>
+    <string name="pro_request_code" formatted="true">रिक्वेस्ट कोड: %1$s</string>
+    <string name="pro_request_code_desc">अगर Pro देने वाला मांगे तो यह रिक्वेस्ट कोड भेजें: तब उनका कोड सिर्फ़ इसी फ़ोन पर चलेगा।</string>
+    <string name="pro_grant_until" formatted="true">%1$s तक फ़्री Pro</string>
+    <string name="pro_redeem_ok" formatted="true">Pro %1$s तक चालू है।</string>
+    <string name="pro_redeem_bad">यह कोड सही नहीं है। जाँचकर फिर कोशिश करें।</string>
+    <string name="pro_redeem_expired">यह कोड एक्सपायर हो गया है।</string>
+    <string name="pro_redeem_other_phone">यह कोड किसी दूसरे फ़ोन के लिए बना है।</string>
+    <string name="pro_redeem_revoked">यह कोड रद्द कर दिया गया है।</string>
+    <string name="pro_grant_remove">कोड हटाएँ</string>
+    <string name="common_copy">कॉपी करें</string>
+    <string name="common_copied">कॉपी हो गया</string>
     <string name="set_save_notes">मूल और साफ़ ऑडियो सेव करें</string>
     <string name="set_save_notes_desc" formatted="true">हर वॉइस नोट के दोनों वर्शन Studio Lab में दिखेंगे। सिर्फ़ इसी फ़ोन पर सेव (%1$s)।</string>
     <string name="lab_notes_title">आपके वॉइस नोट</string>

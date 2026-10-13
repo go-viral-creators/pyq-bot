@@ -6,6 +6,7 @@
 | `aura_synth.py` | synthetic speech / noise generators + ctypes wrapper around the native DSP |
 | `test_dsp.py` | quality/regression test for the C++ noise suppressor (host build) |
 | `dfn_reference.py` | numpy + official `libdf` reference of the offline DeepFilterNet3 pipeline |
+| `pro_grants.py` | admin tool for free-Pro codes: `genkey` (once), `issue --days N [--bind REQUEST_CODE]`, `revoke --id`, `list`; private key stays on your computer |
 | `bench/RESULTS.md` | listening-test results (rounds 3-5) and the decisions taken from them |
 | `dfn_native.py` / `test_dfn.py` | drives the C++ port + ONNX models exactly like the Kotlin code; verifies features, exactness, quality, LUFS |
 

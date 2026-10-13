@@ -182,6 +182,21 @@
     <string name="set_cut_pauses">Remove long pauses</string>
     <string name="set_cut_pauses_desc">Cuts silent gaps longer than 0.3 seconds so your voice note is shorter and tighter.</string>
     <string name="pro_renews">Renews automatically until you cancel in Google Play.</string>
+    <string name="pro_redeem">Have a code? Redeem it</string>
+    <string name="pro_redeem_title">Redeem a Pro code</string>
+    <string name="pro_redeem_field">Paste your code</string>
+    <string name="pro_redeem_button">Redeem</string>
+    <string name="pro_request_code" formatted="true">Request code: %1$s</string>
+    <string name="pro_request_code_desc">If the person giving you Pro asks for it, send them this request code: their code will then work only on this phone.</string>
+    <string name="pro_grant_until" formatted="true">Free Pro until %1$s</string>
+    <string name="pro_redeem_ok" formatted="true">Pro is on until %1$s.</string>
+    <string name="pro_redeem_bad">This code isn\'t valid. Check it and try again.</string>
+    <string name="pro_redeem_expired">This code has expired.</string>
+    <string name="pro_redeem_other_phone">This code was made for another phone.</string>
+    <string name="pro_redeem_revoked">This code was cancelled.</string>
+    <string name="pro_grant_remove">Remove code</string>
+    <string name="common_copy">Copy</string>
+    <string name="common_copied">Copied</string>
     <string name="set_save_notes">Save original and enhanced audio</string>
     <string name="set_save_notes_desc" formatted="true">Both versions of every voice note appear in Studio Lab. Stored only on this phone (%1$s).</string>
     <string name="lab_notes_title">Your voice notes</string>

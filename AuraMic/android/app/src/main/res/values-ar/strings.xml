@@ -181,6 +181,21 @@
     <string name="set_cut_pauses">إزالة الفترات الصامتة الطويلة</string>
     <string name="set_cut_pauses_desc">يقطع الفراغات الصامتة الأطول من 0.3 ثانية ليصبح تسجيلك أقصر وأكثر إحكامًا.</string>
     <string name="pro_renews">يتجدد تلقائيًا حتى تلغيه من Google Play.</string>
+    <string name="pro_redeem">لديك رمز؟ استبدله</string>
+    <string name="pro_redeem_title">استبدال رمز Pro</string>
+    <string name="pro_redeem_field">الصق الرمز</string>
+    <string name="pro_redeem_button">استبدال</string>
+    <string name="pro_request_code" formatted="true">رمز الطلب: %1$s</string>
+    <string name="pro_request_code_desc">إذا طلبه من يمنحك Pro فأرسل له رمز الطلب هذا: سيعمل رمزه على هذا الهاتف فقط.</string>
+    <string name="pro_grant_until" formatted="true">Pro مجاني حتى %1$s</string>
+    <string name="pro_redeem_ok" formatted="true">تم تفعيل Pro حتى %1$s.</string>
+    <string name="pro_redeem_bad">هذا الرمز غير صالح. تحقّق منه وحاول مرة أخرى.</string>
+    <string name="pro_redeem_expired">انتهت صلاحية هذا الرمز.</string>
+    <string name="pro_redeem_other_phone">هذا الرمز مخصص لهاتف آخر.</string>
+    <string name="pro_redeem_revoked">تم إلغاء هذا الرمز.</string>
+    <string name="pro_grant_remove">إزالة الرمز</string>
+    <string name="common_copy">نسخ</string>
+    <string name="common_copied">تم النسخ</string>
     <string name="set_save_notes">حفظ الصوت الأصلي والمحسّن</string>
     <string name="set_save_notes_desc" formatted="true">تظهر نسختا كل رسالة صوتية في Studio Lab. تُحفظ على هذا الهاتف فقط (%1$s).</string>
     <string name="lab_notes_title">رسائلك الصوتية</string>

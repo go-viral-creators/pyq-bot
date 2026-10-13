@@ -59,6 +59,19 @@ class ProViewModel @Inject constructor(
 
     fun buy(activity: Activity, plan: Plan): Boolean = access.purchase(activity, plan)
 
+    /** This phone's request code for phone-bound grants (shown in the redeem dialog only). */
+    suspend fun requestCode(): String = access.requestCode()
+
+    fun redeem(code: String, onResult: (com.kaafisir.auramic.data.pro.GrantCheck) -> Unit) {
+        viewModelScope.launch {
+            val r = runCatching { access.redeem(code) }.getOrDefault(com.kaafisir.auramic.data.pro.GrantCheck.Malformed)
+            if (r is com.kaafisir.auramic.data.pro.GrantCheck.Valid) repo.setQuality(Quality.HIGH)
+            onResult(r)
+        }
+    }
+
+    fun removeGrant() { viewModelScope.launch { access.removeGrant() } }
+
     fun checkUpdate(onResult: (Boolean) -> Unit) = updates.check(onResult)
     fun startUpdate(launcher: ActivityResultLauncher<IntentSenderRequest>) = updates.start(launcher)
     fun installUpdate() = updates.install()

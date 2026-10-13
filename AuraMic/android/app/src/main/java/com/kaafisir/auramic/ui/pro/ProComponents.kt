@@ -55,6 +55,8 @@ fun QualityPicker(ui: ProUi, onPick: (Quality) -> Unit, onGetPro: () -> Unit, mo
         )
         if (ui.pro.subscribed) {
             Text(stringResource(R.string.q_pro_active), style = MaterialTheme.typography.bodyMedium, color = AuraMint)
+        } else if (ui.pro.pro) {
+            Text(stringResource(R.string.pro_grant_until, formatDay(ui.pro.grantUntil ?: 0)), style = MaterialTheme.typography.bodyMedium, color = AuraMint)
         } else {
             Text(
                 if (ui.pro.trialLeft > 0) stringResource(R.string.q_trial_left, ui.pro.trialLeft) else stringResource(R.string.q_trial_over),
@@ -113,3 +115,8 @@ fun UpdateBanner(state: UpdateState, onUpdate: () -> Unit, onRestart: () -> Unit
         }
     }
 }
+
+/** Last day of a grant (expiry is the end of that UTC day), in the user's locale. */
+fun formatDay(endMillis: Long): String =
+    java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).apply { timeZone = java.util.TimeZone.getTimeZone("UTC") }
+        .format(java.util.Date(endMillis - 1))

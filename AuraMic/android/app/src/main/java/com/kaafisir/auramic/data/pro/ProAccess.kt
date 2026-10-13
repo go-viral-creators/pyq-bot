@@ -18,5 +18,14 @@ interface ProAccess {
     /** Counts one High Quality note against the free tries (no-op for subscribers). */
     suspend fun consumeFreeHighNote()
 
+    /** This install's request code: the admin binds a grant to it so the code works on this phone only. */
+    suspend fun requestCode(): String
+
+    /** Checks and stores a free-Pro grant code. Only a [GrantCheck.Valid] code is kept. */
+    suspend fun redeem(code: String): GrantCheck
+
+    /** Removes the stored grant (Play subscription unaffected). */
+    suspend fun removeGrant()
+
     fun resolve(settings: UserSettings): Quality = resolveQuality(settings.quality, state.value)
 }

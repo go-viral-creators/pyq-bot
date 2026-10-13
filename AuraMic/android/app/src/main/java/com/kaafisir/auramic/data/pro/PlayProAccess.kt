@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
@@ -62,21 +63,64 @@ class PlayProAccess @Inject constructor(@ApplicationContext private val context:
         TrialCounter.keyFor(context),
     )
 
-    /** Own devices (see [ProAllowlist]) are always Pro, with unlimited High Quality. */
-    private val allowlisted = ProAllowlist.isAllowed(context)
+    // Free-Pro grants (admin-signed codes, see ProGrants.kt). Stored in the backed-up Pro store and re-verified on read.
+    private val grantCode = stringPreferencesKey("grant_code")
+    private val installId = stringPreferencesKey("install_id")
+    private val clockHigh = longPreferencesKey("clock_high")
+    private val codec by lazy { GrantCodec() }
 
     private var client: BillingClient? = null
     private var details: ProductDetails? = null
 
     init {
-        if (allowlisted) _state.update { it.copy(subscribed = true) }
         scope.launch {
             // Cached answer first so the first voice note after launch already knows the plan.
             val p = runCatching { context.proStore.data.first() }.getOrNull()
             val cached = p?.get(subActive) == true && System.currentTimeMillis() - (p[subVerifiedAt] ?: 0L) < OFFLINE_GRACE_MS
             val used = runCatching { trial.used() }.getOrDefault(0)
-            _state.update { it.copy(subscribed = it.subscribed || cached || allowlisted, trialUsed = maxOf(it.trialUsed, used)) }
+            _state.update { it.copy(subscribed = it.subscribed || cached, trialUsed = maxOf(it.trialUsed, used)) }
+            refreshGrant()
         }
+    }
+
+    /**
+     * Re-checks the stored grant. Time only moves forward here: the latest time seen is remembered, so setting the
+     * phone's clock back cannot extend a grant. An invalid / expired / revoked grant simply stops counting (the code
+     * stays stored, so a wrong clock that is corrected later does not lose a valid grant).
+     */
+    private suspend fun refreshGrant() {
+        val p = runCatching { context.proStore.data.first() }.getOrNull() ?: return
+        val code = p[grantCode]
+        if (code == null) { _state.update { it.copy(grantUntil = null) }; return }
+        val now = maxOf(System.currentTimeMillis(), p[clockHigh] ?: 0L)
+        runCatching { context.proStore.edit { it[clockHigh] = now } }
+        val check = runCatching { codec.check(code, requestCode(), now) }.getOrNull()
+        _state.update { it.copy(grantUntil = (check as? GrantCheck.Valid)?.grant?.expiresAtMillis) }
+    }
+
+    override suspend fun requestCode(): String {
+        val p = context.proStore.data.first()
+        p[installId]?.let { return it }
+        val bytes = ByteArray(5).also { java.security.SecureRandom().nextBytes(it) }
+        val id = GrantCodec.encodeBase32(bytes).take(8)
+        context.proStore.edit { if (it[installId] == null) it[installId] = id }
+        return context.proStore.data.first()[installId] ?: id
+    }
+
+    override suspend fun redeem(code: String): GrantCheck {
+        val p = runCatching { context.proStore.data.first() }.getOrNull()
+        val now = maxOf(System.currentTimeMillis(), p?.get(clockHigh) ?: 0L)
+        val check = codec.check(code, requestCode(), now)
+        if (check is GrantCheck.Valid) {
+            context.proStore.edit { it[grantCode] = GrantCodec.normalize(code) }
+            _state.update { it.copy(grantUntil = check.grant.expiresAtMillis) }
+        }
+        return check
+    }
+
+    override suspend fun removeGrant() {
+        runCatching { context.proStore.edit { it.remove(grantCode) } }
+        _state.update { it.copy(grantUntil = null) }
     }
 
     private val listener = PurchasesUpdatedListener { result, purchases ->
@@ -101,6 +145,7 @@ class PlayProAccess @Inject constructor(@ApplicationContext private val context:
     }
 
     override suspend fun refresh() = lock.withLock {
+        refreshGrant()
         val used = runCatching { trial.used() }.getOrDefault(_state.value.trialUsed)
         _state.update { it.copy(trialUsed = maxOf(it.trialUsed, used)) }
         val c = runCatching { connect() }.getOrNull()
@@ -134,7 +179,7 @@ class PlayProAccess @Inject constructor(@ApplicationContext private val context:
             // Store unreachable: trust the last known answer for a while (the app is fully usable offline).
             val p = runCatching { context.proStore.data.first() }.getOrNull()
             val ok = p?.get(subActive) == true && System.currentTimeMillis() - (p[subVerifiedAt] ?: 0L) < OFFLINE_GRACE_MS
-            _state.update { it.copy(subscribed = ok || allowlisted) }
+            _state.update { it.copy(subscribed = ok) }
             return
         }
         val active = purchases.filter { it.purchaseState == Purchase.PurchaseState.PURCHASED && PRODUCT_ID in it.products }
@@ -145,7 +190,7 @@ class PlayProAccess @Inject constructor(@ApplicationContext private val context:
         runCatching {
             context.proStore.edit { it[subActive] = subscribed; it[subVerifiedAt] = System.currentTimeMillis() }
         }
-        _state.update { it.copy(subscribed = subscribed || allowlisted) }
+        _state.update { it.copy(subscribed = subscribed) }
     }
 
     override fun purchase(activity: Activity, plan: Plan): Boolean {
@@ -159,7 +204,7 @@ class PlayProAccess @Inject constructor(@ApplicationContext private val context:
     }
 
     override suspend fun consumeFreeHighNote() {
-        if (_state.value.subscribed) return
+        if (_state.value.pro) return                     // subscribers and grant holders never use up free tries
         val used = runCatching { trial.increment() }.getOrDefault(_state.value.trialUsed + 1)
         _state.update { it.copy(trialUsed = maxOf(it.trialUsed, used)) }
     }

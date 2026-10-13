@@ -181,6 +181,21 @@
     <string name="set_cut_pauses">Remover pausas longas</string>
     <string name="set_cut_pauses_desc">Corta silêncios maiores que 0,3 segundo para deixar seu áudio mais curto e objetivo.</string>
     <string name="pro_renews">Renova automaticamente até você cancelar no Google Play.</string>
+    <string name="pro_redeem">Tem um código? Resgate</string>
+    <string name="pro_redeem_title">Resgatar um código Pro</string>
+    <string name="pro_redeem_field">Cole seu código</string>
+    <string name="pro_redeem_button">Resgatar</string>
+    <string name="pro_request_code" formatted="true">Código de solicitação: %1$s</string>
+    <string name="pro_request_code_desc">Se quem te dá o Pro pedir, envie este código: o código dele funcionará só neste telefone.</string>
+    <string name="pro_grant_until" formatted="true">Pro grátis até %1$s</string>
+    <string name="pro_redeem_ok" formatted="true">Pro ativo até %1$s.</string>
+    <string name="pro_redeem_bad">Este código não é válido. Confira e tente de novo.</string>
+    <string name="pro_redeem_expired">Este código expirou.</string>
+    <string name="pro_redeem_other_phone">Este código é para outro telefone.</string>
+    <string name="pro_redeem_revoked">Este código foi cancelado.</string>
+    <string name="pro_grant_remove">Remover código</string>
+    <string name="common_copy">Copiar</string>
+    <string name="common_copied">Copiado</string>
     <string name="set_save_notes">Salvar áudio original e melhorado</string>
     <string name="set_save_notes_desc" formatted="true">As duas versões de cada nota de voz aparecem no Studio Lab. Só neste telefone (%1$s).</string>
     <string name="lab_notes_title">Suas notas de voz</string>

@@ -11,15 +11,20 @@ enum class Plan(val basePlanId: String) { MONTHLY("monthly"), YEARLY("yearly") }
 data class PlanOffer(val plan: Plan, val price: String)
 
 data class ProState(
+    /** Active Google Play subscription. */
     val subscribed: Boolean = false,
+    /** End of a free-Pro grant (redeemed admin code), or null. Independent of [subscribed]: either one gives Pro. */
+    val grantUntil: Long? = null,
     /** High Quality notes already used from the free trial (never goes down, even if app data is cleared). */
     val trialUsed: Int = 0,
     /** Plans loaded from Google Play (empty while offline / store not available). */
     val offers: List<PlanOffer> = emptyList(),
 ) {
     val trialLeft: Int get() = (FREE_HIGH_NOTES - trialUsed).coerceAtLeast(0)
+    /** Pro from either source: a Play subscription or a valid free grant. */
+    val pro: Boolean get() = subscribed || (grantUntil != null && grantUntil > System.currentTimeMillis())
     /** True when High Quality can be used right now. */
-    val highAvailable: Boolean get() = subscribed || trialLeft > 0
+    val highAvailable: Boolean get() = pro || trialLeft > 0
 }
 
 /**
@@ -27,7 +32,7 @@ data class ProState(
  * only while free tries are left.
  */
 fun resolveQuality(selected: Quality?, state: ProState): Quality = when {
-    state.subscribed -> selected ?: Quality.HIGH
+    state.pro -> selected ?: Quality.HIGH
     selected == Quality.HIGH && state.trialLeft > 0 -> Quality.HIGH
     else -> Quality.MEDIUM
 }

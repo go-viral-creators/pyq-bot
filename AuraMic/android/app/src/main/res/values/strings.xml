@@ -124,6 +124,7 @@
     <string name="ov_sent">Sent!</string>
     <string name="ov_failed">Couldn\'t send — tap Send manually</string>
     <string name="ov_too_short">Too short</string>
+    <string name="ov_unconfirmed">Probably sent — check the chat</string>
     <string name="ov_manual">Pick a chat, then tap Send</string>
     <string name="ov_error_mic">Microphone is busy</string>
     <string name="cd_mic">Record voice note</string>

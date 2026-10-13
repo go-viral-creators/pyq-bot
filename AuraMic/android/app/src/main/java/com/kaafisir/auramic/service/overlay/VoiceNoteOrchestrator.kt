@@ -154,6 +154,8 @@ class VoiceNoteOrchestrator @Inject constructor(
             when (bridge.sendAndAwait(chatName, targetPackage, allowFirstRow = false)) {
                 SendResult.Sent -> { haptics.success(); showTransient(OverlayState.Done(true, R.string.ov_sent)) }
                 is SendResult.Failed -> { haptics.error(); showTransient(OverlayState.Done(false, R.string.ov_failed), 3_200) }
+                // Send was tapped but the screen changed before we could see the result: never say "not sent" (a resend would duplicate).
+                is SendResult.Unknown -> { haptics.tick(); showTransient(OverlayState.Done(true, R.string.ov_unconfirmed), 2_600) }
             }
         } catch (t: kotlinx.coroutines.CancellationException) {
             throw t

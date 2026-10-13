@@ -123,6 +123,7 @@
     <string name="ov_sent">Terkirim!</string>
     <string name="ov_failed">Gagal mengirim — tekan Kirim manual</string>
     <string name="ov_too_short">Terlalu singkat</string>
+    <string name="ov_unconfirmed">Mungkin terkirim — cek obrolan</string>
     <string name="ov_manual">Pilih obrolan, lalu tekan Kirim</string>
     <string name="ov_error_mic">Mikrofon sedang dipakai</string>
     <string name="cd_mic">Rekam pesan suara</string>

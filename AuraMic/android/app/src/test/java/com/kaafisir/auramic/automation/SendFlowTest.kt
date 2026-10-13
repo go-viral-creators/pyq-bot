@@ -62,14 +62,94 @@ class SendFlowTest {
         assertTrue(a.clicks.isEmpty())
     }
 
-    @Test fun retriesSendThenFails() {
+    /** Selects "Mom" on the picker and taps Send on the preview; returns the number of actions so far. */
+    private fun sendTo(f: SendFlow, a: RecordingActions, preview: UiNode = FakeTree.preview()) {
+        f.step(FakeTree.picker("Mom"), a)
+        clock += 1_300
+        assertEquals(SendFlow.Outcome.Continue, f.step(preview, a))
+        assertTrue(f.sendTapped)
+    }
+
+    @Test fun sendButtonThatNeverGoesAwayIsRetriedOnceThenUnknownNeverFailed() {
+        val f = flow("Mom"); val a = RecordingActions()
+        sendTo(f, a)
+        var out: SendFlow.Outcome = SendFlow.Outcome.Continue
+        repeat(12) { clock += 1_600; if (out == SendFlow.Outcome.Continue) out = f.step(FakeTree.preview(), a) }
+        assertTrue("was $out", out is SendFlow.Outcome.Unknown)
+        assertEquals(1 + 1, a.clicks.size)   // row + first Send
+        assertEquals(1, a.taps.size)         // exactly one retry: no flood of duplicate sends
+    }
+
+    @Test fun backInTheChatAfterSendIsSuccessAndNothingElseIsTapped() {
+        // The bug behind "audio not sent": WhatsApp returns to the chat, whose mic / camera buttons sit in the lower-right
+        // corner. They must not be taken for "Send" and tapped again.
+        val f = flow("Mom"); val a = RecordingActions()
+        sendTo(f, a)
+        val before = a.clicks.size + a.taps.size
+        clock += 400
+        assertEquals(SendFlow.Outcome.Done, f.step(FakeTree.conversation("Mom"), a))
+        assertEquals(before, a.clicks.size + a.taps.size)
+    }
+
+    @Test fun openingWhatsAppCameraAfterSendIsSuccessNotFailure() {
+        val f = flow("Mom"); val a = RecordingActions()
+        sendTo(f, a)
+        val before = a.clicks.size + a.taps.size
+        repeat(10) { clock += 900; assertEquals(SendFlow.Outcome.Done, f.step(FakeTree.camera(), a)) }
+        assertEquals(before, a.clicks.size + a.taps.size)   // never taps the shutter
+    }
+
+    @Test fun draftInTheChatAfterSendIsNeverSent() {
+        // Back in the conversation the user had typed text: its Send button has the same id as the preview's.
+        val f = flow("Mom"); val a = RecordingActions()
+        sendTo(f, a)
+        val before = a.clicks.size + a.taps.size
+        repeat(6) { clock += 1_600; assertEquals(SendFlow.Outcome.Done, f.step(FakeTree.conversation("Mom", draftTyped = true), a)) }
+        assertEquals(before, a.clicks.size + a.taps.size)
+    }
+
+    @Test fun overallTimeoutAfterSendIsNotReportedAsFailure() {
         val f = flow("Mom"); val a = RecordingActions()
         f.step(FakeTree.picker("Mom"), a)
+        clock += 24_900                                     // slow device: chat picked late
+        f.step(FakeTree.preview(), a)                       // Send tapped at 24.9 s
+        assertTrue(f.sendTapped)
+        clock += 300
+        val out = f.step(FakeTree.preview(), a)             // 25.2 s: past the "find the chat" limit
+        assertTrue("was $out", out !is SendFlow.Outcome.Failed)
+    }
+
+    @Test fun leavingWhatsAppAfterSendIsUnknown() {
+        val f = flow("Mom"); val a = RecordingActions()
+        sendTo(f, a)
         var out: SendFlow.Outcome = SendFlow.Outcome.Continue
-        repeat(12) { clock += 1_600; out = f.step(FakeTree.preview(), a) }  // Send never goes away
-        assertTrue(out is SendFlow.Outcome.Failed)
-        assertEquals(1 + 3, a.clicks.size + a.taps.size) // row + 3 send attempts (click, tap, click)
-        assertTrue(a.taps.isNotEmpty())
+        repeat(8) { clock += 2_000; if (out == SendFlow.Outcome.Continue) out = f.step(null, a) }
+        assertTrue("was $out", out is SendFlow.Outcome.Unknown)
+    }
+
+    @Test fun pickerComingBackWithoutPreviewIsUnknown() {
+        val f = flow("Mom"); val a = RecordingActions()
+        sendTo(f, a)
+        var out: SendFlow.Outcome = SendFlow.Outcome.Continue
+        repeat(5) { clock += 800; if (out == SendFlow.Outcome.Continue) out = f.step(FakeTree.picker("Mom"), a) }
+        assertTrue("was $out", out is SendFlow.Outcome.Unknown)
+    }
+
+    @Test fun iconOnlySendFoundByPositionIsConfirmedByItsOwnDisappearance() {
+        val f = flow("Mom"); val a = RecordingActions()
+        sendTo(f, a, FakeTree.previewIconOnly())
+        clock += 500
+        assertEquals(SendFlow.Outcome.Continue, f.step(FakeTree.previewIconOnly(), a))  // same button still there
+        clock += 500
+        assertEquals(SendFlow.Outcome.Done, f.step(FakeTree.conversationWithoutIds(), a))
+    }
+
+    @Test fun neverTapsSendWhenWhatsAppOpensTheChatInsteadOfAPreview() {
+        val f = flow("Mom"); val a = RecordingActions()
+        f.step(FakeTree.picker("Mom"), a)
+        repeat(6) { clock += 1_000; f.step(FakeTree.conversation("Mom", draftTyped = true), a) }
+        assertEquals(1, a.clicks.size + a.taps.size)        // only the row
+        assertTrue(!f.sendTapped)
     }
 
     @Test fun neverTypesIntoTheMessageBoxOfAConversation() {

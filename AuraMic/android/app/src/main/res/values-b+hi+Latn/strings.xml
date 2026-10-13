@@ -123,6 +123,7 @@
     <string name="ov_sent">Bhej diya!</string>
     <string name="ov_failed">Bhej nahi saka — Send khud dabayein</string>
     <string name="ov_too_short">Bahut chhota</string>
+    <string name="ov_unconfirmed">Shayad bhej diya — chat check kar lein</string>
     <string name="ov_manual">Chat chunein, phir Send dabayein</string>
     <string name="ov_error_mic">Microphone busy hai</string>
     <string name="cd_mic">Voice note record karein</string>

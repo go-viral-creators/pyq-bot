@@ -13,6 +13,14 @@ object WhatsAppUi {
     // works for both WhatsApp and WhatsApp Business.
     val CHAT_TITLE_IDS = listOf("conversation_contact_name", "conversation_title", "toolbar_title", "action_bar_title", "thread_title", "row_thread_composer_title")
     val COMPOSER_IDS = listOf("entry", "voice_note_btn", "conversation_entry_container", "row_thread_composer_edittext", "message_composer")
+    /** Present only on an open conversation (not on the share picker / preview). */
+    val CONVERSATION_IDS = listOf("conversation_contact_name", "entry", "voice_note_btn", "conversation_entry_action_button", "conversation_entry_container")
+    /** Buttons next to the message box that must never be mistaken for "Send". */
+    val COMPOSER_TOOL_IDS = listOf("voice_note_btn", "conversation_entry_action_button", "voice_note_button", "ptt_button", "camera_btn", "camera_button", "input_attach_button", "attach_button")
+    val COMPOSER_TOOL_WORDS = setOf(
+        "voice message", "voice note", "record voice message", "camera", "attach", "attachment", "mensaje de voz", "camara", "cámara",
+        "câmera", "mensagem de voz", "anexar", "adjuntar", "pesan suara", "kamera", "lampirkan", "वॉइस संदेश", "कैमरा", "अटैच", "رسالة صوتية", "الكاميرا", "إرفاق",
+    ).map { normalize(it) }.toSet()
     val PICKER_ROW_NAME_IDS = listOf("contactpicker_row_name", "conversations_row_contact_name", "contact_row_name")
     val SEND_IDS = listOf("send", "send_btn", "send_button", "send_container", "direct_send_button", "row_thread_composer_button_send")
     val SEARCH_BUTTON_IDS = listOf("menuitem_search", "search_button", "search")

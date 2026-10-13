@@ -319,6 +319,7 @@ add("ov_sending", "Sending…", "भेज रहा है…", "Bhej raha hai�
 add("ov_sent", "Sent!", "भेज दिया!", "Bhej diya!", "¡Enviado!", "Enviado!", "تم الإرسال!", "Terkirim!")
 add("ov_failed", "Couldn't send — tap Send manually", "भेज नहीं सका — Send खुद दबाएँ", "Bhej nahi saka — Send khud dabayein", "No se pudo enviar: pulsa Enviar", "Não foi possível enviar: toque em Enviar", "تعذّر الإرسال — اضغط إرسال يدويًا", "Gagal mengirim — tekan Kirim manual")
 add("ov_too_short", "Too short", "बहुत छोटा", "Bahut chhota", "Muy corto", "Muito curto", "قصير جدًا", "Terlalu singkat")
+add("ov_unconfirmed", "Probably sent — check the chat", "शायद भेज दिया — चैट देख लें", "Shayad bhej diya — chat check kar lein", "Probablemente enviado: revisa el chat", "Provavelmente enviado: confira a conversa", "ربما تم الإرسال — تحقّق من المحادثة", "Mungkin terkirim — cek obrolan")
 add("ov_manual", "Pick a chat, then tap Send", "चैट चुनें, फिर Send दबाएँ", "Chat chunein, phir Send dabayein", "Elige un chat y pulsa Enviar", "Escolha uma conversa e toque em Enviar", "اختر محادثة ثم اضغط إرسال", "Pilih obrolan, lalu tekan Kirim")
 add("ov_error_mic", "Microphone is busy", "माइक्रोफ़ोन व्यस्त है", "Microphone busy hai", "El micrófono está ocupado", "O microfone está ocupado", "الميكروفون مشغول", "Mikrofon sedang dipakai")
 add("cd_mic", "Record voice note", "वॉइस नोट रिकॉर्ड करें", "Voice note record karein", "Grabar nota de voz", "Gravar áudio", "تسجيل رسالة صوتية", "Rekam pesan suara")

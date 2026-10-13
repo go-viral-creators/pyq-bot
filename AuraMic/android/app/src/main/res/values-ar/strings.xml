@@ -123,6 +123,7 @@
     <string name="ov_sent">تم الإرسال!</string>
     <string name="ov_failed">تعذّر الإرسال — اضغط إرسال يدويًا</string>
     <string name="ov_too_short">قصير جدًا</string>
+    <string name="ov_unconfirmed">ربما تم الإرسال — تحقّق من المحادثة</string>
     <string name="ov_manual">اختر محادثة ثم اضغط إرسال</string>
     <string name="ov_error_mic">الميكروفون مشغول</string>
     <string name="cd_mic">تسجيل رسالة صوتية</string>

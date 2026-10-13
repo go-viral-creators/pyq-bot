@@ -123,6 +123,7 @@
     <string name="ov_sent">भेज दिया!</string>
     <string name="ov_failed">भेज नहीं सका — Send खुद दबाएँ</string>
     <string name="ov_too_short">बहुत छोटा</string>
+    <string name="ov_unconfirmed">शायद भेज दिया — चैट देख लें</string>
     <string name="ov_manual">चैट चुनें, फिर Send दबाएँ</string>
     <string name="ov_error_mic">माइक्रोफ़ोन व्यस्त है</string>
     <string name="cd_mic">वॉइस नोट रिकॉर्ड करें</string>

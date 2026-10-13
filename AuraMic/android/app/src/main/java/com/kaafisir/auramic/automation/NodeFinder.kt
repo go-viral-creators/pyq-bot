@@ -36,6 +36,19 @@ object NodeFinder {
     }
 
     /**
+     * True on an open conversation (header, message box or voice button by id). Its "Send" belongs to the user's own
+     * message box, and after a share it means the send screen has closed.
+     */
+    fun isConversation(root: UiNode): Boolean = root.walk().any { it.hasAnyId(WhatsAppUi.CONVERSATION_IDS) }
+
+    /** WhatsApp's mic / camera / attach buttons: never a "Send" candidate, whatever their position. */
+    private fun isComposerTool(n: UiNode): Boolean {
+        if (n.hasAnyId(WhatsAppUi.COMPOSER_TOOL_IDS)) return true
+        val label = normalize(n.desc ?: n.text)
+        return label.isNotEmpty() && WhatsAppUi.COMPOSER_TOOL_WORDS.any { label == it || label.startsWith("$it ") }
+    }
+
+    /**
      * The "Send" button of the media preview / confirmation dialog. Strategies, strictest first:
      * ids, exact labels in many languages, short "Send ..." labels, and (only when [allowPositional]) an
      * icon-only button in the lower-right corner.
@@ -48,12 +61,13 @@ object NodeFinder {
         root.walk().firstOrNull { n ->
             n.enabled && !n.editable && (startsWithSend(n.text) || startsWithSend(n.desc)) && n.clickableSelfOrAncestor() != null
         }?.let { return it.clickableSelfOrAncestor() }
-        if (!allowPositional) return null
+        if (!allowPositional || isConversation(root)) return null
         val w = screenWidth(root); val h = screenHeight(root)
         if (w <= 0 || h <= 0) return null
         return root.walk()
             .filter { n ->
-                n.enabled && n.clickable && !n.editable && n.bounds.width in 1..(w * 0.3).toInt() && n.bounds.height in 1..(w * 0.3).toInt() &&
+                n.enabled && n.clickable && !n.editable && !isComposerTool(n) && n.children.none { isComposerTool(it) } &&
+                    n.bounds.width in 1..(w * 0.3).toInt() && n.bounds.height in 1..(w * 0.3).toInt() &&
                     n.bounds.centerX() > w * 0.6 && n.bounds.centerY() > h * 0.7 &&
                     (n.className?.let { it.endsWith("ImageButton") || it.endsWith("ImageView") || it.endsWith("FloatingActionButton") || it.endsWith("Button") } ?: false)
             }

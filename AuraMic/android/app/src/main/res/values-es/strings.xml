@@ -123,6 +123,7 @@
     <string name="ov_sent">¡Enviado!</string>
     <string name="ov_failed">No se pudo enviar: pulsa Enviar</string>
     <string name="ov_too_short">Muy corto</string>
+    <string name="ov_unconfirmed">Probablemente enviado: revisa el chat</string>
     <string name="ov_manual">Elige un chat y pulsa Enviar</string>
     <string name="ov_error_mic">El micrófono está ocupado</string>
     <string name="cd_mic">Grabar nota de voz</string>

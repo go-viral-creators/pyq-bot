@@ -212,6 +212,7 @@ class AuraAccessibilityService : AccessibilityService() {
                 } finally {
                     snap?.release()
                 }
+                if (flow.sendTapped) bridge.markSendTapped(request.id)
                 when (outcome) {
                     SendFlow.Outcome.Continue -> delay(POLL_MS)
                     SendFlow.Outcome.Done -> { bridge.complete(request.id, SendResult.Sent); return@launch }
@@ -219,6 +220,11 @@ class AuraAccessibilityService : AccessibilityService() {
                         Log.w(TAG, "send flow failed: ${outcome.reason}")
                         bridge.diagnostics = "reason=${outcome.reason} chat=${request.chatName?.take(3)}~ pkg=${request.targetPackage}\n" + (lastDump ?: "(no screen of the chat app was visible)")
                         bridge.complete(request.id, SendResult.Failed(outcome.reason)); return@launch
+                    }
+                    is SendFlow.Outcome.Unknown -> {
+                        Log.w(TAG, "send not confirmed: ${outcome.reason}")
+                        bridge.diagnostics = "unconfirmed=${outcome.reason} pkg=${request.targetPackage}\n" + (lastDump ?: "")
+                        bridge.complete(request.id, SendResult.Unknown(outcome.reason)); return@launch
                     }
                 }
             }

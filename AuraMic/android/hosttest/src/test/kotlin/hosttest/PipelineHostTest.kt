@@ -265,6 +265,19 @@ class PipelineHostTest {
         com.kaafisir.auramic.audio.Experiments.gtcrnAfterDfn = false; com.kaafisir.auramic.audio.Experiments.gtcrnBeforeDfn = false
     }
 
+    @Test fun progressOnlyGrowsAndStaysBelowDoneUntilTheCallerFinishes() {
+        assumeTrue(ready)
+        for (q in com.kaafisir.auramic.domain.model.Quality.entries) {
+            val seen = ArrayList<Float>()
+            pipeline.process(noisy, noisy.size, 48_000, EnhanceOptions.forQuality(q), false) { seen += it }
+            assertTrue("$q: no progress reported", seen.size >= 3)
+            for (i in 1 until seen.size) assertTrue("$q: progress went back ${seen[i - 1]} -> ${seen[i]}", seen[i] > seen[i - 1])
+            assertTrue("$q: pipeline must leave room for encoding, ended at ${seen.last()}", seen.last() <= 0.951f)
+            assertTrue("$q: should reach the end of its range, ended at ${seen.last()}", seen.last() >= 0.94f)
+            println("progress $q: ${seen.size} updates, ${"%.2f".format(seen.first())} .. ${"%.2f".format(seen.last())}")
+        }
+    }
+
     /**
      * Long-recording benchmark: -Pauramic.longdir=<dir with a clips folder of wav files> [-Pauramic.longtag=name].
      * For each clip and quality: wall time per stage, x realtime and peak RSS growth of this process (VmHWM after

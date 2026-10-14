@@ -51,6 +51,10 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         val stages = LinkedHashMap<String, Long>()
         var tMark = t0
         fun mark(name: String) { val t = System.nanoTime(); stages[name] = (stages[name] ?: 0L) + (t - tMark) / 1_000_000; tMark = t }
+        // Overall progress is monotonic and honest: denoise 0-80 %, cut + master 80-95 %; the caller adds encoding.
+        var lastP = 0f
+        fun report(p: Float) { if (p > lastP) { lastP = p; onProgress?.invoke(p) } }
+        val denoiseProgress: (Float) -> Unit = { report(0.80f * it.coerceIn(0f, 1f)) }
         val raw = Resampler.toFloat(pcm, length)
         // The input is needed after denoising only for stems / "keep ambience"; otherwise it is dropped right away
         // so a 5-minute note never holds more than two clip-sized float arrays.
@@ -64,18 +68,18 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
         var enhanced: FloatArray? = null
         if (opt.engine == EnhanceEngine.AI) {
             val src = if (Experiments.gtcrnBeforeDfn) light.enhance(x, n, null) ?: x else x
-            enhanced = dfn.enhance(src, n, opt.attenuationDb, opt.fastMode, onProgress)
+            enhanced = dfn.enhance(src, n, opt.attenuationDb, opt.fastMode, denoiseProgress)
             if (enhanced != null && Experiments.dfnTwice) enhanced = dfn.enhance(enhanced, n, opt.attenuationDb, opt.fastMode, null) ?: enhanced
             if (enhanced != null && Experiments.gtcrnAfterDfn) enhanced = light.enhance(enhanced, n, null) ?: enhanced
             if (enhanced == null) engineUsed = EnhanceEngine.CLASSIC
         }
         if (opt.engine == EnhanceEngine.LIGHT) {
-            enhanced = light.enhance(x, n, onProgress)
+            enhanced = light.enhance(x, n, denoiseProgress)
             if (enhanced == null) engineUsed = EnhanceEngine.CLASSIC
         }
         if (enhanced == null) enhanced = classic(x, n, opt)
         mark("denoise")
-        onProgress?.invoke(0.9f)
+        report(0.80f)
 
         val removed = if (wantStems) FloatArray(n) { x[it] - enhanced[it] } else null
 
@@ -95,6 +99,7 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
             voice = r.pcm; len = r.length; removedSilence = r.removedSamples
         }
         mark("cut")
+        report(0.86f)
 
         val report = if (len > 0) NativePolish.run(voice, len, opt.preset, opt.normalize, opt.targetLufs) else null
 
@@ -107,7 +112,7 @@ class EnhancementPipeline @Inject constructor(private val dfn: AiEnhancer, priva
             original = levelMatched(x, n, target)
             removedStem = levelMatched(removed!!, n, min(target, -20f))
         }
-        onProgress?.invoke(1f)
+        report(0.95f)
         val ms = (System.nanoTime() - t0) / 1_000_000
         AudioLog.lastEngine = engineUsed.name
         AudioLog.i(TAG, "processed ${"%.1f".format(inputSeconds)}s in $ms ms (${"%.1f".format(inputSeconds * 1000f / max(1L, ms))}x realtime) engine=$engineUsed stages=$stages")

@@ -110,7 +110,7 @@ class LabViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val settings = settingsRepo.current()
-                val r = process.enhance(rec, pro.resolve(settings), settings.cutPauses, stems = true) { p -> _state.value = LabState.Processing(p) }
+                val r = process.enhance(rec, pro.resolve(settings), settings.cutPauses, stems = true) { p -> _state.value = LabState.Processing((p / 0.95f).coerceAtMost(1f)) }   // pipeline ends at 95 % (no encoding in Lab)
                 val original = r.original ?: error("no original stem")
                 _state.value = LabState.Result(
                     takes = mapOf(

@@ -135,8 +135,7 @@ class VoiceNoteOrchestrator @Inject constructor(
             val settings = settingsRepo.current()
             val quality = pro.resolve(settings)
             _progress.value = 0f
-            val note = processNote(rec, quality, settings.cutPauses) { _progress.value = it }
-            if (quality == com.kaafisir.auramic.domain.model.Quality.HIGH) pro.consumeFreeHighNote()   // no-op for subscribers
+            val note = processNote(rec, quality, settings.cutPauses) { p -> if (p > _progress.value) _progress.value = p }
             Log.i(TAG, "processed ${"%.1f".format(note.seconds)}s engine=${note.engine} ${"%.1f".format(note.speedFactor)}x realtime -> ${note.file.name}")
 
             _state.value = OverlayState.Sending
@@ -153,6 +152,8 @@ class VoiceNoteOrchestrator @Inject constructor(
                 handOff(note, settings)
             } finally {
                 archiveJob?.start()
+                // Counted after the hand-off: it touches DataStore + a MediaStore file and must not delay sending.
+                if (quality == com.kaafisir.auramic.domain.model.Quality.HIGH) pro.consumeFreeHighNote()   // no-op for Pro
             }
         } catch (t: kotlinx.coroutines.CancellationException) {
             throw t

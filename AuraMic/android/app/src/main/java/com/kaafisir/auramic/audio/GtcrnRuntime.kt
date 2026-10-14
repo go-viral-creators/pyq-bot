@@ -70,7 +70,7 @@ class GtcrnRuntime(
                 val ce = minOf(frames, cs + CHUNK)
                 runChunk(s, spec, outSpec, frames, maxOf(0, cs - CONTEXT), cs, ce)
                 cs = ce
-                onProgress?.invoke(0.1f + 0.6f * cs / frames)
+                onProgress?.invoke(0.1f + 0.85f * cs / frames)
             }
             val y16 = istft(outSpec, frames, x16.size)
             val y = Resampler.resample(y16, y16.size, SR, 48_000)

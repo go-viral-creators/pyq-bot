@@ -20,25 +20,25 @@ object AudioEncoder {
      * Encodes to [wanted]; if Opus is requested but unsupported (needs API 29+, 48 kHz and an Opus
      * encoder) or fails, transparently falls back to AAC in M4A.
      */
-    fun encode(pcm: ShortArray, length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File): Encoded =
-        encode(length, sampleRate, wanted, outDir) { buf, pos, n -> buf.put(pcm, pos, n) }
+    fun encode(pcm: ShortArray, length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File, onProgress: ((Float) -> Unit)? = null): Encoded =
+        encode(length, sampleRate, wanted, outDir, onProgress) { buf, pos, n -> buf.put(pcm, pos, n) }
 
     /** Same as above, straight from float samples (converted per codec buffer, no clip-sized PCM16 copy). */
-    fun encode(pcm: FloatArray, length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File): Encoded =
-        encode(length, sampleRate, wanted, outDir) { buf, pos, n ->
+    fun encode(pcm: FloatArray, length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File, onProgress: ((Float) -> Unit)? = null): Encoded =
+        encode(length, sampleRate, wanted, outDir, onProgress) { buf, pos, n ->
             for (i in pos until pos + n) {
                 val v = (pcm[i] * 32767f).let { if (it >= 0) it + 0.5f else it - 0.5f }   // same rounding as Resampler.toShort
                 buf.put(v.coerceIn(-32768f, 32767f).toInt().toShort())
             }
         }
 
-    private fun encode(length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File, fill: Fill): Encoded {
+    private fun encode(length: Int, sampleRate: Int, wanted: OutputFormat, outDir: File, onProgress: ((Float) -> Unit)?, fill: Fill): Encoded {
         outDir.mkdirs()
         val stamp = java.text.SimpleDateFormat("yyyyMMdd_HHmmss", java.util.Locale.US).format(java.util.Date())
         if (wanted == OutputFormat.OPUS && Build.VERSION.SDK_INT >= 29 && sampleRate == 48_000) {
             val f = File(outDir, "AuraMic_$stamp.opus")
             try {
-                run(fill, length, sampleRate, MediaFormat.MIMETYPE_AUDIO_OPUS, 32_000, MediaMuxer.OutputFormat.MUXER_OUTPUT_OGG, f)
+                run(fill, length, sampleRate, onProgress, MediaFormat.MIMETYPE_AUDIO_OPUS, 32_000, MediaMuxer.OutputFormat.MUXER_OUTPUT_OGG, f)
                 return Encoded(f, "audio/ogg", OutputFormat.OPUS)
             } catch (t: Throwable) {
                 Log.w(TAG, "Opus encode failed, falling back to AAC", t)
@@ -46,14 +46,14 @@ object AudioEncoder {
             }
         }
         val f = File(outDir, "AuraMic_$stamp.m4a")
-        run(fill, length, sampleRate, MediaFormat.MIMETYPE_AUDIO_AAC, 64_000, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4, f)
+        run(fill, length, sampleRate, onProgress, MediaFormat.MIMETYPE_AUDIO_AAC, 64_000, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4, f)
         return Encoded(f, "audio/mp4", OutputFormat.M4A)
     }
 
     /** Writes samples [pos, pos + n) into the codec's input buffer. */
     private fun interface Fill { fun into(buf: java.nio.ShortBuffer, pos: Int, n: Int) }
 
-    private fun run(fill: Fill, length: Int, sampleRate: Int, mime: String, bitrate: Int, muxerFormat: Int, out: File) {
+    private fun run(fill: Fill, length: Int, sampleRate: Int, onProgress: ((Float) -> Unit)?, mime: String, bitrate: Int, muxerFormat: Int, out: File) {
         val format = MediaFormat.createAudioFormat(mime, sampleRate, 1).apply {
             setInteger(MediaFormat.KEY_BIT_RATE, bitrate)
             setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, 16 * 1024)
@@ -74,9 +74,42 @@ object AudioEncoder {
             var inputDone = false
             var outputDone = false
             var idleSpins = 0
+            var reported = 0f
+
+            // One finished output buffer -> muxer. Returns true if it was a real buffer (progress), false for
+            // "nothing ready".
+            fun drainOne(timeoutUs: Long): Boolean {
+                val o = codec.dequeueOutputBuffer(info, timeoutUs)
+                when {
+                    o == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
+                        track = muxer!!.addTrack(codec.outputFormat)
+                        muxer!!.start()
+                        muxerStarted = true
+                        return true
+                    }
+                    o >= 0 -> {
+                        val ob = codec.getOutputBuffer(o)!!
+                        if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) info.size = 0
+                        if (info.size > 0 && muxerStarted) {
+                            ob.position(info.offset)
+                            ob.limit(info.offset + info.size)
+                            muxer!!.writeSampleData(track, ob, info)
+                        }
+                        codec.releaseOutputBuffer(o, false)
+                        if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) outputDone = true
+                        return true
+                    }
+                    else -> return false   // INFO_TRY_AGAIN_LATER (or a deprecated buffers-changed code)
+                }
+            }
+
             while (!outputDone) {
+                var moved = false
+                // Never block on the input side: if the codec has no free input buffer it is waiting for us to take
+                // its output. (Blocking up to 10 ms here for every single output buffer - the old loop took ONE
+                // output per pass - made encoding of long notes crawl: a 5-minute note is ~14,000 AAC frames.)
                 if (!inputDone) {
-                    val idx = codec.dequeueInputBuffer(10_000)
+                    val idx = codec.dequeueInputBuffer(0)
                     if (idx >= 0) {
                         val buf = codec.getInputBuffer(idx)!!
                         buf.clear()
@@ -89,29 +122,17 @@ object AudioEncoder {
                             codec.queueInputBuffer(idx, 0, n * 2, pos * 1_000_000L / sampleRate, 0)
                             pos += n
                         }
+                        moved = true
+                        val f = pos.toFloat() / length
+                        if (onProgress != null && f - reported >= 0.02f) { reported = f; onProgress(f) }
                     }
                 }
-                val o = codec.dequeueOutputBuffer(info, 10_000)
-                when {
-                    o == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
-                        track = muxer.addTrack(codec.outputFormat)
-                        muxer.start()
-                        muxerStarted = true
-                    }
-                    o >= 0 -> {
-                        idleSpins = 0
-                        val ob = codec.getOutputBuffer(o)!!
-                        if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) info.size = 0
-                        if (info.size > 0 && muxerStarted) {
-                            ob.position(info.offset)
-                            ob.limit(info.offset + info.size)
-                            muxer.writeSampleData(track, ob, info)
-                        }
-                        codec.releaseOutputBuffer(o, false)
-                        if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) outputDone = true
-                    }
-                    o == MediaCodec.INFO_TRY_AGAIN_LATER -> if (inputDone && ++idleSpins > 500) error("encoder stalled")
-                }
+                // Take everything that is ready.
+                while (!outputDone && drainOne(0)) moved = true
+                if (moved) { idleSpins = 0; continue }
+                // Nothing moved: wait briefly for the codec instead of spinning.
+                if (drainOne(5_000)) idleSpins = 0
+                else if (++idleSpins > 1_000) error("encoder stalled")    // ~5 s without any progress
             }
             if (!muxerStarted) error("encoder produced no output")
         } finally {

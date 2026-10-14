@@ -54,10 +54,11 @@ class ProcessVoiceNoteUseCase @Inject constructor(
     ): ProcessedNote {
         val r = enhance(rec, quality, cutPauses, onProgress = onProgress)
         return withContext(Dispatchers.IO) {
+            // Encoding is the last 5 %: 95 -> 100 %, so 100 % really means "done".
             val enc = AudioEncoder.encode(
                 r.voice, r.length, r.sampleRate, OutputFormat.M4A,
                 File(context.cacheDir, WhatsAppSender.SHARE_DIR),
-            )
+            ) { f -> onProgress?.invoke(0.95f + 0.05f * f) }
             val peaks = com.kaafisir.auramic.data.notes.peaksOf(r.length) { r.voice[it] }
             ProcessedNote(enc.file, enc.mimeType, r.seconds, r.engineUsed, r.processingMs, r.speedFactor, r.removedSilenceSeconds, peaks)
         }

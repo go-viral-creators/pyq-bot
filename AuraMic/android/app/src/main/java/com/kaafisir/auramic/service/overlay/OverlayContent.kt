@@ -123,7 +123,7 @@ private fun StatusPill(state: OverlayState, level: Float, progress: Float) {
             OverlayState.Processing -> {
                 // Long notes take a few seconds: show how far along the cleaning is.
                 val label = stringResource(R.string.ov_processing)
-                PillText(if (progress in 0.05f..0.99f) "$label ${(progress * 100).toInt()}%" else label, Color.White)
+                PillText(if (progress >= 0.01f) "$label ${(progress * 100).toInt().coerceAtMost(100)}%" else label, Color.White)
             }
             OverlayState.Sending -> PillText(stringResource(R.string.ov_sending), Color.White)
             is OverlayState.Done -> {

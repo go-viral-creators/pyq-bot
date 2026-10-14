@@ -106,6 +106,13 @@ class AnchorHolderTest {
         org.junit.Assert.assertFalse(h.holding)
     }
 
+    @Test fun resetForgetsAtOnce() {
+        val h = AnchorHolder()
+        h.update(a, false, 0)
+        h.reset()
+        org.junit.Assert.assertNull(h.update(null, false, 10))
+    }
+
     @Test fun aFreshAnchorAlwaysWins() {
         val h = AnchorHolder()
         val b = MicAnchor(Bounds(10, 20, 110, 120), true)

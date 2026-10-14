@@ -73,9 +73,38 @@ class AuraAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        // Events only wake the mic-anchor tracker (below); their content is never read.
+        // Events only wake the mic-anchor tracker (below); their content is never read. The one thing used from an event
+        // is the class name of a newly shown WhatsApp screen (activity), to notice "left the chat" immediately.
+        if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && bridge.anchorTracking.value) onScreenChanged(event)
         if (bridge.anchorTracking.value) wake.trySend(Unit)
     }
+
+    /**
+     * Back from a chat, WhatsApp keeps the old conversation on screen while it slides away, so reading the tree still
+     * finds the mic for a while. A different WhatsApp *activity* coming to the front is a reliable "left the chat"
+     * signal: drop the bubble now and ignore the fading conversation for a moment.
+     */
+    private fun onScreenChanged(event: AccessibilityEvent) {
+        val pkg = event.packageName?.toString() ?: return
+        val cls = event.className?.toString() ?: return
+        if (pkg !in WhatsAppUi.PACKAGES || !cls.startsWith(pkg)) return    // popups, dialogs, keyboard: not a screen change
+        lastScreenClass = cls
+        val chat = chatScreenClass
+        if (chat != null && cls != chat) {
+            chatScreenClass = null
+            suppressUntil = SystemClock.elapsedRealtime() + LEAVE_SUPPRESS_MS
+            holder.reset()
+            bridge.setMicAnchor(null)
+            bridge.setChatOpen(false)
+        } else if (chat != null && cls == chat) {
+            suppressUntil = 0L
+        }
+    }
+
+    /** Class name of the WhatsApp screen the mic was last found on (the conversation), or null. */
+    @Volatile private var chatScreenClass: String? = null
+    @Volatile private var lastScreenClass: String? = null
+    @Volatile private var suppressUntil = 0L
 
     override fun onInterrupt() { runJob?.cancel() }
 
@@ -112,7 +141,8 @@ class AuraAccessibilityService : AccessibilityService() {
     private suspend fun trackMic() {
         while (true) {
             val now = SystemClock.elapsedRealtime()
-            var seen = runCatching { readMicAnchor() }.getOrNull()
+            var seen = if (now < suppressUntil) null else runCatching { readMicAnchor() }.getOrNull()
+            if (now < suppressUntil) { windowRead = true; conversationVisible = false; composerHasText = false }
             // Text in the message box = WhatsApp's button is "Send" now, whatever its id / label says: get out of its way.
             if (composerHasText) {
                 seen = (seen ?: holder.last)?.let { MicAnchor(it.bounds, false) }
@@ -120,6 +150,7 @@ class AuraAccessibilityService : AccessibilityService() {
             // Keep the last position only through a screen transition we could not read. Once the window was read and
             // shows no chat (chat list, status...) the bubble must go at once.
             val anchor = holder.update(seen, windowRead, now)
+            if (anchor != null && chatScreenClass == null && !holder.holding) chatScreenClass = lastScreenClass
             bridge.setMicAnchor(anchor)
             bridge.setChatOpen(anchor != null || runCatching { conversationVisible }.getOrDefault(false))
             // While holding, look again soon so the hold ends on time; otherwise wait for the next screen event.
@@ -347,6 +378,7 @@ class AuraAccessibilityService : AccessibilityService() {
         private const val POLL_MS = 220L
         private const val TRACK_MS = 450L
         private const val HOLD_POLL_MS = 60L
+        private const val LEAVE_SUPPRESS_MS = 700L
         private const val MAX_DEPTH = 40
         private const val MAX_NODES = 900
     }

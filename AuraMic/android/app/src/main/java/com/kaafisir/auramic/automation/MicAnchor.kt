@@ -84,6 +84,9 @@ class AnchorHolder(private val unreadableHoldMs: Long = 1_200, private val leftH
     var holding = false
         private set
 
+    /** Forget the remembered position at once (the user left the chat). */
+    fun reset() { last = null; holding = false }
+
     /** [seen] = anchor found by this read, [windowRead] = the app window's tree could be read. */
     fun update(seen: MicAnchor?, windowRead: Boolean, now: Long): MicAnchor? {
         if (seen != null) { last = seen; lastAt = now; holding = false; return seen }

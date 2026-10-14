@@ -51,6 +51,7 @@ class OverlayService : Service() {
     private var controller: OverlayController? = null
     /** True while WhatsApp is the foreground app (the bubble should be on screen). */
     private var wantVisible = false
+    private val visibility = BubbleVisibility()
     /** onCreate could not become a foreground service: nothing else was set up. */
     private var refused = false
 
@@ -116,16 +117,14 @@ class OverlayService : Service() {
                 Quad(pkg?.takeIf { it in com.kaafisir.auramic.domain.model.ChatApp.allPackages }, open, anchor != null, connected)
             }
                 .transformLatest { q ->
-                    when {
-                        q.pkg == null -> emit(null)
-                        !q.connected -> emit(q.pkg)                        // accessibility off: no way to tell, follow WhatsApp
-                        q.anchored -> emit(q.pkg)                          // a chat whose voice button was found
-                        q.chatOpen -> { delay(2_500); emit(q.pkg) }        // chat open but button not found: floating fallback after a grace period
-                        else -> emit(null)                                 // chat list, status, calls, settings...
+                    when (visibility.decide(q.pkg != null, q.chatOpen, q.anchored, q.connected)) {
+                        BubbleVisibility.Decision.Hide -> emit(null)
+                        BubbleVisibility.Decision.Show -> emit(q.pkg)
+                        BubbleVisibility.Decision.ShowAfterGrace -> { delay(2_500); emit(q.pkg) }
                     }
                 }
                 .distinctUntilChanged()
-                .let { f -> @OptIn(kotlinx.coroutines.FlowPreview::class) f.debounce { if (it == null) 120L else 0L } }
+                .let { f -> @OptIn(kotlinx.coroutines.FlowPreview::class) f.debounce { if (it == null) 60L else 0L } }
                 .collect { pkg ->
                     wantVisible = pkg != null
                     if (pkg != null) {

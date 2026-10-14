@@ -14,3 +14,4 @@ __pycache__/
 # delivery bundle (files sent to user directly)
 delivery/
 AuraMic_Complete_Build.zip
+AuraMic/release_out/

@@ -58,8 +58,7 @@ class AuraAccessibilityService : AccessibilityService() {
     /** Wakes the mic-anchor tracker when WhatsApp's screen changes (keyboard, typing, new chat). */
     private val wake = Channel<Unit>(Channel.CONFLATED)
     private var lastFullScan = 0L
-    private var lastAnchor: MicAnchor? = null
-    private var lastAnchorAt = 0L
+    private val holder = com.kaafisir.auramic.automation.AnchorHolder()
 
     override fun onServiceConnected() {
         super.onServiceConnected()
@@ -116,28 +115,32 @@ class AuraAccessibilityService : AccessibilityService() {
             var seen = runCatching { readMicAnchor() }.getOrNull()
             // Text in the message box = WhatsApp's button is "Send" now, whatever its id / label says: get out of its way.
             if (composerHasText) {
-                seen = (seen ?: lastAnchor)?.let { MicAnchor(it.bounds, false) }
+                seen = (seen ?: holder.last)?.let { MicAnchor(it.bounds, false) }
             }
-            if (seen != null) { lastAnchor = seen; lastAnchorAt = now }
-            // Keep the last position for a moment when a read misses (screen transition): the bubble must not jump around.
-            val anchor = seen ?: lastAnchor?.takeIf { now - lastAnchorAt < ANCHOR_HOLD_MS }
-            if (anchor == null) lastAnchor = null
+            // Keep the last position only through a screen transition we could not read. Once the window was read and
+            // shows no chat (chat list, status...) the bubble must go at once.
+            val anchor = holder.update(seen, windowRead, now)
             bridge.setMicAnchor(anchor)
             bridge.setChatOpen(anchor != null || runCatching { conversationVisible }.getOrDefault(false))
-            withTimeoutOrNull(TRACK_MS) { wake.receive() }
+            // While holding, look again soon so the hold ends on time; otherwise wait for the next screen event.
+            withTimeoutOrNull(if (holder.holding) HOLD_POLL_MS else TRACK_MS) { wake.receive() }
             delay(60) // coalesce bursts of events
         }
     }
 
     /** Set by [readMicAnchor]: a conversation screen (title or message box) is visible even if the voice button was not found. */
     @Volatile private var conversationVisible = false
+    /** Set by [readMicAnchor]: the chat app's window tree was available (even if no chat is open in it). */
+    @Volatile private var windowRead = false
     /** Set by [readMicAnchor]: the message box holds typed text (so WhatsApp shows its Send button, not the mic). */
     @Volatile private var composerHasText = false
 
     private fun readMicAnchor(): MicAnchor? {
         conversationVisible = false
         composerHasText = false
+        windowRead = false
         val root = rootInActiveWindow ?: return null
+        windowRead = true               // some window is in front and readable (the package check follows)
         val pkg = root.packageName?.toString()
         try {
             if (pkg == null || pkg !in WhatsAppUi.PACKAGES) return null
@@ -145,6 +148,7 @@ class AuraAccessibilityService : AccessibilityService() {
             run {
                 val boxes = root.findAccessibilityNodeInfosByViewId("$pkg:id/entry")
                 // An empty box exposes its hint ("Message") as text on some builds: hint, or no cursor in it (-1 / 0), means nothing typed.
+                if (boxes.any { it.isVisibleToUser }) conversationVisible = true     // a message box = a conversation
                 composerHasText = boxes.any {
                     val t = it.text?.toString()
                     it.isVisibleToUser && !t.isNullOrEmpty() && !it.isShowingHintText &&
@@ -342,7 +346,7 @@ class AuraAccessibilityService : AccessibilityService() {
         private const val TAG = "AuraA11y"
         private const val POLL_MS = 220L
         private const val TRACK_MS = 450L
-        private const val ANCHOR_HOLD_MS = 1_200L
+        private const val HOLD_POLL_MS = 60L
         private const val MAX_DEPTH = 40
         private const val MAX_NODES = 900
     }

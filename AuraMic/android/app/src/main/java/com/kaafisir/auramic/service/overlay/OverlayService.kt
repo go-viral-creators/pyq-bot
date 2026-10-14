@@ -125,7 +125,7 @@ class OverlayService : Service() {
                     }
                 }
                 .distinctUntilChanged()
-                .let { f -> @OptIn(kotlinx.coroutines.FlowPreview::class) f.debounce { if (it == null) 500L else 0L } }
+                .let { f -> @OptIn(kotlinx.coroutines.FlowPreview::class) f.debounce { if (it == null) 120L else 0L } }
                 .collect { pkg ->
                     wantVisible = pkg != null
                     if (pkg != null) {

@@ -87,3 +87,29 @@ class MicAnchorFinderTest {
         assertNotNull(MicAnchorFinder.classify(P + "voice_note_btn", null, null))
     }
 }
+
+class AnchorHolderTest {
+    private val a = MicAnchor(Bounds(900, 2200, 1040, 2340), true)
+
+    @Test fun keepsThePositionThroughAnUnreadableTransition() {
+        val h = AnchorHolder()
+        assertEquals(a, h.update(a, true, 0))
+        assertEquals(a, h.update(null, false, 800))                 // tree not available: hold
+        org.junit.Assert.assertNull(h.update(null, false, 1_300))   // ...but not forever
+    }
+
+    @Test fun leavingTheChatHidesAlmostImmediately() {
+        val h = AnchorHolder()
+        h.update(a, true, 0)
+        assertEquals(a, h.update(null, true, 100))                  // window read, no mic: only a short grace
+        org.junit.Assert.assertNull(h.update(null, true, 200))
+        org.junit.Assert.assertFalse(h.holding)
+    }
+
+    @Test fun aFreshAnchorAlwaysWins() {
+        val h = AnchorHolder()
+        val b = MicAnchor(Bounds(10, 20, 110, 120), true)
+        h.update(a, true, 0)
+        assertEquals(b, h.update(b, true, 50))
+    }
+}

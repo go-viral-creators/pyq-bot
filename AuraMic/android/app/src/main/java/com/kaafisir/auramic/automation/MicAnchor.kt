@@ -67,3 +67,30 @@ object MicAnchorFinder {
         return send
     }
 }
+
+/**
+ * Remembers the last mic position across a missed read, so the bubble does not jump during screen transitions - but
+ * only as long as it makes sense:
+ *  - the chat window could not be read at all (transition, tree being rebuilt): keep it [unreadableHoldMs];
+ *  - the window WAS read and has no mic / conversation (chat list, status, another app): the user left the chat,
+ *    keep it only [leftHoldMs] so the bubble disappears right away.
+ */
+class AnchorHolder(private val unreadableHoldMs: Long = 1_200, private val leftHoldMs: Long = 150) {
+    var last: MicAnchor? = null
+        private set
+    private var lastAt = 0L
+
+    /** True while [update] is returning a remembered anchor instead of a fresh one. */
+    var holding = false
+        private set
+
+    /** [seen] = anchor found by this read, [windowRead] = the app window's tree could be read. */
+    fun update(seen: MicAnchor?, windowRead: Boolean, now: Long): MicAnchor? {
+        if (seen != null) { last = seen; lastAt = now; holding = false; return seen }
+        val hold = if (windowRead) leftHoldMs else unreadableHoldMs
+        val a = last?.takeIf { now - lastAt < hold }
+        if (a == null) last = null
+        holding = a != null
+        return a
+    }
+}

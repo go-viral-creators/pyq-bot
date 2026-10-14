@@ -100,7 +100,18 @@ class OverlayService : Service() {
             }
         }
         // Sit exactly on top of WhatsApp's own voice button whenever the accessibility service can see it.
-        scope.launch { bridge.micAnchor.collect { ctl.setAnchor(it) } }
+        scope.launch {
+            bridge.micAnchor.collect { a ->
+                // The mic the bubble sat on is gone (left the chat): remove the bubble in this very frame. Letting it
+                // fall back to its free position first made it hop to the middle for a moment before it was hidden.
+                if (a == null && ctl.isAnchored && bridge.connected.value && !orchestrator.state.value.isBusy) {
+                    wantVisible = false
+                    ctl.hide()
+                } else {
+                    ctl.setAnchor(a)
+                }
+            }
+        }
         // Track WhatsApp's screen (mic position / is a chat open?) whenever WhatsApp is in front.
         scope.launch {
             detector.foregroundPackage.map { it?.takeIf { p -> p in com.kaafisir.auramic.domain.model.ChatApp.allPackages } }

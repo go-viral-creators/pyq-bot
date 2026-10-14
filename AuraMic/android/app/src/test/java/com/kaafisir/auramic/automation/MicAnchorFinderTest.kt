@@ -94,16 +94,22 @@ class AnchorHolderTest {
     @Test fun keepsThePositionThroughAnUnreadableTransition() {
         val h = AnchorHolder()
         assertEquals(a, h.update(a, true, 0))
-        assertEquals(a, h.update(null, false, 800))                 // tree not available: hold
-        org.junit.Assert.assertNull(h.update(null, false, 1_300))   // ...but not forever
+        assertEquals(a, h.update(null, false, 400))                 // tree not available: hold
+        org.junit.Assert.assertNull(h.update(null, false, 700))     // ...but not forever
     }
 
     @Test fun leavingTheChatHidesAlmostImmediately() {
         val h = AnchorHolder()
         h.update(a, true, 0)
-        assertEquals(a, h.update(null, true, 100))                  // window read, no mic: only a short grace
-        org.junit.Assert.assertNull(h.update(null, true, 200))
+        org.junit.Assert.assertNull(h.update(null, true, 10))       // window read, no conversation: gone on this very read
         org.junit.Assert.assertFalse(h.holding)
+    }
+
+    @Test fun aConversationWithoutAMicKeepsTheBubbleForAWhile() {
+        val h = AnchorHolder()
+        h.update(a, true, 0)
+        assertEquals(a, h.update(null, true, 300, conversationShown = true))
+        org.junit.Assert.assertNull(h.update(null, true, 700, conversationShown = true))
     }
 
     @Test fun resetForgetsAtOnce() {

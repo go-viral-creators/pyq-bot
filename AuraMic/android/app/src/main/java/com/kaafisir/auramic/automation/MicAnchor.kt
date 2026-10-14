@@ -72,10 +72,12 @@ object MicAnchorFinder {
  * Remembers the last mic position across a missed read, so the bubble does not jump during screen transitions - but
  * only as long as it makes sense:
  *  - the chat window could not be read at all (transition, tree being rebuilt): keep it [unreadableHoldMs];
- *  - the window WAS read and has no mic / conversation (chat list, status, another app): the user left the chat,
- *    keep it only [leftHoldMs] so the bubble disappears right away.
+ *  - the window was read and a conversation is still on screen but the voice button is not (selection mode, keyboard
+ *    animation): keep it too;
+ *  - the window WAS read and shows no conversation (chat list, status, another app): the user left the chat, drop it
+ *    on this very read.
  */
-class AnchorHolder(private val unreadableHoldMs: Long = 1_200, private val leftHoldMs: Long = 150) {
+class AnchorHolder(private val unreadableHoldMs: Long = 600) {
     var last: MicAnchor? = null
         private set
     private var lastAt = 0L
@@ -87,10 +89,10 @@ class AnchorHolder(private val unreadableHoldMs: Long = 1_200, private val leftH
     /** Forget the remembered position at once (the user left the chat). */
     fun reset() { last = null; holding = false }
 
-    /** [seen] = anchor found by this read, [windowRead] = the app window's tree could be read. */
-    fun update(seen: MicAnchor?, windowRead: Boolean, now: Long): MicAnchor? {
+    /** [seen] = anchor found by this read, [windowRead] = the app window's tree could be read, [conversationShown] = it shows a conversation. */
+    fun update(seen: MicAnchor?, windowRead: Boolean, now: Long, conversationShown: Boolean = false): MicAnchor? {
         if (seen != null) { last = seen; lastAt = now; holding = false; return seen }
-        val hold = if (windowRead) leftHoldMs else unreadableHoldMs
+        val hold = if (!windowRead || conversationShown) unreadableHoldMs else 0L
         val a = last?.takeIf { now - lastAt < hold }
         if (a == null) last = null
         holding = a != null

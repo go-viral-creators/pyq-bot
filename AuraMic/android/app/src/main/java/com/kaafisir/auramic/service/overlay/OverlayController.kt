@@ -87,6 +87,8 @@ class OverlayController(
     private var freeMode = false
     /** Anchored = the bubble covers WhatsApp's mic; it then neither drags nor snaps and has the mic's exact size. */
     private val anchoredNow get() = if (freeMode) null else anchor?.takeIf { it.isMic }
+    /** True while the bubble sits on top of WhatsApp's mic (fixed mode). */
+    val isAnchored: Boolean get() = isAttached && anchoredNow != null
     private fun freePx() = dp(sizeDp.toFloat())
     private fun sizePx(): Int = anchoredNow?.let { it.size.coerceIn(dp(32f), dp(84f)) } ?: freePx()
 

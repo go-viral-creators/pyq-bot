@@ -2,8 +2,6 @@
 <resources>
     <style name="Theme.AuraMic" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/window_bg</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:colorPrimary">@color/aura_violet</item>

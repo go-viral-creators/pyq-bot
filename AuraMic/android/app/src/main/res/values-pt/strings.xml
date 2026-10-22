@@ -113,6 +113,11 @@
     <string name="set_terms">Termos de serviço</string>
     <string name="set_a11y_notice">Aviso de acessibilidade</string>
     <string name="set_support">Falar com o suporte</string>
+    <string name="set_trouble">O microfone flutuante não aparece?</string>
+    <string name="set_trouble_hint">Copie este relatório e envie ao suporte para vermos o motivo. Ele não tem mensagens nem contatos.</string>
+    <string name="set_trouble_copy">Copiar</string>
+    <string name="set_trouble_copied">Relatório copiado</string>
+    <string name="common_close">Fechar</string>
     <string name="set_version" formatted="true">Versão %1$s</string>
     <string name="set_email_chooser">Enviar e-mail com…</string>
     <string name="ov_hint">Segure para gravar · toque 3 vezes para mover</string>

@@ -113,6 +113,11 @@
     <string name="set_terms">شروط الخدمة</string>
     <string name="set_a11y_notice">إفصاح إمكانية الوصول</string>
     <string name="set_support">التواصل مع الدعم</string>
+    <string name="set_trouble">الميكروفون العائم لا يظهر؟</string>
+    <string name="set_trouble_hint">انسخ هذا التقرير وأرسله إلى الدعم لنعرف السبب. لا يحتوي على رسائل أو جهات اتصال.</string>
+    <string name="set_trouble_copy">نسخ</string>
+    <string name="set_trouble_copied">تم نسخ التقرير</string>
+    <string name="common_close">إغلاق</string>
     <string name="set_version" formatted="true">الإصدار %1$s</string>
     <string name="set_email_chooser">إرسال بريد عبر…</string>
     <string name="ov_hint">اضغط مطولًا للتسجيل · اضغط 3 مرات للتحريك</string>

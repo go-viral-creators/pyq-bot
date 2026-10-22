@@ -50,6 +50,23 @@ class AutomationBridge @Inject constructor() {
     val chatOpen: StateFlow<Boolean> = _chatOpen.asStateFlow()
     fun setChatOpen(open: Boolean) { _chatOpen.value = open }
 
+    /** Chat app the accessibility service sees in front (a second opinion next to usage events), or null. */
+    private val _a11yPackage = MutableStateFlow<String?>(null)
+    val a11yPackage: StateFlow<String?> = _a11yPackage.asStateFlow()
+    fun setA11yPackage(pkg: String?) { _a11yPackage.value = pkg }
+
+    private val traceLines = ArrayDeque<String>()
+    private val traceFormat = java.text.SimpleDateFormat("HH:mm:ss.SSS", java.util.Locale.US)
+
+    /** Short log of why the floating mic was shown / hidden (no message content), shown in Settings -> Troubleshoot. */
+    fun trace(line: String) {
+        synchronized(traceLines) {
+            traceLines.addLast(traceFormat.format(java.util.Date()) + " " + line)
+            while (traceLines.size > 60) traceLines.removeFirst()
+        }
+    }
+    fun traceText(): String = synchronized(traceLines) { traceLines.joinToString("\n") }
+
     /** True while the bubble is on screen: the accessibility service then keeps [micAnchor] up to date. */
     private val _anchorTracking = MutableStateFlow(false)
     val anchorTracking: StateFlow<Boolean> = _anchorTracking.asStateFlow()

@@ -114,6 +114,11 @@
     <string name="set_terms">Terms of Service</string>
     <string name="set_a11y_notice">Accessibility disclosure</string>
     <string name="set_support">Contact support</string>
+    <string name="set_trouble">Floating mic not showing?</string>
+    <string name="set_trouble_hint">Copy this report and send it to support so we can see why. It has no messages or contacts.</string>
+    <string name="set_trouble_copy">Copy</string>
+    <string name="set_trouble_copied">Report copied</string>
+    <string name="common_close">Close</string>
     <string name="set_version" formatted="true">Version %1$s</string>
     <string name="set_email_chooser">Send email with…</string>
     <string name="ov_hint">Hold to record · triple-tap to move</string>

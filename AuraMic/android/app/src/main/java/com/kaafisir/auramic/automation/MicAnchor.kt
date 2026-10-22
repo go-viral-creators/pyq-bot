@@ -77,7 +77,7 @@ object MicAnchorFinder {
  *  - the window WAS read and shows no conversation (chat list, status, another app): the user left the chat, drop it
  *    on this very read.
  */
-class AnchorHolder(private val unreadableHoldMs: Long = 600) {
+class AnchorHolder(private val unreadableHoldMs: Long = 1_000) {
     var last: MicAnchor? = null
         private set
     private var lastAt = 0L

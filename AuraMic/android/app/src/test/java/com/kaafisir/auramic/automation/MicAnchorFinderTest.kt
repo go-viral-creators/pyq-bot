@@ -94,8 +94,8 @@ class AnchorHolderTest {
     @Test fun keepsThePositionThroughAnUnreadableTransition() {
         val h = AnchorHolder()
         assertEquals(a, h.update(a, true, 0))
-        assertEquals(a, h.update(null, false, 400))                 // tree not available: hold
-        org.junit.Assert.assertNull(h.update(null, false, 700))     // ...but not forever
+        assertEquals(a, h.update(null, false, 800))                 // tree not available: hold
+        org.junit.Assert.assertNull(h.update(null, false, 1_100))   // ...but not forever
     }
 
     @Test fun leavingTheChatHidesAlmostImmediately() {
@@ -109,7 +109,7 @@ class AnchorHolderTest {
         val h = AnchorHolder()
         h.update(a, true, 0)
         assertEquals(a, h.update(null, true, 300, conversationShown = true))
-        org.junit.Assert.assertNull(h.update(null, true, 700, conversationShown = true))
+        org.junit.Assert.assertNull(h.update(null, true, 1_100, conversationShown = true))
     }
 
     @Test fun resetForgetsAtOnce() {

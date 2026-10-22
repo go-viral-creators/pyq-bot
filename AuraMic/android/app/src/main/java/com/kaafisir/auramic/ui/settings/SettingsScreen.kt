@@ -69,6 +69,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
     val context = LocalContext.current
     val startActivity = rememberStartActivity()
     var showLanguages by remember { mutableStateOf(false) }
+    var micReport by remember { mutableStateOf<String?>(null) }
     val chooserTitle = stringResource(R.string.set_email_chooser)
 
     fun openUrl(url: String) { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
@@ -117,6 +118,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                 )
                 Spacer(Modifier.height(8.dp))
                 NavRow(stringResource(R.string.set_battery), null) { startActivity(vm.batteryIntent()) }
+                NavRow(stringResource(R.string.set_trouble), null) { micReport = vm.micReport() }
             }
 
             SectionHeader(stringResource(R.string.set_about))
@@ -170,6 +172,29 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                     }
                 }
             },
+        )
+    }
+
+    micReport?.let { report ->
+        val copiedMsg = stringResource(R.string.set_trouble_copied)
+        AlertDialog(
+            onDismissRequest = { micReport = null },
+            title = { Text(stringResource(R.string.set_trouble)) },
+            text = {
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    Text(stringResource(R.string.set_trouble_hint), style = MaterialTheme.typography.bodySmall)
+                    Spacer(Modifier.height(8.dp))
+                    Text(report, style = MaterialTheme.typography.labelSmall, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace)
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    val cm = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                    cm.setPrimaryClip(android.content.ClipData.newPlainText("AuraMic", report))
+                    Toast.makeText(context, copiedMsg, Toast.LENGTH_SHORT).show()
+                }) { Text(stringResource(R.string.set_trouble_copy)) }
+            },
+            dismissButton = { TextButton(onClick = { micReport = null }) { Text(stringResource(R.string.common_close)) } },
         )
     }
 }

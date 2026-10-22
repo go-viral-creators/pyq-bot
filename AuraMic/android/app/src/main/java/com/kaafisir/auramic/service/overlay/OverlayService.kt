@@ -52,6 +52,7 @@ class OverlayService : Service() {
     /** True while WhatsApp is the foreground app (the bubble should be on screen). */
     private var wantVisible = false
     private val visibility = BubbleVisibility()
+    private var lastTrace = ""
     /** onCreate could not become a foreground service: nothing else was set up. */
     private var refused = false
 
@@ -112,23 +113,30 @@ class OverlayService : Service() {
                 }
             }
         }
+        // Which chat app is in front: the usage events decide; only when they know nothing (no event seen) does the
+        // accessibility service's own sight of a chat app stand in (see A11yPresence).
+        val foreground = combine(detector.foregroundPackage, bridge.a11yPackage) { usagePkg, a11yPkg ->
+            if (usagePkg != null) usagePkg.takeIf { it in com.kaafisir.auramic.domain.model.ChatApp.allPackages } else a11yPkg
+        }.distinctUntilChanged()
         // Track WhatsApp's screen (mic position / is a chat open?) whenever WhatsApp is in front.
         scope.launch {
-            detector.foregroundPackage.map { it?.takeIf { p -> p in com.kaafisir.auramic.domain.model.ChatApp.allPackages } }
-                .distinctUntilChanged()
-                .collect { pkg ->
-                    bridge.setAnchorTracking(pkg != null)
-                    if (pkg != null) ctl.setTargetPackage(pkg)
-                }
+            foreground.collect { pkg ->
+                bridge.trace("foreground: usage-or-a11y -> ${pkg ?: "none"}")
+                bridge.setAnchorTracking(pkg != null)
+                if (pkg != null) ctl.setTargetPackage(pkg)
+            }
         }
         // The bubble is only for conversations: it is shown while a chat is open and hidden on the chat list, status,
         // settings, calls... (if accessibility is not enabled there is no way to tell, so then it follows WhatsApp).
         scope.launch {
-            combine(detector.foregroundPackage, bridge.chatOpen, bridge.micAnchor, bridge.connected) { pkg, open, anchor, connected ->
-                Quad(pkg?.takeIf { it in com.kaafisir.auramic.domain.model.ChatApp.allPackages }, open, anchor != null, connected)
+            combine(foreground, bridge.chatOpen, bridge.micAnchor, bridge.connected) { pkg, open, anchor, connected ->
+                Quad(pkg, open, anchor != null, connected)
             }
                 .transformLatest { q ->
-                    when (visibility.decide(q.pkg != null, q.chatOpen, q.anchored, q.connected)) {
+                    val decision = visibility.decide(q.pkg != null, q.chatOpen, q.anchored, q.connected)
+                    val line = "decide: fg=${q.pkg ?: "none"} chatOpen=${q.chatOpen} anchored=${q.anchored} a11y=${q.connected} -> ${decision::class.java.simpleName}"
+                    if (line != lastTrace) { lastTrace = line; bridge.trace(line) }
+                    when (decision) {
                         BubbleVisibility.Decision.Hide -> emit(null)
                         BubbleVisibility.Decision.Show -> emit(q.pkg)
                         BubbleVisibility.Decision.ShowAfterGrace -> { delay(2_500); emit(q.pkg) }

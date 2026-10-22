@@ -307,6 +307,17 @@ add("set_privacy", "Privacy Policy", "गोपनीयता नीति", "P
 add("set_terms", "Terms of Service", "सेवा की शर्तें", "Terms of Service", "Términos del servicio", "Termos de serviço", "شروط الخدمة", "Ketentuan Layanan")
 add("set_a11y_notice", "Accessibility disclosure", "एक्सेसिबिलिटी प्रकटीकरण", "Accessibility disclosure", "Aviso de accesibilidad", "Aviso de acessibilidade", "إفصاح إمكانية الوصول", "Pengungkapan Aksesibilitas")
 add("set_support", "Contact support", "सहायता से संपर्क करें", "Support se contact karein", "Contactar con soporte", "Falar com o suporte", "التواصل مع الدعم", "Hubungi dukungan")
+add("set_trouble", "Floating mic not showing?", "फ़्लोटिंग माइक नहीं दिख रहा?", "Floating mic nahi dikh raha?", "¿No aparece el micrófono flotante?", "O microfone flutuante não aparece?", "الميكروفون العائم لا يظهر؟", "Mikrofon melayang tidak muncul?")
+add("set_trouble_hint", "Copy this report and send it to support so we can see why. It has no messages or contacts.",
+    "यह रिपोर्ट कॉपी करके सपोर्ट को भेजें ताकि हम कारण देख सकें। इसमें कोई मैसेज या कॉन्टैक्ट नहीं है।",
+    "Ye report copy karke support ko bhejein taaki hum kaaran dekh sakein. Isme koi message ya contact nahi hai.",
+    "Copia este informe y envíalo a soporte para ver el motivo. No incluye mensajes ni contactos.",
+    "Copie este relatório e envie ao suporte para vermos o motivo. Ele não tem mensagens nem contatos.",
+    "انسخ هذا التقرير وأرسله إلى الدعم لنعرف السبب. لا يحتوي على رسائل أو جهات اتصال.",
+    "Salin laporan ini dan kirim ke dukungan agar kami bisa melihat penyebabnya. Tidak ada pesan atau kontak.")
+add("set_trouble_copy", "Copy", "कॉपी करें", "Copy karein", "Copiar", "Copiar", "نسخ", "Salin")
+add("set_trouble_copied", "Report copied", "रिपोर्ट कॉपी हो गई", "Report copy ho gayi", "Informe copiado", "Relatório copiado", "تم نسخ التقرير", "Laporan disalin")
+add("common_close", "Close", "बंद करें", "Band karein", "Cerrar", "Fechar", "إغلاق", "Tutup")
 add("set_version", "Version %1$s", "संस्करण %1$s", "Version %1$s", "Versión %1$s", "Versão %1$s", "الإصدار %1$s", "Versi %1$s")
 add("set_email_chooser", "Send email with…", "ईमेल भेजें…", "Email bhejein…", "Enviar correo con…", "Enviar e-mail com…", "إرسال بريد عبر…", "Kirim email dengan…")
 

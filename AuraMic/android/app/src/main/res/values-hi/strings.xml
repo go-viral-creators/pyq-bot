@@ -113,6 +113,11 @@
     <string name="set_terms">सेवा की शर्तें</string>
     <string name="set_a11y_notice">एक्सेसिबिलिटी प्रकटीकरण</string>
     <string name="set_support">सहायता से संपर्क करें</string>
+    <string name="set_trouble">फ़्लोटिंग माइक नहीं दिख रहा?</string>
+    <string name="set_trouble_hint">यह रिपोर्ट कॉपी करके सपोर्ट को भेजें ताकि हम कारण देख सकें। इसमें कोई मैसेज या कॉन्टैक्ट नहीं है।</string>
+    <string name="set_trouble_copy">कॉपी करें</string>
+    <string name="set_trouble_copied">रिपोर्ट कॉपी हो गई</string>
+    <string name="common_close">बंद करें</string>
     <string name="set_version" formatted="true">संस्करण %1$s</string>
     <string name="set_email_chooser">ईमेल भेजें…</string>
     <string name="ov_hint">रिकॉर्ड के लिए दबाकर रखें · खिसकाने के लिए 3 बार टैप</string>

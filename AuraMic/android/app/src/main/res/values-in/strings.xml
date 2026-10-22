@@ -113,6 +113,11 @@
     <string name="set_terms">Ketentuan Layanan</string>
     <string name="set_a11y_notice">Pengungkapan Aksesibilitas</string>
     <string name="set_support">Hubungi dukungan</string>
+    <string name="set_trouble">Mikrofon melayang tidak muncul?</string>
+    <string name="set_trouble_hint">Salin laporan ini dan kirim ke dukungan agar kami bisa melihat penyebabnya. Tidak ada pesan atau kontak.</string>
+    <string name="set_trouble_copy">Salin</string>
+    <string name="set_trouble_copied">Laporan disalin</string>
+    <string name="common_close">Tutup</string>
     <string name="set_version" formatted="true">Versi %1$s</string>
     <string name="set_email_chooser">Kirim email dengan…</string>
     <string name="ov_hint">Tahan untuk merekam · ketuk 3 kali untuk memindah</string>

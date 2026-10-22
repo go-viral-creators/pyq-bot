@@ -113,6 +113,11 @@
     <string name="set_terms">Terms of Service</string>
     <string name="set_a11y_notice">Accessibility disclosure</string>
     <string name="set_support">Support se contact karein</string>
+    <string name="set_trouble">Floating mic nahi dikh raha?</string>
+    <string name="set_trouble_hint">Ye report copy karke support ko bhejein taaki hum kaaran dekh sakein. Isme koi message ya contact nahi hai.</string>
+    <string name="set_trouble_copy">Copy karein</string>
+    <string name="set_trouble_copied">Report copy ho gayi</string>
+    <string name="common_close">Band karein</string>
     <string name="set_version" formatted="true">Version %1$s</string>
     <string name="set_email_chooser">Email bhejein…</string>
     <string name="ov_hint">Record ke liye daba ke rakhein · move karne ke liye 3 baar tap</string>

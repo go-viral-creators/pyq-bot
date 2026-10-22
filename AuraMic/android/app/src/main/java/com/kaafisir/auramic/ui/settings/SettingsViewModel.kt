@@ -24,6 +24,7 @@ class SettingsViewModel @Inject constructor(
     private val repo: SettingsRepository,
     private val permissions: PermissionRepository,
     private val archive: com.kaafisir.auramic.data.notes.NoteArchive,
+    private val micDiagnostics: com.kaafisir.auramic.service.overlay.MicDiagnostics,
 ) : ViewModel() {
     val settings: StateFlow<UserSettings> =
         repo.settings.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UserSettings())
@@ -38,6 +39,7 @@ class SettingsViewModel @Inject constructor(
     fun setTheme(v: ThemeMode) = launch { repo.setTheme(v) }
     fun setLanguage(lang: AppLanguage) = launch { repo.setLanguage(lang) }
     fun batteryIntent(): Intent = permissions.batteryIntent()
+    fun micReport(): String = micDiagnostics.report()
 
     /** Space used by saved original / enhanced voice notes (Studio Lab). */
     val notesBytes: StateFlow<Long> = archive.state

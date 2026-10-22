@@ -33,6 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -59,6 +60,7 @@ class AuraAccessibilityService : AccessibilityService() {
     private val wake = Channel<Unit>(Channel.CONFLATED)
     private var lastFullScan = 0L
     private val holder = com.kaafisir.auramic.automation.AnchorHolder()
+    private val presence = com.kaafisir.auramic.automation.A11yPresence(WhatsAppUi.PACKAGES.toSet())
 
     override fun onServiceConnected() {
         super.onServiceConnected()
@@ -66,18 +68,28 @@ class AuraAccessibilityService : AccessibilityService() {
         bridge.activityLauncher = { intent -> launch(intent) }
         bridge.setConnected(true)
         scope.launch { bridge.pending.collect { req -> if (req != null) start(req) else runJob?.cancel() } }
-        scope.launch { bridge.anchorTracking.collectLatest { on -> if (on) trackMic() else bridge.setMicAnchor(null) } }
+        // Track the mic while the overlay says a chat app is in front, or while we ourselves can see one (second opinion
+        // for phones where the usage events are late or missing).
+        scope.launch {
+            kotlinx.coroutines.flow.combine(bridge.anchorTracking, bridge.a11yPackage) { tracking, seen -> tracking || seen != null }
+                .distinctUntilChanged()
+                .collectLatest { on -> if (on) trackMic() else { bridge.setMicAnchor(null); bridge.setChatOpen(false) } }
+        }
         // The system reconnects this service after a reboot, an app update or a killed process: bring the floating mic
         // back too (or tell the user how, if Android refuses a background start).
         scope.launch { delay(1_500); runCatching { restarter.restoreIfWanted(inForeground = false) } }
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        // Events only wake the mic-anchor tracker (below); their content is never read.
-        if (!bridge.anchorTracking.value) return
-        // A new WhatsApp screen (chat opened / closed): look at once, without the usual coalescing pause, and keep looking
-        // quickly for a moment while the new screen builds its tree.
-        if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+        // Events only wake the mic-anchor tracker (below); their content is never read. Their source tells us a chat app
+        // is on screen, even when the usage events do not.
+        val e = event ?: return
+        val pkg = e.packageName?.toString()
+        if (e.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && pkg != null && pkg in WhatsAppUi.PACKAGES) {
+            presence.onEvent(pkg, SystemClock.elapsedRealtime())
+            bridge.setA11yPackage(presence.packageName)
+            // A new screen (chat opened / closed): look at once, without the usual coalescing pause, and keep looking
+            // quickly for a moment while the new screen builds its tree.
             urgent = true
             settleUntil = SystemClock.elapsedRealtime() + SETTLE_MS
         }
@@ -103,6 +115,8 @@ class AuraAccessibilityService : AccessibilityService() {
 
     private fun teardown() {
         runJob?.cancel()
+        presence.reset()
+        bridge.setA11yPackage(null)
         bridge.setConnected(false)
         bridge.chatTitleProvider = null
         bridge.activityLauncher = null
@@ -125,6 +139,8 @@ class AuraAccessibilityService : AccessibilityService() {
         while (true) {
             val now = SystemClock.elapsedRealtime()
             var seen = runCatching { readMicAnchor() }.getOrNull()
+            presence.onRead(rootPackage, now)
+            bridge.setA11yPackage(presence.packageName)
             // Text in the message box = WhatsApp's button is "Send" now, whatever its id / label says: get out of its way.
             if (composerHasText) {
                 seen = (seen ?: holder.last)?.let { MicAnchor(it.bounds, false) }
@@ -144,6 +160,8 @@ class AuraAccessibilityService : AccessibilityService() {
 
     /** Set by [readMicAnchor]: a conversation screen (title or message box) is visible even if the voice button was not found. */
     @Volatile private var conversationVisible = false
+    /** Set by [readMicAnchor]: package of the active window, or null when none could be read. */
+    @Volatile private var rootPackage: String? = null
     /** Set by [readMicAnchor]: the chat app's window tree was available (even if no chat is open in it). */
     @Volatile private var windowRead = false
     /** Set by [readMicAnchor]: the message box holds typed text (so WhatsApp shows its Send button, not the mic). */
@@ -153,9 +171,11 @@ class AuraAccessibilityService : AccessibilityService() {
         conversationVisible = false
         composerHasText = false
         windowRead = false
+        rootPackage = null
         val root = rootInActiveWindow ?: return null
         windowRead = true               // some window is in front and readable (the package check follows)
         val pkg = root.packageName?.toString()
+        rootPackage = pkg
         try {
             if (pkg == null || pkg !in WhatsAppUi.PACKAGES) return null
             val dm = resources.displayMetrics

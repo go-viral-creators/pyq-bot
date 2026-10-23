@@ -180,12 +180,24 @@ class VoiceNoteOrchestrator @Inject constructor(
             showTransient(OverlayState.Done(true, R.string.ov_manual), 3_000)
             return
         }
-        when (bridge.sendAndAwait(chatName, targetPackage, allowFirstRow = false)) {
+        when (val r = bridge.sendAndAwait(chatName, targetPackage, allowFirstRow = false)) {
             SendResult.Sent -> { haptics.success(); showTransient(OverlayState.Done(true, R.string.ov_sent)) }
-            is SendResult.Failed -> { haptics.error(); showTransient(OverlayState.Done(false, R.string.ov_failed), 3_200) }
+            // Nothing was sent. The chat list / preview is still open, so tell the user what to do (a toast stays readable
+            // over WhatsApp) and get out of the way: no bubble on top of the list they now have to tap.
+            is SendResult.Failed -> { haptics.error(); toastThenIdle(r.reason) }
             // Send was tapped but the screen changed before we could see the result: never say "not sent" (a resend would duplicate).
             is SendResult.Unknown -> { haptics.tick(); showTransient(OverlayState.Done(true, R.string.ov_unconfirmed), 2_600) }
         }
+    }
+
+    /** The automatic send gave up ([reason] is from SendFlow): ask the user to finish by hand, with a toast, and clear the bubble state. */
+    private fun toastThenIdle(reason: String) {
+        val message = if (reason == "send button not found") R.string.ov_tap_send else R.string.ov_pick_chat
+        runCatching {
+            android.widget.Toast.makeText(context, com.kaafisir.auramic.core.LocaleManager.wrap(context).getString(message), android.widget.Toast.LENGTH_LONG).show()
+        }
+        transientJob?.cancel()
+        _state.value = OverlayState.Idle
     }
 
     /** Shows a banner state, then returns to Idle unless something else took over. */

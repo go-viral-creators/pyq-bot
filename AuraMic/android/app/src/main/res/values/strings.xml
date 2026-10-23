@@ -18,7 +18,7 @@
     <string name="tour_msg_1">Hey! Can you send me the details?</string>
     <string name="tour_msg_2">Sure, sending a voice note 🎙️</string>
     <string name="tour_t1_title">Meet your floating mic</string>
-    <string name="tour_t1_body">This bubble floats on top of WhatsApp. It disappears as soon as you leave WhatsApp.</string>
+    <string name="tour_t1_body">This bubble sits right on top of WhatsApp\'s own mic button. It disappears as soon as you leave the chat.</string>
     <string name="tour_t2_title">Press and hold to record</string>
     <string name="tour_t2_body">Your turn! Press and hold the glowing mic for a couple of seconds.</string>
     <string name="tour_t2_holding">Recording… keep holding</string>
@@ -30,8 +30,8 @@
     <string name="tour_demo_sent">Sent — studio quality!</string>
     <string name="tour_t4_title">Slide left to cancel</string>
     <string name="tour_t4_body">Changed your mind? While holding, slide the button to the left and let go. Nothing is sent.</string>
-    <string name="tour_t5_title">Drag it anywhere</string>
-    <string name="tour_t5_body">Quickly drag the bubble to move it. It snaps to the nearest screen edge and remembers its spot.</string>
+    <string name="tour_t5_title">Triple-tap to move it</string>
+    <string name="tour_t5_body">Quickly tap the bubble 3 times to unlock it. Try it now!</string>
     <string name="tour_t6_title">Now let\'s grant permissions</string>
     <string name="tour_t6_body">A few quick permissions make this work. Everything stays on your phone.</string>
     <string name="tour_p1_title">Tap Allow on each card</string>
@@ -51,7 +51,7 @@
     <string name="perm_notif_title">Notifications</string>
     <string name="perm_notif_body">Needed to keep AuraMic running reliably in the background.</string>
     <string name="perm_battery_title">Keep running</string>
-    <string name="perm_battery_body">Stops Android from putting AuraMic to sleep. Recommended on Xiaomi, Oppo, Vivo, Samsung.</string>
+    <string name="perm_battery_body">Needed on many phones (Xiaomi, Oppo, Vivo, Samsung and more): Autostart and unrestricted battery. Tap for steps for your phone.</string>
     <string name="perm_allow">Allow</string>
     <string name="perm_granted">Allowed</string>
     <string name="perm_required">Required</string>
@@ -222,4 +222,14 @@
     <string name="lab_storage" formatted="true">%1$d notes · %2$s</string>
     <string name="lab_compare_hint">Tap the other version while one plays to switch at the same point.</string>
     <string name="lab_failed">Something went wrong while cleaning. Please try again.</string>
+    <string name="tour_t5_body_2">Move mode is on. Drag the bubble anywhere you like.</string>
+    <string name="tour_t5_body_3">Now tap it 3 times again to fix it back on WhatsApp\'s mic button.</string>
+    <string name="ov_pick_chat">Couldn\'t find your chat. Tap your chat, then tap Send.</string>
+    <string name="ov_tap_send">Chat selected. Please tap Send.</string>
+    <string name="keep_title">Keep AuraMic running</string>
+    <string name="keep_intro" formatted="true">Some phones close apps in the background, and the floating mic then disappears or does not start. Steps for %1$s:</string>
+    <string name="keep_menu_note">Menu names can differ a little by phone model and Android version.</string>
+    <string name="keep_open_autostart">Open Autostart / background settings</string>
+    <string name="keep_open_battery">Open battery settings</string>
+    <string name="keep_open_failed">Couldn\'t open that page. Open Settings → Apps → AuraMic → Battery.</string>
 </resources>

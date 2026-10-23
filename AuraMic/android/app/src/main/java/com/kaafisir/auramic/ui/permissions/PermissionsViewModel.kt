@@ -27,6 +27,9 @@ class PermissionsViewModel @Inject constructor(
     }
 
     fun appDetailsIntent(): Intent = repo.appDetailsIntent()
+    fun batteryIntent(): Intent = repo.batteryIntent()
+    fun keepRunningGuide() = repo.keepRunningGuide()
+    fun openAutostart(): Boolean = repo.openAutostart()
 
     fun granted(p: Perm, s: PermissionState) = when (p) {
         Perm.Overlay -> s.overlay

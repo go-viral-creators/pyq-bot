@@ -17,7 +17,7 @@
     <string name="tour_msg_1">अरे! क्या तुम मुझे डिटेल्स भेज सकते हो?</string>
     <string name="tour_msg_2">ज़रूर, वॉइस नोट भेज रहा हूँ 🎙️</string>
     <string name="tour_t1_title">मिलिए अपने फ्लोटिंग माइक से</string>
-    <string name="tour_t1_body">यह बटन WhatsApp के ऊपर तैरता है। WhatsApp छोड़ते ही यह गायब हो जाता है।</string>
+    <string name="tour_t1_body">यह बटन WhatsApp के अपने माइक बटन के ठीक ऊपर बैठता है। चैट छोड़ते ही यह गायब हो जाता है।</string>
     <string name="tour_t2_title">रिकॉर्ड करने के लिए दबाकर रखें</string>
     <string name="tour_t2_body">अब आपकी बारी! चमकते माइक को कुछ सेकंड दबाकर रखें।</string>
     <string name="tour_t2_holding">रिकॉर्ड हो रहा है… दबाकर रखें</string>
@@ -29,8 +29,8 @@
     <string name="tour_demo_sent">भेज दिया — स्टूडियो क्वालिटी!</string>
     <string name="tour_t4_title">रद्द करने के लिए बाएँ स्लाइड करें</string>
     <string name="tour_t4_body">इरादा बदल गया? दबाए रखते हुए बटन को बाएँ सरकाएँ और छोड़ दें। कुछ नहीं भेजा जाएगा।</string>
-    <string name="tour_t5_title">इसे कहीं भी खींचें</string>
-    <string name="tour_t5_body">बटन को तेज़ी से खींचकर कहीं भी रखें। यह पास के किनारे से चिपक जाता है और जगह याद रखता है।</string>
+    <string name="tour_t5_title">इसे हिलाने के लिए 3 बार टैप करें</string>
+    <string name="tour_t5_body">बटन को जल्दी से 3 बार टैप करके अनलॉक करें। अभी आज़माएँ!</string>
     <string name="tour_t6_title">अब अनुमतियाँ दें</string>
     <string name="tour_t6_body">कुछ ज़रूरी अनुमतियों से यह काम करता है। सब कुछ आपके फ़ोन पर ही रहता है।</string>
     <string name="tour_p1_title">हर कार्ड पर अनुमति दें दबाएँ</string>
@@ -50,7 +50,7 @@
     <string name="perm_notif_title">सूचनाएँ</string>
     <string name="perm_notif_body">AuraMic को बैकग्राउंड में भरोसेमंद ढंग से चलाने के लिए ज़रूरी।</string>
     <string name="perm_battery_title">चलता रहे</string>
-    <string name="perm_battery_body">Android को AuraMic सुलाने से रोकता है। Xiaomi, Oppo, Vivo, Samsung पर सुझाया गया।</string>
+    <string name="perm_battery_body">कई फ़ोनों (Xiaomi, Oppo, Vivo, Samsung आदि) पर ज़रूरी: Autostart और बिना पाबंदी वाली बैटरी। अपने फ़ोन के स्टेप्स देखने के लिए दबाएँ।</string>
     <string name="perm_allow">अनुमति दें</string>
     <string name="perm_granted">अनुमति मिली</string>
     <string name="perm_required">ज़रूरी</string>
@@ -221,4 +221,14 @@
     <string name="lab_storage" formatted="true">%1$d नोट · %2$s</string>
     <string name="lab_compare_hint">एक चलते समय दूसरा वर्शन टैप करें, उसी जगह से बदल जाएगा।</string>
     <string name="lab_failed">साफ़ करते समय गड़बड़ हुई। फिर कोशिश करें।</string>
+    <string name="tour_t5_body_2">मूव मोड चालू है। बटन को जहाँ चाहें खींचकर रखें।</string>
+    <string name="tour_t5_body_3">अब इसे WhatsApp के माइक बटन पर वापस फ़िक्स करने के लिए फिर से 3 बार टैप करें।</string>
+    <string name="ov_pick_chat">आपकी चैट नहीं मिली। अपनी चैट चुनें, फिर Send दबाएँ।</string>
+    <string name="ov_tap_send">चैट चुन ली गई। कृपया Send दबाएँ।</string>
+    <string name="keep_title">AuraMic को चालू रखें</string>
+    <string name="keep_intro" formatted="true">कुछ फ़ोन बैकग्राउंड में ऐप बंद कर देते हैं, तब फ़्लोटिंग माइक गायब हो जाता है या शुरू नहीं होता। %1$s के लिए स्टेप्स:</string>
+    <string name="keep_menu_note">फ़ोन मॉडल और Android वर्ज़न के हिसाब से मेन्यू के नाम थोड़े अलग हो सकते हैं।</string>
+    <string name="keep_open_autostart">Autostart / बैकग्राउंड सेटिंग खोलें</string>
+    <string name="keep_open_battery">बैटरी सेटिंग खोलें</string>
+    <string name="keep_open_failed">वह पेज नहीं खुल सका। सेटिंग्स → ऐप्स → AuraMic → बैटरी खोलें।</string>
 </resources>

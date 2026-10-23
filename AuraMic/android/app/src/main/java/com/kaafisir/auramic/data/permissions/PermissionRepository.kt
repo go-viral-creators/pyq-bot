@@ -99,4 +99,19 @@ class PermissionRepository @Inject constructor(
     )
 
     fun batteryIntent(): Intent = newTask(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
+
+    /** Help for keeping AuraMic alive on this phone (see [KeepRunningGuide]). */
+    fun keepRunningGuide(): KeepRunningGuide.Guide = KeepRunningGuide.forDevice(Build.MANUFACTURER, Build.BRAND)
+
+    /**
+     * Opens the maker's Autostart / background page if this phone has one that we know; otherwise AuraMic's own info
+     * page (Battery is one tap away there). Returns false only when nothing could be opened.
+     */
+    fun openAutostart(): Boolean {
+        for ((pkg, cls) in keepRunningGuide().autostartTargets) {
+            val i = newTask(Intent().setClassName(pkg, cls))
+            if (runCatching { context.startActivity(i) }.isSuccess) return true
+        }
+        return runCatching { context.startActivity(appDetailsIntent()) }.isSuccess
+    }
 }

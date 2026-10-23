@@ -17,7 +17,7 @@
     <string name="tour_msg_1">Arre! Kya tum mujhe details bhej sakte ho?</string>
     <string name="tour_msg_2">Zaroor, voice note bhej raha hoon 🎙️</string>
     <string name="tour_t1_title">Apne floating mic se milein</string>
-    <string name="tour_t1_body">Yeh bubble WhatsApp ke upar float karta hai. WhatsApp chhodte hi yeh gayab ho jata hai.</string>
+    <string name="tour_t1_body">Yeh bubble WhatsApp ke apne mic button ke theek upar baithta hai. Chat chhodte hi yeh gayab ho jata hai.</string>
     <string name="tour_t2_title">Record karne ke liye dabakar rakhein</string>
     <string name="tour_t2_body">Ab aapki baari! Chamakte mic ko kuch second dabakar rakhein.</string>
     <string name="tour_t2_holding">Recording ho rahi hai… dabakar rakhein</string>
@@ -29,8 +29,8 @@
     <string name="tour_demo_sent">Bhej diya — studio quality!</string>
     <string name="tour_t4_title">Cancel karne ke liye left slide karein</string>
     <string name="tour_t4_body">Mann badal gaya? Dabaye rakhte hue button ko left sarkayein aur chhod dein. Kuch nahi bheja jayega.</string>
-    <string name="tour_t5_title">Ise kahin bhi kheenchein</string>
-    <string name="tour_t5_body">Button ko tezi se kheenchkar kahin bhi rakhein. Yeh paas ke kinare se chipak jata hai aur jagah yaad rakhta hai.</string>
+    <string name="tour_t5_title">Ise hilane ke liye 3 baar tap karein</string>
+    <string name="tour_t5_body">Button ko jaldi se 3 baar tap karke unlock karein. Abhi try karein!</string>
     <string name="tour_t6_title">Ab permissions dein</string>
     <string name="tour_t6_body">Kuch zaroori permissions se yeh kaam karta hai. Sab kuch aapke phone par hi rehta hai.</string>
     <string name="tour_p1_title">Har card par Allow dabayein</string>
@@ -50,7 +50,7 @@
     <string name="perm_notif_title">Notifications</string>
     <string name="perm_notif_body">AuraMic ko background mein bharosemand dhang se chalane ke liye zaroori.</string>
     <string name="perm_battery_title">Chalta rahe</string>
-    <string name="perm_battery_body">Android ko AuraMic sulane se rokta hai. Xiaomi, Oppo, Vivo, Samsung par recommended.</string>
+    <string name="perm_battery_body">Kai phones (Xiaomi, Oppo, Vivo, Samsung aur aur) par zaroori: Autostart aur unrestricted battery. Apne phone ke steps ke liye dabayein.</string>
     <string name="perm_allow">Allow karein</string>
     <string name="perm_granted">Allowed</string>
     <string name="perm_required">Zaroori</string>
@@ -221,4 +221,14 @@
     <string name="lab_storage" formatted="true">%1$d notes · %2$s</string>
     <string name="lab_compare_hint">Ek chalte waqt doosra version tap karein, usi jagah se switch ho jayega.</string>
     <string name="lab_failed">Saaf karte waqt gadbad hui. Dobara koshish karein.</string>
+    <string name="tour_t5_body_2">Move mode on hai. Button ko jahan chahein kheenchkar rakhein.</string>
+    <string name="tour_t5_body_3">Ab ise WhatsApp ke mic button par wapas fix karne ke liye phir se 3 baar tap karein.</string>
+    <string name="ov_pick_chat">Aapki chat nahi mili. Apni chat chunein, phir Send dabayein.</string>
+    <string name="ov_tap_send">Chat chun li gayi. Please Send dabayein.</string>
+    <string name="keep_title">AuraMic ko chalu rakhein</string>
+    <string name="keep_intro" formatted="true">Kuch phone background mein app band kar dete hain, tab floating mic gayab ho jata hai ya start nahi hota. %1$s ke liye steps:</string>
+    <string name="keep_menu_note">Phone model aur Android version ke hisab se menu ke naam thode alag ho sakte hain.</string>
+    <string name="keep_open_autostart">Autostart / background settings kholein</string>
+    <string name="keep_open_battery">Battery settings kholein</string>
+    <string name="keep_open_failed">Woh page nahi khul saka. Settings → Apps → AuraMic → Battery kholein.</string>
 </resources>

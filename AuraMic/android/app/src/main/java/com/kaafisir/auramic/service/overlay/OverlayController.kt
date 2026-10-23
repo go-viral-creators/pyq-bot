@@ -236,6 +236,11 @@ class OverlayController(
 
     private val margin get() = dp(6f)
 
+    private fun statusBarPx(): Int {
+        val id = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        return if (id > 0) context.resources.getDimensionPixelSize(id) else dp(24f)
+    }
+
     private fun clampX(x: Int, w: Int) = x.coerceIn(margin, (w - freePx() - margin).coerceAtLeast(margin))
     private fun clampY(y: Int, h: Int) = y.coerceIn(dp(32f), (h - freePx() - dp(64f)).coerceAtLeast(dp(32f)))
 
@@ -273,16 +278,24 @@ class OverlayController(
         // While WhatsApp shows "Send" (text typed) its own button must be usable: hide and ignore touches.
         // (A bubble the user moved elsewhere does not cover it, so it stays.)
         val hideForSend = !freeMode && anchor != null && !anchor!!.isMic && !busy
-        val flags = baseFlags(touchable = !hideForSend)
+        // While the note is being handed to WhatsApp ("Sending…") the bubble is out of the way: WhatsApp's chat list is
+        // on screen and the bubble would cover rows that have to be tapped. Only the small status pill stays, at the top.
+        val sending = orchestrator.state.value is OverlayState.Sending
+        val hideBubble = hideForSend || sending
+        val flags = baseFlags(touchable = !hideBubble)
         bubbleParams.flags = flags
-        bubbleRoot?.alpha = if (hideForSend) 0f else 1f
+        bubbleRoot?.alpha = if (hideBubble) 0f else 1f
 
         val (w, h) = screen()
         val pillH = dp(48f)
         val above = top - pad - pillH - dp(6f)
-        pillParams.y = if (above > dp(28f)) above else top + size + pad + dp(6f)
+        pillParams.y = when {
+            sending -> statusBarPx() + dp(10f)
+            above > dp(28f) -> above
+            else -> top + size + pad + dp(6f)
+        }
         pillParams.x = 0
-        pillAnchor.intValue = left + size / 2
+        pillAnchor.intValue = if (sending) w / 2 else left + size / 2
         if (updateViews) {
             // The recording ticker re-emits state every 100 ms; only touch WindowManager when geometry changed.
             val b = intArrayOf(bubbleParams.x, bubbleParams.y, bubbleParams.width, bubbleParams.height, flags)

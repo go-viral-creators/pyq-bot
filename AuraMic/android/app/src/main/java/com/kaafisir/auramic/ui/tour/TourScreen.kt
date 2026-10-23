@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,6 +33,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Call
+import androidx.compose.material.icons.rounded.Mic
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.Icon
@@ -38,6 +41,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -88,7 +92,10 @@ private const val TOTAL_STEPS = 6
 /**
  * Interactive "showcase" tutorial. A mock chat hosts the *real* floating-mic composable with the
  * *same* gesture state machine as the overlay, so users learn hold / release / slide-to-cancel /
- * drag by actually doing them, with a spotlight and tooltip guiding each step.
+ * triple-tap-to-move by actually doing them, with a spotlight and tooltip guiding each step.
+ *
+ * Like the real overlay, the bubble starts *fixed* on the chat's own mic button; three quick taps switch it to "move
+ * mode" (drag anywhere) and three more fix it on the mic again.
  */
 @Composable
 fun TourScreen(onFinished: () -> Unit) {
@@ -101,11 +108,19 @@ fun TourScreen(onFinished: () -> Unit) {
     var container by remember { mutableStateOf(IntSize.Zero) }
     var cx by remember { mutableFloatStateOf(-1f) }
     var cy by remember { mutableFloatStateOf(-1f) }
+    /** Where the chat's own mic button is: the bubble's home while it is fixed. */
+    var homeX by remember { mutableFloatStateOf(-1f) }
+    var homeY by remember { mutableFloatStateOf(-1f) }
+    /** Move mode (switched by a triple tap): the bubble can be dragged anywhere. */
+    var free by remember { mutableStateOf(false) }
+    /** In the "move it" step: 0 = triple-tap to unlock, 1 = drag it, 2 = triple-tap again to fix it back. */
+    var dragPhase by rememberSaveable { mutableIntStateOf(0) }
+    var bannerJob by remember { mutableStateOf<Job?>(null) }
     var disc by remember { mutableStateOf<LayoutCoordinates?>(null) }
 
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
-    val bubbleDp = 72.dp
+    val bubbleDp = 56.dp   // the size of the chat's own mic button, like the real anchored bubble
     val bubblePx = with(density) { bubbleDp.toPx() }
     val margin = with(density) { 12.dp.toPx() }
 
@@ -113,11 +128,16 @@ fun TourScreen(onFinished: () -> Unit) {
     val sLabelRelease = stringResource(R.string.tour_demo_release_prompt)
     val sLabelClean = stringResource(R.string.tour_demo_cleaning)
     val sLabelSent = stringResource(R.string.tour_demo_sent)
+    val sMoveOn = stringResource(R.string.ov_free_on)
+    val sMoveOff = stringResource(R.string.ov_free_off)
+    val navBottom = WindowInsets.navigationBars.getBottom(density)
 
     LaunchedEffect(container) {
         if (container.width > 0 && cx < 0f) {
-            cx = container.width - margin - bubblePx / 2
-            cy = container.height * 0.6f
+            // The mock chat's input row: 12 dp padding around a 56 dp mic slot on the right.
+            homeX = container.width - with(density) { (12.dp + 28.dp).toPx() }
+            homeY = container.height - navBottom - with(density) { (12.dp + 28.dp).toPx() }
+            cx = homeX; cy = homeY
         }
     }
 
@@ -173,18 +193,28 @@ fun TourScreen(onFinished: () -> Unit) {
                     }
                 }
 
+                override fun onTripleTap() {
+                    free = !free
+                    bannerJob?.cancel()
+                    banner = if (free) sMoveOn else sMoveOff
+                    bannerJob = scope.launch { delay(2200); banner = null }
+                    if (free) {
+                        if (step == Step.Drag && dragPhase == 0) dragPhase = 1
+                    } else {
+                        // fixed again: settle back on the chat's own mic button
+                        scope.launch { animate(cx, homeX) { v, _ -> cx = v } }
+                        scope.launch { animate(cy, homeY) { v, _ -> cy = v } }
+                        if (step == Step.Drag && dragPhase == 2) scope.launch { delay(1100); step = Step.Perms }
+                    }
+                }
+
                 override fun onDrag(dx: Float, dy: Float) {
                     cx = (cx + dx).coerceIn(margin + bubblePx / 2, container.width - margin - bubblePx / 2)
                     cy = (cy + dy).coerceIn(bubblePx, container.height - bubblePx * 1.5f)
                 }
 
-                override fun onDragEnd() {
-                    val target = if (cx < container.width / 2f) margin + bubblePx / 2 else container.width - margin - bubblePx / 2
-                    scope.launch {
-                        animate(cx, target) { v, _ -> cx = v }
-                        if (step == Step.Drag) { delay(400); step = Step.Perms }
-                    }
-                }
+                // Move mode keeps the bubble exactly where it was dropped (like the real overlay).
+                override fun onDragEnd() { if (step == Step.Drag && dragPhase == 1) dragPhase = 2 }
 
                 override fun onTap() {}
             },
@@ -192,6 +222,9 @@ fun TourScreen(onFinished: () -> Unit) {
             cancelDistancePx = with(density) { 64.dp.toPx() },
         )
     }
+
+    // Fixed on the mic: touching and moving records, like WhatsApp's own button. Move mode: the bubble drags.
+    SideEffect { gesture.allowDrag = free }
 
     Box(
         Modifier
@@ -280,7 +313,7 @@ fun TourScreen(onFinished: () -> Unit) {
                 },
                 label = "tooltip",
             ) { s ->
-                val (title, body) = copyFor(s)
+                val (title, body) = copyFor(s, dragPhase)
                 val holding = visual == BubbleVisual.Recording
                 TourTooltip(
                     step = s.ordinal + 1,
@@ -308,12 +341,14 @@ private fun nextOf(s: Step): Step? = when (s) {
 }
 
 @Composable
-private fun copyFor(s: Step): Pair<String, String> = when (s) {
+private fun copyFor(s: Step, dragPhase: Int): Pair<String, String> = when (s) {
     Step.Intro -> stringResource(R.string.tour_t1_title) to stringResource(R.string.tour_t1_body)
     Step.Hold -> stringResource(R.string.tour_t2_title) to stringResource(R.string.tour_t2_body)
     Step.Release -> stringResource(R.string.tour_t3_title) to stringResource(R.string.tour_t3_body)
     Step.Cancel -> stringResource(R.string.tour_t4_title) to stringResource(R.string.tour_t4_body)
-    Step.Drag -> stringResource(R.string.tour_t5_title) to stringResource(R.string.tour_t5_body)
+    Step.Drag -> stringResource(R.string.tour_t5_title) to stringResource(
+        when (dragPhase) { 0 -> R.string.tour_t5_body; 1 -> R.string.tour_t5_body_2; else -> R.string.tour_t5_body_3 },
+    )
     Step.Perms -> stringResource(R.string.tour_t6_title) to stringResource(R.string.tour_t6_body)
 }
 
@@ -358,7 +393,10 @@ private fun MockChat(sentVoiceNotes: Int) {
                 Box(Modifier.height(10.dp).width(110.dp).clip(CircleShape).background(cs.outline.copy(alpha = 0.5f)))
                 Icon(Icons.Rounded.AddCircleOutline, null, tint = cs.onSurfaceVariant, modifier = Modifier.size(20.dp))
             }
-            Spacer(Modifier.size(56.dp))
+            // WhatsApp's own mic button: the floating bubble sits right on top of it.
+            Box(Modifier.size(56.dp).clip(CircleShape).background(cs.surfaceContainerHigh), contentAlignment = Alignment.Center) {
+                Icon(Icons.Rounded.Mic, null, tint = cs.onSurfaceVariant)
+            }
         }
     }
 }

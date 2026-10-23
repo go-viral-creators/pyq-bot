@@ -70,6 +70,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
     val startActivity = rememberStartActivity()
     var showLanguages by remember { mutableStateOf(false) }
     var micReport by remember { mutableStateOf<String?>(null) }
+    var showKeep by remember { mutableStateOf(false) }
     val chooserTitle = stringResource(R.string.set_email_chooser)
 
     fun openUrl(url: String) { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
@@ -117,7 +118,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                     s.theme, vm::setTheme,
                 )
                 Spacer(Modifier.height(8.dp))
-                NavRow(stringResource(R.string.set_battery), null) { startActivity(vm.batteryIntent()) }
+                NavRow(stringResource(R.string.set_battery), null) { showKeep = true }
                 NavRow(stringResource(R.string.set_trouble), null) { micReport = vm.micReport() }
             }
 
@@ -172,6 +173,15 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                     }
                 }
             },
+        )
+    }
+
+    if (showKeep) {
+        com.kaafisir.auramic.ui.components.KeepRunningDialog(
+            guide = vm.keepRunningGuide(),
+            onOpenAutostart = { if (!vm.openAutostart()) Toast.makeText(context, context.getString(R.string.keep_open_failed), Toast.LENGTH_LONG).show() },
+            onOpenBattery = { startActivity(vm.batteryIntent()) },
+            onDismiss = { showKeep = false },
         )
     }
 

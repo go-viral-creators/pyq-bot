@@ -39,6 +39,8 @@ class SettingsViewModel @Inject constructor(
     fun setTheme(v: ThemeMode) = launch { repo.setTheme(v) }
     fun setLanguage(lang: AppLanguage) = launch { repo.setLanguage(lang) }
     fun batteryIntent(): Intent = permissions.batteryIntent()
+    fun keepRunningGuide() = permissions.keepRunningGuide()
+    fun openAutostart(): Boolean = permissions.openAutostart()
     fun micReport(): String = micDiagnostics.report()
 
     /** Space used by saved original / enhanced voice notes (Studio Lab). */

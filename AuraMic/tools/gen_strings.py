@@ -674,5 +674,80 @@ add("lab_failed", "Something went wrong while cleaning. Please try again.", "स
     "Saaf karte waqt gadbad hui. Dobara koshish karein.", "Algo salió mal al limpiar. Inténtalo de nuevo.",
     "Algo deu errado ao limpar. Tente de novo.", "حدث خطأ أثناء التنظيف. حاول مرة أخرى.", "Terjadi kesalahan saat membersihkan. Coba lagi.")
 
+# ---- guides updated for fixed / triple-tap mic, faster send, keep-running help -----------------------
+add("tour_t1_body", "This bubble sits right on top of WhatsApp's own mic button. It disappears as soon as you leave the chat.",
+    "यह बटन WhatsApp के अपने माइक बटन के ठीक ऊपर बैठता है। चैट छोड़ते ही यह गायब हो जाता है।",
+    "Yeh bubble WhatsApp ke apne mic button ke theek upar baithta hai. Chat chhodte hi yeh gayab ho jata hai.",
+    "Esta burbuja se coloca justo sobre el botón de micrófono de WhatsApp. Desaparece en cuanto sales del chat.",
+    "Esta bolha fica bem em cima do botão de microfone do WhatsApp. Ela some assim que você sai da conversa.",
+    "تستقر هذه الفقاعة فوق زر الميكروفون في واتساب مباشرة، وتختفي بمجرد خروجك من المحادثة.",
+    "Gelembung ini berada tepat di atas tombol mikrofon WhatsApp dan hilang begitu Anda keluar dari chat.")
+add("tour_t5_title", "Triple-tap to move it", "इसे हिलाने के लिए 3 बार टैप करें", "Ise hilane ke liye 3 baar tap karein",
+    "Toca 3 veces para moverlo", "Toque 3 vezes para mover", "انقر 3 مرات لتحريكها", "Ketuk 3 kali untuk memindahkan")
+add("tour_t5_body", "Quickly tap the bubble 3 times to unlock it. Try it now!",
+    "बटन को जल्दी से 3 बार टैप करके अनलॉक करें। अभी आज़माएँ!",
+    "Button ko jaldi se 3 baar tap karke unlock karein. Abhi try karein!",
+    "Toca la burbuja 3 veces rápido para desbloquearla. ¡Pruébalo ahora!",
+    "Toque na bolha 3 vezes rapidamente para destravá-la. Experimente agora!",
+    "انقر الفقاعة 3 مرات بسرعة لفكّ تثبيتها. جرّب الآن!",
+    "Ketuk gelembung 3 kali dengan cepat untuk membukanya. Coba sekarang!")
+add("tour_t5_body_2", "Move mode is on. Drag the bubble anywhere you like.",
+    "मूव मोड चालू है। बटन को जहाँ चाहें खींचकर रखें।",
+    "Move mode on hai. Button ko jahan chahein kheenchkar rakhein.",
+    "Modo mover activado. Arrastra la burbuja adonde quieras.",
+    "Modo mover ativado. Arraste a bolha para onde quiser.",
+    "وضع التحريك مُفعّل. اسحب الفقاعة إلى أي مكان.",
+    "Mode pindah aktif. Seret gelembung ke mana saja.")
+add("tour_t5_body_3", "Now tap it 3 times again to fix it back on WhatsApp's mic button.",
+    "अब इसे WhatsApp के माइक बटन पर वापस फ़िक्स करने के लिए फिर से 3 बार टैप करें।",
+    "Ab ise WhatsApp ke mic button par wapas fix karne ke liye phir se 3 baar tap karein.",
+    "Ahora toca 3 veces otra vez para fijarla de nuevo en el botón de micrófono de WhatsApp.",
+    "Agora toque 3 vezes de novo para fixá-la de volta no botão de microfone do WhatsApp.",
+    "اضغط 3 مرات مرة أخرى لتثبيتها على زر الميكروفون في واتساب.",
+    "Sekarang ketuk 3 kali lagi untuk menguncinya kembali di tombol mikrofon WhatsApp.")
+add("ov_pick_chat", "Couldn't find your chat. Tap your chat, then tap Send.",
+    "आपकी चैट नहीं मिली। अपनी चैट चुनें, फिर Send दबाएँ।",
+    "Aapki chat nahi mili. Apni chat chunein, phir Send dabayein.",
+    "No encontré tu chat. Elige tu chat y pulsa Enviar.",
+    "Não encontrei sua conversa. Escolha a conversa e toque em Enviar.",
+    "لم أجد محادثتك. اختر محادثتك ثم اضغط إرسال.",
+    "Chat Anda tidak ditemukan. Pilih chat Anda, lalu ketuk Kirim.")
+add("ov_tap_send", "Chat selected. Please tap Send.", "चैट चुन ली गई। कृपया Send दबाएँ।", "Chat chun li gayi. Please Send dabayein.",
+    "Chat seleccionado. Pulsa Enviar.", "Conversa selecionada. Toque em Enviar.", "تم اختيار المحادثة. اضغط إرسال.", "Chat dipilih. Ketuk Kirim.")
+add("keep_title", "Keep AuraMic running", "AuraMic को चालू रखें", "AuraMic ko chalu rakhein", "Mantener AuraMic activo",
+    "Manter o AuraMic ativo", "إبقاء AuraMic يعمل", "Jaga AuraMic tetap aktif")
+add("keep_intro", "Some phones close apps in the background, and the floating mic then disappears or does not start. Steps for %1$s:",
+    "कुछ फ़ोन बैकग्राउंड में ऐप बंद कर देते हैं, तब फ़्लोटिंग माइक गायब हो जाता है या शुरू नहीं होता। %1$s के लिए स्टेप्स:",
+    "Kuch phone background mein app band kar dete hain, tab floating mic gayab ho jata hai ya start nahi hota. %1$s ke liye steps:",
+    "Algunos teléfonos cierran las apps en segundo plano y el micrófono flotante desaparece o no inicia. Pasos para %1$s:",
+    "Alguns celulares fecham apps em segundo plano e o microfone flutuante some ou não inicia. Passos para %1$s:",
+    "تُغلق بعض الهواتف التطبيقات في الخلفية، فيختفي الميكروفون العائم أو لا يبدأ. الخطوات لـ %1$s:",
+    "Beberapa ponsel menutup aplikasi di latar belakang, sehingga mikrofon melayang hilang atau tidak mulai. Langkah untuk %1$s:")
+add("keep_menu_note", "Menu names can differ a little by phone model and Android version.",
+    "फ़ोन मॉडल और Android वर्ज़न के हिसाब से मेन्यू के नाम थोड़े अलग हो सकते हैं।",
+    "Phone model aur Android version ke hisab se menu ke naam thode alag ho sakte hain.",
+    "Los nombres de los menús pueden variar un poco según el modelo y la versión de Android.",
+    "Os nomes dos menus podem variar um pouco conforme o modelo e a versão do Android.",
+    "قد تختلف أسماء القوائم قليلًا حسب طراز الهاتف وإصدار أندرويد.",
+    "Nama menu bisa sedikit berbeda menurut model ponsel dan versi Android.")
+add("keep_open_autostart", "Open Autostart / background settings", "Autostart / बैकग्राउंड सेटिंग खोलें", "Autostart / background settings kholein",
+    "Abrir inicio automático / segundo plano", "Abrir início automático / segundo plano", "فتح التشغيل التلقائي / الخلفية", "Buka mulai otomatis / latar belakang")
+add("keep_open_battery", "Open battery settings", "बैटरी सेटिंग खोलें", "Battery settings kholein", "Abrir ajustes de batería",
+    "Abrir configurações de bateria", "فتح إعدادات البطارية", "Buka pengaturan baterai")
+add("keep_open_failed", "Couldn't open that page. Open Settings → Apps → AuraMic → Battery.",
+    "वह पेज नहीं खुल सका। सेटिंग्स → ऐप्स → AuraMic → बैटरी खोलें।",
+    "Woh page nahi khul saka. Settings → Apps → AuraMic → Battery kholein.",
+    "No se pudo abrir esa página. Abre Ajustes → Apps → AuraMic → Batería.",
+    "Não foi possível abrir essa página. Abra Configurações → Apps → AuraMic → Bateria.",
+    "تعذّر فتح هذه الصفحة. افتح الإعدادات ← التطبيقات ← AuraMic ← البطارية.",
+    "Tidak bisa membuka halaman itu. Buka Pengaturan → Aplikasi → AuraMic → Baterai.")
+add("perm_battery_body", "Needed on many phones (Xiaomi, Oppo, Vivo, Samsung and more): Autostart and unrestricted battery. Tap for steps for your phone.",
+    "कई फ़ोनों (Xiaomi, Oppo, Vivo, Samsung आदि) पर ज़रूरी: Autostart और बिना पाबंदी वाली बैटरी। अपने फ़ोन के स्टेप्स देखने के लिए दबाएँ।",
+    "Kai phones (Xiaomi, Oppo, Vivo, Samsung aur aur) par zaroori: Autostart aur unrestricted battery. Apne phone ke steps ke liye dabayein.",
+    "Necesario en muchos teléfonos (Xiaomi, Oppo, Vivo, Samsung y más): inicio automático y batería sin restricciones. Toca para ver los pasos de tu teléfono.",
+    "Necessário em muitos celulares (Xiaomi, Oppo, Vivo, Samsung e outros): início automático e bateria sem restrições. Toque para ver os passos do seu celular.",
+    "مطلوب في كثير من الهواتف (Xiaomi وOppo وVivo وSamsung وغيرها): التشغيل التلقائي وبطارية بلا قيود. اضغط لرؤية خطوات هاتفك.",
+    "Diperlukan di banyak ponsel (Xiaomi, Oppo, Vivo, Samsung dan lainnya): mulai otomatis dan baterai tanpa batasan. Ketuk untuk melihat langkah ponsel Anda.")
+
 if __name__ == "__main__":
     main(sys.argv[1])

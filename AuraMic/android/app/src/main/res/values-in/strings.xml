@@ -17,7 +17,7 @@
     <string name="tour_msg_1">Hai! Bisa kirim detailnya?</string>
     <string name="tour_msg_2">Tentu, kukirim pesan suara 🎙️</string>
     <string name="tour_t1_title">Kenali mikrofon melayang Anda</string>
-    <string name="tour_t1_body">Gelembung ini melayang di atas WhatsApp dan hilang saat Anda keluar dari WhatsApp.</string>
+    <string name="tour_t1_body">Gelembung ini berada tepat di atas tombol mikrofon WhatsApp dan hilang begitu Anda keluar dari chat.</string>
     <string name="tour_t2_title">Tekan dan tahan untuk merekam</string>
     <string name="tour_t2_body">Giliran Anda! Tekan dan tahan mikrofon yang bersinar selama beberapa detik.</string>
     <string name="tour_t2_holding">Merekam… terus tahan</string>
@@ -29,8 +29,8 @@
     <string name="tour_demo_sent">Terkirim — kualitas studio!</string>
     <string name="tour_t4_title">Geser ke kiri untuk batal</string>
     <string name="tour_t4_body">Berubah pikiran? Saat menahan, geser tombol ke kiri lalu lepaskan. Tidak ada yang dikirim.</string>
-    <string name="tour_t5_title">Seret ke mana saja</string>
-    <string name="tour_t5_body">Seret gelembung dengan cepat untuk memindahkannya. Ia menempel ke tepi layar terdekat dan mengingat posisinya.</string>
+    <string name="tour_t5_title">Ketuk 3 kali untuk memindahkan</string>
+    <string name="tour_t5_body">Ketuk gelembung 3 kali dengan cepat untuk membukanya. Coba sekarang!</string>
     <string name="tour_t6_title">Sekarang berikan izin</string>
     <string name="tour_t6_body">Beberapa izin singkat membuatnya berfungsi. Semua tetap di ponsel Anda.</string>
     <string name="tour_p1_title">Ketuk Izinkan di setiap kartu</string>
@@ -50,7 +50,7 @@
     <string name="perm_notif_title">Notifikasi</string>
     <string name="perm_notif_body">Diperlukan agar AuraMic berjalan stabil di latar belakang.</string>
     <string name="perm_battery_title">Tetap berjalan</string>
-    <string name="perm_battery_body">Mencegah Android menidurkan AuraMic. Disarankan di Xiaomi, Oppo, Vivo, Samsung.</string>
+    <string name="perm_battery_body">Diperlukan di banyak ponsel (Xiaomi, Oppo, Vivo, Samsung dan lainnya): mulai otomatis dan baterai tanpa batasan. Ketuk untuk melihat langkah ponsel Anda.</string>
     <string name="perm_allow">Izinkan</string>
     <string name="perm_granted">Diizinkan</string>
     <string name="perm_required">Wajib</string>
@@ -221,4 +221,14 @@
     <string name="lab_storage" formatted="true">%1$d pesan · %2$s</string>
     <string name="lab_compare_hint">Ketuk versi lain saat satu diputar untuk berpindah di titik yang sama.</string>
     <string name="lab_failed">Terjadi kesalahan saat membersihkan. Coba lagi.</string>
+    <string name="tour_t5_body_2">Mode pindah aktif. Seret gelembung ke mana saja.</string>
+    <string name="tour_t5_body_3">Sekarang ketuk 3 kali lagi untuk menguncinya kembali di tombol mikrofon WhatsApp.</string>
+    <string name="ov_pick_chat">Chat Anda tidak ditemukan. Pilih chat Anda, lalu ketuk Kirim.</string>
+    <string name="ov_tap_send">Chat dipilih. Ketuk Kirim.</string>
+    <string name="keep_title">Jaga AuraMic tetap aktif</string>
+    <string name="keep_intro" formatted="true">Beberapa ponsel menutup aplikasi di latar belakang, sehingga mikrofon melayang hilang atau tidak mulai. Langkah untuk %1$s:</string>
+    <string name="keep_menu_note">Nama menu bisa sedikit berbeda menurut model ponsel dan versi Android.</string>
+    <string name="keep_open_autostart">Buka mulai otomatis / latar belakang</string>
+    <string name="keep_open_battery">Buka pengaturan baterai</string>
+    <string name="keep_open_failed">Tidak bisa membuka halaman itu. Buka Pengaturan → Aplikasi → AuraMic → Baterai.</string>
 </resources>

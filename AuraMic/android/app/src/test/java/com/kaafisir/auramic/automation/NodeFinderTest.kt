@@ -25,9 +25,10 @@ class NodeFinderTest {
         assertNotNull(NodeFinder.chatRow(picker, "Aarav Sharma"))
     }
 
-    @Test fun prefixMatchOnlyWhenUnambiguous() {
-        assertNotNull(NodeFinder.chatRow(FakeTree.picker("Aarav Sharma", "Mom"), "Aarav"))
-        assertNull(NodeFinder.chatRow(FakeTree.picker("Mom 2", "Mom 3"), "Mom"))
+    @Test fun neverGuessesFromAPrefixOrWhenTwoRowsAreEquallyGood() {
+        // A longer name that merely starts the same way is another person: ask the user instead.
+        assertNull(NodeFinder.chatRow(FakeTree.picker("Aarav Sharma", "Mom"), "Aarav"))
+        assertNull(NodeFinder.chatRow(FakeTree.picker("Mom", "Mom"), "Mom"))
         // exact match beats a longer name that merely starts the same way
         val p = FakeTree.picker("Mom 2", "Mom")
         assertEquals("Mom", NodeFinder.chatRow(p, "Mom")!!.children[0].text)

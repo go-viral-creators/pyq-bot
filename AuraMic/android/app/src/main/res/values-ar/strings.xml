@@ -17,7 +17,7 @@
     <string name="tour_msg_1">مرحبًا! هل يمكنك إرسال التفاصيل؟</string>
     <string name="tour_msg_2">بالتأكيد، سأرسل رسالة صوتية 🎙️</string>
     <string name="tour_t1_title">تعرّف على الميكروفون العائم</string>
-    <string name="tour_t1_body">تظهر هذه الفقاعة فوق واتساب وتختفي بمجرد خروجك منه.</string>
+    <string name="tour_t1_body">تستقر هذه الفقاعة فوق زر الميكروفون في واتساب مباشرة، وتختفي بمجرد خروجك من المحادثة.</string>
     <string name="tour_t2_title">اضغط مطولًا للتسجيل</string>
     <string name="tour_t2_body">دورك الآن! اضغط مطولًا على الميكروفون المضيء لبضع ثوانٍ.</string>
     <string name="tour_t2_holding">جارٍ التسجيل… استمر في الضغط</string>
@@ -29,8 +29,8 @@
     <string name="tour_demo_sent">تم الإرسال — جودة الاستوديو!</string>
     <string name="tour_t4_title">اسحب لليسار للإلغاء</string>
     <string name="tour_t4_body">غيّرت رأيك؟ أثناء الضغط، اسحب الزر لليسار ثم ارفع إصبعك. لن يُرسل شيء.</string>
-    <string name="tour_t5_title">اسحبه إلى أي مكان</string>
-    <string name="tour_t5_body">اسحب الفقاعة بسرعة لتحريكها. تلتصق بأقرب حافة وتتذكر مكانها.</string>
+    <string name="tour_t5_title">انقر 3 مرات لتحريكها</string>
+    <string name="tour_t5_body">انقر الفقاعة 3 مرات بسرعة لفكّ تثبيتها. جرّب الآن!</string>
     <string name="tour_t6_title">لنمنح الأذونات الآن</string>
     <string name="tour_t6_body">بضع أذونات سريعة تجعل هذا يعمل. كل شيء يبقى على هاتفك.</string>
     <string name="tour_p1_title">اضغط «سماح» في كل بطاقة</string>
@@ -50,7 +50,7 @@
     <string name="perm_notif_title">الإشعارات</string>
     <string name="perm_notif_body">مطلوب لإبقاء AuraMic يعمل بثبات في الخلفية.</string>
     <string name="perm_battery_title">الاستمرار بالعمل</string>
-    <string name="perm_battery_body">يمنع أندرويد من إيقاف AuraMic. موصى به على شاومي وأوبو وفيفو وسامسونج.</string>
+    <string name="perm_battery_body">مطلوب في كثير من الهواتف (Xiaomi وOppo وVivo وSamsung وغيرها): التشغيل التلقائي وبطارية بلا قيود. اضغط لرؤية خطوات هاتفك.</string>
     <string name="perm_allow">سماح</string>
     <string name="perm_granted">تم السماح</string>
     <string name="perm_required">مطلوب</string>
@@ -221,4 +221,14 @@
     <string name="lab_storage" formatted="true">%1$d رسائل · %2$s</string>
     <string name="lab_compare_hint">اضغط النسخة الأخرى أثناء التشغيل للتبديل من النقطة نفسها.</string>
     <string name="lab_failed">حدث خطأ أثناء التنظيف. حاول مرة أخرى.</string>
+    <string name="tour_t5_body_2">وضع التحريك مُفعّل. اسحب الفقاعة إلى أي مكان.</string>
+    <string name="tour_t5_body_3">اضغط 3 مرات مرة أخرى لتثبيتها على زر الميكروفون في واتساب.</string>
+    <string name="ov_pick_chat">لم أجد محادثتك. اختر محادثتك ثم اضغط إرسال.</string>
+    <string name="ov_tap_send">تم اختيار المحادثة. اضغط إرسال.</string>
+    <string name="keep_title">إبقاء AuraMic يعمل</string>
+    <string name="keep_intro" formatted="true">تُغلق بعض الهواتف التطبيقات في الخلفية، فيختفي الميكروفون العائم أو لا يبدأ. الخطوات لـ %1$s:</string>
+    <string name="keep_menu_note">قد تختلف أسماء القوائم قليلًا حسب طراز الهاتف وإصدار أندرويد.</string>
+    <string name="keep_open_autostart">فتح التشغيل التلقائي / الخلفية</string>
+    <string name="keep_open_battery">فتح إعدادات البطارية</string>
+    <string name="keep_open_failed">تعذّر فتح هذه الصفحة. افتح الإعدادات ← التطبيقات ← AuraMic ← البطارية.</string>
 </resources>

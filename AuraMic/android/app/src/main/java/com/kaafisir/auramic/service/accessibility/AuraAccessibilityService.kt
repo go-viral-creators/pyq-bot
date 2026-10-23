@@ -277,7 +277,7 @@ class AuraAccessibilityService : AccessibilityService() {
     private fun readChatTitle(): String? {
         val snap = snapshot(null) ?: return null
         return try {
-            snap.root?.let { NodeFinder.chatTitle(it, resources.displayMetrics.heightPixels) }
+            snap.root?.let { NodeFinder.chatTitleLines(it, resources.displayMetrics.heightPixels).joinToString("\n").ifEmpty { null } }
         } finally {
             snap.release()
         }

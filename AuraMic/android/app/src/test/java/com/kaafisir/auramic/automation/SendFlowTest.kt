@@ -32,19 +32,20 @@ class SendFlowTest {
         assertTrue(a.clicks.isEmpty())
     }
 
-    @Test fun assistedModeDoesNothingWithoutChatName() {
+    @Test fun withoutAChatNameTheUserIsToldAtOnceAndNothingIsTapped() {
         val f = flow(null); val a = RecordingActions()
-        repeat(4) { clock += 250; f.step(FakeTree.picker("Mom"), a); f.step(FakeTree.preview(), a) }
-        assertTrue(a.clicks.isEmpty())
+        val out = f.step(FakeTree.picker("Mom"), a)
+        assertEquals(SendFlow.Outcome.Failed("chat name unknown"), out)
+        repeat(3) { clock += 250; f.step(FakeTree.preview(), a) }
+        assertTrue(a.clicks.isEmpty() && a.taps.isEmpty() && a.typed.isEmpty())
     }
 
     @Test fun usesPickerSearchWhenChatNotVisible() {
         val f = flow("Zed"); val a = RecordingActions()
         val list = FakeTree.picker("Mom", "Dad")
-        f.step(list, a)                      // first step on picker: waits one tick
-        clock += 250; f.step(list, a); clock += 250; f.step(list, a)  // nudges the list twice
-        assertEquals(2, a.scrolls)
-        clock += 250; f.step(list, a)        // opens search
+        f.step(list, a)                       // list just appeared: give the visible rows a moment
+        assertTrue(a.clicks.isEmpty() && a.typed.isEmpty())
+        clock += 800; f.step(list, a)         // still no Zed: opens the search box
         assertTrue(a.clicks.last().hasId("menuitem_search"))
         clock += 250
         f.step(FakeTree.pickerWithSearchField("Mom", "Dad"), a)       // types the name
@@ -54,12 +55,56 @@ class SendFlowTest {
         assertTrue(a.clicks.last().children[0].text == "Zed")
     }
 
-    @Test fun timesOutWhenChatIsNeverFound() {
+    @Test fun neverScrollsTheListAnyMore() {
+        val f = flow("Zed"); val a = RecordingActions()
+        repeat(15) { clock += 300; f.step(FakeTree.picker("Mom", "Dad"), a) }
+        assertEquals(0, a.scrolls)
+    }
+
+    @Test fun givesUpFiveSecondsAfterTheListAppearedNotFromTheStart() {
         val f = flow("Nobody"); val a = RecordingActions()
-        clock += 26_000
-        val out = f.step(FakeTree.picker("Mom"), a)
-        assertTrue(out is SendFlow.Outcome.Failed)
+        clock += 3_000                                         // the list took 3 s to show up: that time does not count
+        assertEquals(SendFlow.Outcome.Continue, f.step(FakeTree.conversation("Nobody"), a))
+        assertEquals(SendFlow.Outcome.Continue, f.step(FakeTree.picker("Mom"), a))
+        clock += 4_900
+        assertEquals(SendFlow.Outcome.Continue, f.step(FakeTree.picker("Mom"), a))
+        clock += 200
+        assertEquals(SendFlow.Outcome.Failed("chat not found"), f.step(FakeTree.picker("Mom"), a))
+        assertTrue(a.clicks.none { it.children.firstOrNull()?.text == "Mom" })
+    }
+
+    @Test fun gaveUpWhenTheShareScreenNeverAppears() {
+        val f = flow("Mom"); val a = RecordingActions()
+        clock += 5_900
+        assertEquals(SendFlow.Outcome.Continue, f.step(FakeTree.conversation("Mom"), a))
+        clock += 200
+        assertEquals(SendFlow.Outcome.Failed("share screen not shown"), f.step(FakeTree.conversation("Mom"), a))
+        assertTrue(a.clicks.isEmpty() && a.typed.isEmpty())
+    }
+
+    @Test fun twoEquallyGoodRowsAreNotGuessed() {
+        val f = flow("Mom"); val a = RecordingActions()
+        val list = FakeTree.picker("Mom", "Mom")
+        f.step(list, a)
         assertTrue(a.clicks.isEmpty())
+        clock += 5_100
+        assertEquals(SendFlow.Outcome.Failed("chat not found"), f.step(list, a))
+    }
+
+    @Test fun findsTheChatThroughItsOtherHeaderLine() {
+        // Business account: the picker shows the verified name, the header's first line is the person.
+        val f = flow("Ravi Mourya\nZapUPI Gateway"); val a = RecordingActions()
+        f.step(FakeTree.picker("Amazon", "ZapUPI Gateway"), a)
+        assertEquals(1, a.clicks.size)
+        assertEquals("ZapUPI Gateway", a.clicks[0].children[0].text)
+    }
+
+    @Test fun gaveUpWhenTheSendButtonNeverAppears() {
+        val f = flow("Mom"); val a = RecordingActions()
+        f.step(FakeTree.picker("Mom"), a)
+        clock += 6_100
+        assertEquals(SendFlow.Outcome.Failed("send button not found"), f.step(FakeTree.picker("Mom"), a))
+        assertTrue(!f.sendTapped)
     }
 
     /** Selects "Mom" on the picker and taps Send on the preview; returns the number of actions so far. */
@@ -111,11 +156,11 @@ class SendFlowTest {
     @Test fun overallTimeoutAfterSendIsNotReportedAsFailure() {
         val f = flow("Mom"); val a = RecordingActions()
         f.step(FakeTree.picker("Mom"), a)
-        clock += 24_900                                     // slow device: chat picked late
-        f.step(FakeTree.preview(), a)                       // Send tapped at 24.9 s
+        clock += 5_900                                      // slow device: Send tapped late
+        f.step(FakeTree.preview(), a)
         assertTrue(f.sendTapped)
         clock += 300
-        val out = f.step(FakeTree.preview(), a)             // 25.2 s: past the "find the chat" limit
+        val out = f.step(FakeTree.preview(), a)             // past the "find Send" limit
         assertTrue("was $out", out !is SendFlow.Outcome.Failed)
     }
 

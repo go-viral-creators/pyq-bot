@@ -17,7 +17,7 @@
     <string name="tour_msg_1">Oi! Pode me mandar os detalhes?</string>
     <string name="tour_msg_2">Claro, vou mandar um áudio 🎙️</string>
     <string name="tour_t1_title">Conheça seu microfone flutuante</string>
-    <string name="tour_t1_body">Esta bolha flutua sobre o WhatsApp. Ela some assim que você sai do WhatsApp.</string>
+    <string name="tour_t1_body">Esta bolha fica bem em cima do botão de microfone do WhatsApp. Ela some assim que você sai da conversa.</string>
     <string name="tour_t2_title">Pressione e segure para gravar</string>
     <string name="tour_t2_body">Sua vez! Pressione e segure o microfone brilhante por alguns segundos.</string>
     <string name="tour_t2_holding">Gravando… continue segurando</string>
@@ -29,8 +29,8 @@
     <string name="tour_demo_sent">Enviado — qualidade de estúdio!</string>
     <string name="tour_t4_title">Deslize para a esquerda para cancelar</string>
     <string name="tour_t4_body">Mudou de ideia? Enquanto segura, deslize o botão para a esquerda e solte. Nada é enviado.</string>
-    <string name="tour_t5_title">Arraste para qualquer lugar</string>
-    <string name="tour_t5_body">Arraste a bolha rapidamente para movê-la. Ela gruda na borda mais próxima e lembra a posição.</string>
+    <string name="tour_t5_title">Toque 3 vezes para mover</string>
+    <string name="tour_t5_body">Toque na bolha 3 vezes rapidamente para destravá-la. Experimente agora!</string>
     <string name="tour_t6_title">Agora vamos conceder as permissões</string>
     <string name="tour_t6_body">Algumas permissões fazem isso funcionar. Tudo fica no seu celular.</string>
     <string name="tour_p1_title">Toque em Permitir em cada cartão</string>
@@ -50,7 +50,7 @@
     <string name="perm_notif_title">Notificações</string>
     <string name="perm_notif_body">Necessário para o AuraMic funcionar com confiabilidade em segundo plano.</string>
     <string name="perm_battery_title">Manter ativo</string>
-    <string name="perm_battery_body">Impede que o Android suspenda o AuraMic. Recomendado em Xiaomi, Oppo, Vivo e Samsung.</string>
+    <string name="perm_battery_body">Necessário em muitos celulares (Xiaomi, Oppo, Vivo, Samsung e outros): início automático e bateria sem restrições. Toque para ver os passos do seu celular.</string>
     <string name="perm_allow">Permitir</string>
     <string name="perm_granted">Permitido</string>
     <string name="perm_required">Obrigatório</string>
@@ -221,4 +221,14 @@
     <string name="lab_storage" formatted="true">%1$d notas · %2$s</string>
     <string name="lab_compare_hint">Toque na outra versão enquanto uma toca para trocar no mesmo ponto.</string>
     <string name="lab_failed">Algo deu errado ao limpar. Tente de novo.</string>
+    <string name="tour_t5_body_2">Modo mover ativado. Arraste a bolha para onde quiser.</string>
+    <string name="tour_t5_body_3">Agora toque 3 vezes de novo para fixá-la de volta no botão de microfone do WhatsApp.</string>
+    <string name="ov_pick_chat">Não encontrei sua conversa. Escolha a conversa e toque em Enviar.</string>
+    <string name="ov_tap_send">Conversa selecionada. Toque em Enviar.</string>
+    <string name="keep_title">Manter o AuraMic ativo</string>
+    <string name="keep_intro" formatted="true">Alguns celulares fecham apps em segundo plano e o microfone flutuante some ou não inicia. Passos para %1$s:</string>
+    <string name="keep_menu_note">Os nomes dos menus podem variar um pouco conforme o modelo e a versão do Android.</string>
+    <string name="keep_open_autostart">Abrir início automático / segundo plano</string>
+    <string name="keep_open_battery">Abrir configurações de bateria</string>
+    <string name="keep_open_failed">Não foi possível abrir essa página. Abra Configurações → Apps → AuraMic → Bateria.</string>
 </resources>

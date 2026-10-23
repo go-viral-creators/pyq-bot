@@ -135,6 +135,7 @@ fun PermissionsScreen(
     val micLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { vm.refresh() }
     val notifLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { vm.refresh() }
     var showDisclosure by rememberSaveable { mutableStateOf(false) }
+    var showKeep by rememberSaveable { mutableStateOf(false) }
     var triedAccessibility by rememberSaveable { mutableStateOf(false) }
 
     fun onAllow(p: Perm) {
@@ -147,6 +148,7 @@ fun PermissionsScreen(
             }
             Perm.Notifications -> if (Build.VERSION.SDK_INT >= 33) notifLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             Perm.Accessibility -> showDisclosure = true // Google Play prominent-disclosure requirement
+            Perm.Battery -> showKeep = true             // steps for this phone's maker, then the settings pages
             else -> open(p)
         }
     }
@@ -230,6 +232,15 @@ fun PermissionsScreen(
                 )
             }
         }
+    }
+
+    if (showKeep) {
+        com.kaafisir.auramic.ui.components.KeepRunningDialog(
+            guide = vm.keepRunningGuide(),
+            onOpenAutostart = { if (!vm.openAutostart()) android.widget.Toast.makeText(context, context.getString(R.string.keep_open_failed), android.widget.Toast.LENGTH_LONG).show() },
+            onOpenBattery = { if (!startActivity(vm.batteryIntent())) startActivity(vm.appDetailsIntent()) },
+            onDismiss = { showKeep = false },
+        )
     }
 
     if (showDisclosure) {

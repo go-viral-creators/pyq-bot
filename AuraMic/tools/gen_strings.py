@@ -793,5 +793,16 @@ _LEARN_DISCLOSURE = [
 ]
 S["disclosure_body"] = [t + x for t, x in zip(S["disclosure_body"], _LEARN_DISCLOSURE)]
 
+# the chat names a user's own picks teach the app are kept on the phone: say "collect or share", not "store", and say nothing leaves it
+_swap("disclosure_body", [
+    ("It does not read, collect, store or share your messages, contacts or any personal data.", "It does not read, collect or share your messages, contacts or any personal data, and nothing leaves your phone."),
+    ("यह आपके संदेश, संपर्क या कोई निजी डेटा न पढ़ती है, न जमा करती है, न साझा करती है।", "यह आपके संदेश, संपर्क या कोई निजी डेटा न पढ़ती है, न जमा करती है, न साझा करती है, और कुछ भी आपके फ़ोन से बाहर नहीं जाता।"),
+    ("Yeh aapke messages, contacts ya koi personal data na padhti hai, na store karti hai, na share karti hai.", "Yeh aapke messages, contacts ya koi personal data na padhti hai, na collect karti hai, na share karti hai, aur kuch bhi aapke phone se bahar nahi jata."),
+    ("No lee, recopila, almacena ni comparte tus mensajes, contactos ni datos personales.", "No lee, recopila ni comparte tus mensajes, contactos ni datos personales, y nada sale de tu teléfono."),
+    ("Não lê, coleta, armazena nem compartilha suas mensagens, contatos ou dados pessoais.", "Não lê, coleta nem compartilha suas mensagens, contatos ou dados pessoais, e nada sai do seu celular."),
+    ("لا يقرأ رسائلك أو جهات اتصالك أو أي بيانات شخصية ولا يجمعها أو يخزّنها أو يشاركها.", "لا يقرأ رسائلك أو جهات اتصالك أو أي بيانات شخصية ولا يجمعها أو يشاركها، ولا يغادر أي شيء هاتفك."),
+    ("Tidak membaca, mengumpulkan, menyimpan, atau membagikan pesan, kontak, maupun data pribadi Anda.", "Tidak membaca, mengumpulkan, atau membagikan pesan, kontak, maupun data pribadi Anda, dan tidak ada yang keluar dari ponsel Anda."),
+])
+
 if __name__ == "__main__":
     main(sys.argv[1])

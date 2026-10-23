@@ -61,7 +61,7 @@
     <string name="perm_restricted_body">Android memblokirnya untuk aplikasi yang dipasang di luar Play Store. Buka Info aplikasi, ketuk menu ⋮, pilih “Izinkan setelan terbatas”, lalu coba lagi.</string>
     <string name="perm_open_app_info">Buka info aplikasi</string>
     <string name="disclosure_title">Pengungkapan Aksesibilitas</string>
-    <string name="disclosure_body">AuraMic menggunakan Layanan Aksesibilitas Android hanya untuk satu tujuan: setelah Anda merekam pesan suara, layanan ini memilih obrolan tempat Anda berada dan menekan tombol Kirim di dalam WhatsApp atau WhatsApp Business agar pesan terkirim tanpa ketukan tambahan.\n\nHanya bekerja di WhatsApp dan WhatsApp Business. Tidak membaca, mengumpulkan, menyimpan, atau membagikan pesan, kontak, maupun data pribadi Anda. Audio diproses di perangkat Anda.\n\nUntuk menempatkan mikrofon di atas tombol suara WhatsApp dan menyembunyikannya saat Anda mengetik, layanan ini hanya memeriksa letak tombol tersebut dan apakah kotak pesan kosong. Tidak pernah membaca apa yang Anda ketik.\n\nLayanan ini juga mencari posisi tombol suara WhatsApp di layar agar mikrofon AuraMic berada tepat di atasnya. Tidak pernah membaca teks pesan.</string>
+    <string name="disclosure_body">AuraMic menggunakan Layanan Aksesibilitas Android hanya untuk satu tujuan: setelah Anda merekam pesan suara, layanan ini memilih obrolan tempat Anda berada dan menekan tombol Kirim di dalam WhatsApp atau WhatsApp Business agar pesan terkirim tanpa ketukan tambahan.\n\nHanya bekerja di WhatsApp dan WhatsApp Business. Tidak membaca, mengumpulkan, menyimpan, atau membagikan pesan, kontak, maupun data pribadi Anda. Audio diproses di perangkat Anda.\n\nUntuk menempatkan mikrofon di atas tombol suara WhatsApp dan menyembunyikannya saat Anda mengetik, layanan ini hanya memeriksa letak tombol tersebut dan apakah kotak pesan kosong. Tidak pernah membaca apa yang Anda ketik.\n\nLayanan ini juga mencari posisi tombol suara WhatsApp di layar agar mikrofon AuraMic berada tepat di atasnya. Tidak pernah membaca teks pesan.\n\nJika AuraMic tidak menemukan obrolan sendiri, layanan ini juga mencatat, selama semenit berikutnya, baris mana yang Anda ketuk di daftar obrolan WhatsApp dan nama apa yang ditampilkannya, lalu mengingat nama itu di ponsel Anda agar pesan suara berikutnya ke obrolan itu terkirim otomatis. Anda dapat melupakan nama-nama ini di Pengaturan.</string>
     <string name="disclosure_agree">Saya setuju</string>
     <string name="disclosure_decline">Nanti saja</string>
     <string name="home_status_on">AuraMic aktif</string>
@@ -232,4 +232,9 @@
     <string name="keep_open_battery">Buka pengaturan baterai</string>
     <string name="keep_open_failed">Tidak bisa membuka halaman itu. Buka Pengaturan → Aplikasi → AuraMic → Baterai.</string>
     <string name="ov_chat_blocked">WhatsApp tidak mengizinkan pesan suara ke chat ini. Kirim dengan cara lain.</string>
+    <string name="ov_learned">Siap! Lain kali AuraMic akan memilih chat ini sendiri.</string>
+    <string name="set_learned">Nama chat yang diingat</string>
+    <string name="set_learned_title">Lupakan nama chat yang diingat?</string>
+    <string name="set_learned_body" formatted="true">%1$d diingat. Kadang daftar chat WhatsApp menampilkan chat dengan nama lain (misalnya nomor yang sama disimpan dua kali). Jika Anda memilih chat itu secara manual dua kali, AuraMic mengingatnya dan memilihnya sendiri lain kali. Melupakan berarti Anda memilih lagi secara manual sampai AuraMic mempelajarinya lagi. Semua tetap di ponsel Anda.</string>
+    <string name="set_learned_clear">Lupakan semua</string>
 </resources>

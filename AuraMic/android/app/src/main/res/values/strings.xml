@@ -62,7 +62,7 @@
     <string name="perm_restricted_body">Android blocks it for apps installed outside the Play Store. Open App info, tap the ⋮ menu, choose “Allow restricted settings”, then try again.</string>
     <string name="perm_open_app_info">Open App info</string>
     <string name="disclosure_title">Accessibility disclosure</string>
-    <string name="disclosure_body">AuraMic uses Android\'s Accessibility Service for one purpose only: after you record a voice note, it selects the chat you were in and taps the Send button inside WhatsApp or WhatsApp Business so the note is delivered without extra taps.\n\nIt works only in WhatsApp and WhatsApp Business. It does not read, collect, store or share your messages, contacts or any personal data. Audio is processed on your device.\n\nTo put the mic on WhatsApp\'s own voice button and to hide it while you type, it only checks where that button is and whether the message box is empty. It never reads what you type.\n\nIt also looks up where WhatsApp\'s own voice button is on screen, so the AuraMic microphone can sit exactly on top of it. It never reads message text.</string>
+    <string name="disclosure_body">AuraMic uses Android\'s Accessibility Service for one purpose only: after you record a voice note, it selects the chat you were in and taps the Send button inside WhatsApp or WhatsApp Business so the note is delivered without extra taps.\n\nIt works only in WhatsApp and WhatsApp Business. It does not read, collect, store or share your messages, contacts or any personal data. Audio is processed on your device.\n\nTo put the mic on WhatsApp\'s own voice button and to hide it while you type, it only checks where that button is and whether the message box is empty. It never reads what you type.\n\nIt also looks up where WhatsApp\'s own voice button is on screen, so the AuraMic microphone can sit exactly on top of it. It never reads message text.\n\nIf AuraMic cannot find the chat by itself, it also notes which row you tap in WhatsApp\'s chat list and which name it shows, only for the next minute, and remembers that name on your phone so the next voice note to that chat goes automatically. You can forget these names in Settings.</string>
     <string name="disclosure_agree">I agree</string>
     <string name="disclosure_decline">Not now</string>
     <string name="home_status_on">AuraMic is active</string>
@@ -233,4 +233,9 @@
     <string name="keep_open_battery">Open battery settings</string>
     <string name="keep_open_failed">Couldn\'t open that page. Open Settings → Apps → AuraMic → Battery.</string>
     <string name="ov_chat_blocked">WhatsApp doesn\'t allow voice notes to this chat. Send it another way.</string>
+    <string name="ov_learned">Got it! Next time AuraMic will pick this chat by itself.</string>
+    <string name="set_learned">Remembered chat names</string>
+    <string name="set_learned_title">Forget remembered chat names?</string>
+    <string name="set_learned_body" formatted="true">%1$d remembered. Sometimes WhatsApp\'s chat list shows a chat under another name (for example the same number saved twice). When you pick such a chat by hand twice, AuraMic remembers it and picks it by itself next time. Forgetting means you pick those chats by hand again until AuraMic learns them again. This stays on your phone.</string>
+    <string name="set_learned_clear">Forget all</string>
 </resources>

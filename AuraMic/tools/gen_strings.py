@@ -764,5 +764,34 @@ add("set_trouble_hint", "Copy this report and send it to support so we can see w
     "انسخ هذا التقرير وأرسله إلى الدعم لنعرف السبب. لا يحتوي على رسائل؛ تُقصّ الأسماء على الشاشة إلى بضعة أحرف.",
     "Salin laporan ini dan kirim ke dukungan agar kami bisa melihat penyebabnya. Tidak ada pesan; nama di layar dipotong menjadi beberapa huruf.")
 
+add("ov_learned", "Got it! Next time AuraMic will pick this chat by itself.", "समझ गया! अगली बार AuraMic यह चैट खुद चुन लेगा।",
+    "Samajh gaya! Agli baar AuraMic yeh chat khud chun lega.", "¡Listo! La próxima vez AuraMic elegirá este chat solo.",
+    "Pronto! Da próxima vez o AuraMic escolherá esta conversa sozinho.", "تمام! في المرة القادمة سيختار AuraMic هذه المحادثة تلقائيًا.",
+    "Siap! Lain kali AuraMic akan memilih chat ini sendiri.")
+add("set_learned", "Remembered chat names", "याद रखे गए चैट नाम", "Yaad rakhe gaye chat naam", "Nombres de chat recordados",
+    "Nomes de conversas lembrados", "أسماء المحادثات المحفوظة", "Nama chat yang diingat")
+add("set_learned_title", "Forget remembered chat names?", "याद रखे चैट नाम भुला दें?", "Yaad rakhe chat naam bhula dein?",
+    "¿Olvidar los nombres de chat recordados?", "Esquecer os nomes de conversas lembrados?", "نسيان أسماء المحادثات المحفوظة؟", "Lupakan nama chat yang diingat?")
+add("set_learned_body", "%1$d remembered. Sometimes WhatsApp's chat list shows a chat under another name (for example the same number saved twice). When you pick such a chat by hand twice, AuraMic remembers it and picks it by itself next time. Forgetting means you pick those chats by hand again until AuraMic learns them again. This stays on your phone.",
+    "%1$d याद हैं। कभी-कभी WhatsApp की चैट सूची में कोई चैट दूसरे नाम से दिखती है (जैसे एक ही नंबर दो बार सेव)। ऐसी चैट आप दो बार हाथ से चुनें तो AuraMic उसे याद रख लेता है और अगली बार खुद चुन लेता है। भुलाने पर ऐसी चैट फिर हाथ से चुननी होंगी, जब तक AuraMic दोबारा न सीख ले। यह आपके फ़ोन में ही रहता है।",
+    "%1$d yaad hain. Kabhi-kabhi WhatsApp ki chat list mein koi chat dusre naam se dikhti hai (jaise ek hi number do baar save). Aisi chat aap do baar haath se chunein to AuraMic use yaad rakh leta hai aur agli baar khud chun leta hai. Bhulane par aisi chat phir haath se chunni hongi, jab tak AuraMic dobara na seekh le. Yeh aapke phone mein hi rehta hai.",
+    "%1$d recordados. A veces la lista de chats de WhatsApp muestra un chat con otro nombre (por ejemplo, el mismo número guardado dos veces). Si eliges ese chat a mano dos veces, AuraMic lo recuerda y lo elige solo la próxima vez. Olvidarlos significa elegirlos a mano de nuevo hasta que AuraMic los aprenda otra vez. Todo queda en tu teléfono.",
+    "%1$d lembrados. Às vezes a lista de conversas do WhatsApp mostra uma conversa com outro nome (por exemplo, o mesmo número salvo duas vezes). Se você escolher essa conversa à mão duas vezes, o AuraMic a lembra e a escolhe sozinho da próxima vez. Esquecer significa escolher à mão de novo até o AuraMic aprender outra vez. Tudo fica no seu celular.",
+    "%1$d محفوظة. أحيانًا تعرض قائمة محادثات واتساب محادثةً باسم آخر (مثل رقم واحد محفوظ مرتين). إذا اخترتَ هذه المحادثة يدويًا مرتين يتذكرها AuraMic ويختارها وحده في المرة القادمة. النسيان يعني اختيارها يدويًا من جديد حتى يتعلمها AuraMic مرة أخرى. يبقى كل ذلك على هاتفك.",
+    "%1$d diingat. Kadang daftar chat WhatsApp menampilkan chat dengan nama lain (misalnya nomor yang sama disimpan dua kali). Jika Anda memilih chat itu secara manual dua kali, AuraMic mengingatnya dan memilihnya sendiri lain kali. Melupakan berarti Anda memilih lagi secara manual sampai AuraMic mempelajarinya lagi. Semua tetap di ponsel Anda.")
+add("set_learned_clear", "Forget all", "सब भुला दें", "Sab bhula dein", "Olvidar todo", "Esquecer tudo", "نسيان الكل", "Lupakan semua")
+
+# the accessibility disclosure / description must say what the new tap-watching is for
+_LEARN_DISCLOSURE = [
+    "\n\nIf AuraMic cannot find the chat by itself, it also notes which row you tap in WhatsApp's chat list and which name it shows, only for the next minute, and remembers that name on your phone so the next voice note to that chat goes automatically. You can forget these names in Settings.",
+    "\n\nअगर AuraMic चैट खुद नहीं ढूँढ पाता, तो अगले एक मिनट तक यह भी नोट करता है कि आपने WhatsApp की चैट सूची में किस पंक्ति पर टैप किया और वह कौन सा नाम दिखाती है। वह नाम आपके फ़ोन में याद रखा जाता है ताकि उस चैट का अगला वॉइस नोट अपने-आप जाए। इन नामों को आप सेटिंग्स में भुला सकते हैं।",
+    "\n\nAgar AuraMic chat khud nahi dhoondh paata, to agle ek minute tak yeh bhi note karta hai ki aapne WhatsApp ki chat list mein kis row par tap kiya aur woh kaunsa naam dikhati hai. Woh naam aapke phone mein yaad rakha jata hai taaki us chat ka agla voice note apne-aap jaye. In naamon ko aap Settings mein bhula sakte hain.",
+    "\n\nSi AuraMic no encuentra el chat por sí solo, también anota, durante el minuto siguiente, qué fila tocas en la lista de chats de WhatsApp y qué nombre muestra, y recuerda ese nombre en tu teléfono para que la próxima nota de voz a ese chat salga automáticamente. Puedes olvidar estos nombres en Ajustes.",
+    "\n\nSe o AuraMic não encontra a conversa sozinho, ele também anota, no minuto seguinte, qual linha você toca na lista de conversas do WhatsApp e qual nome ela mostra, e lembra esse nome no seu celular para que o próximo áudio para essa conversa vá automaticamente. Você pode esquecer esses nomes nas Configurações.",
+    "\n\nإذا لم يجد AuraMic المحادثة وحده، فإنه يسجّل أيضًا خلال الدقيقة التالية أي صف تضغط عليه في قائمة محادثات واتساب وأي اسم يعرضه، ويحتفظ بهذا الاسم على هاتفك لتُرسل الرسالة الصوتية التالية إلى تلك المحادثة تلقائيًا. يمكنك نسيان هذه الأسماء من الإعدادات.",
+    "\n\nJika AuraMic tidak menemukan obrolan sendiri, layanan ini juga mencatat, selama semenit berikutnya, baris mana yang Anda ketuk di daftar obrolan WhatsApp dan nama apa yang ditampilkannya, lalu mengingat nama itu di ponsel Anda agar pesan suara berikutnya ke obrolan itu terkirim otomatis. Anda dapat melupakan nama-nama ini di Pengaturan.",
+]
+S["disclosure_body"] = [t + x for t, x in zip(S["disclosure_body"], _LEARN_DISCLOSURE)]
+
 if __name__ == "__main__":
     main(sys.argv[1])

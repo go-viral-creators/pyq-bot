@@ -67,8 +67,8 @@ class ChatNameMatcherTest {
     @Test fun shortNumbersAreNotPhoneNumbers() = assertNull(ChatNameMatcher.phoneKey("Room 12345"))
 
     @Test fun searchTextDropsEmojiButKeepsThePlusOfANumber() {
-        assertEquals("Aano F", ChatKey.parse("Aano F❤️")!!.searchText)
-        assertEquals("+91 98707 16919", ChatKey.parse("+91 98707 16919\n~ Aayan")!!.searchText)
+        assertEquals("Aano F", ChatKey.parse("Aano F❤️")!!.searchQueries.first())
+        assertEquals("+91 98707 16919", ChatKey.parse("+91 98707 16919\n~ Aayan")!!.searchQueries.first())
     }
 
     @Test fun blankNamesGiveNoKey() {

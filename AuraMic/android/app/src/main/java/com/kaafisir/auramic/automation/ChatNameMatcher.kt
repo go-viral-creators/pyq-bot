@@ -5,22 +5,40 @@ package com.kaafisir.auramic.automation
  * texts of its header (a business account's verified name, the "~ push name" of an unsaved number...). Encoded as
  * lines of one string so it travels through [SendRequest.chatName] unchanged.
  */
-class ChatKey private constructor(val lines: List<String>) {
+class ChatKey private constructor(val lines: List<String>, private val headerLines: Int) {
     /** [lines] after [ChatNameMatcher.clean], same order. */
     val clean: List<String> = lines.map { ChatNameMatcher.clean(it) }
     /** Last 10 digits of a phone-number line (null for names), same order. */
     val phones: List<String?> = lines.map { ChatNameMatcher.phoneKey(it) }
 
-    /** What to type into the picker's search box: the title without emoji and symbols. */
-    val searchText: String get() = lines.first().filter { it.isLetterOrDigit() || it == ' ' || it == '+' }
-        .replace(Regex("\\s+"), " ").trim().ifEmpty { clean.first() }
+    /**
+     * What to type into the picker's search box, best first: the names remembered for this chat (they are the ones the
+     * picker is known to show), then the header lines; each without emoji and symbols.
+     */
+    val searchQueries: List<String> = (lines.drop(headerLines) + lines.take(headerLines))
+        .mapIndexed { i, l -> queryOf(l).ifEmpty { clean.getOrElse(i) { "" } } }
+        .filter { it.isNotEmpty() }.distinct().ifEmpty { listOf(clean.first()) }
 
-    fun encode(): String = lines.joinToString("\n")
+    /** The same chat with extra names it is known by (see [ChatAliasBook]); they match like further header lines. */
+    fun withAliases(extra: List<String>): ChatKey {
+        val add = extra.filter { e -> ChatNameMatcher.clean(e).let { it.isNotEmpty() && it !in clean } }.distinct()
+        return if (add.isEmpty()) this else ChatKey(lines + add, headerLines)
+    }
+
+    /** Lines joined for [SendRequest.chatName]; remembered names carry a marker so they survive the trip. */
+    fun encode(): String = lines.mapIndexed { i, l -> if (i >= headerLines) MARK + l else l }.joinToString("\n")
 
     companion object {
+        private const val MARK = "\u0001"
+        private fun queryOf(line: String) = line.filter { it.isLetterOrDigit() || it == ' ' || it == '+' }.replace(Regex("\\s+"), " ").trim()
+
         fun parse(encoded: String?): ChatKey? {
-            val lines = encoded?.split('\n')?.map { it.trim() }?.filter { ChatNameMatcher.clean(it).isNotEmpty() }.orEmpty()
-            return if (lines.isEmpty()) null else ChatKey(lines.distinct())
+            val raw = encoded?.split('\n')?.map { it.trim() }.orEmpty()
+            val header = raw.filter { !it.startsWith(MARK) && ChatNameMatcher.clean(it).isNotEmpty() }.distinct()
+            if (header.isEmpty()) return null
+            val learned = raw.filter { it.startsWith(MARK) }.map { it.removePrefix(MARK).trim() }
+                .filter { ChatNameMatcher.clean(it).isNotEmpty() && it !in header }.distinct()
+            return ChatKey(header + learned, header.size)
         }
         fun of(vararg lines: String): ChatKey? = parse(lines.joinToString("\n"))
     }

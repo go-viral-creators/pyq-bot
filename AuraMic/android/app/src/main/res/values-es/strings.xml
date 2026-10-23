@@ -61,7 +61,7 @@
     <string name="perm_restricted_body">Android lo bloquea en apps instaladas fuera de Play Store. Abre Info de la app, toca el menú ⋮, elige «Permitir ajustes restringidos» y vuelve a intentarlo.</string>
     <string name="perm_open_app_info">Abrir info de la app</string>
     <string name="disclosure_title">Aviso de accesibilidad</string>
-    <string name="disclosure_body">AuraMic usa el Servicio de accesibilidad de Android con un único propósito: después de grabar una nota de voz, selecciona el chat en el que estabas y pulsa el botón Enviar dentro de WhatsApp o WhatsApp Business para entregarla sin toques adicionales.\n\nSolo funciona en WhatsApp y WhatsApp Business. No lee, recopila, almacena ni comparte tus mensajes, contactos ni datos personales. El audio se procesa en tu dispositivo.\n\nPara colocar el micrófono sobre el botón de voz de WhatsApp y ocultarlo mientras escribes, solo comprueba dónde está ese botón y si el cuadro de mensaje está vacío. Nunca lee lo que escribes.\n\nTambién localiza dónde está el botón de voz de WhatsApp en la pantalla para colocar el micrófono de AuraMic justo encima. Nunca lee el texto de los mensajes.</string>
+    <string name="disclosure_body">AuraMic usa el Servicio de accesibilidad de Android con un único propósito: después de grabar una nota de voz, selecciona el chat en el que estabas y pulsa el botón Enviar dentro de WhatsApp o WhatsApp Business para entregarla sin toques adicionales.\n\nSolo funciona en WhatsApp y WhatsApp Business. No lee, recopila, almacena ni comparte tus mensajes, contactos ni datos personales. El audio se procesa en tu dispositivo.\n\nPara colocar el micrófono sobre el botón de voz de WhatsApp y ocultarlo mientras escribes, solo comprueba dónde está ese botón y si el cuadro de mensaje está vacío. Nunca lee lo que escribes.\n\nTambién localiza dónde está el botón de voz de WhatsApp en la pantalla para colocar el micrófono de AuraMic justo encima. Nunca lee el texto de los mensajes.\n\nSi AuraMic no encuentra el chat por sí solo, también anota, durante el minuto siguiente, qué fila tocas en la lista de chats de WhatsApp y qué nombre muestra, y recuerda ese nombre en tu teléfono para que la próxima nota de voz a ese chat salga automáticamente. Puedes olvidar estos nombres en Ajustes.</string>
     <string name="disclosure_agree">Acepto</string>
     <string name="disclosure_decline">Ahora no</string>
     <string name="home_status_on">AuraMic está activo</string>
@@ -232,4 +232,9 @@
     <string name="keep_open_battery">Abrir ajustes de batería</string>
     <string name="keep_open_failed">No se pudo abrir esa página. Abre Ajustes → Apps → AuraMic → Batería.</string>
     <string name="ov_chat_blocked">WhatsApp no permite enviar notas de voz a este chat. Envíala de otra forma.</string>
+    <string name="ov_learned">¡Listo! La próxima vez AuraMic elegirá este chat solo.</string>
+    <string name="set_learned">Nombres de chat recordados</string>
+    <string name="set_learned_title">¿Olvidar los nombres de chat recordados?</string>
+    <string name="set_learned_body" formatted="true">%1$d recordados. A veces la lista de chats de WhatsApp muestra un chat con otro nombre (por ejemplo, el mismo número guardado dos veces). Si eliges ese chat a mano dos veces, AuraMic lo recuerda y lo elige solo la próxima vez. Olvidarlos significa elegirlos a mano de nuevo hasta que AuraMic los aprenda otra vez. Todo queda en tu teléfono.</string>
+    <string name="set_learned_clear">Olvidar todo</string>
 </resources>

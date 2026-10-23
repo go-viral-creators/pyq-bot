@@ -109,6 +109,18 @@ class SendFlowTest {
         assertTrue(a.clicks.isEmpty() && a.taps.isEmpty())
     }
 
+    @Test fun triesTheRememberedNameInTheSearchBoxFirstThenTheHeaderName() {
+        val key = ChatKey.parse("Ravi Mourya")!!.withAliases(listOf("Guru Mourya"))
+        val f = flow(key.encode()); val a = RecordingActions()
+        val list = FakeTree.picker("Mom", "Dad")
+        f.step(list, a)
+        clock += 800; f.step(list, a)                                   // opens the search box
+        clock += 250; f.step(FakeTree.pickerWithSearchField("Mom"), a)  // types the remembered name
+        assertEquals(listOf("Guru Mourya"), a.typed)
+        clock += 1_200; f.step(FakeTree.pickerWithSearchField("Mom"), a) // no usable result: the header name
+        assertEquals(listOf("Guru Mourya", "Ravi Mourya"), a.typed)
+    }
+
     @Test fun gaveUpWhenTheSendButtonNeverAppears() {
         val f = flow("Mom"); val a = RecordingActions()
         f.step(FakeTree.picker("Mom"), a)

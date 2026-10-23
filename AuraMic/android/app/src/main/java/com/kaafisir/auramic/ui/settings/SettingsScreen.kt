@@ -71,6 +71,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
     var showLanguages by remember { mutableStateOf(false) }
     var micReport by remember { mutableStateOf<String?>(null) }
     var showKeep by remember { mutableStateOf(false) }
+    var learnedCount by remember { mutableStateOf<Int?>(null) }
     val chooserTitle = stringResource(R.string.set_email_chooser)
 
     fun openUrl(url: String) { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
@@ -119,6 +120,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                 )
                 Spacer(Modifier.height(8.dp))
                 NavRow(stringResource(R.string.set_battery), null) { showKeep = true }
+                NavRow(stringResource(R.string.set_learned), vm.learnedChatNames().toString()) { learnedCount = vm.learnedChatNames() }
                 NavRow(stringResource(R.string.set_trouble), null) { micReport = vm.micReport() }
             }
 
@@ -173,6 +175,16 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPro: () -> Unit, vm: SettingsViewMo
                     }
                 }
             },
+        )
+    }
+
+    learnedCount?.let { n ->
+        AlertDialog(
+            onDismissRequest = { learnedCount = null },
+            title = { Text(stringResource(R.string.set_learned_title)) },
+            text = { Text(stringResource(R.string.set_learned_body, n), style = MaterialTheme.typography.bodyMedium) },
+            confirmButton = { TextButton(onClick = { vm.forgetChatNames(); learnedCount = null }, enabled = n > 0) { Text(stringResource(R.string.set_learned_clear)) } },
+            dismissButton = { TextButton(onClick = { learnedCount = null }) { Text(stringResource(R.string.common_close)) } },
         )
     }
 

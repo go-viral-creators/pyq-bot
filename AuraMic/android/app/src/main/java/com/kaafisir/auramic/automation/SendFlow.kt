@@ -53,6 +53,8 @@ class SendFlow(
     private var rowClickedAt = 0L
     private var rowClicks = 0
     private var typedSearch = false
+    private var queryIndex = 0
+    private var typedAt = 0L
     private var openedSearch = false
     private var searchOpenedAt = 0L
     /** When the chat list was first seen: the clock for finding the chat starts here. */
@@ -116,7 +118,12 @@ class SendFlow(
         if (elapsed < SEARCH_AFTER_MS) return Outcome.Continue
         val input = NodeFinder.searchInput(root)
         if (input != null) {
-            if (!typedSearch) typedSearch = actions.setText(input, key.searchText)
+            if (!typedSearch) {
+                typedSearch = actions.setText(input, key.searchQueries[0]); typedAt = t
+            } else if (t - typedAt > 1_100 && queryIndex + 1 < key.searchQueries.size) {
+                // That name found no usable row: try the next name this chat is known by.
+                queryIndex++; actions.setText(input, key.searchQueries[queryIndex]); typedAt = t
+            }
             return Outcome.Continue
         }
         if (!openedSearch || t - searchOpenedAt > 1_200) {

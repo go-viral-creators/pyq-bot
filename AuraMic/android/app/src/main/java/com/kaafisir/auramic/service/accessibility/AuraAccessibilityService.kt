@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.kaafisir.auramic.automation.AutomationBridge
+import com.kaafisir.auramic.automation.ChatKey
 import com.kaafisir.auramic.automation.Bounds
 import com.kaafisir.auramic.automation.MicAnchor
 import com.kaafisir.auramic.automation.MicAnchorFinder
@@ -53,6 +54,7 @@ class AuraAccessibilityService : AccessibilityService() {
 
     @Inject lateinit var bridge: AutomationBridge
     @Inject lateinit var restarter: com.kaafisir.auramic.service.overlay.OverlayRestarter
+    @Inject lateinit var aliases: com.kaafisir.auramic.data.chats.ChatAliasStore
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var runJob: Job? = null
@@ -84,6 +86,10 @@ class AuraAccessibilityService : AccessibilityService() {
         // Events only wake the mic-anchor tracker (below); their content is never read. Their source tells us a chat app
         // is on screen, even when the usage events do not.
         val e = event ?: return
+        if (e.eventType == AccessibilityEvent.TYPE_VIEW_CLICKED) {
+            if (learning != null) learnFromClick(e)     // only right after an automatic chat search failed
+            return
+        }
         val pkg = e.packageName?.toString()
         if (e.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && pkg != null && pkg in WhatsAppUi.PACKAGES) {
             presence.onEvent(pkg, SystemClock.elapsedRealtime())
@@ -240,8 +246,12 @@ class AuraAccessibilityService : AccessibilityService() {
 
     private fun start(request: SendRequest) {
         runJob?.cancel()
+        learning = null                                  // our own taps must never be mistaken for the user's
         runJob = scope.launch {
-            val flow = SendFlow(request.chatName, now = { SystemClock.elapsedRealtime() }, allowFirstRow = request.allowFirstRow)
+            // Names this chat is known to carry in WhatsApp's chat list (learned from the user's own earlier picks).
+            val base = ChatKey.parse(request.chatName)
+            val chatName = base?.let { aliases.augment(it).encode() } ?: request.chatName
+            val flow = SendFlow(chatName, now = { SystemClock.elapsedRealtime() }, allowFirstRow = request.allowFirstRow)
             val actions = LiveActions()
             var lastDump: String? = null
             var lastDumpAt = 0L
@@ -261,7 +271,12 @@ class AuraAccessibilityService : AccessibilityService() {
                     SendFlow.Outcome.Done -> { bridge.complete(request.id, SendResult.Sent); return@launch }
                     is SendFlow.Outcome.Failed -> {
                         Log.w(TAG, "send flow failed: ${outcome.reason}")
-                        bridge.diagnostics = "reason=${outcome.reason} chatKey=${keyShape(request.chatName)} pkg=${request.targetPackage}\n" + (lastDump ?: "(no screen of the chat app was visible)")
+                        bridge.diagnostics = "reason=${outcome.reason} chatKey=${keyShape(chatName)} pkg=${request.targetPackage}\n" + (lastDump ?: "(no screen of the chat app was visible)")
+                        // Could not find the chat by name: if the user now picks it by hand and sends, remember how the
+                        // chat list names it (a number saved twice shows up under two names).
+                        if (outcome.reason == "chat not found" && base != null && !request.allowFirstRow) {
+                            learning = Learning(base, SystemClock.elapsedRealtime() + LEARN_MS)
+                        }
                         bridge.complete(request.id, SendResult.Failed(outcome.reason)); return@launch
                     }
                     is SendFlow.Outcome.Unknown -> {
@@ -272,6 +287,66 @@ class AuraAccessibilityService : AccessibilityService() {
                 }
             }
         }
+    }
+
+    // ---------------------------------------------------------------------------------------
+    // Learning chat names from the user's own pick (after an automatic search failed)
+    // ---------------------------------------------------------------------------------------
+
+    private class Learning(val key: ChatKey, val until: Long) {
+        @Volatile var picked: String? = null
+    }
+    @Volatile private var learning: Learning? = null
+
+    /**
+     * Only while [learning]: the user taps a row of WhatsApp's chat list (we note its name) and then Send (we hand the
+     * pair to [aliases], which trusts a name after two identical picks). Nothing else of the tapped view is read.
+     */
+    private fun learnFromClick(event: AccessibilityEvent) {
+        val l = learning ?: return
+        if (SystemClock.elapsedRealtime() > l.until) { learning = null; return }
+        val src = event.source ?: return
+        val name = pickedRowName(src)
+        if (name != null) { l.picked = name; return }
+        val picked = l.picked ?: return
+        if (isSendTap(src)) {
+            learning = null
+            if (aliases.observe(l.key, picked)) {
+                runCatching {
+                    android.widget.Toast.makeText(this, com.kaafisir.auramic.core.LocaleManager.wrap(this).getString(com.kaafisir.auramic.R.string.ov_learned), android.widget.Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    /** Name of the chat-list row the tapped view belongs to (the tapped view, or one of its parents, holds exactly one name). */
+    private fun pickedRowName(src: AccessibilityNodeInfo): String? {
+        var n: AccessibilityNodeInfo? = src
+        var hops = 0
+        while (n != null && hops < 5) {
+            val pkg = n.packageName?.toString() ?: return null
+            if (pkg !in WhatsAppUi.PACKAGES) return null
+            for (id in WhatsAppUi.PICKER_ROW_NAME_IDS) {
+                val names = n.findAccessibilityNodeInfosByViewId("$pkg:id/$id")
+                    .mapNotNull { (it.text ?: it.contentDescription)?.toString()?.trim()?.takeIf { t -> t.isNotEmpty() } }
+                if (names.size == 1) return names[0]
+                if (names.size > 1) return null          // reached the whole list: not a single row
+            }
+            n = n.parent; hops++
+        }
+        return null
+    }
+
+    private fun isSendTap(src: AccessibilityNodeInfo): Boolean {
+        var n: AccessibilityNodeInfo? = src
+        var hops = 0
+        while (n != null && hops < 3) {
+            val id = n.viewIdResourceName?.substringAfter(":id/", "")
+            if (id != null && id in WhatsAppUi.SEND_IDS) return true
+            if (WhatsAppUi.normalize((n.contentDescription ?: n.text)?.toString()) in WhatsAppUi.SEND_WORDS) return true
+            n = n.parent; hops++
+        }
+        return false
     }
 
     /** Shape of the chat name we looked for (how many header lines, how long): enough to debug, not the name itself. */
@@ -384,6 +459,8 @@ class AuraAccessibilityService : AccessibilityService() {
     companion object {
         private const val TAG = "AuraA11y"
         private const val POLL_MS = 220L
+        /** How long after a failed automatic search the user's pick is still noted. */
+        private const val LEARN_MS = 90_000L
         private const val TRACK_MS = 450L
         private const val FAST_POLL_MS = 70L
         private const val COALESCE_MS = 30L

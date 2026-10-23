@@ -749,5 +749,20 @@ add("perm_battery_body", "Needed on many phones (Xiaomi, Oppo, Vivo, Samsung and
     "مطلوب في كثير من الهواتف (Xiaomi وOppo وVivo وSamsung وغيرها): التشغيل التلقائي وبطارية بلا قيود. اضغط لرؤية خطوات هاتفك.",
     "Diperlukan di banyak ponsel (Xiaomi, Oppo, Vivo, Samsung dan lainnya): mulai otomatis dan baterai tanpa batasan. Ketuk untuk melihat langkah ponsel Anda.")
 
+add("ov_chat_blocked", "WhatsApp doesn't allow voice notes to this chat. Send it another way.",
+    "WhatsApp इस चैट में वॉइस नोट भेजने नहीं देता। कोई और तरीका अपनाएँ।",
+    "WhatsApp is chat mein voice note bhejne nahi deta. Koi aur tarika apnayein.",
+    "WhatsApp no permite enviar notas de voz a este chat. Envíala de otra forma.",
+    "O WhatsApp não permite enviar áudios para esta conversa. Envie de outra forma.",
+    "لا يسمح واتساب بإرسال رسائل صوتية إلى هذه المحادثة. أرسلها بطريقة أخرى.",
+    "WhatsApp tidak mengizinkan pesan suara ke chat ini. Kirim dengan cara lain.")
+add("set_trouble_hint", "Copy this report and send it to support so we can see why. It has no messages; names on the screen are cut to a few letters.",
+    "यह रिपोर्ट कॉपी करके सपोर्ट को भेजें ताकि हम कारण देख सकें। इसमें कोई मैसेज नहीं है; स्क्रीन के नाम कुछ अक्षरों तक काट दिए जाते हैं।",
+    "Ye report copy karke support ko bhejein taaki hum kaaran dekh sakein. Isme koi message nahi hai; screen ke naam kuch akshar tak kaat diye jaate hain.",
+    "Copia este informe y envíalo a soporte para ver el motivo. No incluye mensajes; los nombres en pantalla se cortan a unas pocas letras.",
+    "Copie este relatório e envie ao suporte para vermos o motivo. Ele não tem mensagens; os nomes na tela são cortados em poucas letras.",
+    "انسخ هذا التقرير وأرسله إلى الدعم لنعرف السبب. لا يحتوي على رسائل؛ تُقصّ الأسماء على الشاشة إلى بضعة أحرف.",
+    "Salin laporan ini dan kirim ke dukungan agar kami bisa melihat penyebabnya. Tidak ada pesan; nama di layar dipotong menjadi beberapa huruf.")
+
 if __name__ == "__main__":
     main(sys.argv[1])

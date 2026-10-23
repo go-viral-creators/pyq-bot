@@ -192,7 +192,11 @@ class VoiceNoteOrchestrator @Inject constructor(
 
     /** The automatic send gave up ([reason] is from SendFlow): ask the user to finish by hand, with a toast, and clear the bubble state. */
     private fun toastThenIdle(reason: String) {
-        val message = if (reason == "send button not found") R.string.ov_tap_send else R.string.ov_pick_chat
+        val message = when (reason) {
+            "send button not found" -> R.string.ov_tap_send
+            "chat blocked" -> R.string.ov_chat_blocked
+            else -> R.string.ov_pick_chat
+        }
         runCatching {
             android.widget.Toast.makeText(context, com.kaafisir.auramic.core.LocaleManager.wrap(context).getString(message), android.widget.Toast.LENGTH_LONG).show()
         }

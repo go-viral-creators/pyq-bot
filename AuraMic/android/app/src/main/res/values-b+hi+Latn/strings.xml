@@ -114,7 +114,7 @@
     <string name="set_a11y_notice">Accessibility disclosure</string>
     <string name="set_support">Support se contact karein</string>
     <string name="set_trouble">Floating mic nahi dikh raha?</string>
-    <string name="set_trouble_hint">Ye report copy karke support ko bhejein taaki hum kaaran dekh sakein. Isme koi message ya contact nahi hai.</string>
+    <string name="set_trouble_hint">Ye report copy karke support ko bhejein taaki hum kaaran dekh sakein. Isme koi message nahi hai; screen ke naam kuch akshar tak kaat diye jaate hain.</string>
     <string name="set_trouble_copy">Copy karein</string>
     <string name="set_trouble_copied">Report copy ho gayi</string>
     <string name="common_close">Band karein</string>
@@ -231,4 +231,5 @@
     <string name="keep_open_autostart">Autostart / background settings kholein</string>
     <string name="keep_open_battery">Battery settings kholein</string>
     <string name="keep_open_failed">Woh page nahi khul saka. Settings → Apps → AuraMic → Battery kholein.</string>
+    <string name="ov_chat_blocked">WhatsApp is chat mein voice note bhejne nahi deta. Koi aur tarika apnayein.</string>
 </resources>

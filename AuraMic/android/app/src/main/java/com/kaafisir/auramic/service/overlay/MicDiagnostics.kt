@@ -38,6 +38,9 @@ class MicDiagnostics @Inject constructor(
             appendLine()
             appendLine("Latest decisions (oldest first):")
             appendLine(bridge.traceText().ifEmpty { "(nothing yet - open a WhatsApp chat first)" })
+            appendLine()
+            appendLine("Last automatic send that did not finish (texts are cut to a few letters):")
+            appendLine(bridge.diagnostics ?: "(none since the app started)")
         }
     }
 }

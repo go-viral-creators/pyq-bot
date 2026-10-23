@@ -99,6 +99,16 @@ class SendFlowTest {
         assertEquals("ZapUPI Gateway", a.clicks[0].children[0].text)
     }
 
+    @Test fun aChatThatCannotReceiveAudioFailsAtOnceWithoutTapping() {
+        val f = flow("Some Business"); val a = RecordingActions()
+        val r = FakeTree.root()
+        val list = r.add(UiNode(className = "androidx.recyclerview.widget.RecyclerView", scrollable = true))
+        val row = list.row("Some Business")
+        row.add(UiNode(text = "Can't send this message type", className = "android.widget.TextView"))
+        assertEquals(SendFlow.Outcome.Failed("chat blocked"), f.step(r, a))
+        assertTrue(a.clicks.isEmpty() && a.taps.isEmpty())
+    }
+
     @Test fun gaveUpWhenTheSendButtonNeverAppears() {
         val f = flow("Mom"); val a = RecordingActions()
         f.step(FakeTree.picker("Mom"), a)

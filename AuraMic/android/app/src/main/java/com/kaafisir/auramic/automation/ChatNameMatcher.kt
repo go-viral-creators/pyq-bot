@@ -49,8 +49,12 @@ object ChatNameMatcher {
             val keep = c.isLetterOrDigit() || type == Character.COMBINING_SPACING_MARK.toInt() || type == Character.ENCLOSING_MARK.toInt()
             sb.append(if (keep) c else ' ')
         }
-        return sb.toString().trim().replace(Regex("\\s+"), " ")
+        val words = sb.toString().trim().replace(Regex("\\s+"), " ")
+        // A verified business is read out as "Amazon, verified business account": the badge is not part of the name.
+        return BADGE_SUFFIX.matchEntire(words)?.groupValues?.get(1)?.trim() ?: words
     }
+
+    private val BADGE_SUFFIX = Regex("^(.+?) (verified business account|verified business|verified account|official business account|official account|verified)$")
 
     /** The number as its last 10 digits when [s] has at least 7 digits, else null. */
     fun phoneKey(s: String?): String? {

@@ -103,6 +103,8 @@ class SendFlow(
         if (pickerSince < 0) pickerSince = t
         val elapsed = t - pickerSince
 
+        // The row is there but WhatsApp will not take this message type for that chat: say so at once.
+        if (key != null && NodeFinder.rowBlocked(root, chatName!!)) return Outcome.Failed("chat blocked")
         val row = if (key != null) NodeFinder.chatRow(root, chatName!!) else NodeFinder.firstRow(root)
         if (row != null) {
             if (actions.click(row) || actions.tap(row)) { chatSelected = true; rowClickedAt = t; rowClicks = 1 }

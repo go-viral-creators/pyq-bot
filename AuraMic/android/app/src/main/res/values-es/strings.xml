@@ -114,7 +114,7 @@
     <string name="set_a11y_notice">Aviso de accesibilidad</string>
     <string name="set_support">Contactar con soporte</string>
     <string name="set_trouble">¿No aparece el micrófono flotante?</string>
-    <string name="set_trouble_hint">Copia este informe y envíalo a soporte para ver el motivo. No incluye mensajes ni contactos.</string>
+    <string name="set_trouble_hint">Copia este informe y envíalo a soporte para ver el motivo. No incluye mensajes; los nombres en pantalla se cortan a unas pocas letras.</string>
     <string name="set_trouble_copy">Copiar</string>
     <string name="set_trouble_copied">Informe copiado</string>
     <string name="common_close">Cerrar</string>
@@ -231,4 +231,5 @@
     <string name="keep_open_autostart">Abrir inicio automático / segundo plano</string>
     <string name="keep_open_battery">Abrir ajustes de batería</string>
     <string name="keep_open_failed">No se pudo abrir esa página. Abre Ajustes → Apps → AuraMic → Batería.</string>
+    <string name="ov_chat_blocked">WhatsApp no permite enviar notas de voz a este chat. Envíala de otra forma.</string>
 </resources>

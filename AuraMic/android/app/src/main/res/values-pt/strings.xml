@@ -114,7 +114,7 @@
     <string name="set_a11y_notice">Aviso de acessibilidade</string>
     <string name="set_support">Falar com o suporte</string>
     <string name="set_trouble">O microfone flutuante não aparece?</string>
-    <string name="set_trouble_hint">Copie este relatório e envie ao suporte para vermos o motivo. Ele não tem mensagens nem contatos.</string>
+    <string name="set_trouble_hint">Copie este relatório e envie ao suporte para vermos o motivo. Ele não tem mensagens; os nomes na tela são cortados em poucas letras.</string>
     <string name="set_trouble_copy">Copiar</string>
     <string name="set_trouble_copied">Relatório copiado</string>
     <string name="common_close">Fechar</string>
@@ -231,4 +231,5 @@
     <string name="keep_open_autostart">Abrir início automático / segundo plano</string>
     <string name="keep_open_battery">Abrir configurações de bateria</string>
     <string name="keep_open_failed">Não foi possível abrir essa página. Abra Configurações → Apps → AuraMic → Bateria.</string>
+    <string name="ov_chat_blocked">O WhatsApp não permite enviar áudios para esta conversa. Envie de outra forma.</string>
 </resources>

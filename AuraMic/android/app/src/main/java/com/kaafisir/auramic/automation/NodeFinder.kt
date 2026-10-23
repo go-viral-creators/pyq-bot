@@ -7,6 +7,12 @@ object NodeFinder {
 
     private fun UiNode.hasAnyId(names: List<String>) = names.any { hasId(it) }
 
+    /**
+     * The name a node shows: its text, or - for views drawn with a badge (verified business accounts) where the text can
+     * be empty - its accessibility description.
+     */
+    private fun UiNode.label(): String? = text?.takeIf { it.isNotBlank() } ?: desc?.takeIf { it.isNotBlank() }
+
     private fun screenHeight(root: UiNode): Int = max(root.bounds.bottom, root.walk().maxOfOrNull { it.bounds.bottom } ?: 0)
     private fun screenWidth(root: UiNode): Int = max(root.bounds.right, root.walk().maxOfOrNull { it.bounds.right } ?: 0)
     private fun max(a: Int, b: Int) = if (a > b) a else b
@@ -30,7 +36,7 @@ object NodeFinder {
      */
     fun chatTitleLines(root: UiNode, screenHeight: Int): List<String> {
         val h = if (screenHeight > 0) screenHeight else screenHeight(root)
-        val byId = root.walk().firstOrNull { it.hasAnyId(WhatsAppUi.CHAT_TITLE_IDS) && !it.text.isNullOrBlank() }
+        val byId = root.walk().firstOrNull { it.hasAnyId(WhatsAppUi.CHAT_TITLE_IDS) && it.label() != null }
         val toolbarTexts = if (h > 0 && hasComposer(root)) {
             val limit = h * 0.17
             root.walk()
@@ -39,7 +45,7 @@ object NodeFinder {
         } else emptyList()
         // Fallback when ids changed / other apps: the biggest text in the top toolbar area is the name.
         val primary = byId ?: toolbarTexts.maxByOrNull { it.bounds.height } ?: return emptyList()
-        val lines = mutableListOf(primary.text!!.trim())
+        val lines = mutableListOf(primary.label()!!.trim())
         toolbarTexts
             .filter { it !== primary && it.text!!.trim().length in 2..40 && !isHeaderStatus(it.text!!) }
             .sortedBy { it.bounds.top }
@@ -116,6 +122,23 @@ object NodeFinder {
     /** True when the share target picker (list of chats) is on screen. */
     fun isPicker(root: UiNode): Boolean = root.walk().any { it.hasAnyId(WhatsAppUi.PICKER_ROW_NAME_IDS) }
 
+    private class RowMatch(val name: UiNode, val container: UiNode)
+
+    /** The picker row that is clearly [key]'s chat (best score, no tie), with the container holding the row's texts. */
+    private fun bestRow(root: UiNode, key: ChatKey): RowMatch? {
+        val nameNodes = root.walk().filter { it.hasAnyId(WhatsAppUi.PICKER_ROW_NAME_IDS) && it.label() != null }.toList()
+        if (nameNodes.isEmpty()) return null
+        val scored = nameNodes.map { n ->
+            val container = rowContainer(n, nameNodes)
+            Triple(n, container, ChatNameMatcher.score(key, rowTexts(container, n)))
+        }
+        val top = scored.maxOf { it.third }
+        if (top < ChatNameMatcher.ACCEPT) return null
+        val winners = scored.filter { it.third == top }
+        if (winners.map { it.second }.distinct().size > 1) return null        // two equally good rows: let the user pick
+        return RowMatch(winners.first().first, winners.first().second)
+    }
+
     /**
      * The row for [chatName] in the picker list, judged by everything the row shows ([ChatNameMatcher]); null when no
      * row is clearly the one, or when two rows are equally good (never guess a recipient). For apps whose ids we do
@@ -123,18 +146,8 @@ object NodeFinder {
      */
     fun chatRow(root: UiNode, chatName: String): UiNode? {
         val key = ChatKey.parse(chatName) ?: return null
-        val nameNodes = root.walk().filter { it.hasAnyId(WhatsAppUi.PICKER_ROW_NAME_IDS) && !it.text.isNullOrBlank() }.toList()
-        if (nameNodes.isNotEmpty()) {
-            val scored = nameNodes.map { n ->
-                val container = rowContainer(n, nameNodes)
-                Triple(n, container, ChatNameMatcher.score(key, rowTexts(container, n)))
-            }
-            val top = scored.maxOf { it.third }
-            if (top < ChatNameMatcher.ACCEPT) return null
-            val winners = scored.filter { it.third == top }
-            if (winners.map { it.second }.distinct().size > 1) return null        // two equally good rows: let the user pick
-            val n = winners.first().first
-            return n.clickableSelfOrAncestor() ?: n
+        if (root.walk().any { it.hasAnyId(WhatsAppUi.PICKER_ROW_NAME_IDS) && it.label() != null }) {
+            return bestRow(root, key)?.let { it.name.clickableSelfOrAncestor() ?: it.name }
         }
         if (hasComposer(root)) return null   // still on the chat screen
         val h = screenHeight(root)
@@ -146,6 +159,20 @@ object NodeFinder {
         return node.clickableSelfOrAncestor() ?: node       // tap fallback uses the node's own bounds
     }
 
+    /**
+     * True when the picker shows [chatName]'s row but WhatsApp does not let this kind of message go there: the row is
+     * disabled or says "Can't send this message type" (some business accounts and Meta AI). Tapping it does nothing, so
+     * the flow must not wait for a Send button that can never appear.
+     */
+    fun rowBlocked(root: UiNode, chatName: String): Boolean {
+        val key = ChatKey.parse(chatName) ?: return false
+        val m = bestRow(root, key) ?: return false
+        if (!m.container.enabled || !m.name.enabled) return true
+        return m.container.walk().any { n ->
+            listOfNotNull(n.text, n.desc).any { normalize(it).contains("send this message type") }
+        }
+    }
+
     /** The row a name node belongs to: its clickable ancestor, unless that would swallow other rows' names. */
     private fun rowContainer(n: UiNode, all: List<UiNode>): UiNode {
         val c = n.clickableSelfOrAncestor() ?: n.parent ?: return n
@@ -154,7 +181,7 @@ object NodeFinder {
 
     /** Every short text a row shows: its name, "~ push name", about line... */
     private fun rowTexts(container: UiNode, name: UiNode): List<String> =
-        (listOf(name.text!!) + container.walk().mapNotNull { it.text?.takeIf { t -> t.isNotBlank() } }.take(8)).distinct()
+        (listOf(name.label()!!) + container.walk().flatMap { listOfNotNull(it.text, it.desc) }.filter { t -> t.isNotBlank() }.take(10)).distinct()
 
     /** First chat row of the picker (most recent chat) - only used when the user opted in. */
     fun firstRow(root: UiNode): UiNode? =

@@ -114,7 +114,7 @@
     <string name="set_a11y_notice">Pengungkapan Aksesibilitas</string>
     <string name="set_support">Hubungi dukungan</string>
     <string name="set_trouble">Mikrofon melayang tidak muncul?</string>
-    <string name="set_trouble_hint">Salin laporan ini dan kirim ke dukungan agar kami bisa melihat penyebabnya. Tidak ada pesan atau kontak.</string>
+    <string name="set_trouble_hint">Salin laporan ini dan kirim ke dukungan agar kami bisa melihat penyebabnya. Tidak ada pesan; nama di layar dipotong menjadi beberapa huruf.</string>
     <string name="set_trouble_copy">Salin</string>
     <string name="set_trouble_copied">Laporan disalin</string>
     <string name="common_close">Tutup</string>
@@ -231,4 +231,5 @@
     <string name="keep_open_autostart">Buka mulai otomatis / latar belakang</string>
     <string name="keep_open_battery">Buka pengaturan baterai</string>
     <string name="keep_open_failed">Tidak bisa membuka halaman itu. Buka Pengaturan → Aplikasi → AuraMic → Baterai.</string>
+    <string name="ov_chat_blocked">WhatsApp tidak mengizinkan pesan suara ke chat ini. Kirim dengan cara lain.</string>
 </resources>

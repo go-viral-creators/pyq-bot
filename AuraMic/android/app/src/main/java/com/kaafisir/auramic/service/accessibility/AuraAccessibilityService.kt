@@ -261,7 +261,7 @@ class AuraAccessibilityService : AccessibilityService() {
                     SendFlow.Outcome.Done -> { bridge.complete(request.id, SendResult.Sent); return@launch }
                     is SendFlow.Outcome.Failed -> {
                         Log.w(TAG, "send flow failed: ${outcome.reason}")
-                        bridge.diagnostics = "reason=${outcome.reason} chat=${request.chatName?.take(3)}~ pkg=${request.targetPackage}\n" + (lastDump ?: "(no screen of the chat app was visible)")
+                        bridge.diagnostics = "reason=${outcome.reason} chatKey=${keyShape(request.chatName)} pkg=${request.targetPackage}\n" + (lastDump ?: "(no screen of the chat app was visible)")
                         bridge.complete(request.id, SendResult.Failed(outcome.reason)); return@launch
                     }
                     is SendFlow.Outcome.Unknown -> {
@@ -273,6 +273,10 @@ class AuraAccessibilityService : AccessibilityService() {
             }
         }
     }
+
+    /** Shape of the chat name we looked for (how many header lines, how long): enough to debug, not the name itself. */
+    private fun keyShape(chatName: String?): String =
+        com.kaafisir.auramic.automation.ChatKey.parse(chatName)?.let { k -> "${k.lines.size} line(s), lengths ${k.lines.map { it.length }}" } ?: "none"
 
     private fun readChatTitle(): String? {
         val snap = snapshot(null) ?: return null

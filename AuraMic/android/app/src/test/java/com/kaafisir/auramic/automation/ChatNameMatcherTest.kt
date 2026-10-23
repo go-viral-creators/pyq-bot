@@ -37,6 +37,33 @@ class ChatNameMatcherTest {
         assertEquals(100, ChatNameMatcher.score(key, listOf("ZapUPI Gateway")))   // 110 - 10
     }
 
+    @Test fun theVerifiedBadgeIsNotPartOfTheName() {
+        assertEquals(100, score("Amazon", "Amazon, verified business account"))
+        assertEquals(100, score("Amazon Verified", "Amazon"))
+        assertEquals("official store", ChatNameMatcher.clean("Official Store"))        // only a trailing badge is dropped
+        assertEquals("verified", ChatNameMatcher.clean("Verified"))
+    }
+
+    @Test fun businessRowsWithOnlyADescriptionAreFound() {
+        val r = FakeTree.root()
+        val list = r.add(UiNode(className = "androidx.recyclerview.widget.RecyclerView", scrollable = true))
+        val row = list.add(UiNode(className = "android.widget.LinearLayout", clickable = true, bounds = Bounds(0, 400, 1080, 560)))
+        row.add(UiNode(viewId = "com.whatsapp:id/contactpicker_row_name", desc = "Amazon, verified", className = "android.widget.TextView"))
+        row.add(UiNode(text = "BUSINESS ACCOUNT", className = "android.widget.TextView"))
+        list.row("Mom")
+        assertTrue(NodeFinder.chatRow(r, "Amazon") === row)
+    }
+
+    @Test fun aRowThatCannotTakeThisMessageTypeIsReportedAsBlocked() {
+        val r = FakeTree.root()
+        val list = r.add(UiNode(className = "androidx.recyclerview.widget.RecyclerView", scrollable = true))
+        val row = list.row("Some Business")
+        row.add(UiNode(text = "Can't send this message type", className = "android.widget.TextView"))
+        list.row("Mom")
+        assertTrue(NodeFinder.rowBlocked(r, "Some Business"))
+        assertTrue(!NodeFinder.rowBlocked(r, "Mom"))
+    }
+
     @Test fun shortNumbersAreNotPhoneNumbers() = assertNull(ChatNameMatcher.phoneKey("Room 12345"))
 
     @Test fun searchTextDropsEmojiButKeepsThePlusOfANumber() {

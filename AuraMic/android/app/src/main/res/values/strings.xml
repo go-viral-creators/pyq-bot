@@ -115,7 +115,7 @@
     <string name="set_a11y_notice">Accessibility disclosure</string>
     <string name="set_support">Contact support</string>
     <string name="set_trouble">Floating mic not showing?</string>
-    <string name="set_trouble_hint">Copy this report and send it to support so we can see why. It has no messages or contacts.</string>
+    <string name="set_trouble_hint">Copy this report and send it to support so we can see why. It has no messages; names on the screen are cut to a few letters.</string>
     <string name="set_trouble_copy">Copy</string>
     <string name="set_trouble_copied">Report copied</string>
     <string name="common_close">Close</string>
@@ -232,4 +232,5 @@
     <string name="keep_open_autostart">Open Autostart / background settings</string>
     <string name="keep_open_battery">Open battery settings</string>
     <string name="keep_open_failed">Couldn\'t open that page. Open Settings → Apps → AuraMic → Battery.</string>
+    <string name="ov_chat_blocked">WhatsApp doesn\'t allow voice notes to this chat. Send it another way.</string>
 </resources>

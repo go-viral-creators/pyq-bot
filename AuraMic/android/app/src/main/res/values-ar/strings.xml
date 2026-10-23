@@ -114,7 +114,7 @@
     <string name="set_a11y_notice">إفصاح إمكانية الوصول</string>
     <string name="set_support">التواصل مع الدعم</string>
     <string name="set_trouble">الميكروفون العائم لا يظهر؟</string>
-    <string name="set_trouble_hint">انسخ هذا التقرير وأرسله إلى الدعم لنعرف السبب. لا يحتوي على رسائل أو جهات اتصال.</string>
+    <string name="set_trouble_hint">انسخ هذا التقرير وأرسله إلى الدعم لنعرف السبب. لا يحتوي على رسائل؛ تُقصّ الأسماء على الشاشة إلى بضعة أحرف.</string>
     <string name="set_trouble_copy">نسخ</string>
     <string name="set_trouble_copied">تم نسخ التقرير</string>
     <string name="common_close">إغلاق</string>
@@ -231,4 +231,5 @@
     <string name="keep_open_autostart">فتح التشغيل التلقائي / الخلفية</string>
     <string name="keep_open_battery">فتح إعدادات البطارية</string>
     <string name="keep_open_failed">تعذّر فتح هذه الصفحة. افتح الإعدادات ← التطبيقات ← AuraMic ← البطارية.</string>
+    <string name="ov_chat_blocked">لا يسمح واتساب بإرسال رسائل صوتية إلى هذه المحادثة. أرسلها بطريقة أخرى.</string>
 </resources>

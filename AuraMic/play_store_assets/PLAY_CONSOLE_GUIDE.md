@@ -19,7 +19,7 @@ Upload `AuraMic-1.0.0-release.aab` (versionCode **1**, versionName 1.0.0; built 
 **AuraMic upload key** from the `3_Keystore` folder (details in `KEYSTORE_INFO.txt`). To rebuild, copy `keystore.properties.example` to
 `android/keystore.properties`, fill in the values and put the `.jks` file next to it - never commit either. Enrol in **Play App Signing** when
 Play Console asks (Google keeps the app-signing key; this key is only your *upload* key, so a lost upload key can be reset through Play support).
-Each new upload needs a higher versionCode (next: 4).
+Each new upload needs a higher versionCode (next: 5).
 Language splits are disabled on purpose (the in-app language picker needs every translation on-device).
 
 ## Declarations (copy/paste starters)
